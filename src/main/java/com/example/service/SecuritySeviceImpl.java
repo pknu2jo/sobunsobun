@@ -1,5 +1,9 @@
 package com.example.service;
 
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -8,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.dto.Admin;
 import com.example.dto.Customer;
+import com.example.dto.CustomerUser;
 import com.example.dto.Seller;
+import com.example.dto.SellerUser;
 import com.example.mapper.SecurityMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -32,32 +38,29 @@ public class SecuritySeviceImpl implements UserDetailsService {
         if(customer != null) {
             System.out.println("id : " + customer.getId() + ", pw : " + customer.getPw());
 
-            return User.builder()
-                        .username(customer.getId())
-                        .password(customer.getPw())
-                        .roles("CUSTOMER")
-                        .build();
+            Collection<GrantedAuthority> role = AuthorityUtils.createAuthorityList("CUSTOMER");
+            return new CustomerUser(customer.getId(), customer.getPw(), 
+                                    role, customer.getNickname());
         }
 
         Seller seller = mapper.selectSellerOne(username);
         if(seller != null) {
-            System.out.println("id : " + seller.getNo() + ", pw : " + seller.getPw());
+            System.out.println("no : " + seller.getNo() + ", pw : " + seller.getPw());
 
-            return User.builder()
-                        .username(seller.getNo())
-                        .password(seller.getPw())
-                        .roles("SELLER")
-                        .build();
+            Collection<GrantedAuthority> role = AuthorityUtils.createAuthorityList("SELLER");
+            return new SellerUser(seller.getNo(), seller.getPw(), 
+                                  role, seller.getName(), seller.getPhone(), 
+                                  seller.getEmail(), seller.getAddress());
         }
 
-        Admin admiin = mapper.selectAdminOne(username);
-        if(admiin != null) {
-            System.out.println("id : " + admiin.getId() + ", pw : " + admiin.getPw());
+        Admin admin = mapper.selectAdminOne(username);
+        if(admin != null) {
+            System.out.println("id : " + admin.getId() + ", pw : " + admin.getPw());
 
             return User.builder()
-                        .username(admiin.getId())
-                        .password(admiin.getPw())
-                        .roles("ADMIN")
+                        .username(admin.getId())
+                        .password(admin.getPw())
+                        .roles("ADMIN", "SELLER")
                         .build();
         }
 
