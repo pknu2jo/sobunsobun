@@ -11,8 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.example.handler.LoginSuccessHandelr;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,22 +31,58 @@ public class SecurityConfig {
         http.authorizeRequests().antMatchers("/customer/join.do").permitAll();
 
         // 403 페이지 설정 (접근 권한 불가 시 표시할 화면 )
-        http.exceptionHandling().accessDeniedPage("/403page.do");
+        http.exceptionHandling().accessDeniedPage("/km/403page.do");
 
-        // 로그인 처리
+        // 고객 로그인 처리
         http.formLogin()
             .loginPage("/customer/login.do")
             .loginProcessingUrl("/customer/loginaction.do")
             .usernameParameter("id")
             .passwordParameter("pw")
-            // .defaultSuccessUrl("/customer/home.do")
-            .successHandler(new LoginSuccessHandelr())
+            .defaultSuccessUrl("/customer/home.do")
+            //.successHandler(new LoginSuccessHandelr())
             .permitAll();
 
-        // 로그아웃 처리
+        // 고객 로그아웃 처리
         http.logout()
             .logoutUrl("/customer/logout.do")
             .logoutSuccessUrl("/customer/home.do")
+            .invalidateHttpSession(true)
+            .clearAuthentication(true)
+            .permitAll();
+
+        // 업체 로그인 처리
+        http.formLogin()
+            .loginPage("/seller/login.do")
+            .loginProcessingUrl("/seller/loginaction.do")
+            .usernameParameter("no")
+            .passwordParameter("pw")
+            .defaultSuccessUrl("/seller/home.do")
+            //.successHandler(new LoginSuccessHandelr())
+            .permitAll();
+
+        // 업체 로그아웃 처리
+        http.logout()
+            .logoutUrl("/seller/logout.do")
+            .logoutSuccessUrl("/seller/login.do")
+            .invalidateHttpSession(true)
+            .clearAuthentication(true)
+            .permitAll();
+
+        // 관리자 로그인 처리
+        http.formLogin()
+            .loginPage("/admin/login.do")
+            .loginProcessingUrl("/admin/loginaction.do")
+            .usernameParameter("id")
+            .passwordParameter("pw")
+            .defaultSuccessUrl("/admin/home.do")
+            //.successHandler(new LoginSuccessHandelr())
+            .permitAll();
+
+        // 관리자 로그아웃 처리
+        http.logout()
+            .logoutUrl("/admin/logout.do")
+            .logoutSuccessUrl("/admin/login.do")
             .invalidateHttpSession(true)
             .clearAuthentication(true)
             .permitAll();
