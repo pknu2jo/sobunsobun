@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.controller.km;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dto.Customer;
-import com.example.mapper.CustomerMapper;
+import com.example.mapper.km.CustomerMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
