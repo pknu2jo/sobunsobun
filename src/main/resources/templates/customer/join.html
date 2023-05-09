@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Join</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div>
+        <h3>고객용 회원가입</h3>
+
+        <form th:action="@{/customer/join.do}" method="post">
+            <input type="text" name="id" placeholder="아이디" autofocus>
+            <input type="text" name="pw" placeholder="비밀번호" value="1">
+            <input type="text" name="name" placeholder="이름" value="이름">
+            <input type="tel" name="phone" placeholder="핸드폰번호" value="01011111111">
+            <input type="email" name="email" placeholder="이메일" value="a@naver.com">
+            <input type="text" name="nickname" placeholder="닉네임" value="닉넴">
+            <input type="radio" name="gender" value="M" >M
+            <input type="radio" name="gender" value="F" >F
+            <input type="submit" value="가입">
+        </form>
+    </div>
+</body>
+</html>
