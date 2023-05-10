@@ -68,5 +68,10 @@ public class CustomerContorller {
     public String page403GET() {
         return "/km/customer/403page";
     }
+
+    @GetMapping(value = "selectitem.do")
+    public String selectitem() {
+        return "/km/customer/selectitem";
+    }
     
 }

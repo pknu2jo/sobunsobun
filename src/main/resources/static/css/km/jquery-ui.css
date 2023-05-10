@@ -6,7 +6,7 @@
 
 /* Layout helpers
 ----------------------------------*/
-.ui-helper-hidden {
+/* .ui-helper-hidden {
 	display: none;
 }
 .ui-helper-hidden-accessible {
@@ -50,20 +50,20 @@
 
 .ui-front {
 	z-index: 100;
-}
+} */
 
 
 /* Interaction Cues
 ----------------------------------*/
-.ui-state-disabled {
+/* .ui-state-disabled {
 	cursor: default !important;
 	pointer-events: none;
-}
+} */
 
 
 /* Icons
 ----------------------------------*/
-.ui-icon {
+/* .ui-icon {
 	display: inline-block;
 	vertical-align: middle;
 	margin-top: -.25em;
@@ -77,13 +77,13 @@
 	left: 50%;
 	margin-left: -8px;
 	display: block;
-}
+} */
 
 /* Misc visuals
 ----------------------------------*/
 
 /* Overlays */
-.ui-widget-overlay {
+/* .ui-widget-overlay {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -193,11 +193,11 @@
 }
 .ui-widget-header a {
 	color: #333333;
-}
+} */
 
 /* Interaction states
 ----------------------------------*/
-.ui-state-default,
+/* .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default,
 .ui-button,
@@ -331,17 +331,17 @@ a.ui-button:active,
 }
 .ui-state-disabled .ui-icon {
 	filter:Alpha(Opacity=35); /* support: IE8 - See #6059 */
-}
+} */
 
 /* Icons
 ----------------------------------*/
 
 /* states and images */
-.ui-icon {
+/* .ui-icon {
 	width: 16px;
 	height: 16px;
-}
-.ui-icon,
+} */
+/* .ui-icon,
 .ui-widget-content .ui-icon {
 	background-image: url("images/ui-icons_444444_256x240.png");
 }
@@ -368,10 +368,10 @@ a.ui-button:active,
 }
 .ui-button .ui-icon {
 	background-image: url("images/ui-icons_777777_256x240.png");
-}
+} */
 
 /* positioning */
-.ui-icon-blank { background-position: 16px 16px; }
+/* .ui-icon-blank { background-position: 16px 16px; }
 .ui-icon-caret-1-n { background-position: 0 0; }
 .ui-icon-caret-1-ne { background-position: -16px 0; }
 .ui-icon-caret-1-e { background-position: -32px 0; }
@@ -546,14 +546,14 @@ a.ui-button:active,
 .ui-icon-grip-solid-vertical { background-position: -32px -224px; }
 .ui-icon-grip-solid-horizontal { background-position: -48px -224px; }
 .ui-icon-gripsmall-diagonal-se { background-position: -64px -224px; }
-.ui-icon-grip-diagonal-se { background-position: -80px -224px; }
+.ui-icon-grip-diagonal-se { background-position: -80px -224px; } */
 
 
 /* Misc visuals
 ----------------------------------*/
 
 /* Corner radius */
-.ui-corner-all,
+/* .ui-corner-all,
 .ui-corner-top,
 .ui-corner-left,
 .ui-corner-tl {
@@ -570,7 +570,7 @@ a.ui-button:active,
 .ui-corner-left,
 .ui-corner-bl {
 	border-bottom-left-radius: 3px;
-}
+} */
 .ui-corner-all,
 .ui-corner-bottom,
 .ui-corner-right,
