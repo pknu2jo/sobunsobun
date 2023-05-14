@@ -19,12 +19,8 @@
         text-decoration: none;
         color: black;
     }
-    .myPage{
-        font-size: 15px;
-    }
-    #headerLine {
-        border-top: 1px solid #204710;
-    }
+
+    /* 카테고리 */
     .lcate {
         height: 15px;
         font-size: 17px;
@@ -33,68 +29,212 @@
         /* border-bottom: 1px #204710 solid; */
     }
     .mcate {
+        font-size: 16.5px;
         font-weight: bold;
+        margin-bottom: 15px;
     }
 
-    .header {
-        height: 200px;
-        background-image: url('https://picsum.photos/200/300');
+    /* 헤더 */
+    .header1 {
+        background-color: rgb(255, 251, 235);
+        /* background-image: url('https://picsum.photos/200/300'); */
         /* background-image: url('/src/main/resources/static/images/se/headerplant.jpg'); */
+        /* background-image: url(headerplant.jpg); */
         background-size: cover;
+    }
+
+    .myPage{
+        font-size: 15px;
+    }
+    .myPage a:hover{
+        color: #6d9275;
+        border-bottom: 1px solid #6d9275;
+        background: none repeat scroll 0 0 transparent;
+        transition: width 0.3s ease 0s, left 0.3s ease 0s;
+    }
+    .myPage a:after {
+        display:block;
+        content: '';
+        border-bottom: solid 3px #ea2129;  
+        transform: scaleX(0);  
+        transition: transform 250ms ease-in-out;
+    }
+    .myPage a:hover:after { transform: scaleX(1); }
+
+    #headerLine {
+        border-top: 1px solid #204710;
+    }
+    
+    /* 검색창 */
+    .searchButton {
+        border: 0;
+        background-color: transparent;
+        margin-top: 4.5px;
+        opacity: 0.9;
+    }
+
+    .searchBar:focus {
+        outline: none;
+    }
+
+    .searchBar {
+        /* height: 40px; */
+        padding: 4px;
+        border: 1px solid #204710;
+        border-radius: 1px;
+    }
+
+    /* 헤더2 */
+    #header2 {
+        /* background-image: url('https://picsum.photos/200/300'); */
+        background-color: rgb(255, 251, 235);
+        display: none;
+        position: fixed;
+        top: 0;
+        z-index: 9999;
+        animation: down 0.5s ease;
+    }
+
+    @keyframes down {
+        0%{
+            transform: translateY(-50px)
         }
+        100%{
+            transform: translateY(0px)
+        }
+    }
+
+    .searchButton2 {
+        border: 0;
+        background-color: transparent;
+        margin-top: 10px;
+        margin-left: 5px;
+        opacity: 0.5;
+    }
+
+    .searchBar2 {
+        padding-left: 35px;
+        /* width: 1100px; */
+        height: 45px;
+        background-color: rgb(238, 234, 217);
+        border: 0px solid #97a099;
+        border-radius: 10px;
+    }
+
+    .searchBar2:focus {
+        outline: none;
+    }
+
+    .header2Button a {
+        border: 0;
+        background-color: transparent;
+        height: 44px;
+        padding: 12px 17px 0 17px;
+        margin-right: 10px;
+        border: 1px solid #6d9275;
+        border-radius: 10px;
+        color: #6d9275;
+        font-size: 13px;
+        transition: background 0.3s ease-in-out;
+    }
+    .header2Button a:first-child {
+        background-color: #6d9275;
+        color: white;
+    }
+    .header2Button a:first-child:hover {
+        background-color: #73977b;
+    }
+    
+    .header2Button a:hover {
+        background-color: #6d9275;
+        color: white;
+    }
 
     </style>
 </head>
 <body>
     
     <!-- 헤더 -->
-    <div class="container header">
-        <!-- 로고 마이페이지 -->
+    <header class="container-fluid header1">
         <div class="row p-5">
-            <div class="col-1 navbar-toggler d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false">
-                <i id="tobbleButton" class="fa-solid fa-bars fa-xl" style="color: #204710;"></i>
+            <div class="col-4 navbar-toggler d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"></path></svg>
             </div>
-            <div class="col-10">
+            <div class="col-4">
                 <div class="row d-flex justify-content-center align-items-center">
-                    <img th:src="@{/images/se/testlogo.png}" style="width: 255px;">
+                    <img th:src="@{/images/se/logo1.png}" style="width: 255px;">
                 </div>
-                <div class="row">
-                    <span class="d-flex justify-content-center align-items-center" style="color: #204710;">새로운 1인 가구 공구 문화</span>
+                <div class="row mt-1">
+                    <span class="d-flex justify-content-center align-items-center" style="color: #6d9275;"><b>새로운 1인 가구 공구 문화</b></span>
                 </div>
             </div>
             
-            <div class="col-1 d-flex align-items-center">
-                <a href="#">
-                    <div class="row">
-                        <div class="col m-0 p-0 d-flex flex-row-reverse">
-                            <p class="myPage">마이페이지 &nbsp</p>
-                        </div>
-                        <div class="col-1 m-0 p-0">
-                            <i class="fa-solid fa-circle-user fa-xl" style="color: #204710;"></i>
-                        </div>
+            <div class="myPage col d-flex align-items-center flex-row-reverse">
+                <div class="row d-flex justify-content-end">
+                    <div class="col-auto">
+                        <a href="#">로그아웃</a>
                     </div>
-                </a>
+                    <div class="col-auto">
+                        <a href="#">마이페이지 &nbsp<i class="fa-solid fa-circle-user fa-xl" style="color: #204710;"></i></a>
+                    </div>
+
+                    <!-- <div class="col-auto">
+                        <a href="#">로그인</a>
+                    </div>
+                    <div class="col-auto">
+                        <a href="#">회윈가입</a>
+                    </div>
+                    <div class="col-auto m-0 p-0">
+                        <a href="#"><?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg enable-background="new 0 0 32 32" height="16px" id="Layer_1" version="1.1" viewBox="0 0 32 32" width="16px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><polyline fill="none" points="   649,137.999 675,137.999 675,155.999 661,155.999  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><polyline fill="none" points="   653,155.999 649,155.999 649,141.999  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><polyline fill="none" points="   661,156 653,162 653,156  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/></g><path d="M29.7,2.767C29.593,2.317,29.189,2,28.728,2c-0.002,0-0.004,0-0.006,0c-5.267,0.033-18.075,0.916-23.246,8.38  c-2.686,3.878-2.917,8.913-0.687,14.965c0.017,0.047,0.052,0.079,0.075,0.122C4.067,27.44,3.758,28.753,3.75,28.79  c-0.116,0.54,0.229,1.072,0.769,1.188C4.589,29.993,4.659,30,4.729,30c0.461,0,0.876-0.321,0.977-0.79  c0.021-0.102,2.569-10.373,11.577-16.378c0.46-0.306,0.584-0.927,0.277-1.387s-0.927-0.585-1.387-0.277  c-5.108,3.405-8.254,8.008-10.104,11.656c-1.324-4.578-0.977-8.377,1.052-11.305c3.993-5.764,13.464-7.154,19.181-7.448  C25.072,5.872,23.728,9.174,23.728,15c0,3.12-0.885,5.522-2.629,7.14c-2.796,2.591-7.338,2.834-10.66,2.584  c-0.552-0.045-1.031,0.371-1.073,0.922c-0.042,0.55,0.371,1.03,0.921,1.072c0.665,0.051,1.375,0.082,2.113,0.082  c3.382,0,7.327-0.663,10.058-3.194c2.17-2.011,3.27-4.906,3.27-8.605c0-9.099,3.43-11.096,3.447-11.105  C29.591,3.687,29.809,3.219,29.7,2.767z"/></svg></a>
+                    </div> -->
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="container-fluid">
         <div id="headerLine"></div>
-    </div>
+    </header>
+
+    <!-- 헤더 2) -->
+    <header id="header2" class="container-fluid">
+        <div class="row p-3">
+            <div class="col-auto d-flex align-items-center m-0 ps-5 pe-0">
+                <a href="#"><img th:src="@{/images/se/logo2.png}" style="height: 30px;"></a>
+            </div>
+            <!-- <div class="col-auto m-0 p-0">
+                <a href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M3.22 10.53a.749.749 0 0 1 0-1.06l4.25-4.25a.749.749 0 0 1 1.06 0l4.25 4.25a.749.749 0 1 1-1.06 1.06L8 6.811 4.28 10.53a.749.749 0 0 1-1.06 0Z"></path></svg>
+                </a>
+            </div> -->
+            <div class="col d-flex position-relative">
+                <input class="searchBar2 w-100" type="text" name="search" placeholder="검색어">
+                <button class="position-absolute searchButton2" type="submit">
+                    <i class="fa-solid fa-magnifying-glass fa-sm" style="color: #204710;"></i>
+                </button>
+            </div>
+            <div class="col-auto d-flex align-items-center pe-5 header2Button">
+                <a href="#">마이페이지</a>
+                <a href="#">로그아웃</a>
+                <!-- <a href="#">로그인</a> -->
+                <!-- <a href="#">회원가입</a> -->
+            </div>
+            <!-- <div class="col-auto d-flex align-items-center pe-5">
+            </div> -->
+        </div>
+        <div id="headerLine"></div>
+    </header> 
+    
 
     <!-- 카테고리 -->
     <div class="container mb-5"><!-- style="position: fixed;" -->
-        <div class="row collapse navbar-collapse p-3" id="navbarContent" > <!-- 처음에 접은 상태 => class에 collapse 추가 // style="position: fixed;"-->
+        <div class="row navbar-collapse p-3" id="navbarContent"> <!-- 처음에 접은 상태 => class에 collapse 추가 // style="position: fixed;"-->
             <th:block th:each="one : ${llist}">
                 <div class="col my-auto mt-3">
                     <div class="lcate" th:text="${one.lname}"></div>
                     <br>
                     <th:block th:if="${one2.mcode/100} == ${one.lcode/100}" th:each="one2 : ${mlist}" >
-                        <i class="fa-solid fa-caret-down fa-xs"></i>
-                        <span class="mcate" th:text="${one2.mname}"></span>
-                        <br>
+                        <!-- <i class="fa-solid fa-caret-down fa-xs"></i> -->
+                        <div class="mcate" th:text="${one2.mname}"></div>
                         <th:block th:if="${one3.scode/10} == ${one2.mcode/10}" th:each="one3 : ${slist}">
-                            <a href="#" class="scate p-3" th:text="${one3.sname}"></a>
+                            <a href="#" class="scate" th:text="${one3.sname}"></a>
                             <br>
                         </th:block>
                         <br>
@@ -102,15 +242,12 @@
                     <hr>
                 </div>
             </th:block>
-            <div class="col my-auto mt-3">
-                <div class="row">
-                    <input class="col form-control mx-1" type="search" placeholder="검색어" aria-label="Search">
-                    <button class="col-2 btn" type="submit">
-                        <i class="fa-solid fa-magnifying-glass fa-lg" style="color: #204710;"></i>
+            <div class="col my-auto mt-3 position-relative">
+                <div class="row d-flex justify-content-end">
+                    <input class="searchBar" type="text" name="search" placeholder="검색어">
+                    <button class="col-2 position-absolute searchButton" type="submit">
+                        <i class="fa-solid fa-magnifying-glass fa-sm" style="color: #204710;"></i>
                     </button>
-                </div>
-                <div class="row">
-                    
                 </div>
             </div>
         </div>
@@ -130,6 +267,19 @@
     <!-- axios (https://cdnjs.com/libraries/axios) -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script th:inline="javascript" type="text/javascript">
+        window.addEventListener('scroll', () => {
+            const headerheight =  document.querySelector('header').clientHeight;
+            // console.log(headerheight);
+            const scrollposition = pageYOffset;
+            // console.log(pageYOffset);
+            const header2 = document.getElementById("header2");
+            if(headerheight<=scrollposition){
+                header2.style.display = 'block';
+            } else {
+                header2.style.display = 'none';
+            }
+        });
+
     </script>
 </body>
 </html>
