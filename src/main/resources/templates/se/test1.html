@@ -26,7 +26,6 @@
         font-size: 17px;
         font-weight: bold;
         color: #204710;
-        /* border-bottom: 1px #204710 solid; */
     }
     .mcate {
         font-size: 16.5px;
@@ -34,38 +33,7 @@
         margin-bottom: 15px;
     }
 
-    /* 헤더 */
-    .header1 {
-        background-color: rgb(255, 251, 235);
-        /* background-image: url('https://picsum.photos/200/300'); */
-        /* background-image: url('/src/main/resources/static/images/se/headerplant.jpg'); */
-        /* background-image: url(headerplant.jpg); */
-        background-size: cover;
-    }
-
-    .myPage{
-        font-size: 15px;
-    }
-    .myPage a:hover{
-        color: #6d9275;
-        border-bottom: 1px solid #6d9275;
-        background: none repeat scroll 0 0 transparent;
-        transition: width 0.3s ease 0s, left 0.3s ease 0s;
-    }
-    .myPage a:after {
-        display:block;
-        content: '';
-        border-bottom: solid 3px #ea2129;  
-        transform: scaleX(0);  
-        transition: transform 250ms ease-in-out;
-    }
-    .myPage a:hover:after { transform: scaleX(1); }
-
-    #headerLine {
-        border-top: 1px solid #204710;
-    }
-    
-    /* 검색창 */
+    /* 카테고리 - 검색창 */
     .searchButton {
         border: 0;
         background-color: transparent;
@@ -82,6 +50,80 @@
         padding: 4px;
         border: 1px solid #204710;
         border-radius: 1px;
+    }
+
+    /* 헤더 */
+    .header1 {
+        background-color: rgb(255, 251, 235);
+        /* background-image: url('https://picsum.photos/200/300'); */
+        /* background-image: url('/src/main/resources/static/images/se/headerplant.jpg'); */
+        /* background-image: url(headerplant.jpg); */
+        background-size: cover;
+    }
+
+    .myPage{
+        font-size: 15px;
+    }
+    .myPage a:hover{
+        color: #6d9275;
+    }
+
+    /* a태그 hover 시 밑줄 효과 */
+    .myPage a:after {
+        display:block;
+        content: '';
+        border-bottom: solid 1px #6d9275;  
+        transform: scaleX(0);  
+        transition: transform 250ms ease-in-out;
+    }
+    .myPage a:hover:after { transform: scaleX(1); }
+    .myPage a:after{  transform-origin:  0% 50%; }
+    /* a태그 hover 시 밑줄 효과 */
+
+    #headerLine {
+        border-top: 1px solid #204710;
+    }
+
+    /* 햄버거 */
+    .hamburger {
+        height: 45px;
+        margin: 10px;
+        display: grid;
+        grid-template-rows: repeat(3, 1fr);
+        justify-items: center;
+        zoom: 0.5;
+    }
+
+    .hamburger div {
+        background-color: #000;
+        position: relative;
+        width: 40px;
+        height: 1px;
+        margin-top: 7px;
+        transition: all 0.2s ease-in-out;
+        border-radius: 35px;
+    }
+
+    #toggle {
+        display: none;
+    }
+
+    #toggle:checked + .hamburger{
+        margin-top: 25px;
+    }
+
+    #toggle:checked + .hamburger .top {
+        transform: rotate(45deg);
+        margin-top: 10px;
+    }
+
+    #toggle:checked + .hamburger .middle {
+        transform: rotate(-45deg);
+        margin-top: -5px;
+    }
+
+    #toggle:checked + .hamburger .bottom {
+        transform: scale(0);
     }
 
     /* 헤더2 */
@@ -125,6 +167,7 @@
         outline: none;
     }
 
+    /* 마이페이지 버튼 */
     .header2Button a {
         border: 0;
         background-color: transparent;
@@ -158,11 +201,18 @@
     <header class="container-fluid header1">
         <div class="row p-5">
             <div class="col-4 navbar-toggler d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M1 2.75A.75.75 0 0 1 1.75 2h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 2.75Zm0 5A.75.75 0 0 1 1.75 7h12.5a.75.75 0 0 1 0 1.5H1.75A.75.75 0 0 1 1 7.75ZM1.75 12h12.5a.75.75 0 0 1 0 1.5H1.75a.75.75 0 0 1 0-1.5Z"></path></svg>
+                <input id="toggle" type="checkbox" />
+                <label class="hamburger" for="toggle">
+                  <div class="top"></div>
+                  <div class="middle"></div>
+                  <div class="bottom"></div>
+                </label>
             </div>
             <div class="col-4">
-                <div class="row d-flex justify-content-center align-items-center">
-                    <img th:src="@{/images/se/logo1.png}" style="width: 255px;">
+                <div class="row">
+                    <a href="" class="d-flex justify-content-center align-items-center">
+                        <img th:src="@{/images/se/logo1.png}" style="width: 255px;">
+                    </a>
                 </div>
                 <div class="row mt-1">
                     <span class="d-flex justify-content-center align-items-center" style="color: #6d9275;"><b>새로운 1인 가구 공구 문화</b></span>
@@ -175,9 +225,11 @@
                         <a href="#">로그아웃</a>
                     </div>
                     <div class="col-auto">
-                        <a href="#">마이페이지 &nbsp<i class="fa-solid fa-circle-user fa-xl" style="color: #204710;"></i></a>
+                        <a href="#">
+                            마이페이지
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="fill: #204710;"><path d="M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"></path></svg>
+                        </a>
                     </div>
-
                     <!-- <div class="col-auto">
                         <a href="#">로그인</a>
                     </div>
@@ -196,14 +248,9 @@
     <!-- 헤더 2) -->
     <header id="header2" class="container-fluid">
         <div class="row p-3">
-            <div class="col-auto d-flex align-items-center m-0 ps-5 pe-0">
-                <a href="#"><img th:src="@{/images/se/logo2.png}" style="height: 30px;"></a>
+            <div class="col-auto d-flex align-items-center m-0 ps-5 pe-2">
+                <a href="#"><img th:src="@{/images/se/logo2.png}" style="height: 45px;"></a>
             </div>
-            <!-- <div class="col-auto m-0 p-0">
-                <a href="#">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16"><path d="M3.22 10.53a.749.749 0 0 1 0-1.06l4.25-4.25a.749.749 0 0 1 1.06 0l4.25 4.25a.749.749 0 1 1-1.06 1.06L8 6.811 4.28 10.53a.749.749 0 0 1-1.06 0Z"></path></svg>
-                </a>
-            </div> -->
             <div class="col d-flex position-relative">
                 <input class="searchBar2 w-100" type="text" name="search" placeholder="검색어">
                 <button class="position-absolute searchButton2" type="submit">
