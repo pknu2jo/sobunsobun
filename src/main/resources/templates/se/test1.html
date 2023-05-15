@@ -12,17 +12,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
     @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
-
-    /* 반응형 제거 => meta name="viewport" 주석필요 */
-    /* .container {
-        width: 1120px;
-        max-width: none !important;
-    } */
-
     * {
         font-family: 'NanumSquare';
     }
-    a {
+    .headerAll a {
         text-decoration: none;
         color: black;
     }
@@ -36,14 +29,17 @@
     .mcate {
         font-size: 16.5px;
         font-weight: bold;
-        margin-bottom: 15px;
+        margin-bottom: 5px;
+    }
+    .scate:hover {
+        color: #6d9275;
     }
 
     /* 카테고리 - 검색창 */
     .searchButton {
         border: 0;
         background-color: transparent;
-        margin-top: 7px;
+        margin-top: 8px;
         opacity: 0.9;
     }
 
@@ -54,17 +50,13 @@
     .searchBar {
         /* height: 40px; */
         padding: 4px;
+        padding-top: 8px;
         border: 1px solid #204710;
         border-radius: 1px;
     }
 
     /* 헤더 */
     .header1 {
-        /* background-color: rgb(255, 251, 235); */
-        /* background-image: url('https://picsum.photos/200/300'); */
-        /* background-image: url('/src/main/resources/static/images/se/headerplant.jpg'); */
-        /* background-image: url(headerplant.jpg); */
-        /* background-image: th:url("@{/images/se/headerplant.jpg}"); */
         background-size: cover;
     }
 
@@ -73,14 +65,14 @@
         color: #dddddd;
     }
     .myPage a:hover{
-        color: #6d9275;
+        color: #fff;
     }
 
     /* a태그 hover 시 밑줄 효과 */
     .myPage a:after {
         display:block;
         content: '';
-        border-bottom: solid 1px #6d9275;  
+        border-bottom: solid 1px #dddddd;  
         transform: scaleX(0);  
         transition: transform 250ms ease-in-out;
     }
@@ -136,8 +128,6 @@
 
     /* 헤더2 */
     #header2 {
-        /* background-image: url('https://picsum.photos/200/300'); */
-        /* background-color: rgb(255, 251, 235); */
         background-color: #f8f7f5;
         display: none;
         position: fixed;
@@ -158,9 +148,10 @@
     .searchButton2 {
         border: 0;
         background-color: transparent;
-        margin-top: 10px;
+        margin-top: 12px;
         margin-left: 5px;
         opacity: 0.5;
+        transform: scaleX(-1);
     }
 
     .searchBar2 {
@@ -206,16 +197,15 @@
         background-color: #6d9275;
         color: white;
     }
-
     </style>
 </head>
 <body>
-    
+    <div class="headerAll">
     <!-- 헤더 -->
-    <header class="container-fluid header1" th:style="'background-image:url('+ @{/images/se/testheader4.png} +');'">
+    <header class="container-fluid header1" th:style="'background-image:url('+ @{/images/se/header1image.png} +');'">
         <div class="row p-5">
             <div class="col-4 navbar-toggler d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false">
-                <input id="toggle" type="checkbox" />
+                <input onclick="cateAction()" id="toggle" type="checkbox" />
                 <label class="hamburger" for="toggle">
                   <div class="top"></div>
                   <div class="middle"></div>
@@ -277,8 +267,6 @@
                 <!-- <a href="#">로그인</a> -->
                 <!-- <a href="#">회원가입</a> -->
             </div>
-            <!-- <div class="col-auto d-flex align-items-center pe-5">
-            </div> -->
         </div>
         <div id="headerLine2"></div>
     </header> 
@@ -286,33 +274,10 @@
 
     <!-- 카테고리 -->
     <div class="container mb-5"><!-- style="position: fixed;" -->
-        <div class="row navbar-collapse p-3" id="navbarContent"> <!-- 처음에 접은 상태 => class에 collapse 추가 // style="position: fixed;"-->
-            <th:block th:each="one : ${llist}">
-                <div class="col my-auto mt-3">
-                    <div class="lcate" th:text="${one.lname}"></div>
-                    <br>
-                    <th:block th:if="${one2.mcode/100} == ${one.lcode/100}" th:each="one2 : ${mlist}" >
-                        <!-- <i class="fa-solid fa-caret-down fa-xs"></i> -->
-                        <div class="mcate" th:text="${one2.mname}"></div>
-                        <th:block th:if="${one3.scode/10} == ${one2.mcode/10}" th:each="one3 : ${slist}">
-                            <a href="#" class="scate" th:text="${one3.sname}"></a>
-                            <br>
-                        </th:block>
-                        <br>
-                    </th:block>
-                    <hr>
-                </div>
-            </th:block>
-            <div class="col my-auto mt-3 position-relative">
-                <div class="row d-flex justify-content-end">
-                    <input class="searchBar" type="text" name="search" placeholder="검색어">
-                    <button class="col-2 position-absolute searchButton" type="submit">
-                        <i class="fa-solid fa-magnifying-glass fa-sm" style="color: #204710;"></i>
-                    </button>
-                </div>
-            </div>
+        <div class="row navbar-collapse p-3" id="navbarContent"> <!-- 처음에 접은 상태 => class에 collapse 추가 -->
         </div>
-    </div>   
+    </div> 
+    </div>  
 
 
     <!-- 본문 -->
@@ -328,6 +293,7 @@
     <!-- axios (https://cdnjs.com/libraries/axios) -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script th:inline="javascript" type="text/javascript">
+        // 스크롤시 header2 보이기
         window.addEventListener('scroll', () => {
             const headerheight =  document.querySelector('header').clientHeight;
             // console.log(headerheight);
@@ -340,6 +306,49 @@
                 header2.style.display = 'none';
             }
         });
+        
+        // 카테고리 세팅
+        async function cateAction(){
+            const url = /*[[@{/api/category/select.json}]]*/'';
+            const headers = {"Content-Type":"application/json"};
+			const {data} = await axios.get(url, {headers});
+            // console.log(data);
+            
+            let str = "";
+            for(let one of data.llist) { // 대분류 카테고리
+                str += `<div class="col my-auto mt-3">`;
+                str += `<div class="lcate">${one.lname}</div>`;
+                str += `<hr />`;
+                for (let one2 of data.mlist) { // 중분류 카테고리
+                    if(one.lcode/100 == Math.floor(one2.mcode/100)){
+                        str += `<div class="mcate">${one2.mname}</div>`;
+                        for(let one3 of data.slist) { // 소분류 카테고리
+                            if(Math.floor(one2.mcode/10) == Math.floor(one3.scode/10)) {
+                                str += `<a href="#" class="scate">${one3.sname}</a>`;
+                                str += `<br />`;
+                            }
+                        }
+                        str += `<br />`;
+                    }
+                }
+                str += `</div>`;
+            }
+            str += 
+            `<div class="col my-auto mt-3 position-relative">` +
+                `<div class="row d-flex justify-content-end">` +
+                    `<input class="searchBar" type="text" name="search" placeholder="검색어">` +
+                    `<button class="col-2 position-absolute searchButton" type="submit">` +
+                        `<i class="fa-solid fa-magnifying-glass fa-sm" style="color: #204710;"></i>` +
+                    `</button>` +
+                `</div>` +
+            `</div>`;
+            console.log(str);
+            
+            const navbarContent = document.getElementById('navbarContent');
+            navbarContent.innerHTML = '';
+            navbarContent.innerHTML += str;
+
+        }
 
     </script>
 </body>

@@ -15,23 +15,27 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping(value = "/api/testcate")
+@RequestMapping(value = "/api/category")
 @Slf4j
 @AllArgsConstructor
 public class RestCategoryController {
     
     final CategoryAllMapper cAllMapper;
 
-    // 127.0.0.1:5959/SOBUN/api/testcate/1.json
-    @GetMapping(value = "/1.json")
-    public Map<String, Object> lcategoryGET() {
-        // log.info("SobunA => {}", "왔나요");
+    @GetMapping(value = "/select.json")
+    public Map<String, Object> selectGET(){
         Map<String, Object> retMap = new HashMap<>();
-
-        // List<CategoryAll> list = cAllMapper.selectCategoryAll();
-        // log.info("카테고리 목록 확인 => {}", list.toString());
-        // retMap.put("list", list);
+        List<CategoryAll> llist = cAllMapper.selectLCategory();
+        // log.info("대분류 카테고리 => {}", llist.toString());
+        List<CategoryAll> mlist = cAllMapper.selectMCategory();
+        // log.info("중분류 카테고리 => {}", mlist.toString());
+        List<CategoryAll> slist = cAllMapper.selectSCategory();
+        // log.info("소분류카테고리 => {}", slist.toString());
+        retMap.put("llist", llist);
+        retMap.put("mlist", mlist);
+        retMap.put("slist", slist);
+        // log.info("RestCategoryController", retMap.toString());
         return retMap;
-    } 
+    }
 
 }

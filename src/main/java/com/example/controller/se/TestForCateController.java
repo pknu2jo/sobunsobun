@@ -24,11 +24,11 @@ public class TestForCateController {
     @GetMapping(value = "/1.do")
     public String test1GET(Model model){
         List<CategoryAll> llist = cAllMapper.selectLCategory();
-        log.info("대분류 카테고리 => {}", llist.toString());
+        // log.info("대분류 카테고리 => {}", llist.toString());
         List<CategoryAll> mlist = cAllMapper.selectMCategory();
-        log.info("중분류 카테고리 => {}", mlist.toString());
+        // log.info("중분류 카테고리 => {}", mlist.toString());
         List<CategoryAll> slist = cAllMapper.selectSCategory();
-        log.info("소분류카테고리 => {}", slist.toString());
+        // log.info("소분류카테고리 => {}", slist.toString());
         model.addAttribute("slist", slist);
         model.addAttribute("llist", llist);
         model.addAttribute("mlist", mlist);
