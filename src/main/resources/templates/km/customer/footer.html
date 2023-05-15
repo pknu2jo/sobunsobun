@@ -12,34 +12,57 @@
     <style>
 
         @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
-        * {
+        footer * {
             margin: 0 auto;
             /* font-family: 'nanumsquare','MinSans-Regular', sans-serif; */
             font-family: 'NanumSquare';
             font-size: 15px;
         }
 
-        html, body {
+        /* html, body {
             height: 100px;
             padding: 0;
             margin: 0 auto;
-        }
+        } */
 
-        #wrapper {
+        /* #wrapper {
             height: auto;
             min-height: 100%;
-            padding-bottom: 300px;
-        }
+        } */
 
-        footer {
+        /* footer {
             height: 300px;
             position: relative;
             transform: translateY(-100%);
             line-height: 1.4rem;
+        } */
+
+        /* html, body {
+            height: 100%;
         }
+
+        body {
+            position: relative;
+            min-height: 100%;
+        } */
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            max-width: 3000px;
+            padding-left: 0 !important;  
+            padding-right: 0 !important;
+            
+        }
+
         footer > * {
             padding-top: 14px;
-        } 
+        }
+        footer .title_detail {
+            font-weight: 900;
+            color: #4e4e4e;
+        }
+        
         #footer1 {
             height: 50px;
             border-top: 1.5px solid #d4d4d4;
@@ -51,6 +74,7 @@
         }
         #footer2 {
             height: 200px;
+            padding-top: 30px;
         }
         #footer2 .footer2_logo {
             margin-bottom: 10px;
@@ -67,7 +91,7 @@
             font-size: 12px;
         }
 
-        ul {
+        footer ul {
             padding: 0;
         }
         .footer-width {
@@ -78,18 +102,17 @@
     </style>
 </head>
 
-<body>
-    <div id='wrapper'>
+<body id='wrapper'>
+    <div>
         <div>
             content
         </div>
     </div>
 
 
-
-    <footer>
+    <footer class="container-fluid">
         <div id="footer1">
-            <div class="container footer-width">
+            <div class="footer-width">
                         <p>회사소개</p>
                         <p>이용약관</p>
                         <p>개인정보처리방침</p>
@@ -97,10 +120,10 @@
             </div>
         </div>
         <div id="footer2">
-            <div class="container footer-width">
+            <div class="footer-width">
                 <div class="row">
                     <div class="col-5">
-                        <img src="../../../static/images/noimage.jpg" class="footer2_logo" width="100px" height="80px">
+                        <img src="../../../static/images/se/logo1.png" class="footer2_logo" width="180px" >
                         <div class="footer_text1">
                             상호명 : (주) 소분소분 | 대표 : 홍길동<br>
                             주소 : 55075 전라북도 전주시 완산구 호동길 24 (삼천동3가) 육육걸즈<br>
@@ -161,7 +184,7 @@
         </div>
         
         <div id="footer3">
-            <div class="container footer-width">
+            <div class="footer-width">
                 Copyright &copy; <strong>소분소분</strong> All right reserved. Design by PKNU.
             </div>   
         </div>
