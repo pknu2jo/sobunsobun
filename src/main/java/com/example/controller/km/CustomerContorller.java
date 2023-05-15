@@ -52,7 +52,7 @@ public class CustomerContorller {
         int ret = cMapper.joinCustomer(customer);
         System.out.println("ret2");
         if( ret == 1 ) {
-            return "redirect:/km/customer/home.do";
+            return "redirect:/customer/home.do";
         }
         return "redirect:/km/customer/join.do";
     }
