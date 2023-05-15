@@ -19,7 +19,6 @@
         text-decoration: none;
         color: black;
     }
-
     /* 카테고리 */
     .lcate {
         height: 15px;
@@ -37,7 +36,7 @@
     .searchButton {
         border: 0;
         background-color: transparent;
-        margin-top: 4.5px;
+        margin-top: 7px;
         opacity: 0.9;
     }
 
@@ -54,15 +53,17 @@
 
     /* 헤더 */
     .header1 {
-        background-color: rgb(255, 251, 235);
+        /* background-color: rgb(255, 251, 235); */
         /* background-image: url('https://picsum.photos/200/300'); */
         /* background-image: url('/src/main/resources/static/images/se/headerplant.jpg'); */
         /* background-image: url(headerplant.jpg); */
+        /* background-image: th:url("@{/images/se/headerplant.jpg}"); */
         background-size: cover;
     }
 
-    .myPage{
+    .myPage a{
         font-size: 15px;
+        color: #dddddd;
     }
     .myPage a:hover{
         color: #6d9275;
@@ -95,7 +96,7 @@
     }
 
     .hamburger div {
-        background-color: #000;
+        background-color: #dddddd;
         position: relative;
         width: 40px;
         height: 1px;
@@ -109,7 +110,7 @@
     }
 
     #toggle:checked + .hamburger{
-        margin-top: 25px;
+        margin-top: 35px;
     }
 
     #toggle:checked + .hamburger .top {
@@ -129,7 +130,8 @@
     /* 헤더2 */
     #header2 {
         /* background-image: url('https://picsum.photos/200/300'); */
-        background-color: rgb(255, 251, 235);
+        /* background-color: rgb(255, 251, 235); */
+        background-color: #f8f7f5;
         display: none;
         position: fixed;
         top: 0;
@@ -158,13 +160,18 @@
         padding-left: 35px;
         /* width: 1100px; */
         height: 45px;
-        background-color: rgb(238, 234, 217);
+        background-color: #f0ede8;
         border: 0px solid #97a099;
         border-radius: 10px;
     }
 
     .searchBar2:focus {
         outline: none;
+    }
+
+    #headerLine2 {
+        border-top: 1px solid #b4bdb6;
+        border-top: 1px solid #73977b;
     }
 
     /* 마이페이지 버튼 */
@@ -198,7 +205,7 @@
 <body>
     
     <!-- 헤더 -->
-    <header class="container-fluid header1">
+    <header class="container-fluid header1" th:style="'background-image:url('+ @{/images/se/testheader4.png} +');'">
         <div class="row p-5">
             <div class="col-4 navbar-toggler d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false">
                 <input id="toggle" type="checkbox" />
@@ -227,7 +234,7 @@
                     <div class="col-auto">
                         <a href="#">
                             마이페이지
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="fill: #204710;"><path d="M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"></path></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="fill: #dddddd;"><path d="M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"></path></svg>
                         </a>
                     </div>
                     <!-- <div class="col-auto">
@@ -266,7 +273,7 @@
             <!-- <div class="col-auto d-flex align-items-center pe-5">
             </div> -->
         </div>
-        <div id="headerLine"></div>
+        <div id="headerLine2"></div>
     </header> 
     
 
