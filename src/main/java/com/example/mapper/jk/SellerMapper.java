@@ -14,6 +14,8 @@ public interface SellerMapper {
     " VALUES(#{no}, #{pw}, #{name}, #{phone}, #{email}, #{address}) " })
     public int joinSeller(Seller seller);
 
+    // 아이디 중복 확인
+
     // 정보수정 (업체명, 주소, 연락처, 이메일)
     @Update({ " UPDATE seller SET name = #{name}, phone = #{phone}, email = #{email}, address = {address} ", 
     " WHERE no = #{no} " })

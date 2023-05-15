@@ -30,7 +30,7 @@ public class SellerController {
     // 회원가입
     @GetMapping(value = "/join.do")
     public String joinGET() {
-        return "/seller/index";
+        return "/seller/join";
     }
 
     @PostMapping(value = "/join.do")
