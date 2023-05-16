@@ -14,7 +14,7 @@
 <body>
     <div style="width: 600px; margin: 0 auto; padding: 50px; border: 1px solid #efefef;">
         <div class="text-center">
-            <img th:src="@{/images/logo1.png}" name="soboon" style="height: 200px;">
+            <img th:src="@{/images/jk/logo1.png}" name="soboon" style="height: 200px;">
             <br />
         </div>
         <form th:action="@{/seller/join.do}" method="post">
@@ -50,21 +50,24 @@
                             value="내주소 찾기">
                         <div class="row">
                             <div class="col">
-                                <input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호"
-                                    disabled>
+                                <input type="text" name="address1" class="form-control" id="sample6_postcode"
+                                    placeholder="우편번호" disabled>
                             </div>
                             <div class="col">
-                                <input type="text" id="sample6_address" class="form-control" placeholder="주소" disabled>
+                                <input type="text" name="address2" id="sample6_address" class="form-control"
+                                    placeholder="주소" disabled>
                             </div>
                         </div>
-                        <input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소"> <input
-                            type="text" class="form-control" id="sample6_extraAddress" placeholder="추가정보">
+                        <input type="text" name="address3" class="form-control" id="sample6_detailAddress"
+                            placeholder="상세주소">
+                        <input type="text" name="address4" class="form-control" id="sample6_extraAddress"
+                            placeholder="추가정보">
                     </div>
                     <hr />
                     <div class="container text-center d-grid gap-2" style="padding: 0;">
                         <!-- 여기서 type을 submit으로 잡고 유효성 검사를 하게되면 강제로 데이터가 넘어가기 때문에 button으로 지정해주어야 함! -->
-                        <input type="button" value="가입하기" class="btn btn-success " onclick="joinAction()" /> <a href="#"
-                            class="btn btn-outline-secondary">로그인 화면으로</a>
+                        <input type="submit" value="가입하기" class="btn btn-success "/> 
+                        <a href="#" class="btn btn-outline-secondary">로그인 화면으로</a>
                     </div>
                 </div>
             </div>
@@ -86,152 +89,124 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
     <script>
-        function joinAction() {
-            const id = document.getElementById('id');
-            const pw = document.getElementById('pw');
-            const name = document.getElementById('name')
-            const phone = document.getElementById('phone');
-            const email = document.getElementById('email');
+        // function joinAction() {
+        //     const id = document.getElementById('id');
+        //     const pw = document.getElementById('pw');
+        //     const name = document.getElementById('name')
+        //     const phone = document.getElementById('phone');
+        //     const email = document.getElementById('email');
 
-            if (id.value.length <= 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: '아이디를 입력하지 않았어요',
-                    text: '아이디는 어디로 간거죠..?',
-                    showConfirmButton: true,
-                    timer: 2500
-                });
-                id.focus();
-                return false; // 함수종료, 전송하지 않음
-            }
+        //     if (id.value.length <= 0) {
+        //         Swal.fire({
+        //             icon: 'warning',
+        //             title: '아이디를 입력하지 않았어요',
+        //             text: '아이디는 어디로 간거죠..?',
+        //             showConfirmButton: true,
+        //             timer: 2500
+        //         });
+        //         id.focus();
+        //         return false; // 함수종료, 전송하지 않음
+        //     }
 
-            if (idcheck === 0) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: '이미 사용중인 아이디네요!',
-                    text: '이런.. 이 멋진걸 누군가 이미 선점했나 보네요.',
-                    showConfirmButton: true,
+        //     if (idcheck === 0) {
+        //         Swal.fire({
+        //             icon: 'warning',
+        //             title: '이미 사용중인 아이디네요!',
+        //             text: '이런.. 이 멋진걸 누군가 이미 선점했나 보네요.',
+        //             showConfirmButton: true,
 
-                });
-                id.focus();
-                return false;
-            }
+        //         });
+        //         id.focus();
+        //         return false;
+        //     }
 
-            if (pw.value.length <= 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: '패스워드를 입력하지 않았어요',
-                    text: '패스워드는 어디로 간거죠..?',
-                    showConfirmButton: true,
-                });
-                pw.focus();
-                return false; // 함수종료, 전송하지 않음
-            }
+        //     if (pw.value.length <= 0) {
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: '패스워드를 입력하지 않았어요',
+        //             text: '패스워드는 어디로 간거죠..?',
+        //             showConfirmButton: true,
+        //         });
+        //         pw.focus();
+        //         return false; // 함수종료, 전송하지 않음
+        //     }
 
-            if (pw.value.length <= 7) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: '패스워드가 너무 짧아요!',
-                    text: '적어도 8자리 정도는 되어야 할 것 같아요.',
-                    showConfirmButton: true,
+        //     if (pw.value.length <= 7) {
+        //         Swal.fire({
+        //             icon: 'warning',
+        //             title: '패스워드가 너무 짧아요!',
+        //             text: '적어도 8자리 정도는 되어야 할 것 같아요.',
+        //             showConfirmButton: true,
 
-                });
-                pw.focus();
-                return false; // 함수종료, 전송하지 않음
-            }
+        //         });
+        //         pw.focus();
+        //         return false; // 함수종료, 전송하지 않음
+        //     }
 
-            if (pw1.value.length <= 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: '패스워드 확인창이 비어있어요!',
-                    text: '패스워드를 한번 더 입력해주세요.',
-                    showConfirmButton: true,
+        //     if (pw1.value.length <= 0) {
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: '패스워드 확인창이 비어있어요!',
+        //             text: '패스워드를 한번 더 입력해주세요.',
+        //             showConfirmButton: true,
 
-                });
-                pw1.focus();
-                return false; // 함수종료, 전송하지 않음
-            }
+        //         });
+        //         pw1.focus();
+        //         return false; // 함수종료, 전송하지 않음
+        //     }
 
-            if (pw.value !== pw1.value) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: '패스워드가 일치하지 않아요!',
-                    text: '흠.. 다시 한번 확인해야할 것 같네요.',
-                    showConfirmButton: true,
+        //     if (pw.value !== pw1.value) {
+        //         Swal.fire({
+        //             icon: 'warning',
+        //             title: '패스워드가 일치하지 않아요!',
+        //             text: '흠.. 다시 한번 확인해야할 것 같네요.',
+        //             showConfirmButton: true,
 
-                });
-                pw1.focus();
-                return false;
-            }
+        //         });
+        //         pw1.focus();
+        //         return false;
+        //     }
 
-            if (name.value.length <= 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: '이름을 입력하지 않았어요!',
-                    text: '저희가 뭐라고 불러드리면 좋을까요?',
-                    showConfirmButton: true,
+        //     if (name.value.length <= 0) {
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: '이름을 입력하지 않았어요!',
+        //             text: '저희가 뭐라고 불러드리면 좋을까요?',
+        //             showConfirmButton: true,
 
-                });
-                name.focus();
-                return false;
-            }
+        //         });
+        //         name.focus();
+        //         return false;
+        //     }
 
-            if (phone.value.length <= 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: '전화번호를 입력하지 않았어요!',
-                    text: '전화번호를 입력해주세요!',
-                    showConfirmButton: true,
+        //     if (phone.value.length <= 0) {
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: '전화번호를 입력하지 않았어요!',
+        //             text: '전화번호를 입력해주세요!',
+        //             showConfirmButton: true,
 
-                });
-                phone.focus();
-                return false;
-            }
+        //         });
+        //         phone.focus();
+        //         return false;
+        //     }
 
-            if (email.value.length <= 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: '이메일을 입력하지 않았어요!',
-                    text: '이메일을 입력해주세요!',
-                    showConfirmButton: true,
+        //     if (email.value.length <= 0) {
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: '이메일을 입력하지 않았어요!',
+        //             text: '이메일을 입력해주세요!',
+        //             showConfirmButton: true,
 
-                });
-                email.focus();
-                return false;
-            }
+        //         });
+        //         email.focus();
+        //         return false;
+        //     }
 
-            // form의 내용을 button을 눌러 강제로 submit 수행!
-            document.getElementById('form').submit();
-        }
+        //     // form의 내용을 button을 눌러 강제로 submit 수행!
+        //     document.getElementById('form').submit();
+        // }
 
-        async function ajaxIDCheck(e) {
-            if (e.value.length > 0) {
-                // rest api 호출
-                const url = '${pageContext.request.contextPath}/api/member/idcheck.json?id=' + e.value;
-                const headers = { "Content-Type": "application/json" };
-                const { data } = await axios.get(url, { headers });
-                console.log(data);
-
-                if (data.ret === 1) {
-                    idcheck = 0;
-                    document.getElementById("lbl_check").innerText = '이미 사용중인 ID입니다!';
-                    document.getElementById("lbl_check").style.color = 'red';
-                    document.getElementById("id").className = 'form-control is-invalid';
-                }
-                else if (data.ret === 0) {
-                    idcheck = 1;
-                    document.getElementById("lbl_check").innerText = '사용가능!';
-                    document.getElementById("lbl_check").style.color = 'blue';
-                    document.getElementById("id").className = 'form-control';
-
-                }
-            }
-            else {
-                document.getElementById("lbl_check").innerText = '아이디';
-                document.getElementById("lbl_check").style.color = 'black';
-                document.getElementById("id").className = 'form-control';
-            }
-        }
 
         function sample6_execDaumPostcode() {
             // PostCode() obj = new postCode();

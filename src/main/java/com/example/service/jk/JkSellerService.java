@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.dto.Seller;
 
 @Service
-public interface SellerService {
+public interface JkSellerService {
     
     // 업체 회원가입
     public int joinSeller(@Param("obj") Seller obj);

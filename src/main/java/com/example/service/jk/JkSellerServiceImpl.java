@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor // 클래스에서만 가능함, 인터페이스에서는 안됨.
-public class SellerServiceImpl implements SellerService {
+public class JkSellerServiceImpl implements JkSellerService {
 
     final SellerMapper sMapper;
 

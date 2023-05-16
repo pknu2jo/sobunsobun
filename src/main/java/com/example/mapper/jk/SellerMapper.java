@@ -2,6 +2,7 @@ package com.example.mapper.jk;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -12,8 +13,8 @@ public interface SellerMapper {
     
     // 회원가입
     @Insert({ " INSERT INTO seller(no, pw, name, phone, email, address) ", 
-    " VALUES(#{no}, #{pw}, #{name}, #{phone}, #{email}, #{address}) " })
-    public int joinSeller(Seller seller);
+    " VALUES(#{obj.no}, #{obj.pw}, #{obj.name}, #{obj.phone}, #{obj.email}, #{obj.address}) " })
+    public int joinSeller(@Param("obj") Seller seller);
 
     // 로그인
     @Select({" SELECT * FROM seller WHERE no =#{no} AND pw=#{pw}"})
