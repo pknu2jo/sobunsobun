@@ -25,7 +25,7 @@ public class KmCustomerContorller {
     @GetMapping(value = "/kmtest.do")
     public String testGET() {
         log.info("푸터 인클루드 테스트");
-        return "/km/customer/headertest";
+        return "/km/customer/sample";
     }
     
 }
