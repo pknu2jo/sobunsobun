@@ -1,4 +1,4 @@
-package com.example.controller.jk.seller_mybatis;
+package com.example.controller.jk.sellerMybatis;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
