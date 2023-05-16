@@ -1,4 +1,4 @@
-package com.example.controller.jk.sellerMybatis;
+package com.example.controller.jk;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SellerController {
     @Autowired SellerMapper sMapper; 
+    
 
     /* -------------------------------------------------------------- */
     // 홈화면
