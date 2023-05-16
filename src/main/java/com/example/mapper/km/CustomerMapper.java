@@ -1,4 +1,4 @@
-package com.example.mapper;
+package com.example.mapper.km;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +14,9 @@ public interface CustomerMapper {
     " VALUES(#{id}, #{pw}, #{name}, #{phone}, #{email}, #{nickname}, #{gender}) " })
     public int joinCustomer(Customer customer);
 
-    // 회원 정보 모두 불러오기
-    @Select({ " SELECT m.* FROM customer m WHERE m.id=#{id} " })
+    // 회원정보 불러오기
+    // @Select({" SELECT m.id, m.name, m.phone, m.email, m.nickname, m.gender ",  
+    //          " FROM Customer m WHERE m.id=#{id} "})
     public Customer selectCustomerOne(String id);
+    
 }
