@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dto.Customer;
-import com.example.mapper.km.CustomerMapper;
+import com.example.mapper.km.KmCustomerMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CustomerContorller {
     
-    @Autowired CustomerMapper cMapper; 
+    @Autowired KmCustomerMapper cMapper; 
 
     // 홈화면
     @GetMapping(value = "/home.do")
