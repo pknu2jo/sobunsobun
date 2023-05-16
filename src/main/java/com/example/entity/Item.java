@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -23,20 +24,22 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ITEM_NO")
-    private long no;
+    private BigDecimal no;
 
     private String name;
     
-    private long price;
+    private BigDecimal price;
     
-    private long quantity;
+    private BigDecimal quantity;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @CreationTimestamp
     @Column(name = "REGDATE", updatable = false)
     private Date regdate;
     
+    @Column(name = "REGNO")
     private String regNo;
     
-    private long scategoryCode;
+    @Column(name = "SCATEGORYCODE")
+    private BigDecimal scategoryCode;
 }
