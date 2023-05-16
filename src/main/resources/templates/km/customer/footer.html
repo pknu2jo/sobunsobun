@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 3. Font Awesome ICON용 CDN-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css">
+    <style>
+
+        @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+        footer * {
+            margin: 0 auto;
+            /* font-family: 'nanumsquare','MinSans-Regular', sans-serif; */
+            font-family: 'NanumSquare';
+            font-size: 15px;
+        }
+
+        /* html, body {
+            height: 100px;
+            padding: 0;
+            margin: 0 auto;
+        } */
+
+        /* #wrapper {
+            height: auto;
+            min-height: 100%;
+        } */
+
+        /* footer {
+            height: 300px;
+            position: relative;
+            transform: translateY(-100%);
+            line-height: 1.4rem;
+        } */
+
+        /* html, body {
+            height: 100%;
+        }
+
+        body {
+            position: relative;
+            min-height: 100%;
+        } */
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            max-width: 3000px;
+            padding-left: 0 !important;  
+            padding-right: 0 !important;
+            
+        }
+
+        footer > * {
+            padding-top: 14px;
+        }
+        footer .title_detail {
+            font-weight: 900;
+            color: #4e4e4e;
+        }
+        
+        #footer1 {
+            height: 50px;
+            border-top: 1.5px solid #d4d4d4;
+            border-bottom: 1.5px solid #d4d4d4;
+        }
+        #footer1 p {
+            display: inline-block;
+            margin-right: 20px;
+        }
+        #footer2 {
+            height: 200px;
+            padding-top: 30px;
+        }
+        #footer2 .footer2_logo {
+            margin-bottom: 10px;
+        }
+        .footer_text1, .footer_text2 *, .footer_text3 *, .footer_text4 * {
+            font-size: 13px;
+            color: rgb(124, 124, 124);
+        }
+        #footer3 {
+            background-color: rgb(236, 236, 236); 
+            height: 50px;
+        }
+        #footer3 * {
+            font-size: 12px;
+        }
+
+        footer ul {
+            padding: 0;
+        }
+        .footer-width {
+            width: 1120px;
+            max-width: none !important;
+        }
+        #footer2 {
+            background-image: url(../../../static/images/km/footer.png);
+        }
+
+        footer a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body id='wrapper'>
+    <div>
+        <div>
+            content
+        </div>
+    </div>
+
+
+    <footer class="container-fluid">
+        <div id="footer1">
+            <div class="footer-width">
+                        <p>회사소개</p>
+                        <p>이용약관</p>
+                        <p>개인정보처리방침</p>
+                        <p>이용안내</p>
+            </div>
+        </div>
+        <div id="footer2">
+            <div class="footer-width">
+                <div class="row">
+                    <div class="col-5">
+                        <img src="../../../static/images/se/logo1.png" class="footer2_logo" width="180px" >
+                        <div class="footer_text1">
+                            상호명 : (주) 소분소분 | 대표 : 홍길동<br>
+                            주소 : 18548 부산시 남구 신선로 365<br>
+                            <!-- 통신판매업신고 : 2013-전주완산-0303 | 사업자등록번호 : 402-86-03809<br> -->
+                            개인정보관리책임자 : 홍길동 | 제휴/협력문의 : sobun@gmail.com
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="title_detail">CS CENTER</div>
+                        <div class="footer_text2">
+                            <div>1688-1360</div>
+                            <div>
+                                <span>WEEK</span>
+                                <span>10:00 ~ 17:00</span><br>
+                                <span>LUNCH</span>
+                                <span>12:00 ~ 13:00</span>
+                            </div>
+                            <div>
+                                주말, 공휴일은 휴무입니다
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="title_detail">ACCOUNT INFO</div>
+                        <div class="footer_text3">
+                            <ul>
+                                <li>
+                                    <span>농협</span>
+                                    <span>000-0000-0000-00</span>
+                                </li>
+                                <li>
+                                    <span>국민</span>
+                                    <span>000-0000-0000-00</span>
+                                </li>
+                                <li>
+                                    <span>우체국</span>
+                                    <span>000-0000-0000-00</span>
+                                </li>
+                                <li>
+                                    <span>우리</span>
+                                    <span>000-0000-0000-00</span>
+                                </li>
+                                <li>예금주: (주)소분소분</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="title_detail">RETURN</div>
+                        <div class="footer_text4">
+                            <a href="#">교환/반품 정책 확인</a>
+                            <div>
+                                부산시 남구 신선로 365
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="footer3">
+            <div class="footer-width">
+                Copyright &copy; <strong>소분소분</strong> All right reserved. Design by PKNU.
+            </div>   
+        </div>
+    </footer>
+
+    <!-- Font Awesome ICON용 스크립트 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+
+</html>
