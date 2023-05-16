@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -45,6 +46,7 @@ public class Seller {
     @CreationTimestamp // 추가시에만 날짜 정보 저장
     private Date regdate;
 
-    private String blockChk;
+    @Column(name = "BLOCKCHK")
+    private BigDecimal blockChk;
 
 }
