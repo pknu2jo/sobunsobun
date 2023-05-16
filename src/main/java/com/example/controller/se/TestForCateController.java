@@ -14,14 +14,14 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping(value = "/testcate")
+@RequestMapping(value = "/customer")
 @Slf4j
 @AllArgsConstructor
 public class TestForCateController {
     
     final CategoryAllMapper cAllMapper;
 
-    @GetMapping(value = "/1.do")
+    @GetMapping(value = "/testcate/1.do")
     public String test1GET(Model model){
         List<CategoryAll> llist = cAllMapper.selectLCategory();
         // log.info("대분류 카테고리 => {}", llist.toString());
