@@ -22,19 +22,19 @@ public class KmCustomerContorller {
     public String selectitemGET(@RequestParam(name = "no") long no) {
         log.info("물품 상세 조회 GET");
 
-        
+
 
         return "/km/customer/selectitem";
     }
 
-    // @GetMapping(value = "/kmtest.do")
-    // public String testGET(Model model) {
-    //     log.info("푸터 인클루드 테스트");
+    @GetMapping(value = "/kmtest.do")
+    public String testGET(Model model) {
+        log.info("푸터 인클루드 테스트");
 
-    //     int person = cMapper.countRemainingPerson(1004);
-    //     log.info("person => {}", person);
-    //     //model.addAttribute("person", person);
-    //     return "/km/customer/sample";
-    // }
+        int person = cMapper.countRemainingPerson(1004);
+        log.info("person => {}", person);
+        //model.addAttribute("person", person);
+        return "/km/customer/sample";
+    }
     
 }
