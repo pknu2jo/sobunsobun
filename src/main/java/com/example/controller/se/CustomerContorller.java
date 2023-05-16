@@ -24,7 +24,7 @@ public class CustomerContorller {
     // 홈화면
     @GetMapping(value = "/home.do")
     public String homeGET() {
-        return "/se/home";
+        return "/se/customer/home";
     }
 
     // 회원가입
