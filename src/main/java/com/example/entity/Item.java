@@ -24,12 +24,16 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ITEM_NO")
+    @Column(name = "NO")
     private BigDecimal no;
 
+    @Column(name = "NAME")
     private String name;
     
+    @Column(name = "PRICE")
     private BigDecimal price;
     
+    @Column(name = "QUANTITY")
     private BigDecimal quantity;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
