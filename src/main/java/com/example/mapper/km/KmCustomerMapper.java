@@ -1,20 +1,19 @@
-package com.example.mapper;
+package com.example.mapper.km;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 import com.example.dto.Customer;
 
 @Mapper
-public interface CustomerMapper {
+public interface KmCustomerMapper {
     
     // 회원가입
     @Insert({ " INSERT INTO customer(id, pw, name, phone, email, nickname, gender) ", 
     " VALUES(#{id}, #{pw}, #{name}, #{phone}, #{email}, #{nickname}, #{gender}) " })
     public int joinCustomer(Customer customer);
 
-    // 회원 정보 모두 불러오기
-    @Select({ " SELECT m.* FROM customer m WHERE m.id=#{id} " })
-    public Customer selectCustomerOne(String id);
+    // 상품에 대한 열린 공구 가져오기 -> 남은 인원
+    public int countRemainingPerson(long purchaseno);
+    
 }
