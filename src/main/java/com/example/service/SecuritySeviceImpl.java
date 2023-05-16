@@ -33,9 +33,9 @@ public class SecuritySeviceImpl implements UserDetailsService {
 
         log.info(format, username);
 
-        Customer customer = mapper.selectCustomerOne(username);
-        Seller seller = mapper.selectSellerOne(username);
-        Admin admin = mapper.selectAdminOne(username);
+        Customer customer = mapper.selectCustomerOne( username );
+        Seller seller = mapper.selectSellerOne( username );
+        Admin admin = mapper.selectAdminOne( username );
 
         if(customer != null) {
             System.out.println("id : " + customer.getId() + ", pw : " + customer.getPw());

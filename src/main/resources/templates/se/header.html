@@ -10,8 +10,6 @@
     integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
 
     <th:block th:fragment="headerCSS">
-        <!-- font-awesome CDN -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
         @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
         * {
@@ -231,7 +229,8 @@
     </th:block>
 </head>
 <body>
-    <div class="headerAll" th:fragment="headerHTML">
+<th:block th:fragment="headerHTML">
+    <div class="headerAll">
         <!-- 헤더 -->
         <header class="container-fluid header1" th:style="'background-image:url('+ @{/images/se/header1image.png} +');'">
             <div class="row p-5">
@@ -318,25 +317,13 @@
         
 
         <!-- 카테고리 -->
-        <div class="container mb-5"><!-- style="position: fixed;" -->
+        <div class="container"><!-- style="position: fixed;" -->
             <div class="row collapse navbar-collapse p-3" id="navbarContent"> <!-- 처음에 접은 상태 => class에 collapse 추가 -->
             </div>
-        </div> 
+        </div>    
+    </div>
 
 
-
-
-        <!-- 본문 -->
-        <!-- <div class="container" id="mainContent">
-            <img src="https://picsum.photos/200/300" style="width: 100%; height: 400px;">
-        </div> -->
-
-        <!-- 부트스트랩 -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
-        crossorigin="anonymous"></script>
-        <!-- axios (https://cdnjs.com/libraries/axios) -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script th:inline="javascript" type="text/javascript">
             // 스크롤시 header2 보이기
             window.addEventListener('scroll', () => {
@@ -361,7 +348,7 @@
                 
                 let str = "";
                 for(let one of data.llist) { // 대분류 카테고리
-                    str += `<div class="col my-auto mt-3">`;
+                    str += `<div class="col my-auto mt-3" style="height: 1100px;">`;
                     str += `<div class="lcate">${one.lname}</div>`;
                     str += `<hr />`;
                     for (let one2 of data.mlist) { // 중분류 카테고리
@@ -396,9 +383,8 @@
                 navbarContent.innerHTML += str;
 
             }
-
         </script>
 
-    </div> 
+</th:block>
 </body>
 </html>

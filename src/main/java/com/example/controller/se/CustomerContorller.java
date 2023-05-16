@@ -1,4 +1,4 @@
-package com.example.controller.km;
+package com.example.controller.se;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,26 +21,16 @@ public class CustomerContorller {
     
     @Autowired CustomerMapper cMapper; 
 
-    // 회원 정보 불러오기
-    @GetMapping(value = "/select.do")
-    public String selectGET(Model model) {
-        Customer obj = cMapper.selectCustomerOne("2");
-
-        log.info("customerController => {}", obj.toString());
-        model.addAttribute("obj", obj);
-        return "/km/customer/select";
-    }
-
     // 홈화면
     @GetMapping(value = "/home.do")
     public String homeGET() {
-        return "/km/customer/home";
+        return "/se/home";
     }
 
     // 회원가입
     @GetMapping(value = "/join.do")
     public String joinGET() {
-        return "/km/customer/join";
+        return "/se/join";
     }
     @PostMapping(value = "/join.do")
     public String joinPOST(@ModelAttribute Customer customer) {
@@ -52,26 +42,21 @@ public class CustomerContorller {
         int ret = cMapper.joinCustomer(customer);
         System.out.println("ret2");
         if( ret == 1 ) {
-            return "redirect:/km/customer/home.do";
+            return "redirect:/customer/home.do";
         }
-        return "redirect:/km/customer/join.do";
+        return "redirect:/se/join.do";
     }
 
     // 로그인
     @GetMapping(value="/login.do")
     public String loginGET() {
-        return "/km/customer/login";
+        return "/se/login";
     }
 
     // 오류 페이지
     @GetMapping(value = "/403page.do")
     public String page403GET() {
-        return "/km/customer/403page";
-    }
-
-    @GetMapping(value = "selectitem.do")
-    public String selectitem() {
-        return "/km/customer/selectitem";
+        return "/error/403page";
     }
     
 }
