@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.example.handler.CustomLogoutHandler;
 import com.example.mapper.SecurityMapper;
 import com.example.service.SecurityAdminSeviceImpl;
 import com.example.service.SecurityCustomerSeviceImpl;
@@ -46,15 +47,6 @@ public class SecurityConfig {
             .usernameParameter("id")
             .passwordParameter("pw")
             .defaultSuccessUrl("/customer/home.do")
-            //.successHandler(new LoginSuccessHandelr())
-            .permitAll();
-
-        // 고객 로그아웃 처리
-        http.logout()
-            .logoutUrl("/customer/logout.do")
-            .logoutSuccessUrl("/customer/home.do")
-            .invalidateHttpSession(true)
-            .clearAuthentication(true)
             .permitAll();
 
         // 서비스 등록
@@ -80,15 +72,6 @@ public class SecurityConfig {
             .usernameParameter("no")
             .passwordParameter("pw")
             .defaultSuccessUrl("/seller/home.do")
-            //.successHandler(new LoginSuccessHandelr())
-            .permitAll();
-
-        // 업체 로그아웃 처리
-        http.logout()
-            .logoutUrl("/seller/logout.do")
-            .logoutSuccessUrl("/seller/login.do")
-            .invalidateHttpSession(true)
-            .clearAuthentication(true)
             .permitAll();
 
         // 서비스 등록
@@ -118,7 +101,7 @@ public class SecurityConfig {
 
 
         // 403 페이지 설정 (접근 권한 불가 시 표시할 화면 )
-        http.exceptionHandling().accessDeniedPage("/km/403page.do");
+        http.exceptionHandling().accessDeniedPage("/error/403page.do");
 
         // 관리자 로그인 처리
         http.formLogin()
@@ -127,13 +110,13 @@ public class SecurityConfig {
             .usernameParameter("id")
             .passwordParameter("pw")
             .defaultSuccessUrl("/admin/home.do")
-            //.successHandler(new LoginSuccessHandelr())
             .permitAll();
 
-        // 관리자 로그아웃 처리
+
+        // 로그아웃 처리 (고객, 업체, 관리자 모두 해당)
         http.logout()
-            .logoutUrl("/admin/logout.do")
-            .logoutSuccessUrl("/admin/login.do")
+            .logoutUrl("/logout.do")
+            .logoutSuccessHandler(new CustomLogoutHandler())
             .invalidateHttpSession(true)
             .clearAuthentication(true)
             .permitAll();

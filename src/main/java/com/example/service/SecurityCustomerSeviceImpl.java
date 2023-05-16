@@ -30,14 +30,14 @@ public class SecurityCustomerSeviceImpl implements UserDetailsService {
 
         log.info(format, username);
 
-        Customer customer = mapper.selectCustomerOne( username );
+        Customer c = mapper.selectCustomerOne( username );
 
-        if(customer != null) {
-            System.out.println("id : " + customer.getId() + ", pw : " + customer.getPw());
+        if(c != null) {
+            System.out.println("id : " + c.getId() + ", pw : " + c.getPw());
 
-            Collection<GrantedAuthority> role = AuthorityUtils.createAuthorityList("CUSTOMER");
-            return new CustomerUser(customer.getId(), customer.getPw(), 
-                                    role, customer.getNickname());
+            // Collection<GrantedAuthority> role = AuthorityUtils.createAuthorityList("CUSTOMER");
+            //return new CustomerUser(customer.getId(), customer.getPw(), role, customer.getNickname());
+            return User.builder().username(c.getId()).password(c.getPw()).roles("CUSTOMER").build();
         }
 
         return User.builder()
