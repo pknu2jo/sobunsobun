@@ -15,5 +15,8 @@ public interface KmCustomerMapper {
 
     // 상품에 대한 열린 공구 가져오기 -> 남은 인원
     public int countRemainingPerson(long purchaseno);
+
+    // 상품에 대한 열린 공구 가져오기 -> 참여인원, 보관소, 마감기한 마감순 정렬 (추후 보관소 table 생성 되면 보관소도 불러오기)
+    
     
 }
