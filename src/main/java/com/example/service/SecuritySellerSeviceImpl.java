@@ -36,9 +36,7 @@ public class SecuritySellerSeviceImpl implements UserDetailsService {
             System.out.println("no : " + seller.getNo() + ", pw : " + seller.getPw());
 
             Collection<GrantedAuthority> role = AuthorityUtils.createAuthorityList("SELLER");
-            return new SellerUser(seller.getNo(), seller.getPw(), 
-                                  role, seller.getName(), seller.getPhone(), 
-                                  seller.getEmail(), seller.getAddress());
+            return new SellerUser(seller.getNo(), seller.getPw(), role);
         }
 
         return User.builder()
