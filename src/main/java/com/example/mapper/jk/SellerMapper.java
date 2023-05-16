@@ -2,6 +2,7 @@ package com.example.mapper.jk;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.example.dto.Seller;
@@ -13,6 +14,10 @@ public interface SellerMapper {
     @Insert({ " INSERT INTO seller(no, pw, name, phone, email, address) ", 
     " VALUES(#{no}, #{pw}, #{name}, #{phone}, #{email}, #{address}) " })
     public int joinSeller(Seller seller);
+
+    // 로그인
+    @Select({" SELECT * FROM seller WHERE no =#{no} AND pw=#{pw}"})
+    public Seller sellerLogin(Seller seller);
 
     // 아이디 중복 확인
 
