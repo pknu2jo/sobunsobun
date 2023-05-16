@@ -58,10 +58,5 @@ public class CustomerContorller {
     public String page403GET() {
         return "/error/403page";
     }
-
-    @GetMapping(value = "selectitem.do")
-    public String selectitem() {
-        return "/se/selectitem";
-    }
     
 }
