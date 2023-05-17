@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.mapper.km.KmCustomerMapper;
 
@@ -19,9 +20,28 @@ public class KmCustomerContorller {
 
     @GetMapping(value = "/item/select.do")
     public String selectitemGET() {
-        log.info("물품 상세 조회");
+        // @RequestParam(name = "no") long no 로 itemno 받기
+        log.info("물품 상세 조회 GET");
+
+
         return "/km/customer/selectitem";
+        // return "/km/customer/selectitem_original";
     }
+
+    @GetMapping(value = "/item/test.do")
+    public String selecttestGET() {
+        // @RequestParam(name = "no") long no 로 itemno 받기
+        log.info("물품 상세 조회 GET");
+
+
+        return "/km/customer/selectitem2";
+    }
+
+    @GetMapping(value = "/item/order.do")
+    public String orderGET() {
+        return "/km/customer/checkout";
+    }
+
 
     @GetMapping(value = "/kmtest.do")
     public String testGET(Model model) {

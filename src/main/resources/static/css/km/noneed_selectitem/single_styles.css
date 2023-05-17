@@ -711,7 +711,7 @@ section
 	display: block;
 	position: relative;
 	border-bottom: solid 1px #b5aec4;
-	vertical-align: middle;
+	/* vertical-align: middle; */
 }
 .menu_item > a
 {
@@ -873,10 +873,10 @@ section
 	background: #fe4c50;
 	content: '';
 }
-.product_details_title p
+/* .product_details_title p
 {
 	color: #;
-}
+} */
 
 /*********************************
 4. Breadcrumbs
@@ -1141,17 +1141,14 @@ section
 {
 	width: 100%;
 	padding-bottom: 80px;
-	border-bottom: solid 1px #ebebeb;
+	/* border-bottom: solid 1px #ebebeb; */
 }
 .tabs_container
 {
 	margin-top: 66px;
 	margin-bottom: 66px;
 }
-.tabs
-{
 
-}
 .tab
 {
 	margin-right: 50px;
@@ -1192,10 +1189,6 @@ section
 7.1 Description
 *********************************/
 
-.desc_col
-{
-
-}
 .tab_title
 {
 	margin-bottom: 98px;

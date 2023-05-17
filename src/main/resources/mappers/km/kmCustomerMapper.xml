@@ -11,41 +11,4 @@
         WHERE recent=1 AND state=0 AND cancel=0
     </select>
 
-    <!-- 회원가입 -->
-    <!-- <insert id="joinCustomer" parameterType="Customer">
-        INSERT INTO customer(id, pw, name, phone, email, nickname, gender) 
-        VALUES(#{id}, #{pw}, #{name}, #{phone}, #{email}, #{nickname}, #{gender})
-    </insert> -->
-
-    <!-- 로그인하기 -->
-    <!-- <select id="selectMemberOne" parameterType="Member" resultType="Member">
-        SELECT m.id, m.name, m.age, m.role FROM member m 
-        WHERE m.id=#{id} AND m.password=#{password}
-    </select> -->
-
-    <!-- 로그인하기1(아이디를 전달하면 그 정보를 가져오기) -->
-    <!-- <select id="selectCustomerOne" parameterType="string" resultType="Customer">
-        SELECT m.* FROM customer m WHERE m.id=#{id}
-    </select> -->
-
-    <!-- 고객 정보 불러오기 -->
-    <select id="selectCustomerOne" resultType="Customer">
-        SELECT m.id, m.name, m.phone, m.email, m.nickname, m.gender  
-        FROM Customer m WHERE m.id=#{id}
-    </select>
-    <!-- 고객 정보 수정하기 -->
-    <!-- <update id="updateMemberOne" parameterType="Member">
-        UPDATE member SET name=#{name}, age=#{age} WHERE id=#{id}
-    </update> -->
-
-    <!-- 회원정보 수정하기 -->
-    <!-- <update id="updatePassword" parameterType="Member">
-        UPDATE member SET password=#{password} WHERE id=#{id}
-    </update> -->
-
-    <!-- 회원 탈퇴하기 -->
-    <!-- <update id="deleteMemberOne" parameterType="Member">
-        UPDATE member SET password=null, name=null, age=null 
-        WHERE id=#{id} AND password=#{password}
-    </update> -->
 </mapper>
