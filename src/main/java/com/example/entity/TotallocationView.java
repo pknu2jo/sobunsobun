@@ -13,7 +13,7 @@ import lombok.Data;
 @Data
 @Immutable // 뷰
 @Entity
-@Table(name = "TOTALGENDER")
+@Table(name = "TOTALLOCATION")
 public class TotallocationView {
     @Id
     @Column(name = "NO")

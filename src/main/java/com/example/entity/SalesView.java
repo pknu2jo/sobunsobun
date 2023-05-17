@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -22,10 +23,10 @@ public class SalesView {
     private String no;
     
     @Column(name = "ITEMNO")
-    private long itemno;
+    private BigDecimal itemno;
 
     @Column(name = "ITEMPRICE")
-    private long itemprice;
+    private BigDecimal itemprice;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @Column(name = "REGDATE")
