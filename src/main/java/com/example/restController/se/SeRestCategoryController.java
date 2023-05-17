@@ -12,13 +12,11 @@ import com.example.dto.CategoryAll;
 import com.example.mapper.se.CategoryAllMapper;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping(value = "/api/category")
-@Slf4j
 @AllArgsConstructor
-public class RestCategoryController {
+public class SeRestCategoryController {
     
     final CategoryAllMapper cAllMapper;
 
