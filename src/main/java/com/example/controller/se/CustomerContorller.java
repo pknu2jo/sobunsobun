@@ -10,22 +10,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dto.Customer;
-import com.example.mapper.km.CustomerMapper;
+import com.example.mapper.km.KmCustomerMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping(value = "/customer")
 @Slf4j
-public class GrCustomerContorller {
-
-    @Autowired
-    CustomerMapper cMapper;
+public class CustomerContorller {
+    
+    @Autowired KmCustomerMapper cMapper; 
 
     // 홈화면
     @GetMapping(value = "/home.do")
     public String homeGET() {
-        return "/se/home";
+        return "/se/customer/home";
     }
 
     // 회원가입
@@ -33,7 +32,6 @@ public class GrCustomerContorller {
     public String joinGET() {
         return "/se/join";
     }
-
     @PostMapping(value = "/join.do")
     public String joinPOST(@ModelAttribute Customer customer) {
         log.info("Customer Join => {}", customer);
@@ -43,19 +41,14 @@ public class GrCustomerContorller {
         System.out.println("ret1");
         int ret = cMapper.joinCustomer(customer);
         System.out.println("ret2");
-<<<<<<<< HEAD:src/main/java/com/example/controller/GrCustomerContorller.java
-        if (ret == 1) {
-            return "redirect:home.do";
-========
         if( ret == 1 ) {
             return "redirect:/customer/home.do";
->>>>>>>> main:src/main/java/com/example/controller/se/CustomerContorller.java
         }
         return "redirect:/se/join.do";
     }
 
     // 로그인
-    @GetMapping(value = "/login.do")
+    @GetMapping(value="/login.do")
     public String loginGET() {
         return "/se/login";
     }
@@ -65,5 +58,5 @@ public class GrCustomerContorller {
     public String page403GET() {
         return "/error/403page";
     }
-
+    
 }
