@@ -71,7 +71,7 @@ public class SecurityConfig {
             .loginProcessingUrl("/seller/loginaction.do")
             .usernameParameter("no")
             .passwordParameter("pw")
-            .defaultSuccessUrl("/seller/home.do")
+            .defaultSuccessUrl("/seller/index.do")
             .permitAll();
 
         // 서비스 등록
@@ -90,7 +90,7 @@ public class SecurityConfig {
         // http.authorizeRequests().anyRequest().permitAll();
         http.authorizeRequests()
             .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do","/customer/kmtest.do").permitAll()
-            .antMatchers("/seller/join.do").permitAll()
+            .antMatchers("/seller/join.do", "/seller/login.do", "/seller/home.do").permitAll()
             .antMatchers("/admin/join.do").permitAll()
 
             .antMatchers("/admin", "/admin/*").hasAuthority("ADMIN")  // 주소가 9090/ROOT/admin  ~~ 모든것

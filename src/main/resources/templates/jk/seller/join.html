@@ -21,27 +21,27 @@
             <div class="row">
                 <div class="col-sm">
                     <div class="form-floating mb-2">
-                        <input type="text" id="id" name="id" class="form-control" onkeyup="ajaxIDCheck(this)"> <label
+                        <input type="text" id="id" name="no" value="1234" class="form-control" onkeyup="ajaxIDCheck(this)"> <label
                             for="id" id="lbl_check" class="form-label">사업자번호</label>
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="password" id="pw" name="pw" class="form-control" required /> <label for="pw"
-                            id="lbl_pwCheck" class="form-label">암호</label>
+                        <input type="password" id="pw" name="pw" class="form-control" required value="123" /> <label for="pw"
+                            id="lbl_pwCheck" class="form-label" >암호</label>
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="password" id="pw1" class="form-control" required />
-                        <label for="pw1" id="lbl_pwCheck" class="form-label">암호재확인</label>
+                        <input type="password" id="pw1" class="form-control" value="123" required />
+                        <label for="pw1" id="lbl_pwCheck" class="form-label" >암호재확인</label>
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="text" id="name" name="name" class="form-control" required /> <label for="name"
-                            class="form-label">업체명</label>
+                        <input type="text" id="name" name="name" class="form-control" value="테스트업체1" required /> <label for="name"
+                            class="form-label" >업체명</label>
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="number" id="phone" name="phone" class="form-control" />
-                        <label for="phone" class="form-label">연락처 ( "-"는 생략 )</label>
+                        <input type="number" id="phone" name="phone" value="01000000000" class="form-control" />
+                        <label for="phone" class="form-label" >연락처 ( "-"는 생략 )</label>
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="email" id="email" name="email" class="form-control" />
+                        <input type="email" id="email" name="email" class="form-control" value="test@test"/>
                         <label for="email" class="form-label">이메일</label>
                     </div>
                     <hr />
@@ -51,23 +51,23 @@
                         <div class="row">
                             <div class="col">
                                 <input type="text" name="address1" class="form-control" id="sample6_postcode"
-                                    placeholder="우편번호" disabled>
+                                    placeholder="우편번호" readonly style="background-color: rgb(211, 211, 211);">
                             </div>
                             <div class="col">
                                 <input type="text" name="address2" id="sample6_address" class="form-control"
-                                    placeholder="주소" disabled>
+                                    placeholder="주소" readonly style="background-color: rgb(211, 211, 211);">
                             </div>
                         </div>
                         <input type="text" name="address3" class="form-control" id="sample6_detailAddress"
-                            placeholder="상세주소">
+                            placeholder="상세주소" value="상세주소">
                         <input type="text" name="address4" class="form-control" id="sample6_extraAddress"
-                            placeholder="추가정보">
+                            placeholder="추가정보" value="추가주소">
                     </div>
                     <hr />
                     <div class="container text-center d-grid gap-2" style="padding: 0;">
                         <!-- 여기서 type을 submit으로 잡고 유효성 검사를 하게되면 강제로 데이터가 넘어가기 때문에 button으로 지정해주어야 함! -->
-                        <input type="submit" value="가입하기" class="btn btn-success "/> 
-                        <a href="#" class="btn btn-outline-secondary">로그인 화면으로</a>
+                        <input type="submit" value="가입하기" class="btn btn-success"  /> 
+                        <a th:href="@{/seller/login.do}" class="btn btn-outline-secondary">로그인 화면으로</a>
                     </div>
                 </div>
             </div>
