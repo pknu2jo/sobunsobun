@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dto.Category;
 import com.example.entity.Item;
-import com.example.entity.Lcategory;
 import com.example.repository.mj.ItemRepository;
 import com.example.repository.mj.LcateRepository;
 
