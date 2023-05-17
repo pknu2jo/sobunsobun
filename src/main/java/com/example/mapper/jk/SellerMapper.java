@@ -16,11 +16,15 @@ public interface SellerMapper {
     " VALUES(#{obj.no}, #{obj.pw}, #{obj.name}, #{obj.phone}, #{obj.email}, #{obj.address}) " })
     public int joinSeller(@Param("obj") Seller seller);
 
+    // 아이디 중복 확인
+
     // 로그인
     @Select({" SELECT * FROM seller WHERE no =#{no} AND pw=#{pw}"})
     public Seller sellerLogin(Seller seller);
-
-    // 아이디 중복 확인
+    
+    // 비밀번호 찾기
+    // @Select({" SELECT pw FROM seller WHERE no =#{no} AND phone=#{phone}"})
+    // public String findSellerPw(Seller seller);
 
     // 정보수정 (업체명, 주소, 연락처, 이메일)
     @Update({ " UPDATE seller SET name = #{name}, phone = #{phone}, email = #{email}, address = {address} ", 
