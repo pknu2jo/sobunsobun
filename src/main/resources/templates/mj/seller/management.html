@@ -136,16 +136,86 @@
                 <div class="container-fluid px-4" style="margin: 10px; padding-top: 20px;"> <!-- 옆쪽에 딱 붙음. -->
 
 
-                    <h3>물품등록</h3>
+                    <h3>물품관리</h3>
+
+                    <form th:action="@{/seller/item/management.do}" method="get" th:object="${category}">
+                        <select th:field="${category.Lcate}">
+                            <option th:each="tmp, idx : ${category.LcateCode}" th:value="${tmp}" th:text="${category.LcateName[idx.index]}"></option>
+                        </select>
+                        <!-- <select>
+                            <option th:field="${lcatelist.name}"></option> -->
+                        <!-- </select> -->
+                    </form>
+
                     <hr>
-                    <form th:action="@{/seller/item/insert.do}" method="post">
-                        물품명 : <input type="text" name="name"><br>
-                        가격 : <input type="text" name="price"><br>
-                        수량 : <input type="text" name="quantity"><br>
-                        사업자번호 : <input type="text" name="regNo"><br>
-                        대분류 
-                        소분류 : <input type="text" name="scategoryCode"><br>
-                        <input type="submit" value="등록"><br>
+                    <!-- ----------------------------------------------------------------- -->
+                    <select name="type" >
+                        <optgroup label="대분류">
+                            <option value="LcateAll">전체</option>
+                            <option value="100">생활용품</option>
+                            <option value="200">패션의류/잡화</option>
+                            <option value="300">식품</option>
+                            <option value="400">헬스/건강식품</option>
+                        </optgroup>
+                    </select>
+
+                    <select name="type">
+                        <optgroup label="중분류">
+                            <option value="McateAll">전체</option>
+                            <option value="110">헤어/바디/세안</option>
+                            <option value="120">화장지/물티슈</option>
+                            <option value="130">세제/청소/주방세제</option>
+                            <option value="140">수건/타월</option>
+                            <option value="150">탈취/방향/살충</option>
+                            <option value="160">건강/의료용품</option>
+                            <option value="170">수납/정리/청소용품</option>
+                        </optgroup>
+                    </select>
+
+                    <select name="type">
+                        <option value="ScateAll" >소분류</option>
+                        <option value="Mcate" >소분류</option>
+                        <option value="Scate" >중분류</option>
+                    </select>
+                    <input type="text" name="text" placeholder="검색어" />
+                    <input type="submit" value="검색" />        
+                    <a th:href="@{/seller/item/insert.do}"><button>물품등록</button></a>
+                    <a th:href="@{/seller/item/update.do}"><button>수정</button></a>
+                    <button>삭제</button>
+                    <hr>
+                    
+                    <form th:action="@{/seller/management.do}" method="get">
+                        <table border="1">
+                            <thead style="text-align: center;">
+                                <tr>
+                                    <th>선택</th>
+                                    <th>물품번호</th>
+                                    <th>물품명</th>
+                                    <th>가격</th>
+                                    <th>수량</th>
+                                    <th>소분류</th>
+                                    <th>중분류</th>
+                                    <th>대분류</th>
+                                    <th>등록일</th>
+                                    <th>이미지관리</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="obj : ${list}" style="text-align: center;">
+                                    <!-- <td><input type="checkbox" name="chk[]" th:value="${tmp.no.longValue()}"/></td> -->
+                                    <td><input type="checkbox" name="chk[]"/></td>
+                                    <td th:text="${obj.no.longValue()}">물품번호</td>
+                                    <td th:text="${obj.name}"></td>
+                                    <td th:text="${obj.price.longValue()}"></td>
+                                    <td th:text="${obj.quantity.longValue()}"></td>
+                                    <td th:text="${obj.scategoryCode.name}"></td>
+                                    <td th:text="${obj.scategoryCode.mcategoryCode.name}"></td>
+                                    <td th:text="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}"></td>
+                                    <td th:text="${obj.regdate}"></td>
+                                    <td><a th:href="@{/seller/item/updateimage.do}"><button>이미지 등록/수정</button></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </form>
 
 
@@ -208,6 +278,13 @@
 
             })
         });
+    </script>
+
+    <script language='javascript'>
+        var cnt = new Array();
+        cnt[0] = new Array('전체');
+        cnt[1] = new Array('생활용품','패션의류/잡화','식품','헬스/건강식품');
+
     </script>
 
 </body>
