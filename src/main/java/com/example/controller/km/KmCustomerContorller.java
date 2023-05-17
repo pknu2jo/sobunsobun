@@ -25,6 +25,7 @@ public class KmCustomerContorller {
 
 
         return "/km/customer/selectitem";
+        // return "/km/customer/selectitem_original";
     }
 
     @GetMapping(value = "/item/test.do")
@@ -35,6 +36,12 @@ public class KmCustomerContorller {
 
         return "/km/customer/selectitem2";
     }
+
+    @GetMapping(value = "/item/order.do")
+    public String orderGET() {
+        return "/km/customer/checkout";
+    }
+
 
     @GetMapping(value = "/kmtest.do")
     public String testGET(Model model) {

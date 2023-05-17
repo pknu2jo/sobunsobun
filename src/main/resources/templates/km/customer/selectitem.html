@@ -1,35 +1,43 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>새로운 1인가구 공구문화 - 소분소분</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
-    <link th:href="@{/css/km/font-awesome.min.css}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/km/selectitem.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/single_responsive.css}">
-
-    <!-- font-awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <th:block th:replace="~{/se/customer/header :: headerCSS}"></th:block>
     <th:block th:replace="~{/km/customer/footer :: footerCSS}"></th:block>
 
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <!-- <link th:href="@{/css/km/font-awesome.min.css}" rel="stylesheet" type="text/css"> -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/km/selectitem.css}">
+    <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/km/single_styles.css}"> -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/single_responsive.css}">
+
+    <!-- font-awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <!-- axios (https://cdnjs.com/libraries/axios) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
+        integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </head>
 
 <body>
     <!-- header -->
     <th:block th:replace="~{/se/customer/header :: headerHTML}"></th:block>
-    
+
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;">
         <div class="super_container">
-            <div class="container single_product_container">     
+            <div class="container single_product_container">
                 <div class="row">
                     <div class="col">
                         <!-- Breadcrumbs -->
@@ -37,10 +45,11 @@
                             <ul>
                                 <li><span>대분류</span></li>
                                 <li><span><i class="fa fa-angle-right" aria-hidden="true"></i>중분류</span></li>
-                                <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>소분류</a></li>
+                                <li class="active"><a href="#"><i class="fa fa-angle-right"
+                                            aria-hidden="true"></i>소분류</a></li>
                             </ul>
                         </div>
-        
+
                     </div>
                 </div>
 
@@ -59,7 +68,9 @@
                                 </div> -->
                                 <div class="col-lg-9 image_col order-lg-2 order-1">
                                     <div class="single_product_image">
-                                        <div class="single_product_image_background" th:style="'background-image:url('+ @{/images/km/single_2.jpg} +');height: 500px;mt-5'"></div>
+                                        <div class="single_product_image_background"
+                                            th:style="'background-image:url('+ @{/images/km/single_2.jpg} +');height: 500px;mt-5'">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -94,30 +105,90 @@
                                     <li style="background: #60b3f3"></li>
                                 </ul>
                             </div> -->
-                            <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center justify-content-center">
+                            <div
+                                class="quantity d-flex flex-column flex-sm-row align-items-sm-center justify-content-center">
                                 <!-- <span>Quantity:</span>
                                 <div class="quantity_selector">
                                     <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
                                     <span id="quantity_value">1</span>
                                     <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
                                 </div> -->
-                                <div class="red_button add_to_cart_button"><a href="#">공구개설</a></div>
-                                <!-- <div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div> -->
+                                <!-- <div class="red_button add_to_cart_button"><a href="#">공구개설</a></div> -->
+
+                                <!-- 공구 개설 modal ~ -->
+                                <div class="red_button add_to_cart_button">
+                                    <div class="modal fade" id="exampleModalToggle" aria-hidden="true"
+                                        aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modal 1
+                                                    </h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    <!-- single_custom.jsdml 209라인 (initQuantity() 함수)-->
+                                                    <span>Quantity:</span>
+                                                    <div class="quantity_selector">
+                                                        <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                                        <span id="quantity_value">1</span>
+                                                        <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                                    </div>
+                                                    <!-- 참여인원 -->
+
+                                                    <!-- 수령지점 -->
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-primary"
+                                                        data-bs-target="#exampleModalToggle2"
+                                                        data-bs-toggle="modal">Open second modal</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true"
+                                        aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2
+                                                    </h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Hide this modal and show the first with the button below.
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle"
+                                                        data-bs-toggle="modal">Back to first</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle"
+                                        data-bs-toggle="modal">Open first modal</button>
+                                </div>
+                                <!-- ~ 공구 개설 Modal-->
                             </div>
                         </div>
                     </div>
                 </div>
-        
+
             </div>
-        
+
             <!-- Tabs -->
             <div class="tabs_section_container">
-        
+
                 <div class="container">
                     <div class="row">
                         <div class="col">
                             <div class="tabs_container">
-                                <ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
+                                <ul
+                                    class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
                                     <li class="tab active" data-active-tab="tab_1"><span>Description</span></li>
                                     <!-- <li class="tab" data-active-tab="tab_2"><span>Additional Information</span></li> -->
                                     <li class="tab" data-active-tab="tab_3"><span>Reviews</span></li>
@@ -135,14 +206,18 @@
                                         </div>
                                         <div class="tab_text_block">
                                             <h2>Pocket cotton sweatshirt</h2>
-                                            <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
+                                            <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud
+                                                felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...
+                                            </p>
                                         </div>
                                         <div class="tab_image">
                                             <img th:src="@{/images/km/desc_1.jpg}">
                                         </div>
                                         <div class="tab_text_block">
                                             <h2>Pocket cotton sweatshirt</h2>
-                                            <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
+                                            <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud
+                                                felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="col-lg-5 offset-lg-2 desc_col">
@@ -151,7 +226,9 @@
                                         </div>
                                         <div class="tab_text_block">
                                             <h2>Pocket cotton sweatshirt</h2>
-                                            <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
+                                            <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud
+                                                felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...
+                                            </p>
                                         </div>
                                         <div class="tab_image desc_last">
                                             <img th:src="@{/images/km/desc_3.jpg}">
@@ -159,27 +236,17 @@
                                     </div>
                                 </div>
                             </div>
-        
-                            <!-- <div id="tab_2" class="tab_container">
-                                <div class="row">
-                                    <div class="col additional_info_col">
-                                        <div class="tab_title additional_info_title">
-                                            <h4>Additional Information</h4>
-                                        </div>
-                                        <p>COLOR:<span>Gold, Red</span></p>
-                                        <p>SIZE:<span>L,M,XL</span></p>
-                                    </div>
-                                </div>
-                            </div> -->
-        
+
+                           
+
                             <div id="tab_3" class="tab_container">
                                 <div class="row">
-        
+
                                     <div class="col-lg-6 reviews_col">
                                         <div class="tab_title reviews_title">
                                             <h4>Reviews</h4>
                                         </div>
-        
+
                                         <div class="user_review_container d-flex flex-column flex-sm-row">
                                             <div class="user">
                                                 <div class="user_pic"></div>
@@ -196,11 +263,12 @@
                                             <div class="review">
                                                 <div class="review_date">27 Aug 2016</div>
                                                 <div class="user_name">Brandon William</div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                             </div>
                                         </div>
-        
-        
+
+
                                         <div class="user_review_container d-flex flex-column flex-sm-row">
                                             <div class="user">
                                                 <div class="user_pic"></div>
@@ -217,20 +285,25 @@
                                             <div class="review">
                                                 <div class="review_date">27 Aug 2016</div>
                                                 <div class="user_name">Brandon William</div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                             </div>
                                         </div>
                                     </div>
-        
-        
+
+
                                     <div class="col-lg-6 add_review_col">
-        
+
                                         <div class="add_review">
                                             <form id="review_form" action="post">
                                                 <div>
                                                     <h1>Add Review</h1>
-                                                    <input id="review_name" class="form_input input_name" type="text" name="name" placeholder="Name*" required="required" data-error="Name is required.">
-                                                    <input id="review_email" class="form_input input_email" type="email" name="email" placeholder="Email*" required="required" data-error="Valid email is required.">
+                                                    <input id="review_name" class="form_input input_name" type="text"
+                                                        name="name" placeholder="Name*" required="required"
+                                                        data-error="Name is required.">
+                                                    <input id="review_email" class="form_input input_email" type="email"
+                                                        name="email" placeholder="Email*" required="required"
+                                                        data-error="Valid email is required.">
                                                 </div>
                                                 <div>
                                                     <h1>Your Rating:</h1>
@@ -241,25 +314,29 @@
                                                         <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                                         <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
                                                     </ul>
-                                                    <textarea id="review_message" class="input_review" name="message"  placeholder="Your Review" rows="4" required data-error="Please, leave us a review."></textarea>
+                                                    <textarea id="review_message" class="input_review" name="message"
+                                                        placeholder="Your Review" rows="4" required
+                                                        data-error="Please, leave us a review."></textarea>
                                                 </div>
                                                 <div class="text-left text-sm-right">
-                                                    <button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Submit">submit</button>
+                                                    <button id="review_submit" type="submit"
+                                                        class="red_button review_submit_btn trans_300"
+                                                        value="Submit">submit</button>
                                                 </div>
                                             </form>
                                         </div>
-        
+
                                     </div>
-        
+
                                 </div>
                             </div>
-        
+
                         </div>
                     </div>
                 </div>
-        
+
             </div>
-        
+
         </div>
     </div>
 
@@ -270,9 +347,14 @@
 
     <!-- script-->
     <script th:src="@{/js/jquery-3.6.4.min.js}"></script>
-    <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/km/jquery-ui.js}"></script>
     <script th:src="@{/js/km/single_custom.js}"></script>
-    
+    <script>
+        
+    </script>
+
+
+
 </body>
+
 </html>
