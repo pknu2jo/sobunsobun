@@ -5,10 +5,13 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -55,6 +58,7 @@ public class ItemImage {
     private Date regdate;	  
 
     // 물품번호(시퀀스) - FK
-    @Column(name = "ITEMNO")
-    private BigDecimal itemNo;
+    @ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ITEMNO", referencedColumnName = "NO")
+    private Item itemNo;
 }

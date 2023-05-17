@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -21,6 +22,7 @@ public class Mcategory {
 
 	// 중분류코드번호 - PK
 	@Column(name="CODE")
+	@Id
 	private BigDecimal code;
 
 	// 중분류종류(한글)

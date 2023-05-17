@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.dto.Item;
+import com.example.entity.Item;
 import com.example.repository.mj.ItemRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +20,7 @@ public class mjItemController {
 
     final ItemRepository iRepository;
 
+    //127.0.0.1:5959/SOBUN/seller/item/insert.do
     @GetMapping(value = "/item/insert.do")
     public String insertGET() {
         try {
@@ -29,10 +30,10 @@ public class mjItemController {
             return "redirect:/seller/home.do";
         }
     }
-    @PostMapping(value = "/insert.do")
+    @PostMapping(value = "/item/insert.do")
     public String insertPOST(@ModelAttribute Item obj){
         try {
-            // iRepository.save(obj);
+            iRepository.save(obj);
             return "redirect:/seller/item/insert.do";
         } catch (Exception e) {
             e.printStackTrace();

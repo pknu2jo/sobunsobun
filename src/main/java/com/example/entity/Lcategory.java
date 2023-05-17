@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -19,6 +20,7 @@ public class Lcategory {
 	  
 	// 대분류코드번호 - PK
 	@Column(name="CODE")
+	@Id
 	private BigDecimal code;
 	
 	// 대분류종류(한글)
