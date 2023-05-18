@@ -20,6 +20,53 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .scrolltable {
+            table-layout: fixed;
+            border-collapse: collapse;
+            /* border: 1px solid #888; */
+            
+        }
+
+        /* 행 장식 */
+        .scrolltable th,
+        .scrolltable td {
+            padding: 10px;
+            text-align: left;
+            width: 100px;
+            text-align: center;
+            font-size: 0.875em;
+        }
+
+        /* .scrolltable tbody tr:nth-child(2n+1) {
+            background-color: #f0f0f0;
+        } */
+
+        .scrolltable thead {
+            display: block;
+            background: rgb(148, 175, 160);
+            color: #fff;
+        }
+
+        .scrolltable tbody {
+            display: block;
+            height: 190px;
+        }
+
+        .scrolltable tbody {
+            display: block;
+            overflow: auto;
+            height: 190px;
+        }
+        .scrolltable {
+            /* margin: -10px; */
+        }
+        /* .participate {
+            border: 1px solid red;
+            padding: 1px 5px;
+            border-radius: 20%;
+        } */
+    </style>
 
 
     <script th:src="@{/js/bootstrap.min.js}"></script>
@@ -57,15 +104,6 @@
                     <div class="col-lg-6">
                         <div class="single_product_pics">
                             <div class="row">
-                                <!-- <div class="col-lg-3 thumbnails_col order-lg-1 order-2">
-                                    <div class="single_product_thumbnails">
-                                        <ul>
-                                            <li><img th:src="@{/images/km/single_1_thumb.jpg}" data-image="images/single_1.jpg"></li>
-                                            <li class="active"><img th:src="@{/images/km/single_2_thumb.jpg}" data-image="images/single_2.jpg"></li>
-                                            <li><img th:src="@{/images/km/single_3_thumb.jpg}" data-image="images/single_3.jpg"></li>
-                                        </ul>
-                                    </div>
-                                </div> -->
                                 <div class="col-lg-9 image_col order-lg-2 order-1">
                                     <div class="single_product_image">
                                         <div class="single_product_image_background"
@@ -79,15 +117,61 @@
                     <div class="col-lg-6">
                         <div class="product_details">
                             <div class="product_details_title">
-                                <p>업체명</p>
-                                <h2>물건명</h2>
-                                <!-- <h3>가격</h3> -->
-                                <div class="product_price">$495.00</div>
+                                <p th:text="${item.sellername}"></p>
+                                <h2 th:text="${item.name}"></h2>
+                                <div class="product_price"
+                                    th:text="${#numbers.formatInteger(item.price, 3, 'COMMA') + '원'}">$495.00</div>
                             </div>
-                            <div class="free_delivery d-flex flex-row align-items-center justify-content-center mt-0"
-                                style="height: 300px;">
-                                열린 공구영역
+                            <div class="tablediv" style="height: 300px; background-color: antiquewhite;padding: 10px;">
+                                <table class="table scrolltable" style="padding-top: 50px;">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">참여인원</th>
+                                            <th scope="col">남은인원</th>
+                                            <th scope="col">수령지점</th>
+                                            <th scope="col">인당가격</th>
+                                            <th scope="col">남은시간</th>
+                                            <th scope="col">버튼영역</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="">
+                                        <tr th:each="obj : ${purchaseList}">
+                                            <td th:text="${obj.participant}"></td>
+                                            <td th:text="${obj.remaingPerson}"></td>
+                                            <td th:text="${obj.storagename}"></td>
+                                            <td th:text="${item.price}/${obj.participant}"></td>
+                                            <td th:text="${#dates.format(obj.deadline, 'yyyy.MM.dd')}"></td>
+                                            <td><button class="participate">버튼</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
+                            <!-- 열린 공구 영역 -->
+                            <!-- <div class="free_delivery d-flex flex-row align-items-center justify-content-center mt-2"
+                                style="height: 300px;overflow-y: scroll; padding: 10px;">
+                                <table class="table" style="padding-top: 50px;">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">참여인원</th>
+                                        <th scope="col">남은인원</th>
+                                        <th scope="col">수령지점</th>
+                                        <th scope="col">인당가격</th>
+                                        <th scope="col">남은시간</th>
+                                        <th scope="col">버튼영역</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody style="">
+                                      <tr th:each="obj : ${purchaseList}">
+                                        <td th:text="${obj.participant}"></td>
+                                        <td th:text="${obj.remaingPerson}"></td>
+                                        <td th:text="${obj.storagename}"></td>
+                                        <td th:text="${item.price}/${obj.participant}"></td>
+                                        <td th:text="${#dates.format(obj.deadline, 'yyyy.MM.dd')}"></td>
+                                        <td><button class="btn btn-small btn-secondary">버튼</button></td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                            </div> -->
                             <!-- <div class="original_price">$629.99 물품 전체가격</div>
                                 <div class="product_price">$495.00 1인당 구매가격</div> -->
                             <!-- <ul class="star_rating">
@@ -132,9 +216,11 @@
                                                     <!-- single_custom.jsdml 209라인 (initQuantity() 함수)-->
                                                     <span>Quantity:</span>
                                                     <div class="quantity_selector">
-                                                        <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                                        <span class="minus"><i class="fa fa-minus"
+                                                                aria-hidden="true"></i></span>
                                                         <span id="quantity_value">1</span>
-                                                        <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                                        <span class="plus"><i class="fa fa-plus"
+                                                                aria-hidden="true"></i></span>
                                                     </div>
                                                     <!-- 참여인원 -->
 
@@ -144,7 +230,7 @@
                                                 <div class="modal-footer">
                                                     <button class="btn btn-primary"
                                                         data-bs-target="#exampleModalToggle2"
-                                                        data-bs-toggle="modal">Open second modal</button>
+                                                        data-bs-toggle="modal">개설하기</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -170,7 +256,7 @@
                                         </div>
                                     </div>
                                     <button class="btn btn-primary" data-bs-target="#exampleModalToggle"
-                                        data-bs-toggle="modal">Open first modal</button>
+                                        data-bs-toggle="modal">공구 개설하기</button>
                                 </div>
                                 <!-- ~ 공구 개설 Modal-->
                             </div>
@@ -237,7 +323,7 @@
                                 </div>
                             </div>
 
-                           
+
 
                             <div id="tab_3" class="tab_container">
                                 <div class="row">
@@ -350,7 +436,7 @@
     <script th:src="@{/js/km/jquery-ui.js}"></script>
     <script th:src="@{/js/km/single_custom.js}"></script>
     <script>
-        
+
     </script>
 
 
