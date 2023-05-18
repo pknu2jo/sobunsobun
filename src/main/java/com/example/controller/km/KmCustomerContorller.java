@@ -73,8 +73,8 @@ public class KmCustomerContorller {
     public String testGET(Model model) {
         log.info("푸터 인클루드 테스트");
 
-        int person = cMapper.countRemainingPerson(1004);
-        log.info("person => {}", person);
+        // int person = cMapper.countRemainingPerson(1004);
+        // log.info("person => {}", person);
         //model.addAttribute("person", person);
         return "/km/customer/sample";
     }
