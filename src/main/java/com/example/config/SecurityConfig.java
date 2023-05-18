@@ -7,13 +7,12 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.handler.CustomLogoutHandler;
-import com.example.mapper.SecurityMapper;
 import com.example.service.SecurityAdminSeviceImpl;
 import com.example.service.SecurityCustomerSeviceImpl;
 import com.example.service.SecuritySellerSeviceImpl;
@@ -52,7 +51,7 @@ public class SecurityConfig {
         
 
         // 서비스 등록
-        http.userDetailsService(userCustomerDetailsService);
+        http.userDetailsService(userAdminDetailsService);
 
         return http.build();
     }
@@ -77,7 +76,7 @@ public class SecurityConfig {
             .permitAll();
 
         // 서비스 등록
-        http.userDetailsService(userAdminDetailsService);
+        http.userDetailsService(userSellerDetailsService);
 
         return http.build();
     }
@@ -126,7 +125,7 @@ public class SecurityConfig {
         http.csrf().ignoringAntMatchers("/api/**");
 
         // 서비스 등록
-        http.userDetailsService(userSellerDetailsService);
+        http.userDetailsService(userCustomerDetailsService);
 
         return http.build();
     }

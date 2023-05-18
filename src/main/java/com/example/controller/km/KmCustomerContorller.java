@@ -19,28 +19,29 @@ public class KmCustomerContorller {
     @Autowired KmCustomerMapper cMapper; 
 
     @GetMapping(value = "/item/select.do")
-    public String selectitemGET() {
+    public String selectitemGET(Model model) {
         // @RequestParam(name = "no") long no 로 itemno 받기
         log.info("물품 상세 조회 GET");
+
+        
+
 
 
         return "/km/customer/selectitem";
-        // return "/km/customer/selectitem_original";
     }
 
-    @GetMapping(value = "/item/test.do")
-    public String selecttestGET() {
-        // @RequestParam(name = "no") long no 로 itemno 받기
-        log.info("물품 상세 조회 GET");
-
-
-        return "/km/customer/selectitem2";
-    }
 
     @GetMapping(value = "/item/order.do")
     public String orderGET() {
+        log.info("결제하기 GET");
+
         return "/km/customer/checkout";
     }
+
+
+
+
+
 
 
     @GetMapping(value = "/kmtest.do")
