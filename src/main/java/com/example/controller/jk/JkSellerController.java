@@ -37,14 +37,8 @@ public class JkSellerController {
     // http://127.0.0.1:5959/SOBUN/seller/home.do
     @GetMapping(value = "/home.do")
     public String homeGET(@AuthenticationPrincipal User user, Model model) {
-        try {
             log.info("Seller home User => {}", user);
-            return "/seller/home";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "/seller/home";
-        }
-
+            return "/jk/seller/home";
     }
     /* --------------------------- 회원가입 (Mybatis) ----------------------------- */
 
@@ -82,18 +76,16 @@ public class JkSellerController {
 
     @PostMapping(value="/login.do")
     public String loginPOST(@ModelAttribute Seller seller) {
-        log.info("login.do => {}", seller.toString()); // view에서 잘전송되었는지
+        log.info("Seller login => {}", seller.toString()); // view에서 잘전송되었는지
         Seller ret = sService.sellerLogin(seller); //로그인한 사용자의 정보 반환
         if( ret != null ) {
-            log.info("login1.do => {}", ret.toString()); 
             // 세션에 2개의 정보 아이디(사업자번호)와 비밀번호 추가하기 ( 기본시간 30분 )
             // 페이지에서 세션의 아이디가 존재하는지 확인후 로그인 여부 판단
             httpSession.setAttribute("USERID", ret.getNo());
-            httpSession.setAttribute("USERNAME", ret.getName());
             httpSession.setAttribute("USEPASSWORD", ret.getPw());
             return "redirect:/home.do";    // 로그인 성공 시
         }
-        return "redirect:login.do"; // 로그인 실패 시
+        return "redirect:/login.do"; // 로그인 실패 시
     }
 
     /* ----------------------------- 마이페이지 ---------------------------------- */
