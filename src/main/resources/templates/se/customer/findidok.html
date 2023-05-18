@@ -25,12 +25,8 @@
     <div style="padding-bottom: 300px;">
         
         <div class="container">
-            아이디 찾기
-            <form th:action="@{/customer/findid.do}" method="post">
-                <input type="text" name="name" placeholder="이름" value="이름"><br>
-                <input type="text" name="email" placeholder="이메일" value="e1@emial.com"><br>
-                <button type="submit">아이디찾기</button>
-            </form>
+            <th:block th:text="|${name} 고객님의 아이디는 ${id} 입니다|"></th:block>
+            <a th:href="@{/cutomer/login.do}">로그인하기</a>
         </div>
         
     </div>
