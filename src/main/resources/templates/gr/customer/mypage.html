@@ -26,12 +26,18 @@
             text-align: center;
          }
          
-         .myPageHeader a{
+         .myPageHeader .title{
             text-decoration: none;
             font-weight: lighter;
             color: black;
             font-size: 40px;
             text-align: center;
+            
+         }
+
+         .myPageHeader .semi-title{
+            text-decoration: none;
+            color: black;
          }
         </style>
     </th:block>
@@ -44,8 +50,9 @@
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;">
         <div class="myPageHeader" style="padding-top: 60px;">
-            <a href="/SOBUN/customer/mypage.do">MY PAGE</a>
-            <p>HOME   >   MY PAGE  ></p>
+            <a href="/SOBUN/customer/mypage.do" class="title">MY PAGE</a> <br/>
+
+            <a href="#" class="semi-title">HOME</a>&nbsp;&nbsp;>&nbsp;&nbsp;<a href="#" class="semi-title">MY PAGE</a>&nbsp;&nbsp;>
         </div>
 
     </div>
