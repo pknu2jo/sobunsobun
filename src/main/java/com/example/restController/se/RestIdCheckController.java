@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.repository.se.SeCustomerRepository;
+import com.example.service.se.SeCustomerService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class RestIdCheckController {
 
-    final SeCustomerRepository cRepository;
+    final SeCustomerService cService;
     
     @GetMapping(value = "/idcheck.json")
     public Map<String, Integer> idcheckGET(
@@ -28,7 +28,7 @@ public class RestIdCheckController {
         Map<String, Integer> retMap = new HashMap<>();
         try {
             // log.info("아이디중복확인 => {}", id);
-            int ret = cRepository.countById(id);
+            int ret = cService.idCheck(id);
             // log.info("아이디중복확인 => {}", ret);
             retMap.put("chk", ret);
         } catch (Exception e) {
