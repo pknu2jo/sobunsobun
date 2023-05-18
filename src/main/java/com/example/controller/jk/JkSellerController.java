@@ -31,14 +31,13 @@ public class JkSellerController {
     final JkSellerRepository sRepository; // Jpa 방식 Repository
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
-
     /* ------------------------------- 홈화면 --------------------------------- */
 
     // http://127.0.0.1:5959/SOBUN/seller/home.do
     @GetMapping(value = "/home.do")
     public String homeGET(@AuthenticationPrincipal User user, Model model) {
-            log.info("Seller home User => {}", user);
-            return "/jk/seller/home";
+        log.info("Seller home User => {}", user);
+        return "/jk/seller/home";
     }
     /* --------------------------- 회원가입 (Mybatis) ----------------------------- */
 
@@ -57,7 +56,7 @@ public class JkSellerController {
 
         log.info("{}", seller.toString());
         log.info("Seller address => {}", address1 + address2 + address3 + address4);
-        seller.setAddress( address2 + " " + address3 + " " + address4 ); // 우편번호는 제외
+        seller.setAddress(address2 + " " + address3 + " " + address4); // 우편번호는 제외
         seller.setPw(bcpe.encode(seller.getPw()));
         int ret = sService.joinSeller(seller);
 
@@ -66,68 +65,84 @@ public class JkSellerController {
         }
         return "redirect:/seller/join.do";
     }
-    /* -------------------------------- 로그인 -------------------------------- */
+    /* -------------------------------- 로그인 (Jpa) -------------------------------- */
 
     // http://127.0.0.1:5959/SOBUN/seller/login.do
+    // loginaction.do post는 만들지 않고 sercurity에서 처리.
     @GetMapping(value = "/login.do")
     public String loginGET() {
-        return "jk/seller/login";
+        try {
+            return "jk/seller/login";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+            
+        }
     }
 
-    @PostMapping(value="/login.do")
-    public String loginPOST(@ModelAttribute Seller seller) {
-        log.info("Seller login => {}", seller.toString()); // view에서 잘전송되었는지
-        Seller ret = sService.sellerLogin(seller); //로그인한 사용자의 정보 반환
-        if( ret != null ) {
-            // 세션에 2개의 정보 아이디(사업자번호)와 비밀번호 추가하기 ( 기본시간 30분 )
-            // 페이지에서 세션의 아이디가 존재하는지 확인후 로그인 여부 판단
-            httpSession.setAttribute("USERID", ret.getNo());
-            httpSession.setAttribute("USEPASSWORD", ret.getPw());
-            return "redirect:/home.do";    // 로그인 성공 시
-        }
-        return "redirect:/login.do"; // 로그인 실패 시
-    }
+    // @PostMapping(value = "/loginaction.do")
+    // public String loginPOST(@ModelAttribute com.example.entity.Seller seller) {
+    //     try {
+
+    //         log.info("sellerLogin => {}", seller.toString()); // view에서 잘전송되었는지
+
+    //         // // DetailsService를 사용하지 않고 세션에 저장하는 방식
+    //         // // 1. 사업자번호로 데이터 읽기
+    //         // com.example.entity.Seller obj = sRepository.findById(seller.getNo()).orElse(null); // 로그인한 사용자의 정보 반환
+
+    //         // // 2. DB암호 vs 입력된 암호 [일치대조]
+    //         // if (bcpe.matches(seller.getPw(), obj.getPw())) {
+                
+    //         //     httpSession.setAttribute("USERID", obj.getNo());
+    //         //     httpSession.setAttribute("USEPASSWORD", obj.getPw());
+    //         //     return "redirect:/home.do"; // 로그인 성공 시
+    //         // }
+    //         return "redirect:/home.do"; // 로그인 성공 시
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return "redirect:/login.do"; // 로그인 실패 시
+    //     }
+
+    // }
 
     /* ----------------------------- 마이페이지 ---------------------------------- */
 
     // http://127.0.0.1:5959/SOBUN/seller/updateinfo.do
     // 1. 업체정보
-
-     // 여기서부터 드래그 & 주석해제
+    // 여기서부터 드래그 & 주석해제
     // @GetMapping(value = "/updateinfo.do")
     // public String updateInfoGET() {
-    //     return "jk/seller/mypage/updateinfo";
+    // return "jk/seller/mypage/updateinfo";
     // }
 
     // @PostMapping(value = "/updateinfo.do")
     // public String updateInfoPOST() {
-    //     return "";
+    // return "";
     // }
 
     // // http://127.0.0.1:5959/SOBUN/seller/updatepw.do
     // // 2. 비번변경
-
     // @GetMapping(value = "/updatepw.do")
     // public String updatePwGET() {
-    //     return "jk/seller/mypage/updatepw";
+    // return "jk/seller/mypage/updatepw";
     // }
 
     // @PostMapping(value = "/updateinfo.do")
     // public String updatePwPOST() {
-    //     return "";
+    // return "";
     // }
-    
+
     // // http://127.0.0.1:5959/SOBUN/seller/unregister.do
     // // 3. 탈퇴
-
     // @GetMapping(value = "/unregister.do")
     // public String unRegisterGET() {
-    //     return "jk/seller/mypage/unregister";
+    // return "jk/seller/mypage/unregister";
     // }
 
     // @PostMapping(value = "/updateinfo.do")
-    // public String unRegisterPOST() {
-    //     return "";
+    // public String unRegisterPOST(@ModelAttribute Seller seller) {
+    // sRepository.deleteById(seller.getNo());
+    // return "";
     // }
 
     /* ------------------------------------------------------------------------ */

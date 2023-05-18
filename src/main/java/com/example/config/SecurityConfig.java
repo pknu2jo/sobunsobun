@@ -16,7 +16,7 @@ import com.example.handler.CustomLogoutHandler;
 import com.example.mapper.SecurityMapper;
 import com.example.service.SecurityAdminSeviceImpl;
 import com.example.service.SecurityCustomerSeviceImpl;
-import com.example.service.SecuritySellerSeviceImpl;
+import com.example.service.jk.JkSecuritySellerSeviceImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SecurityConfig {
     
     final SecurityCustomerSeviceImpl userCustomerDetailsService;
-    final SecuritySellerSeviceImpl userSellerDetailsService;
+    final JkSecuritySellerSeviceImpl userSellerDetailsService;
     final SecurityAdminSeviceImpl userAdminDetailsService;
     
     @Bean // 객체를 생성함
@@ -52,7 +52,7 @@ public class SecurityConfig {
         
 
         // 서비스 등록
-        http.userDetailsService(userCustomerDetailsService);
+        http.userDetailsService(userAdminDetailsService);
 
         return http.build();
     }
@@ -77,7 +77,7 @@ public class SecurityConfig {
             .permitAll();
 
         // 서비스 등록
-        http.userDetailsService(userAdminDetailsService);
+        http.userDetailsService(userSellerDetailsService);
 
         return http.build();
     }
@@ -113,7 +113,7 @@ public class SecurityConfig {
             .passwordParameter("pw")
             .defaultSuccessUrl("/customer/home.do")
             .permitAll();
-
+            
         // 로그아웃 처리 (고객, 업체, 관리자 모두 해당)
         http.logout()
             .logoutUrl("/logout.do")
@@ -126,7 +126,7 @@ public class SecurityConfig {
         http.csrf().ignoringAntMatchers("/api/**");
 
         // 서비스 등록
-        http.userDetailsService(userSellerDetailsService);
+        http.userDetailsService(userCustomerDetailsService);
 
         return http.build();
     }
