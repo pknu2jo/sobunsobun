@@ -20,7 +20,7 @@
             color: black;
         }
         /* 카테고리 */
-        .lcate {
+        .lcate, .allItemBtn, .allItemBtn a  {
             height: 15px;
             font-size: 17px;
             font-weight: bold;
@@ -54,6 +54,15 @@
             padding-top: 8px;
             border: 1px solid #204710;
             border-radius: 1px;
+        }
+
+        /* 카테고리 - 전체 물품 버튼 */
+        .allItemBtn {
+            /* margin: 15px 0px 0px 50px;
+            height: 35px;
+            padding: 4px;
+            padding-top: 8px;
+            border-radius: 1px; */
         }
 
         /* 헤더 */
@@ -314,10 +323,9 @@
             </div>
             <div id="headerLine2"></div>
         </header> 
-        
 
         <!-- 카테고리 -->
-        <div class="container"><!-- style="position: fixed;" -->
+        <div class="container mb-5"><!-- style="position: fixed;" -->
             <div class="row collapse navbar-collapse p-3" id="navbarContent"> <!-- 처음에 접은 상태 => class에 collapse 추가 -->
             </div>
         </div>    
@@ -348,7 +356,7 @@
                 
                 let str = "";
                 for(let one of data.llist) { // 대분류 카테고리
-                    str += `<div class="col my-auto mt-3" style="height: 1100px;">`;
+                    str += `<div class="col my-auto mt-3" style="height: auto;">`;
                     str += `<div class="lcate">${one.lname}</div>`;
                     str += `<hr />`;
                     for (let one2 of data.mlist) { // 중분류 카테고리
@@ -367,7 +375,14 @@
                 }
                 str += 
                 `<div class="col my-auto mt-3 position-relative">` +
-                    `<div class="row mx-auto d-flex justify-content-end">` +
+                    `<div class="row">` + 
+                        `<div class="col allItemBtn">` +
+                            `<a href="/SOBUN/customer/item/selectlist.do" method="get">전체물품</a> ` +
+                            `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="fill: #204710;"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg>` +
+                        `</div>` +
+                    `</div>` +
+                    `<hr />` +
+                    `<div class="row d-flex justify-content-end">` +
                         `<form action="/SOBUN/customer/item/selectlist.do" method="get" class="d-flex position-relative flex-row-reverse">` + 
                             `<input class="searchBar w-100" type="text" name="search" placeholder="검색어">` +
                             `<button class="position-absolute searchButton" type="submit">` +
@@ -376,7 +391,7 @@
                         `</form> ` +
                     `</div>` +
                 `</div>`;
-                console.log(str);
+                // console.log(str);
                 
                 const navbarContent = document.getElementById('navbarContent');
                 navbarContent.innerHTML = '';

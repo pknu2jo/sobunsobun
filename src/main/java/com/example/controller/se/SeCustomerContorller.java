@@ -9,16 +9,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.entity.Customer;
-import com.example.repository.se.SeCustomerRepository;
+import com.example.service.se.SeCustomerService;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping(value = "/customer")
 @Slf4j
+@AllArgsConstructor
 public class SeCustomerContorller {
 
-    @Autowired SeCustomerRepository cRepository;
+    final SeCustomerService cService;
     
     // ----------------------------------------------------------------------------------------------------
     // 회원가입
@@ -35,9 +37,9 @@ public class SeCustomerContorller {
             
             BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
             customer.setPw( bcpe.encode(customer.getPw()) );
-            cRepository.save(customer);
+            cService.joinCustomerOne(customer);
     
-            return "redirect:/customer/home.do";
+            return "redirect:/customer/login.do";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/customer/home.do";
@@ -50,6 +52,14 @@ public class SeCustomerContorller {
     public String loginGET() {
         return "/se/customer/login";
     }
+
+    // ----------------------------------------------------------------------------------------------------
+    // 아이디찾기
+    @GetMapping(value="/findid.do")
+    public String findidGET() {
+        return "/se/customer/findid";
+    }
+
 
     // 홈화면
     @GetMapping(value = "/home.do")

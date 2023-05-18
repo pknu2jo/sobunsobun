@@ -24,9 +24,9 @@
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;">
         <div class="container">
-            <form th:action="@{/customer/join.do}" method="post"><br>
+            <form th:action="@{/customer/join.do}" method="post" id="joinForm"><br>
                 <input type="text" name="id" placeholder="아이디" onkeyup="IdCheck(this)" autofocus><br>
-                <label id="idcheck">안녕하세요?</label>
+                <label id="idcheck">아이디 중복확인</label>
                 <input type="text" name="pw" placeholder="비밀번호"><br>
                 <input type="text" name="name" placeholder="이름" value="이름"><br>
                 <input type="tel" name="phone" placeholder="핸드폰번호" value="01053535353"><br>
@@ -34,7 +34,7 @@
                 <input type="text" name="nickname" placeholder="닉네임" value="닉네임"><br>
                 <input type="radio" name="gender" value="M" >M &nbsp;
                 <input type="radio" name="gender" value="F" >F<br>
-                <button type="submit">회원가입</button>
+                <button type="button" onclick="joinAction()">회원가입</button>
             </form>
         </div>
         
@@ -59,6 +59,7 @@
             }
             else if(data.chk === 0){
                 document.getElementById("idcheck").innerText = "사용할 수 있는 아이디입니다";
+                document.getElementById("idcheck").style.color = 'black';
             }
             else if(data.chk === -1){
                 document.getElementById("idcheck").innerText = "error";
@@ -69,6 +70,53 @@
             document.getElementById("idcheck").innerText = "아이디를 입력하세요";
         }
 
+        }
+
+        const joinAction = () => {
+            const id = document.querySelector("input[name='id']");
+            const pw = document.querySelector("input[name='pw']");
+            const name = document.querySelector("input[name='name']");
+            const phone = document.querySelector("input[name='phone']");
+            const email = document.querySelector("input[name='email']");
+            const nickname = document.querySelector("input[name='nickname']");
+            const gender = document.querySelector("input[name='gender']:checked");
+            // console.log(gender); // 비어있으면 null // .value => 오류
+            if( id.value.length  <= 0 ){
+                alert("아이디를 입력하세요");
+                id.focus();
+                return false;
+            }
+            if( pw.value.length  <= 0 ){
+                alert("암호를 입력하세요");
+                pw.focus();
+                return false;
+            }
+            if( name.value.length  <= 0 ){
+                alert("이름를 입력하세요");
+                name.focus();
+                return false;
+            }
+            if( phone.value.length  <= 0 ){
+                alert("연락처를 입력하세요");
+                phone.focus();
+                return false;
+            }
+            if( email.value.length  <= 0 ){
+                alert("이메일을 입력하세요");
+                email.focus();
+                return false;
+            }
+            if( nickname.value.length  <= 0 ){
+                alert("닉네임을 입력하세요");
+                nickname.focus();
+                return false;
+            }
+            if( gender === null ){
+                alert("성별을 선택해주세요");
+                return false;
+            }
+
+            document.querySelector('#joinForm').submit();
         }
     </script>
 </body>
