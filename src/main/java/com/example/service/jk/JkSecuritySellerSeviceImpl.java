@@ -28,9 +28,7 @@ public class JkSecuritySellerSeviceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info(format, username);
-
         Seller obj = sRepository.findById( username ).orElse(null);
-        log.info(format, obj.toString());
 
         if(obj != null) { // 아이디(사업자번호)가 있는경우
             log.info(format, obj.toString());

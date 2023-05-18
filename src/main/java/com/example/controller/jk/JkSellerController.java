@@ -76,34 +76,8 @@ public class JkSellerController {
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
-            
         }
     }
-
-    // @PostMapping(value = "/loginaction.do")
-    // public String loginPOST(@ModelAttribute com.example.entity.Seller seller) {
-    //     try {
-
-    //         log.info("sellerLogin => {}", seller.toString()); // view에서 잘전송되었는지
-
-    //         // // DetailsService를 사용하지 않고 세션에 저장하는 방식
-    //         // // 1. 사업자번호로 데이터 읽기
-    //         // com.example.entity.Seller obj = sRepository.findById(seller.getNo()).orElse(null); // 로그인한 사용자의 정보 반환
-
-    //         // // 2. DB암호 vs 입력된 암호 [일치대조]
-    //         // if (bcpe.matches(seller.getPw(), obj.getPw())) {
-                
-    //         //     httpSession.setAttribute("USERID", obj.getNo());
-    //         //     httpSession.setAttribute("USEPASSWORD", obj.getPw());
-    //         //     return "redirect:/home.do"; // 로그인 성공 시
-    //         // }
-    //         return "redirect:/home.do"; // 로그인 성공 시
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return "redirect:/login.do"; // 로그인 실패 시
-    //     }
-
-    // }
 
     /* ----------------------------- 마이페이지 ---------------------------------- */
 
