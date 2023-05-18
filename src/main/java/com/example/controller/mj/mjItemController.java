@@ -1,19 +1,28 @@
 package com.example.controller.mj;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
-
+import org.hibernate.type.BigDecimalType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
 
 import com.example.dto.Category;
 import com.example.entity.Item;
+import com.example.entity.Lcategory;
+import com.example.entity.Mcategory;
+import com.example.entity.Scategory;
 import com.example.repository.mj.ItemRepository;
 import com.example.repository.mj.LcateRepository;
+import com.example.repository.mj.McateRepository;
+import com.example.repository.mj.ScateRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,14 +35,36 @@ public class mjItemController {
 
     final ItemRepository iRepository;
     final LcateRepository lRepository;
+    final McateRepository mRepository;
+    final ScateRepository sRepository;
 
-    //127.0.0.1:5959/SOBUN/seller/item/insert.do
+
+    //127.0.0.1:5959/SOBUN/seller/item/management.do
     @GetMapping(value = "/item/management.do")
-    public String managementGET(Model model, @ModelAttribute Item obj, @ModelAttribute Category obj1){
+    public String managementGET(
+        Model model, @ModelAttribute Item obj, 
+        @ModelAttribute Lcategory obj1,
+        @RequestParam(name = "lcate", defaultValue = "000", required = false) BigDecimal Lcode,
+        @RequestParam(name = "mcate", defaultValue = "000", required = false) BigDecimal Mcode,
+        @RequestParam(name = "scate", defaultValue = "000", required = false) BigDecimal Scode ){
         try {
-            // List<Lcategory> lcatelist = lRepository.findAll();
-            // log.info("Lcate => {}",lcatelist);
-            model.addAttribute("category", obj1);
+            Category cate = new Category();
+            List<Lcategory> list1 = lRepository.findAll();
+            cate.setLlist(list1);  // 대분류 코드, 네임
+            cate.setLcode(Lcode);  // 대분류 코드
+            
+            List<Mcategory> mlist = mRepository.findByLcategoryCode_code(Lcode);
+            cate.setMlist(mlist);  // 중분류 코드, 네임
+            cate.setMcode(Mcode);  // 중분류 코드
+            
+            List<Scategory> slist = sRepository.findByMcategoryCode_code(Scode);
+            cate.setSlist(slist);  // 소분류 코드, 네임
+            cate.setScode(Scode);  // 소분류 코드
+            log.info("cate => {}", cate);
+            model.addAttribute("cate", cate);
+
+            // log.info("mlist => {}", mlist);
+
             List<Item> list = iRepository.findAllByRegNoOrderByNoDesc("1248600538");
             model.addAttribute("list", list);
             return "/mj/seller/management";

@@ -137,15 +137,52 @@
 
 
                     <h3>물품관리</h3>
-
-                    <form th:action="@{/seller/item/management.do}" method="get" th:object="${category}">
-                        <select th:field="${category.Lcate}">
-                            <option th:each="tmp, idx : ${category.LcateCode}" th:value="${tmp}" th:text="${category.LcateName[idx.index]}"></option>
+                    <form th:action="@{/seller/item/management.do}" method="get" th:object="${cate}">
+                        <!-- 대분류 -->
+                        <select id="LcateSelect" th:field="${cate.Lcode}" onchange="updateMcateSelect()">
+                            <option value="000">전체</option>
+                            <option th:each="obj : ${cate.Llist}" th:value="${obj.code.longValue()}" th:text="${obj.name}"></option>
                         </select>
-                        <!-- <select>
-                            <option th:field="${lcatelist.name}"></option> -->
-                        <!-- </select> -->
+    
+                        <select id="McateSelect" th:field="${cate.Mcode}" onchange="updateScateSelect()">
+                            <option value="000">전체</option>
+                            <option th:each="obj1 : ${cate.Mlist}" th:value="${obj1.code.longValue()}" th:text="${obj1.name}"></option>
+                            <!-- <option value="">-- Select Middle Category --</option> -->
+                        </select>
+    
+                        <select id="ScateSelect" th:field="${cate.Scode}" onchange="updateUrl()">
+                            <option value="000">전체</option>
+                            <option th:each="obj2 : ${cate.Slist}" th:value="${obj2.code.longValue()}" th:text="${obj2.name}"></option>
+                            <!-- <option value="">-- Select Small Category --</option> -->
+                        </select>
                     </form>
+                    
+                    <script th:inline="javascript">
+                        function updateMcateSelect() {
+                            const code = document.getElementById("LcateSelect").value;
+                            console.log(code);
+                            window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}`;
+                        }
+
+                        function updateScateSelect() {
+                            const code = document.getElementById("LcateSelect").value;
+                            const mcode = document.getElementById("McateSelect").value;
+                            console.log(code);
+                            console.log(mcode);
+                            window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}`;
+                        }
+
+                        function updateUrl() {
+                            const code = document.getElementById("LcateSelect").value;
+                            const mcode = document.getElementById("McateSelect").value;
+                            const scode = document.getElementById("ScateSelect").value;
+                            console.log(code);
+                            console.log(mcode);
+                            console.log(scode);
+                            window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
+                        }
+                        
+                    </script>
 
                     <hr>
                     <!-- ----------------------------------------------------------------- -->
