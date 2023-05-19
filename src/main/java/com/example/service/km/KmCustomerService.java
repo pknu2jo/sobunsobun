@@ -1,12 +1,14 @@
 package com.example.service.km;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.example.dto.Item;
-import com.example.dto.Purchase;
+import com.example.dto.kmPurchaseView;
+import com.example.entity.ItemImage;
 
 
 
@@ -28,5 +30,12 @@ public interface KmCustomerService {
     public int countRemainingPerson(long purchaseno);
 
     // 상품에 대한 열린 공구 가져오기 => 공구번호, 참여인원, 마감기한, 보관소 코드, 보관소이름
-    public List<Purchase> selectPurchaseList(long itemno);
+    public List<kmPurchaseView> selectPurchaseList(long itemno);
+
+// 이미지
+    // 이미지 번호에 대한 정보 다 가져오기
+    public ItemImage findById(BigDecimal no);
+
+    // itemno에 해당하는 모든 이미지 가져오기
+    public List<ItemImage> findByItemNo_noOrderByNoAsc(BigDecimal no);
 }

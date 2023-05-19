@@ -17,22 +17,27 @@
     </select>
 
     <!-- 상품에 대한 열린 공구 가져오기 -> 남은 인원 -->
-    <select id="countRemainingPerson" parameterType="long" resultType="int">
+    <!-- <select id="countRemainingPerson" parameterType="long" resultType="int">
         SELECT  participant-count(*) 
         FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY memid ORDER BY no desc) recent 
- 		FROM purchaseview p WHERE purchaseno = #{purchaseno} AND state=0 AND cancel=0) 
-        WHERE recent=1
+ 		FROM kmpurchaseview p WHERE purchaseno = #{purchaseNo}) 
+        WHERE recent=1 AND state=0 AND cancel=0
+    </select> -->
+    <select id="countRemainingPerson" parameterType="long" resultType="int">
+       SELECT  participant-count(*) 
+        FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY memid ORDER BY no desc) recent 
+ 		FROM kmpurchaseview p WHERE purchaseno = #{purchaseNo}) 
+        WHERE recent=1 AND state=0 AND cancel=0
     </select>
 
     <!-- 상품에 대한 열린 공구 가져오기 -> 공구번호, 참여인원, 마감기한, 보관소 코드, 보관소이름 -->
-    <select id="selectPurchaseList" parameterType="long" resultType="Purchase">
-        SELECT p.*, s.name storagename from 
-        (SELECT purchaseno no, participant, deadline, storageno FROM (SELECT *, ROW_NUMBER() OVER 
-	    (PARTITION BY PURCHASENO ORDER BY no desc) recent 
-						FROM purchaseview p WHERE itemno = #{itemno} 
-						ORDER BY PURCHASENO DESC 
-	     ) WHERE recent=1 ORDER BY deadline DESC 
-        ) p 
-	    INNER JOIN STORAGE s on p.storageno=s.NO 
+    <select id="selectPurchaseList" parameterType="long" resultType="kmPurchaseView">
+        SELECT * FROM (
+				SELECT * FROM (SELECT *, ROW_NUMBER() OVER 
+				(PARTITION BY PURCHASENO ORDER BY no desc) recent 
+									FROM KMPURCHASEVIEW p WHERE itemno = #{itemno}
+									ORDER BY PURCHASENO DESC 
+				  ) WHERE recent=1 AND deadline > CURRENT_TIMESTAMP()  ORDER BY deadline DESC
+		)
     </select>
 </mapper>

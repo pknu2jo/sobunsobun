@@ -1,13 +1,16 @@
 package com.example.service.km;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.example.dto.Item;
-import com.example.dto.Purchase;
+import com.example.dto.kmPurchaseView;
+import com.example.entity.ItemImage;
 import com.example.mapper.km.KmCustomerMapper;
+import com.example.repository.km.kmItemImageRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class KmCustomerServiceImpl implements KmCustomerService {
 
     final KmCustomerMapper cMapper;
-    // final ItemRepository item;
+    final kmItemImageRepository imageRepository;
 
 // 물품 상세 조회 페이지
 
@@ -56,7 +59,7 @@ public class KmCustomerServiceImpl implements KmCustomerService {
 
      // 상품에 대한 열린 공구 가져오기 => 공구번호, 참여인원, 마감기한, 보관소 코드, 보관소이름
     @Override
-    public List<Purchase> selectPurchaseList(long itemno) {
+    public List<kmPurchaseView> selectPurchaseList(long itemno) {
         try {
             return cMapper.selectPurchaseList(itemno);
         } catch (Exception e) {
@@ -64,7 +67,26 @@ public class KmCustomerServiceImpl implements KmCustomerService {
             return null;
         }
     }
-    
 
+// 이미지
+    // 이미지 번호에 대한 정보 다 가져오기
+    public ItemImage findById(BigDecimal no) {
+        try {
+            return imageRepository.findById(no).orElse(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    };
+
+    // itemno에 해당하는 모든 이미지 가져오기
+    public List<ItemImage> findByItemNo_noOrderByNoAsc(BigDecimal no) {
+        try {
+            return imageRepository.findByItemNo_noOrderByNoAsc(no);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     
 }

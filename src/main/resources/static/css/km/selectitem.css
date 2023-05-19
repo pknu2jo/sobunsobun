@@ -753,9 +753,6 @@ section
 	font-size: 0.8rem;
 }
 
-.scrolltable tbody {
-	/* background-color: #f8f7f5; */
-}
 
 .scrolltable thead {
 	display: block;
@@ -779,8 +776,8 @@ section
 	border: none;
 }
 
-.participate-btn {
-	border: 2px solid #6d9275 !important;
+.participant-btn {
+	border: 1px solid #6d9275 !important;
 	color: #4e6854;
 	/* background-color: #6d9275;
 	color: #ebebeb; */
@@ -788,7 +785,27 @@ section
 	border: none;
 	padding: 3px 6px;
 }
-.open-btn:hover, .participate-btn:hover {
+.open-btn:hover, .participant-btn:hover {
 	background-color: #6d9275;
 	color: #ebebeb;
+}
+
+
+tbody::-webkit-scrollbar {
+    width: 8px;  /* 스크롤바의 너비 */
+}
+
+tbody::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: #ddd; /* 스크롤바의 색상 */
+    
+    border-radius: 10px;
+}
+
+tbody::-webkit-scrollbar-track {
+    background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
+}
+
+.product_price:hover {
+	font-size: xx-large;
 }
