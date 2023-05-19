@@ -215,7 +215,7 @@
                                                     <td th:text="${obj.scategoryCode.name}"></td>
                                                     <td th:text="${obj.scategoryCode.mcategoryCode.name}"></td>
                                                     <td th:text="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}"></td>
-                                                    <td th:text="${obj.regdate}"></td>
+                                                    <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분 ss초')}"></td>
                                                     <td><a th:href="@{/seller/item/updateimage.do}"><button class="btn btn-primary">이미지 등록/수정</button></a></td>
                                                 </tr>
                                             </tbody>
