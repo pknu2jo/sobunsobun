@@ -1,11 +1,13 @@
 package com.example.mapper.km;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.dto.Item;
-import com.example.dto.Purchase;
+import com.example.dto.kmPurchaseView;
 
 @Mapper
 public interface KmCustomerMapper {
@@ -22,6 +24,6 @@ public interface KmCustomerMapper {
     public int countRemainingPerson(long purchaseno);
 
     // 상품에 대한 열린 공구 가져오기 => 공구번호, 참여인원, 마감기한, 보관소 코드, 보관소이름
-    public List<Purchase> selectPurchaseList(long itemno);
+    public List<kmPurchaseView> selectPurchaseList(long itemno);
         
 }
