@@ -12,15 +12,19 @@
 
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
     <!-- <link th:href="@{/css/km/font-awesome.min.css}" rel="stylesheet" type="text/css"> -->
-    <link rel="stylesheet" type="text/css" th:href="@{/css/km/selectitem.css}">
     <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/km/single_styles.css}"> -->
-    <link rel="stylesheet" type="text/css" th:href="@{/css/single_responsive.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/km/single_responsive.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/km/selectitem.css}">
 
     <!-- font-awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
+    <!-- <style>
+        .tablediv {
+            padding: 0 !important;
+            margin-top: 10px !important;
+        }
         .scrolltable {
             table-layout: fixed;
             border-collapse: collapse;
@@ -38,9 +42,9 @@
             font-size: 0.875em;
         }
 
-        /* .scrolltable tbody tr:nth-child(2n+1) {
-            background-color: #f0f0f0;
-        } */
+        .scrolltable tbody {
+            background-color: #f8f7f5;
+        }
 
         .scrolltable thead {
             display: block;
@@ -48,25 +52,14 @@
             color: #fff;
         }
 
-        .scrolltable tbody {
-            display: block;
-            height: 190px;
-        }
 
         .scrolltable tbody {
             display: block;
             overflow: auto;
-            height: 190px;
+            height: 250px;
         }
-        .scrolltable {
-            /* margin: -10px; */
-        }
-        /* .participate {
-            border: 1px solid red;
-            padding: 1px 5px;
-            border-radius: 20%;
-        } */
-    </style>
+
+    </style> -->
 
 
     <script th:src="@{/js/bootstrap.min.js}"></script>
@@ -91,9 +84,12 @@
                         <div class="breadcrumbs d-flex flex-row align-items-center">
                             <ul>
                                 <li><span>대분류</span></li>
-                                <li><span><i class="fa fa-angle-right" aria-hidden="true"></i>중분류</span></li>
-                                <li class="active"><a href="#"><i class="fa fa-angle-right"
-                                            aria-hidden="true"></i>소분류</a></li>
+                                <li>
+                                    <span><i class="fa fa-angle-right" aria-hidden="true"></i>중분류</span>
+                                </li>
+                                <li class="active">
+                                    <a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>소분류</a>
+                                </li>
                             </ul>
                         </div>
 
@@ -101,6 +97,7 @@
                 </div>
 
                 <div class="row">
+                    <!-- 물품 간단 사진 영역 ~ -->
                     <div class="col-lg-6">
                         <div class="single_product_pics">
                             <div class="row">
@@ -114,6 +111,9 @@
                             </div>
                         </div>
                     </div>
+                    <!-- ~ 물품 간단 사진 영역 -->
+
+                    <!-- 물품 설명 영역 ~ -->
                     <div class="col-lg-6">
                         <div class="product_details">
                             <div class="product_details_title">
@@ -122,8 +122,9 @@
                                 <div class="product_price"
                                     th:text="${#numbers.formatInteger(item.price, 3, 'COMMA') + '원'}">$495.00</div>
                             </div>
-                            <div class="tablediv" style="height: 300px; background-color: antiquewhite;padding: 10px;">
-                                <table class="table scrolltable" style="padding-top: 50px;">
+                            <!-- 열린 공구 영역 ~ -->
+                            <div class="tablediv">
+                                <table class="table table-hover scrolltable">
                                     <thead>
                                         <tr>
                                             <th scope="col">참여인원</th>
@@ -131,64 +132,24 @@
                                             <th scope="col">수령지점</th>
                                             <th scope="col">인당가격</th>
                                             <th scope="col">남은시간</th>
-                                            <th scope="col">버튼영역</th>
+                                            <th scope="col"></th>
                                         </tr>
                                     </thead>
-                                    <tbody style="">
+                                    <tbody>
                                         <tr th:each="obj : ${purchaseList}">
                                             <td th:text="${obj.participant}"></td>
                                             <td th:text="${obj.remaingPerson}"></td>
                                             <td th:text="${obj.storagename}"></td>
                                             <td th:text="${item.price}/${obj.participant}"></td>
-                                            <td th:text="${#dates.format(obj.deadline, 'yyyy.MM.dd')}"></td>
-                                            <td><button class="participate">버튼</button></td>
+                                            <!-- <td th:text="${#dates.format(obj.deadline, 'yyyy.MM.dd')}"></td> -->
+                                            <td id="clock"></td>
+                                            <td><button class="btn participate-btn">참여</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- 열린 공구 영역 -->
-                            <!-- <div class="free_delivery d-flex flex-row align-items-center justify-content-center mt-2"
-                                style="height: 300px;overflow-y: scroll; padding: 10px;">
-                                <table class="table" style="padding-top: 50px;">
-                                    <thead>
-                                      <tr>
-                                        <th scope="col">참여인원</th>
-                                        <th scope="col">남은인원</th>
-                                        <th scope="col">수령지점</th>
-                                        <th scope="col">인당가격</th>
-                                        <th scope="col">남은시간</th>
-                                        <th scope="col">버튼영역</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody style="">
-                                      <tr th:each="obj : ${purchaseList}">
-                                        <td th:text="${obj.participant}"></td>
-                                        <td th:text="${obj.remaingPerson}"></td>
-                                        <td th:text="${obj.storagename}"></td>
-                                        <td th:text="${item.price}/${obj.participant}"></td>
-                                        <td th:text="${#dates.format(obj.deadline, 'yyyy.MM.dd')}"></td>
-                                        <td><button class="btn btn-small btn-secondary">버튼</button></td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                            </div> -->
-                            <!-- <div class="original_price">$629.99 물품 전체가격</div>
-                                <div class="product_price">$495.00 1인당 구매가격</div> -->
-                            <!-- <ul class="star_rating">
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                            </ul> -->
-                            <!-- <div class="product_color">
-                                <span>Select Color:</span>
-                                <ul>
-                                    <li style="background: #e54e5d"></li>
-                                    <li style="background: #252525"></li>
-                                    <li style="background: #60b3f3"></li>
-                                </ul>
-                            </div> -->
+                            <!-- ~ 열린 공구 영역 -->
+
                             <div
                                 class="quantity d-flex flex-column flex-sm-row align-items-sm-center justify-content-center">
                                 <!-- <span>Quantity:</span>
@@ -255,18 +216,19 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle"
+                                    <button class="btn open-btn" data-bs-target="#exampleModalToggle"
                                         data-bs-toggle="modal">공구 개설하기</button>
                                 </div>
                                 <!-- ~ 공구 개설 Modal-->
                             </div>
                         </div>
                     </div>
+                    <!-- ~ 물품 설명 영역 -->
                 </div>
 
             </div>
 
-            <!-- Tabs -->
+            <!-- 물품 상세 영역 ~  -->
             <div class="tabs_section_container">
 
                 <div class="container">
@@ -422,7 +384,7 @@
                 </div>
 
             </div>
-
+            <!-- ~ 물품 상세 영역 -->
         </div>
     </div>
 
@@ -435,8 +397,37 @@
     <script th:src="@{/js/jquery-3.6.4.min.js}"></script>
     <script th:src="@{/js/km/jquery-ui.js}"></script>
     <script th:src="@{/js/km/single_custom.js}"></script>
-    <script>
+    
+    <script th:inline="javascript" type="text/javascript">
+        function CountDownTimer(dt, id) {
+            var end = new Date(dt);
+            var _second = 1000;
+            var _minute = _second * 60;
+            var _hour = _minute * 60;
+            var _day = _hour * 24;
+            var timer;
+            function showRemaining() {
+                var now = new Date();
+                var distance = end - now;
+                if (distance < 0) {
+                    clearInterval(timer);
+                    document.getElementById(id).innerHTML = '공구 종료';
+                    return;
+                }
+                var days = Math.floor(distance / _day);
+                var hours = Math.floor((distance % _day) / _hour);
+                var minutes = Math.floor((distance % _hour) / _minute);
+                var seconds = Math.floor((distance % _minute) / _second);
+                document.getElementById(id).innerHTML = days + '일 ';
+                document.getElementById(id).innerHTML += hours + '시간 ';
+                document.getElementById(id).innerHTML += minutes + '분 ';
+                document.getElementById(id).innerHTML += seconds + '초';
+            }
+            timer = setInterval(showRemaining, 1000);
+        }
 
+        var deadline = "<fmt:formatDate value="${obj.deadline}" pattern = "yyyy-MM-dd HH:mm:ss" /> "
+        CountDownTimer(deadline, 'clock');
     </script>
 
 
