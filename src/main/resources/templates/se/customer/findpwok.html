@@ -25,12 +25,8 @@
     <div style="padding-bottom: 300px;">
         
         <div class="container">
-            아이디 찾기
-            <form th:action="@{/customer/findid.do}" method="post" id="findidform">
-                <input type="text" name="name" placeholder="이름" value="이름"><br>
-                <input type="email" name="email" placeholder="이메일" value="e1@emial.com"><br>
-                <button type="button" onclick="findIdAction()">아이디찾기</button>
-            </form>
+            <p>이메일로 전송된 임시 비밀번호를 확인해주세요</p>
+            <a th:href="@{/customer/login.do}">로그인하기</a>
         </div>
         
     </div>
@@ -39,28 +35,8 @@
     <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
 
 
-    
-    <!-- script-->
-    <script th:inline="javascript" type="text/javascript">
-    // 유효성 검사 -----------------------------------------------------------------------------------
-    const findIdAction = () => {
-        const name = document.querySelector("input[name='name']");
-        const email = document.querySelector("input[name='email']");
-        if( name.value.length  <= 0 ){
-            alert("이름을 입력하세요");
-            name.focus();
-            return false;
-        }
-        if( email.value.length  <= 0 ){
-            alert("이메일을 입력하세요");
-            email.focus();
-            return false;
-        }
 
-        document.querySelector('#findidform').submit();
-    }
-    // 유효성 검사
-    </script>
+    <!-- script-->
     
 </body>
 </html>

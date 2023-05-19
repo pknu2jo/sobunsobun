@@ -25,11 +25,11 @@
     <div style="padding-bottom: 300px;">
         
         <div class="container">
-            아이디 찾기
-            <form th:action="@{/customer/findid.do}" method="post" id="findidform">
-                <input type="text" name="name" placeholder="이름" value="이름"><br>
-                <input type="email" name="email" placeholder="이메일" value="e1@emial.com"><br>
-                <button type="button" onclick="findIdAction()">아이디찾기</button>
+            비밀번호 찾기
+            <form th:action="@{/customer/findpw.do}" method="post" id="findpwform">
+                <input type="text" name="email" placeholder="이메일" value="sobun5959@gmail.com"><br>
+                <input type="text" name="phone" placeholder="연락처" value="01053535353"><br>
+                <button type="button" onclick="findpwAction()">비밀번호찾기</button>
             </form>
         </div>
         
@@ -39,28 +39,28 @@
     <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
 
 
-    
+
     <!-- script-->
     <script th:inline="javascript" type="text/javascript">
-    // 유효성 검사 -----------------------------------------------------------------------------------
-    const findIdAction = () => {
-        const name = document.querySelector("input[name='name']");
-        const email = document.querySelector("input[name='email']");
-        if( name.value.length  <= 0 ){
-            alert("이름을 입력하세요");
-            name.focus();
-            return false;
+        // 유효성 검사 -----------------------------------------------------------------------------------
+        const findpwAction = () => {
+            const email = document.querySelector("input[name='email']");
+            const phone = document.querySelector("input[name='phone']");
+            if( email.value.length  <= 0 ){
+                alert("이메일을 입력하세요");
+                email.focus();
+                return false;
+            }
+            if( phone.value.length  <= 0 ){
+                alert("연락처를 입력하세요");
+                phone.focus();
+                return false;
+            }
+    
+            document.querySelector('#findpwform').submit();
         }
-        if( email.value.length  <= 0 ){
-            alert("이메일을 입력하세요");
-            email.focus();
-            return false;
-        }
-
-        document.querySelector('#findidform').submit();
-    }
-    // 유효성 검사
-    </script>
+        // 유효성 검사
+        </script>
     
 </body>
 </html>

@@ -59,6 +59,28 @@ public class SeCustomerServiceImpl implements SeCustomerService {
         }
     }
 
+    // ----------------------------------------------------------------------------------------------------------
+    // 비밀번호 찾기
+    @Override
+    public CustomerEntity findPw(String email, String phone) {
+        try {
+            return cRepository.findByEmailAndPhone(email, phone);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public CustomerEntity saveCustomer(CustomerEntity customerEntity) {
+        try {
+            return cRepository.save(customerEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 
 }
