@@ -22,7 +22,7 @@
     <!-- Simple DataTable CDN -->
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <!-- CSS -->
-    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/mj/seller.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/seller.css}'>
 </head>
 
 <body class="sb-nav-fixed">
@@ -133,130 +133,10 @@
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
             <main>
-                <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
+                <div class="container-fluid px-4" style="margin: 10px; padding-top: 20px;"> <!-- 옆쪽에 딱 붙음. -->
 
 
-                    <h3>물품관리</h3>
-                    <form th:action="@{/seller/item/management.do}" method="get" th:object="${cate}">
-                        
-                        <!-- 대분류 -->
-                        <select class="form-select" aria-label="Default select example" id="LcateSelect" th:field="${cate.Lcode}" onchange="updateMcateSelect()">
-                            <option value="000">전체</option>
-                            <option th:each="obj : ${cate.Llist}" th:value="${obj.code.longValue()}" th:text="${obj.name}"></option>
-                        </select>
-    
-                        <select class="form-select" aria-label="Default select example" id="McateSelect" th:field="${cate.Mcode}" onchange="updateScateSelect()">
-                            <option value="000">전체</option>
-                            <option th:each="obj1 : ${cate.Mlist}" th:value="${obj1.code.longValue()}" th:text="${obj1.name}"></option>
-                            <!-- <option value="">-- Select Middle Category --</option> -->
-                        </select>
-    
-                        <select class="form-select" aria-label="Default select example" id="ScateSelect" th:field="${cate.Scode}" onchange="updateUrl()">
-                            <option value="000">전체</option>
-                            <option th:each="obj2 : ${cate.Slist}" th:value="${obj2.code.longValue()}" th:text="${obj2.name}"></option>
-                            <!-- <option value="">-- Select Small Category --</option> -->
-                        </select>
-                    </form>
-                    <hr>
-                    <!------------------------------------------------------------------- -->
-                    
-
-                    <a th:href="@{/seller/item/insert.do}"><button class="btn btn-primary">물품등록</button></a>
-                    <a th:href="@{/seller/item/update.do}"><button class="btn btn-primary">수정</button></a>
-                    <button class="btn btn-primary" onclick="deleteItems()" >삭제</button>
-                    <hr>
-                    
-                    <form th:action="@{/seller/item/management.do}" method="get">
-                        <div class="row">
-                            <div class="col">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-table me-1"></i>
-                                        등록된 물품 내역
-                                    </div>
-                                    <div class="card-body">
-                                        <table id="datatablesSimple">
-                                            <thead style="text-align: center;">
-                                                <tr>
-                                                    <th>선택</th>
-                                                    <th>물품번호</th>
-                                                    <th>물품명</th>
-                                                    <th>가격</th>
-                                                    <th>수량</th>
-                                                    <th>소분류</th>
-                                                    <th>중분류</th>
-                                                    <th>대분류</th>
-                                                    <th>등록일</th>
-                                                    <th>이미지관리</th>
-                                                </tr>
-                                            </thead>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>선택</th>
-                                                    <th>물품번호</th>
-                                                    <th>물품명</th>
-                                                    <th>가격</th>
-                                                    <th>수량</th>
-                                                    <th>소분류</th>
-                                                    <th>중분류</th>
-                                                    <th>대분류</th>
-                                                    <th>등록일</th>
-                                                    <th>이미지관리</th>
-                                                </tr>
-                                            </tfoot>
-                                            <tbody>
-                                                <tr th:each="obj : ${list}" style="text-align: center;">
-                                                    <!-- <td><input type="checkbox" name="chk[]" th:value="${tmp.no.longValue()}"/></td> -->
-                                                    <td><input type="checkbox" name="chk[]"/></td>
-                                                    <td th:text="${obj.no.longValue()}">물품번호</td>
-                                                    <td th:text="${obj.name}"></td>
-                                                    <td th:text="${obj.price.longValue()}"></td>
-                                                    <td th:text="${obj.quantity.longValue()}"></td>
-                                                    <td th:text="${obj.scategoryCode.name}"></td>
-                                                    <td th:text="${obj.scategoryCode.mcategoryCode.name}"></td>
-                                                    <td th:text="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}"></td>
-                                                    <td th:text="${obj.regdate}"></td>
-                                                    <td><a th:href="@{/seller/item/updateimage.do}"><button class="btn btn-primary">이미지 등록/수정</button></a></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <table border="1">
-                            <thead style="text-align: center;">
-                                <tr>
-                                    <th>선택</th>
-                                    <th>물품번호</th>
-                                    <th>물품명</th>
-                                    <th>가격</th>
-                                    <th>수량</th>
-                                    <th>소분류</th>
-                                    <th>중분류</th>
-                                    <th>대분류</th>
-                                    <th>등록일</th>
-                                    <th>이미지관리</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="obj : ${list}" style="text-align: center;">
-                                    <!-- <td><input type="checkbox" name="chk[]" th:value="${tmp.no.longValue()}"/></td> -->
-                                    <td><input type="checkbox" name="chk[]"/></td>
-                                    <td th:text="${obj.no.longValue()}">물품번호</td>
-                                    <td th:text="${obj.name}"></td>
-                                    <td th:text="${obj.price.longValue()}"></td>
-                                    <td th:text="${obj.quantity.longValue()}"></td>
-                                    <td th:text="${obj.scategoryCode.name}"></td>
-                                    <td th:text="${obj.scategoryCode.mcategoryCode.name}"></td>
-                                    <td th:text="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}"></td>
-                                    <td th:text="${obj.regdate}"></td>
-                                    <td><a th:href="@{/seller/item/updateimage.do}"><button>이미지 등록/수정</button></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </form>
+                    <h3>인덱스</h3>                    
 
 
                 </div>
@@ -315,43 +195,12 @@
             new simpleDatatables.DataTable("#datatablesSimple", {
                 searchable: true,
                 fixedHeight: true,
-                
+
             })
         });
-        </script>
+    </script>
 
-        <script th:inline="javascript">
-            function updateMcateSelect() {
-                const code = document.getElementById("LcateSelect").value;
-                console.log(code);
-                window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}`;
-            }
 
-            function updateScateSelect() {
-                const code = document.getElementById("LcateSelect").value;
-                const mcode = document.getElementById("McateSelect").value;
-                console.log(code);
-                console.log(mcode);
-                window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}`;
-            }
-
-            function updateUrl() {
-                const code = document.getElementById("LcateSelect").value;
-                const mcode = document.getElementById("McateSelect").value;
-                const scode = document.getElementById("ScateSelect").value;
-                console.log(code);
-                console.log(mcode);
-                console.log(scode);
-                window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
-            }
-            
-        </script>
-
-        <script>
-            function deleteItems(){
-
-            }
-        </script>
 
 </body>
 
