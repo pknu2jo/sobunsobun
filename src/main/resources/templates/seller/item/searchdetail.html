@@ -136,8 +136,8 @@
                 <div style="padding-left: 15px; padding-top: 30px;">
                     <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
                         <h3>통계입니다.</h3>
-                        여성(hidden처리 해야함) : <input type="number"  th:value="${female}"/><br/>
-                        남성(hidden처리 해야함) : <input type="number"  th:value="${male}"/><br/><br/>
+                        여성(hidden처리 해야함) : <input type="number"  th:value="${Female}"/><br/>
+                        남성(hidden처리 해야함) : <input type="number"  th:value="${Male}"/><br/><br/>
     
                         지역 총 숫자(hidden 처리 하기) : <input type="number"  th:value="${total}"/><br/>
                         지역별 인원수(hidden처리 해야함) : <input type="number"  th:value="${array}"/><br/>                   
@@ -189,64 +189,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-table me-1"></i>
-                                        테이블 예제
-                                    </div>
-                                    <div class="card-body">
-                                        <table id="datatablesSimple">
-                                            <thead>
-                                                <tr>
-                                                    <th>물품번호</th>
-                                                    <th>물품이름</th>
-                                                    <th>물품가격</th>
-                                                    <th>물품수량</th>
-                                                    <th>물품소분류코드</th>
-                                                    <th>공동구매횟수</th>
-                                                    <th>물품등록일자</th>
-                                                    <th>상세</th>
-                                                </tr>
-                                            </thead>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>물품번호</th>                                                    
-                                                    <th>물품이름</th>
-                                                    <th>물품가격</th>
-                                                    <th>물품수량</th>
-                                                    <th>물품소분류코드</th>
-                                                    <th>공동구매횟수</th>
-                                                    <th>물품등록일자</th>
-                                                    <th>상세</th>
-                                                </tr>
-                                            </tfoot>
-                                            <tbody>
-                                                <tr th:each="obj : ${tlist}">                                                    
-                                                    <td th:text="${obj.itemno.longValue()}"></td>
-                                                    <td th:text="${obj.itemname}"></td>
-                                                    <td th:text="${obj.itemprice.longValue()}"></td>
-                                                    <td th:text="${obj.itemquantity.longValue()}"></td>
-                                                    <td th:text="${obj.itemscategory.longValue()}"></td>
-                                                    <td th:text="${obj.count.longValue()}"></td>
-                                                    <td th:text="${#dates.format(obj.itemregdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>                                           
-                                                    <td>
-                                                        <a th:href="@{/seller/item/searchdetail.do(itemno=${obj.itemno})}">
-                                                            <button class="btn btn-primary"
-                                                                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                                                                    상세
-                                                            </button>
-                                                        </a>
-                                                    </td>
-                                                </tr>                                            
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-    
                     </div>
                 </div>
 
@@ -287,8 +229,8 @@
     <!--ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->
     <!-- 전체성비에 대한 파이차트 스크립트  -->
     <script th:inline="javascript" type="text/javascript">
-        var female = "[[${female}]]";
-        var male = "[[${male}]]";
+        var female = "[[${Female}]]";
+        var male = "[[${Male}]]";
 
         var ctx = document.getElementById("myPieChart");
         var myPieChart = new Chart(ctx, {
@@ -324,7 +266,7 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: '월 매출',
+                    label: 'Monthly Sales',
                     data: amounts,
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',

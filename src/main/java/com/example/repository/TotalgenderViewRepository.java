@@ -1,9 +1,11 @@
 package com.example.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.example.entity.TotalgenderView;
 
+@Repository
 public interface TotalgenderViewRepository extends JpaRepository<TotalgenderView, String>{
     
     // 성별인원수 구하기

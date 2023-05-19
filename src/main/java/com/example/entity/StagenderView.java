@@ -1,5 +1,7 @@
 package com.example.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,9 +16,13 @@ import lombok.Data;
 @Entity
 @Table(name = "STAGENDER")
 public class StagenderView {
-    @Id
+    
     @Column(name = "NO")
     private String no;
+
+    @Id
+    @Column(name = "ITEMCODE")
+    private BigDecimal itemcode;
     
     @Column(name = "ITEMNAME")
     private String itemname;

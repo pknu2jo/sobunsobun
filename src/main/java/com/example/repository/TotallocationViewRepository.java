@@ -1,9 +1,11 @@
 package com.example.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.example.entity.TotallocationView;
 
+@Repository
 public interface TotallocationViewRepository extends JpaRepository<TotallocationView, String>{
     // 지역별 인원수 구하기
     long countByLocationContaining(String location);
