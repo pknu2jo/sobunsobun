@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.example.handler.CustomLogoutHandler;
 import com.example.service.SecurityAdminSeviceImpl;
 import com.example.service.SecurityCustomerSeviceImpl;
-import com.example.service.jk.JkSecuritySellerSeviceImpl;
+import com.example.service.SecuritySellerSeviceImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SecurityConfig {
     
     final SecurityCustomerSeviceImpl userCustomerDetailsService;
-    final JkSecuritySellerSeviceImpl userSellerDetailsService;
+    final SecuritySellerSeviceImpl userSellerDetailsService;
     final SecurityAdminSeviceImpl userAdminDetailsService;
     
     @Bean // 객체를 생성함
@@ -91,9 +91,9 @@ public class SecurityConfig {
         // http.authorizeRequests().anyRequest().permitAll();
         http.authorizeRequests()
             .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do","/customer/kmtest.do").permitAll()
-            .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do", "/seller/home.do").permitAll()
+            .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do", "/seller/home.do", "/seller/findpw.do","/seller/updateinfo.do").permitAll()
             .antMatchers("/admin/join.do").permitAll()
-
+            
             .antMatchers("/admin", "/admin/*").hasAuthority("ADMIN")  // 주소가 9090/ROOT/admin  ~~ 모든것
             .antMatchers("/seller", "/seller/*").hasAnyAuthority("ADMIN", "SELLER")
             .antMatchers("/customer", "/customer/*").hasAnyAuthority("CUSTOMER")

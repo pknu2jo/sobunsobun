@@ -38,9 +38,9 @@
                     <hr />
                     <div class="container text-center d-grid gap-2" style="padding: 0;">
                         <!-- 여기서 type을 submit으로 잡고 유효성 검사를 하게되면 강제로 데이터가 넘어가기 때문에 button으로 지정해주어야 함! -->
-                        <input type="submit" value="로그인" class="btn btn-success " />
+                        <input type="submit" value="로그인" class="btn btn-dark " />
                         <a th:href="@{/seller/join.do}" class="btn btn-outline-secondary">업체 회원가입</a>
-                        <a href="#" class="btn btn-outline-danger">비밀번호를 잊어버렸어요</a>
+                        <a th:href="@{/seller/findpw.do}" class="btn btn-outline-secondary">비밀번호를 잊으셨나요?</a>
                     </div>
                 </div>
             </div>
