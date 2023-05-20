@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.example.handler.CustomLogoutHandler;
 import com.example.service.SecurityAdminSeviceImpl;
 import com.example.service.SecurityCustomerSeviceImpl;
-import com.example.service.jk.JkSecuritySellerSeviceImpl;
+import com.example.service.SecuritySellerSeviceImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SecurityConfig {
     
     final SecurityCustomerSeviceImpl userCustomerDetailsService;
-    final JkSecuritySellerSeviceImpl userSellerDetailsService;
+    final SecuritySellerSeviceImpl userSellerDetailsService;
     final SecurityAdminSeviceImpl userAdminDetailsService;
     
     @Bean // 객체를 생성함
