@@ -12,9 +12,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
+@ToString(exclude = { "pw" })
 @Table(name = "SELLER")
 public class SellerEntity {
     

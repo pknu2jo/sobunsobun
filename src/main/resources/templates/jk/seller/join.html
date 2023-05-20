@@ -5,24 +5,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>소분소분 -업체가입</title>
+    <title>소분소분 - 업체 회원가입</title>
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 </head>
 
-<body>
+<body style="margin-top: 60px">
     <div style="width: 600px; margin: 0 auto; padding: 50px; border: 1px solid #efefef;">
         <div class="text-center">
-            <img th:src="@{/images/jk/logo1.png}" name="soboon" style="height: 200px;">
+            <img th:src="@{/images/jk/logo1.png}" name="soboon" style="height: 150px;">
             <br />
         </div>
         <form th:action="@{/seller/join.do}" method="post">
             <div class="row">
                 <div class="col-sm">
+                    <hr />
                     <div class="form-floating mb-2">
                         <input type="text" id="id" name="no" value="1234" class="form-control" onkeyup="ajaxIDCheck(this)"> <label
-                            for="id" id="lbl_check" class="form-label">사업자번호</label>
+                            for="id" id="lbl_check" class="form-label">사업자번호 (아이디)</label>
                     </div>
                     <div class="form-floating mb-2">
                         <input type="password" id="pw" name="pw" class="form-control" required value="123" /> <label for="pw"
@@ -46,27 +47,27 @@
                     </div>
                     <hr />
                     <div class="container text-center d-grid gap-2" style="padding: 0;">
-                        <input type="button" class="btn btn-success mb-3" onclick="sample6_execDaumPostcode()"
+                        <input type="button" class="btn btn-dark mb-3" onclick="sample6_execDaumPostcode()"
                             value="내주소 찾기">
                         <div class="row">
                             <div class="col">
                                 <input type="text" name="address1" class="form-control" id="sample6_postcode"
-                                    placeholder="우편번호" readonly style="background-color: rgb(211, 211, 211);">
+                                    placeholder="우편번호" readonly style="background-color: rgb(230, 229, 229);">
                             </div>
                             <div class="col">
                                 <input type="text" name="address2" id="sample6_address" class="form-control"
-                                    placeholder="주소" readonly style="background-color: rgb(211, 211, 211);">
+                                    placeholder="주소" readonly style="background-color: rgb(230, 229, 229);">
                             </div>
                         </div>
                         <input type="text" name="address3" class="form-control" id="sample6_detailAddress"
                             placeholder="상세주소" value="상세주소">
                         <input type="text" name="address4" class="form-control" id="sample6_extraAddress"
-                            placeholder="추가정보" value="추가주소">
+                            placeholder="추가정보" value="추가주소" hidden>
                     </div>
                     <hr />
                     <div class="container text-center d-grid gap-2" style="padding: 0;">
                         <!-- 여기서 type을 submit으로 잡고 유효성 검사를 하게되면 강제로 데이터가 넘어가기 때문에 button으로 지정해주어야 함! -->
-                        <input type="submit" value="가입하기" class="btn btn-success"  /> 
+                        <input type="submit" value="가입하기" class="btn btn-dark"  /> 
                         <a th:href="@{/seller/login.do}" class="btn btn-outline-secondary">로그인 화면으로</a>
                     </div>
                 </div>
@@ -85,16 +86,17 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- axios -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
-
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
     <script>
         // function joinAction() {
         //     const id = document.getElementById('id');
         //     const pw = document.getElementById('pw');
+        //     const pw1 = document.getElementById('pw1');
         //     const name = document.getElementById('name')
         //     const phone = document.getElementById('phone');
         //     const email = document.getElementById('email');
+        //     const address = document.getElementById('address1');
 
         //     if (id.value.length <= 0) {
         //         Swal.fire({
@@ -108,17 +110,17 @@
         //         return false; // 함수종료, 전송하지 않음
         //     }
 
-        //     if (idcheck === 0) {
-        //         Swal.fire({
-        //             icon: 'warning',
-        //             title: '이미 사용중인 아이디네요!',
-        //             text: '이런.. 이 멋진걸 누군가 이미 선점했나 보네요.',
-        //             showConfirmButton: true,
+        //     // if (idcheck === 0) {
+        //     //     Swal.fire({
+        //     //         icon: 'warning',
+        //     //         title: '이미 사용중인 아이디네요!',
+        //     //         text: '이런.. 이 멋진걸 누군가 이미 선점했나 보네요.',
+        //     //         showConfirmButton: true,
 
-        //         });
-        //         id.focus();
-        //         return false;
-        //     }
+        //     //     });
+        //     //     id.focus();
+        //     //     return false;
+        //     // }
 
         //     if (pw.value.length <= 0) {
         //         Swal.fire({
@@ -203,17 +205,24 @@
         //         return false;
         //     }
 
-        //     // form의 내용을 button을 눌러 강제로 submit 수행!
+        //     if (address.value.length <= 0) {
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: '주소를 입력하지 않았어요!',
+        //             text: '주소를 입력해주세요!',
+        //             showConfirmButton: true,
+
+        //         });
+        //         address.focus();
+        //         return false;
+        //     }
+
+            // form의 내용을 button을 눌러 강제로 submit 수행!
         //     document.getElementById('form').submit();
         // }
 
 
         function sample6_execDaumPostcode() {
-            // PostCode() obj = new postCode();
-            // obj.open;
-
-            // new PostCode().open();
-
             new daum.Postcode(
                 {
                     oncomplete: function (data) {

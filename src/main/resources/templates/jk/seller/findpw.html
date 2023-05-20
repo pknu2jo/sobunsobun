@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>소분소분 - 업체 비밀번호 찾기</title>
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+
+<body style="margin-top: 60px">
+    <div style="width: 600px; margin: 0 auto; padding: 50px; border: 1px solid #efefef;">
+        <div class="text-center">
+            <img th:src="@{/images/jk/logo1.png}" name="soboon" style="height: 150px;">
+            <br />
+        </div>
+        <form th:action="@{/seller/findpw.do}" method="post">
+            <div class="row">
+                <div class="col-sm">
+                    <hr />
+                    <br>
+                    <div class="form-floating mb-2">
+                        <input type="text" id="id" name="no" value="1234" class="form-control" onkeyup="ajaxIDCheck(this)"> <label
+                            for="id" id="lbl_check" class="form-label">사업자번호</label>
+                    </div>
+                    <div class="form-floating mb-2">
+                        <input type="email" id="email" name="email" class="form-control" value="test@test"/>
+                        <label for="email" class="form-label">이메일</label>
+                    </div>
+                    <br>
+                    <hr />
+                    <div class="container text-center d-grid gap-2" style="padding: 0;">
+
+                        <!-- 버튼을 누르면 alert창 = 
+                            "등록된 이메일로 새로운 비밀번호가 발송됐습니다. 이메일을 확인해주세요"
+                            메시지가 뜨고, 메일로 임시비밀번호 발송. -->
+                        <input type="submit" value="비밀번호 찾기" class="btn btn-dark" /> 
+                        <a th:href="@{/seller/login.do}" class="btn btn-outline-secondary">로그인 화면으로</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <!-- sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+        integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+</body>
+
+</html>

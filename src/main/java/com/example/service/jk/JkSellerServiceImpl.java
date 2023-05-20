@@ -20,7 +20,7 @@ public class JkSellerServiceImpl implements JkSellerService {
         } catch (Exception e) {
             throw new UnsupportedOperationException("Unimplemented method 'sellerRegister'");
         }
-        
+
     }
 
     @Override
@@ -61,6 +61,15 @@ public class JkSellerServiceImpl implements JkSellerService {
             throw new UnsupportedOperationException("Unimplemented method 'sellerUnRegister'");
         }
 
+    }
+
+    @Override
+    public int findSellerPw(Seller obj) {
+        try {
+            return sMapper.findSellerPw(obj);
+        } catch (Exception e) {
+            throw new UnsupportedOperationException("Unimplemented method 'findSellerPw'");
+        }
     }
 
 }

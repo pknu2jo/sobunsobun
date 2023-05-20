@@ -14,7 +14,10 @@ public interface JkSellerService {
     // 업체 로그인
     public Seller sellerLogin(@Param("obj") Seller obj);
 
-    // 업체 정보수정 (이름, )
+    // 업체 비밀번호 찾기
+    public int findSellerPw(@Param("obj") Seller obj);
+
+    // 업체 정보수정
     public int updateSellerinfo(@Param("obj") Seller obj);
 
     // 업체 비밀번호 변경
