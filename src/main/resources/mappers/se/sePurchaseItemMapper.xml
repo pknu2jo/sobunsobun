@@ -7,4 +7,9 @@
         SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <= 8 ORDER BY ROWNUM ASC
     </select> -->
         
+
+    <!-- <select id="selectDeadLinePurchaseItem" parameterType="long" resultType="map">
+        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY DEADLINE ASC) ROWNNUM FROM SEDEADLINEPURCHASEVIEW s) WHERE ROWNNUM <= #{no} ORDER BY ROWNUM ASC
+    </select> -->
+
 </mapper>

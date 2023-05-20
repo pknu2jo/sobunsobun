@@ -25,9 +25,27 @@
     <div style="padding-bottom: 300px;">
 
         <div class="container">
-            <th:block th:each=" map : ${manyList} ">
-                <p th:text="${map.PRICE}"></p>
+
+            <!-- 비로그인 -->
+            공구가 많이 열린 물품 (최대 8개)
+            <hr>
+            <th:block th:each=" manyMap : ${manyList} ">
+                <th:block th:text="${manyMap.PRICE}"></th:block>
+                <img th:src="@{/customer/seimage(itemno=${manyMap.ITEMNO})}" style="width: 100px;">
             </th:block>
+            <hr>
+
+            기한이 얼마 안 남은 공구 (최대 5개)
+            <hr>
+            <th:block th:each=" map : ${deadList} ">
+                <th:block th:text="${map.PRICE}"></th:block>
+                <img th:src="@{/customer/seimage(itemno=${map.ITEMNO})}" style="width: 100px;">
+            </th:block>
+            <hr>
+
+            <!-- 로그인 -->
+
+
         </div>
 
     </div>

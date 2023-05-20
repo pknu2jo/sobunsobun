@@ -1,13 +1,24 @@
 package com.example.controller.se;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +26,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.SendMail;
 import com.example.entity.CustomerAddressEntity;
 import com.example.entity.CustomerEntity;
+import com.example.entity.ItemImage;
 import com.example.service.se.SeCustomerService;
 import com.example.service.se.SeMailService;
 import com.example.service.se.SePurchaseItemService;
@@ -36,6 +49,9 @@ public class SeCustomerContorller {
     final SePurchaseItemService piService;
     final HttpSession httpSession; // 정보 전달용 session 객체 생성
     @Autowired private SeMailService mailService; // 비밀번호 찾기 메일 전송용
+    // 이미지 전송용
+    @Autowired ResourceLoader resourceLoader; // resources 폴더의 파일을 읽기 위한 객체 생성
+    @Value("${default.image}") String DEFAULTIMAGE;
     
     // ----------------------------------------------------------------------------------------------------
     // 회원가입
@@ -225,15 +241,34 @@ public class SeCustomerContorller {
     @GetMapping(value = "/home.do")
     public String homeGET( Model model ) {
         try {
+
             // 비로그인 - 세션에 저장된 user 정보가 없을 때
-            // 공구가 많이 열린 물품
+            // 공구가 많이 열린 물품 목록 => 비로그인 시에만 세팅
             List<Map<String, Object>> manyList = piService.selectManyPurchaseItem();
-            log.info("공구물품 => {}", manyList.toString());
-            for ( Map<String, Object> map : manyList ) {
+            log.info("공구가 많이 열린 물품 => {}", manyList.toString());
+            for ( Map<String, Object> manyMap : manyList ) {
                 // System.out.println( ((BigDecimal) map.get("PRICE")).toPlainString() ); // 확인용
-                map.put("PRICE", ((BigDecimal) map.get("PRICE")).toPlainString());
+                manyMap.put("PRICE", ((BigDecimal) manyMap.get("PRICE")).toPlainString());
             }
             model.addAttribute("manyList", manyList);
+
+            // 기한이 얼마 안 남은 공구 목록
+            long selectNo = 5; // 비로그인 시 5개 // 로그인 시 8개 세팅
+            List<Map<String, Object>> deadList = piService.selectDeadLinePurchaseItem(selectNo);
+            log.info("기한이 얼마 안 남은 공구 => {}", deadList.toString());
+            for ( Map<String, Object> deadMap : deadList ) {
+                deadMap.put("PRICE", ((BigDecimal) deadMap.get("PRICE")).toPlainString());
+                // System.out.println(deadMap.get("DEADLINE"));
+                Date date = (Date)deadMap.get("DEADLINE");
+                Timestamp deadlineTS =  Timestamp.valueOf(deadMap.get("DEADLINE").toString());
+                Calendar now = Calendar.getInstance();
+                Calendar deadline = Calendar.getInstance();
+                deadline.setTime(date);
+                long result = (now.getTimeInMillis() - deadline.getTimeInMillis()) / 1000 / 60;
+                System.out.println("=====================================================================================");
+                System.out.println(result);
+            }
+            model.addAttribute("deadList", deadList);
             
             return "/se/customer/home";
         } catch (Exception e) {
@@ -242,8 +277,30 @@ public class SeCustomerContorller {
         }
     }
 
-             
     
+    // ----------------------------------------------------------------------------------------------------
+    // 이미지 url 생성용 => 물품 번호를 보내면 대표이미지를 반환
+    // 127.0.0.1:5959/customer/seimage.do?itemno=?
+    @GetMapping(value = "/seimage")
+    public ResponseEntity<byte[]> image ( @RequestParam(name = "itemno", defaultValue = "0" ) BigDecimal itemno) throws IOException {
+        // 메뉴 번호를 입력해서 메뉴 하나 가져오기 (메뉴에 이미지 정보가 있으니까)
+        ItemImage obj = piService.selectItemImageOne(itemno);
+
+        HttpHeaders headers = new HttpHeaders(); // import org.springframework.http.HttpHeaders;
+        if(obj != null){ // 이미지가 존재하는지 확인
+            if(obj.getFilesize().longValue() > 0){
+                headers.setContentType( MediaType.parseMediaType(obj.getFiletype()) );
+                return new ResponseEntity<>( obj.getFiledata(), headers, HttpStatus.OK );
+                //  == 1) ResponseEntity<byte[]> response = new ResponseEntity<>( obj.getFiledata(), headers, HttpStatus.OK );
+                // 2) return response;
+            }
+        }
+        // 이미지가 없을 경우
+        InputStream is = resourceLoader.getResource(DEFAULTIMAGE).getInputStream(); // exception 발생 => throws IOException 처리
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        return new ResponseEntity<>( is.readAllBytes(), headers, HttpStatus.OK );
+    }
+
     // ----------------------------------------------------------------------------------------------------
     // 오류 페이지
     @GetMapping(value = "/403page.do")
