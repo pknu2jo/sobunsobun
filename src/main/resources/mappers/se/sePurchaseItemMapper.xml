@@ -3,8 +3,8 @@
 
 <mapper namespace="com.example.mapper.se.SePurchaseItemMapper">
 
-    <select id="findManyPurchaseItem" resultType="map">
-        SELECT code lcode, name lname FROM LCATEGORY
-    </select>
-    
+    <!-- <select id="selectManyPurchaseItem" resultType="map">
+        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <= 8 ORDER BY ROWNUM ASC
+    </select> -->
+        
 </mapper>

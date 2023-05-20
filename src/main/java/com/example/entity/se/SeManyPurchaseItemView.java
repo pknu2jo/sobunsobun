@@ -18,8 +18,8 @@ import lombok.Data;
 public class SeManyPurchaseItemView {
     
     @Id
-    @Column(name = "no")
-    private BigDecimal no;
+    @Column(name = "itemno")
+    private BigDecimal itemno;
     
     @Column(name = "name")
     private String name;

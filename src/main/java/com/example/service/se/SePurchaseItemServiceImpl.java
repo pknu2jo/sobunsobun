@@ -1,11 +1,11 @@
 package com.example.service.se;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.example.entity.se.SeManyPurchaseItemView;
-import com.example.repository.se.SeManyPurchaseItemViewRepository;
+import com.example.mapper.se.SePurchaseItemMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,13 +13,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SePurchaseItemServiceImpl implements SePurchaseItemService {
 
-    final SeManyPurchaseItemViewRepository piRepository;
+    final SePurchaseItemMapper piMapper;
     
-    // 공구가 많이 일어난 물품 5개
+    // 공구가 많이 열린 물품 8개
     @Override
-    public List<SeManyPurchaseItemView> findManyPurchaseItem() {
+    public List<Map<String, Object>> selectManyPurchaseItem() {
         try {
-            return piRepository.findTop2ByOrderByPurchasecntDesc();
+            return piMapper.selectManyPurchaseItem();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

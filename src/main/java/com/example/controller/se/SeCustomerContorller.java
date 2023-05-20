@@ -1,7 +1,9 @@
 package com.example.controller.se;
 
+import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.dto.SendMail;
 import com.example.entity.CustomerAddressEntity;
 import com.example.entity.CustomerEntity;
-import com.example.entity.se.SeManyPurchaseItemView;
 import com.example.service.se.SeCustomerService;
 import com.example.service.se.SeMailService;
 import com.example.service.se.SePurchaseItemService;
@@ -222,10 +223,18 @@ public class SeCustomerContorller {
     // ----------------------------------------------------------------------------------------------------
     // 홈화면
     @GetMapping(value = "/home.do")
-    public String homeGET() {
+    public String homeGET( Model model ) {
         try {
-            List<SeManyPurchaseItemView> list = piService.findManyPurchaseItem();
-            log.info("공구물품 => {}", list.toString());
+            // 비로그인 - 세션에 저장된 user 정보가 없을 때
+            // 공구가 많이 열린 물품
+            List<Map<String, Object>> manyList = piService.selectManyPurchaseItem();
+            log.info("공구물품 => {}", manyList.toString());
+            for ( Map<String, Object> map : manyList ) {
+                // System.out.println( ((BigDecimal) map.get("PRICE")).toPlainString() ); // 확인용
+                map.put("PRICE", ((BigDecimal) map.get("PRICE")).toPlainString());
+            }
+            model.addAttribute("manyList", manyList);
+            
             return "/se/customer/home";
         } catch (Exception e) {
             e.printStackTrace();
