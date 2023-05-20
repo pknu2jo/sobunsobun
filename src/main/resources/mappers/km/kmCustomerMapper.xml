@@ -3,12 +3,41 @@
 
 <mapper namespace="com.example.mapper.km.KmCustomerMapper">
 
+<!-- 물품 상세 조회 페이지 -->
+
+    <!-- 상품 정보 한개 가져오기 -->
+    <select id="selectOneItem" parameterType="long" resultType="Item">
+        SELECT i.NO, i.name, i.price, s.name sellername 
+        FROM item i INNER JOIN SELLER s ON i.REGNO = s.NO WHERE i.NO=#{no}
+    </select>
+
+    <!-- 상품 번호에 해당하는 이미지 번호 가져오기 -->
+    <select id="selectItemImageNoList" parameterType="long" resultType="long">
+        SELECT no FROM ITEMIMAGE i WHERE ITEMNO = #{itemno}   
+    </select>
+
     <!-- 상품에 대한 열린 공구 가져오기 -> 남은 인원 -->
-    <select id="countRemainingPerson" parameterType="long" resultType="int">
+    <!-- <select id="countRemainingPerson" parameterType="long" resultType="int">
         SELECT  participant-count(*) 
         FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY memid ORDER BY no desc) recent 
- 		FROM purchaseview p WHERE purchaseno = #{purchaseno} ) 
+ 		FROM kmpurchaseview p WHERE purchaseno = #{purchaseNo}) 
+        WHERE recent=1 AND state=0 AND cancel=0
+    </select> -->
+    <select id="countRemainingPerson" parameterType="long" resultType="int">
+       SELECT  participant-count(*) 
+        FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY memid ORDER BY no desc) recent 
+ 		FROM kmpurchaseview p WHERE purchaseno = #{purchaseNo}) 
         WHERE recent=1 AND state=0 AND cancel=0
     </select>
 
+    <!-- 상품에 대한 열린 공구 가져오기 -> 공구번호, 참여인원, 마감기한, 보관소 코드, 보관소이름 -->
+    <select id="selectPurchaseList" parameterType="long" resultType="kmPurchaseView">
+        SELECT * FROM (
+				SELECT * FROM (SELECT *, ROW_NUMBER() OVER 
+				(PARTITION BY PURCHASENO ORDER BY no desc) recent 
+									FROM KMPURCHASEVIEW p WHERE itemno = #{itemno}
+									ORDER BY PURCHASENO DESC 
+				  ) WHERE recent=1 AND deadline > CURRENT_TIMESTAMP()  ORDER BY deadline DESC
+		)
+    </select>
 </mapper>

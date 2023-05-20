@@ -27,4 +27,8 @@ public class Item {
 
 	// 소분류코드번호 - FK
 	private long scategoryCode;
+
+
+	// 임시변수
+	private String sellername;
 }

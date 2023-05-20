@@ -729,3 +729,83 @@ section
 	font-weight: 500;
 	cursor: pointer;
 }
+
+/* --------------------------------------------- */
+/* 물품 상세 - 공구 참여 및 공구 개설 버튼 */
+.tablediv {
+	padding: 0 !important;
+	margin-top: 10px !important;
+}
+.scrolltable {
+	table-layout: fixed;
+	border-collapse: collapse;
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+}
+
+/* 행 장식 */
+.scrolltable th,
+.scrolltable td {
+	padding: 10px;
+	text-align: left;
+	width: 100px;
+	text-align: center;
+	font-size: 0.8rem;
+}
+
+
+.scrolltable thead {
+	display: block;
+	background: rgb(148, 175, 160);
+	color: #fff;
+}
+
+
+.scrolltable tbody {
+	display: block;
+	overflow: auto;
+	height: 250px;
+}
+
+.open-btn {
+	border: 1px solid #6d9275 !important;
+	color: #4e6854;
+	/* background-color: #6d9275;
+	 color: #ebebeb; */
+	font-size: 16px;
+	border: none;
+}
+
+.participant-btn {
+	border: 1px solid #6d9275 !important;
+	color: #4e6854;
+	/* background-color: #6d9275;
+	color: #ebebeb; */
+	font-size: 0.8rem;
+	border: none;
+	padding: 3px 6px;
+}
+.open-btn:hover, .participant-btn:hover {
+	background-color: #6d9275;
+	color: #ebebeb;
+}
+
+
+tbody::-webkit-scrollbar {
+    width: 8px;  /* 스크롤바의 너비 */
+}
+
+tbody::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: #ddd; /* 스크롤바의 색상 */
+    
+    border-radius: 10px;
+}
+
+tbody::-webkit-scrollbar-track {
+    background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
+}
+
+.product_price:hover {
+	font-size: xx-large;
+}

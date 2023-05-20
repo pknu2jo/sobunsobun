@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 3000,
     "height": 3000,
-    "scrollTop": -367.83333111471825,
-    "scrollLeft": -819.9999880790764,
-    "zoomLevel": 1,
+    "scrollTop": -814.4999955296524,
+    "scrollLeft": -304.16665458017553,
+    "zoomLevel": 0.9,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -2245,6 +2245,29 @@
             "id": "e16443cf-5766-4f70-87d8-5bc446797ef7"
           },
           {
+            "name": "name",
+            "comment": "보관소지점명",
+            "dataType": "VARCHAR2(200)",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 80,
+              "widthDataType": 96.453125,
+              "widthDefault": 60
+            },
+            "id": "b2ff2d10-8d5e-46c1-aa98-833fd0dee3ae"
+          },
+          {
             "name": "phone",
             "comment": "보관소 전화번호",
             "dataType": "VARCHAR2(100)",
@@ -2453,7 +2476,7 @@
           }
         ],
         "ui": {
-          "active": false,
+          "active": true,
           "left": 292.1879,
           "top": 800.1737,
           "zIndex": 15,
@@ -2814,7 +2837,7 @@
             "d5f54687-1a60-4d83-854d-16d8da5c3cf2"
           ],
           "x": 541.000644140625,
-          "y": 1074.1737,
+          "y": 1094.6737,
           "direction": "bottom"
         },
         "constraintName": "fk_admin_to_storage",
@@ -2883,7 +2906,7 @@
             "e16443cf-5766-4f70-87d8-5bc446797ef7"
           ],
           "x": 789.81338828125,
-          "y": 937.1737,
+          "y": 947.4237,
           "direction": "right"
         },
         "end": {

@@ -90,10 +90,10 @@ public class SecurityConfig {
         // 권한 설정
         // http.authorizeRequests().anyRequest().permitAll();
         http.authorizeRequests()
-            .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do","/customer/kmtest.do").permitAll()
-            .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do", "/seller/home.do", "/seller/findpw.do","/seller/updateinfo.do").permitAll()
+            .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do","/customer/kmtest.do","/customer/image").permitAll()
+            .antMatchers("/seller/join.do", "/seller/item/insert.do").permitAll()
             .antMatchers("/admin/join.do").permitAll()
-            
+
             .antMatchers("/admin", "/admin/*").hasAuthority("ADMIN")  // 주소가 9090/ROOT/admin  ~~ 모든것
             .antMatchers("/seller", "/seller/*").hasAnyAuthority("ADMIN", "SELLER")
             .antMatchers("/customer", "/customer/*").hasAnyAuthority("CUSTOMER")
@@ -112,7 +112,7 @@ public class SecurityConfig {
             .passwordParameter("pw")
             .defaultSuccessUrl("/customer/home.do")
             .permitAll();
-            
+
         // 로그아웃 처리 (고객, 업체, 관리자 모두 해당)
         http.logout()
             .logoutUrl("/logout.do")

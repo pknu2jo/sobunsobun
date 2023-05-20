@@ -1,22 +1,29 @@
 package com.example.mapper.km;
 
-import org.apache.ibatis.annotations.Insert;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.dto.Customer;
+import com.example.dto.Item;
+import com.example.dto.kmPurchaseView;
 
 @Mapper
 public interface KmCustomerMapper {
-    
-    // 회원가입
-    @Insert({ " INSERT INTO customer(id, pw, name, phone, email, nickname, gender) ", 
-    " VALUES(#{id}, #{pw}, #{name}, #{phone}, #{email}, #{nickname}, #{gender}) " })
-    public int joinCustomer(Customer customer);
+
+// 물품 상세 조회 페이지
+
+    // 상품 정보 가져오기
+    public Item selectOneItem(long no);
+
+    // 상품 번호에 해당하는 이미지 번호 가져오기
+    public List<Item> selectItemImageNoList(long itemno);
 
     // 상품에 대한 열린 공구 가져오기 -> 남은 인원
     public int countRemainingPerson(long purchaseno);
 
-    // 상품에 대한 열린 공구 가져오기 -> 참여인원, 보관소, 마감기한 마감순 정렬 (추후 보관소 table 생성 되면 보관소도 불러오기)
-    
-    
+    // 상품에 대한 열린 공구 가져오기 => 공구번호, 참여인원, 마감기한, 보관소 코드, 보관소이름
+    public List<kmPurchaseView> selectPurchaseList(long itemno);
+        
 }

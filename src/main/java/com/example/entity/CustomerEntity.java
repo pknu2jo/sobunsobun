@@ -3,9 +3,12 @@ package com.example.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -16,7 +19,7 @@ import lombok.ToString;
 @Data
 @Entity
 @Table(name = "Customer")
-public class Customer {
+public class CustomerEntity {
 
     @Id
     @Column(name = "ID")
@@ -50,5 +53,9 @@ public class Customer {
     @CreationTimestamp
     @Column(name = "REGDATE", insertable = true, updatable = false)
     private Date regdate; 
+
+    @ToString.Exclude // toString() 제외
+    @OneToOne(mappedBy = "customer", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+    private CustomerAddressEntity CustomerAddressEntity;
     
 }

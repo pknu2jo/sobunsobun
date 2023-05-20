@@ -12,21 +12,22 @@
 
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
     <!-- <link th:href="@{/css/km/font-awesome.min.css}" rel="stylesheet" type="text/css"> -->
-    <link rel="stylesheet" type="text/css" th:href="@{/css/km/selectitem.css}">
     <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/km/single_styles.css}"> -->
-    <link rel="stylesheet" type="text/css" th:href="@{/css/single_responsive.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/km/single_responsive.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/km/selectitem.css}">
 
     <!-- font-awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
+   
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <!-- axios (https://cdnjs.com/libraries/axios) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
         integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
 </head>
 
@@ -43,10 +44,16 @@
                         <!-- Breadcrumbs -->
                         <div class="breadcrumbs d-flex flex-row align-items-center">
                             <ul>
-                                <li><span>대분류</span></li>
-                                <li><span><i class="fa fa-angle-right" aria-hidden="true"></i>중분류</span></li>
-                                <li class="active"><a href="#"><i class="fa fa-angle-right"
-                                            aria-hidden="true"></i>소분류</a></li>
+                                <li><span th:text="${purchaseList[0].lCategoryName}"></span></li>
+                                <li>
+                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    <span th:text="${purchaseList[0].mCategoryName}"></span>
+                                </li>
+                                <li class="active">
+                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    <a href="#" th:text="${purchaseList[0].sCategoryName}"></a>
+                                    <!-- /customer/item/selectlist.do?scode=4 -->
+                                </li>
                             </ul>
                         </div>
 
@@ -54,66 +61,56 @@
                 </div>
 
                 <div class="row">
+                    <!-- 물품 간단 사진 영역 ~ -->
                     <div class="col-lg-6">
                         <div class="single_product_pics">
                             <div class="row">
-                                <!-- <div class="col-lg-3 thumbnails_col order-lg-1 order-2">
-                                    <div class="single_product_thumbnails">
-                                        <ul>
-                                            <li><img th:src="@{/images/km/single_1_thumb.jpg}" data-image="images/single_1.jpg"></li>
-                                            <li class="active"><img th:src="@{/images/km/single_2_thumb.jpg}" data-image="images/single_2.jpg"></li>
-                                            <li><img th:src="@{/images/km/single_3_thumb.jpg}" data-image="images/single_3.jpg"></li>
-                                        </ul>
-                                    </div>
-                                </div> -->
                                 <div class="col-lg-9 image_col order-lg-2 order-1">
                                     <div class="single_product_image">
-                                        <div class="single_product_image_background"
+                                        <!-- <div class="single_product_image_background"
                                             th:style="'background-image:url('+ @{/images/km/single_2.jpg} +');height: 500px;mt-5'">
+                                        </div> -->
+                                        <div class="single_product_image_background" style="height: 500px">
+                                            <img th:src="${imageList[0]}" alt="">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- ~ 물품 간단 사진 영역 -->
+
+                    <!-- 물품 설명 영역 ~ -->
                     <div class="col-lg-6">
                         <div class="product_details">
                             <div class="product_details_title">
-                                <p>업체명</p>
-                                <h2>물건명</h2>
-                                <!-- <h3>가격</h3> -->
-                                <div class="product_price">$495.00</div>
+                                <p th:text="${purchaseList[0].sellerName}"></p>
+                                <h2 th:text="${purchaseList[0].itemName}"></h2>
+                                <div class="product_price" th:text="${#numbers.formatInteger(purchaseList[0].itemPrice, 3, 'COMMA') + '원'}"></div>
                             </div>
-                            <div class="free_delivery d-flex flex-row align-items-center justify-content-center mt-0"
-                                style="height: 300px;">
-                                열린 공구영역
+                            <!-- 열린 공구 영역 ~ -->
+                            <div class="tablediv">
+                                <table class="table table-hover scrolltable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">번호</th>
+                                            <th scope="col">참여인원</th>
+                                            <th scope="col">남은인원</th>
+                                            <th scope="col">수령지점</th>
+                                            <th scope="col">인당가격</th>
+                                            <th scope="col">남은시간</th>
+                                            <th scope="col"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody">
+
+                                    </tbody>
+                                </table>
                             </div>
-                            <!-- <div class="original_price">$629.99 물품 전체가격</div>
-                                <div class="product_price">$495.00 1인당 구매가격</div> -->
-                            <!-- <ul class="star_rating">
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                            </ul> -->
-                            <!-- <div class="product_color">
-                                <span>Select Color:</span>
-                                <ul>
-                                    <li style="background: #e54e5d"></li>
-                                    <li style="background: #252525"></li>
-                                    <li style="background: #60b3f3"></li>
-                                </ul>
-                            </div> -->
+                            <!-- ~ 열린 공구 영역 -->
+
                             <div
                                 class="quantity d-flex flex-column flex-sm-row align-items-sm-center justify-content-center">
-                                <!-- <span>Quantity:</span>
-                                <div class="quantity_selector">
-                                    <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                    <span id="quantity_value">1</span>
-                                    <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                </div> -->
-                                <!-- <div class="red_button add_to_cart_button"><a href="#">공구개설</a></div> -->
 
                                 <!-- 공구 개설 modal ~ -->
                                 <div class="red_button add_to_cart_button">
@@ -132,9 +129,11 @@
                                                     <!-- single_custom.jsdml 209라인 (initQuantity() 함수)-->
                                                     <span>Quantity:</span>
                                                     <div class="quantity_selector">
-                                                        <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                                        <span class="minus"><i class="fa fa-minus"
+                                                                aria-hidden="true"></i></span>
                                                         <span id="quantity_value">1</span>
-                                                        <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+                                                        <span class="plus"><i class="fa fa-plus"
+                                                                aria-hidden="true"></i></span>
                                                     </div>
                                                     <!-- 참여인원 -->
 
@@ -144,43 +143,24 @@
                                                 <div class="modal-footer">
                                                     <button class="btn btn-primary"
                                                         data-bs-target="#exampleModalToggle2"
-                                                        data-bs-toggle="modal">Open second modal</button>
+                                                        data-bs-toggle="modal">개설하기</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true"
-                                        aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2
-                                                    </h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Hide this modal and show the first with the button below.
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle"
-                                                        data-bs-toggle="modal">Back to first</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle"
-                                        data-bs-toggle="modal">Open first modal</button>
+                                    <button class="btn open-btn" data-bs-target="#exampleModalToggle"
+                                        data-bs-toggle="modal">공구 개설하기</button>
                                 </div>
                                 <!-- ~ 공구 개설 Modal-->
                             </div>
                         </div>
                     </div>
+                    <!-- ~ 물품 설명 영역 -->
                 </div>
 
             </div>
 
-            <!-- Tabs -->
+            <!-- 물품 상세 영역 ~  -->
             <div class="tabs_section_container">
 
                 <div class="container">
@@ -237,7 +217,7 @@
                                 </div>
                             </div>
 
-                           
+
 
                             <div id="tab_3" class="tab_container">
                                 <div class="row">
@@ -336,7 +316,7 @@
                 </div>
 
             </div>
-
+            <!-- ~ 물품 상세 영역 -->
         </div>
     </div>
 
@@ -349,10 +329,69 @@
     <script th:src="@{/js/jquery-3.6.4.min.js}"></script>
     <script th:src="@{/js/km/jquery-ui.js}"></script>
     <script th:src="@{/js/km/single_custom.js}"></script>
-    <script>
-        
-    </script>
 
+    <script th:inline="javascript" type="text/javascript">
+        
+        // 카운트다운 타이머
+        function CountDownTimer(dt, id) {
+            var end = new Date(dt);
+            var _second = 1000;
+            var _minute = _second * 60;
+            var _hour = _minute * 60;
+            var _day = _hour * 24;
+            var timer;
+            function showRemaining() {
+                var now = new Date();
+                var distance = end - now;
+                if (distance < 0) {
+                    clearInterval(timer);
+                    document.getElementById(id).innerHTML = '공구 종료';
+                    return;
+                }
+                var days = Math.floor(distance / _day);
+                var hours = Math.floor((distance % _day) / _hour);
+                var minutes = Math.floor((distance % _hour) / _minute);
+                var seconds = Math.floor((distance % _minute) / _second);
+                document.getElementById(id).innerHTML = days + '일 ';
+                document.getElementById(id).innerHTML += hours + '시간 ';
+                document.getElementById(id).innerHTML += minutes + '분 ';
+                document.getElementById(id).innerHTML += seconds + '초';
+            }
+            timer = setInterval(showRemaining, 1000);
+        }
+        
+        const tbody = document.getElementById('tbody');
+        tbody.innerHTML = ''; // 초기화 해주기
+        const list = /*[[${ purchaseList }]]*/"";
+
+        console.log(list)
+        // 하나씩 꺼내기
+        for (let i=0; i<list.length; i++) {
+
+            let tmp = list[i];
+
+            var deadline = new Date(tmp.deadline);
+            CountDownTimer(deadline, `clock${i}`);
+            
+            var price = Math.floor(tmp.itemPrice / tmp.participant);
+            var price1 = price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '원';
+
+            console.log(tmp.deadline);
+            console.log(price);
+            console.log(price1);
+
+            tbody.innerHTML +=
+                `<tr>` +
+                    `<td scope="row">${tmp.purchaseNo}</td>` +
+                    `<td scope="row">${tmp.participant}</td>` +
+                    `<td>${tmp.remainingPerson}</td>` +
+                    `<td>${tmp.storageName}</td>` +
+                    `<td>` + price1 + `</td>` +
+                    '<td id="clock'+i+'">' + deadline + '</td>' +
+                    `<td><button class="btn participant-btn">참여</button></td>` +
+                `</tr>`;
+        }; 
+    </script>
 
 
 </body>

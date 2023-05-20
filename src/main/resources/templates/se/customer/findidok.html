@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>새로운 1인가구 공구문화 - 소분소분</title>
+    <link rel="icon" th:href="@{/images/se/sobun.ico}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <!-- font-awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -22,14 +23,13 @@
     
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur eaque illum doloremque officiis facilis, iure magni optio nobis earum placeat ab tempore dolore voluptatibus! Corrupti distinctio perspiciatis quo! Placeat, optio?</p>
+        
+        <div class="container">
+            <th:block th:text="|${name} 고객님의 아이디는 ${id} 입니다|"></th:block>
+            <a th:href="@{/cutomer/login.do}">로그인하기</a>
+        </div>
+        
     </div>
-
-    
-
-    <div th:text="${list[0].get('NO')}"></div>
-
-
 
     <!-- footer -->
     <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
