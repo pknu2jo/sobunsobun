@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.entity.Seller;
+import com.example.entity.SellerEntity;
 import com.example.repository.jk.JkSellerRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class SecuritySellerSeviceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("JkSellerRepository username => {}", username);
-        Seller obj = sRepository.findById(username).orElse(null);
+        SellerEntity obj = sRepository.findById(username).orElse(null);
 
         if (obj != null) { // 아이디(사업자번호)가 있는경우
             log.info("JkSellerRepository Seller => {}", obj.toString());
