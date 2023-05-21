@@ -8,7 +8,7 @@ import com.example.mapper.jk.SellerMapper;
 import lombok.RequiredArgsConstructor;
 
 @Service
-@RequiredArgsConstructor // 클래스에서만 가능함, 인터페이스에서는 안됨.
+@RequiredArgsConstructor // 클래스에서만 가능, 인터페이스에서는 안됨.
 public class JkSellerServiceImpl implements JkSellerService {
 
     final SellerMapper sMapper;
@@ -18,8 +18,9 @@ public class JkSellerServiceImpl implements JkSellerService {
         try {
             return sMapper.joinSeller(obj);
         } catch (Exception e) {
-            throw new UnsupportedOperationException("Unimplemented method 'sellerRegister'");
-        }
+            e.printStackTrace();
+            return 0;
+        } 
 
     }
 
@@ -28,7 +29,8 @@ public class JkSellerServiceImpl implements JkSellerService {
         try {
             return sMapper.sellerLogin(obj);
         } catch (Exception e) {
-            throw new UnsupportedOperationException("Unimplemented method 'sellerLogin'");
+            e.printStackTrace();
+            return null;
         }
 
     }
@@ -38,7 +40,8 @@ public class JkSellerServiceImpl implements JkSellerService {
         try {
             return sMapper.updateSellerinfo(obj);
         } catch (Exception e) {
-            throw new UnsupportedOperationException("Unimplemented method 'updateSellerInfo'");
+            e.printStackTrace();
+            return 0;
         }
 
     }
@@ -48,7 +51,8 @@ public class JkSellerServiceImpl implements JkSellerService {
         try {
             return sMapper.updateSellerPw(obj);
         } catch (Exception e) {
-            throw new UnsupportedOperationException("Unimplemented method 'updateSellerPw'");
+            e.printStackTrace();
+            return 0;
         }
 
     }
@@ -58,7 +62,8 @@ public class JkSellerServiceImpl implements JkSellerService {
         try {
             return sMapper.deleteSeller(obj);
         } catch (Exception e) {
-            throw new UnsupportedOperationException("Unimplemented method 'sellerUnRegister'");
+            e.printStackTrace();
+            return 0;
         }
 
     }
@@ -68,7 +73,8 @@ public class JkSellerServiceImpl implements JkSellerService {
         try {
             return sMapper.findSellerPw(obj);
         } catch (Exception e) {
-            throw new UnsupportedOperationException("Unimplemented method 'findSellerPw'");
+            e.printStackTrace();
+            return 0;
         }
     }
 

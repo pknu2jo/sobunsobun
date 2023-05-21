@@ -17,7 +17,7 @@
             <img th:src="@{/images/jk/logo1.png}" name="soboon" style="height: 150px;">
             <br />
         </div>
-        <form th:action="@{/seller/findpw.do}" method="post">
+        <form name="findpw" th:action="@{/seller/findpw.do}" method="post">
             <div class="row">
                 <div class="col-sm">
                     <hr />
@@ -37,7 +37,7 @@
                         <!-- 버튼을 누르면 alert창 = 
                             "등록된 이메일로 새로운 비밀번호가 발송됐습니다. 이메일을 확인해주세요"
                             메시지가 뜨고, 메일로 임시비밀번호 발송. -->
-                        <input type="submit" value="비밀번호 찾기" class="btn btn-dark" /> 
+                        <input type="button" value="비밀번호 찾기" class="btn btn-dark" onclick="findPwsubmit()"/> 
                         <a th:href="@{/seller/login.do}" class="btn btn-outline-secondary">로그인 화면으로</a>
                     </div>
                 </div>
@@ -58,6 +58,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
+    <script>
+        async function findPwsubmit(){
+            if (document.getElementById("id").value == "") {
+            alert("사업자번호를 입력해주세요.");
+            return false;
+            }
+            if (document.getElementById("email").value == "") {
+            alert("이메일을 입력해주세요.");
+            return false;
+            }
+            else{
+                document.findpw.submit();
+                alert('등록된 이메일로 임시비밀번호가 전송되었습니다. \n수신된 이메일을 확인후 로그인해주세요.\n\n확인버튼을 누르면 잠시 후 로그인페이지로 이동합니다.');
+            }
+            
+        }
+    </script>
 </body>
 
 </html>
