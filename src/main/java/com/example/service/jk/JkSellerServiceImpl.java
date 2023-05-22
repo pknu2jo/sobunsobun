@@ -20,7 +20,7 @@ public class JkSellerServiceImpl implements JkSellerService {
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
-        } 
+        }
 
     }
 
@@ -78,4 +78,14 @@ public class JkSellerServiceImpl implements JkSellerService {
         }
     }
 
+    @Override
+    public Seller findSellerInfo(String sellerId) {
+        try {
+            return sMapper.findSellerInfo(sellerId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+
+        }
+    }
 }

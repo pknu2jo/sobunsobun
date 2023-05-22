@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.dto.Seller;
+import com.example.entity.SellerEntity;
 import com.example.repository.jk.JkSellerRepository;
 import com.example.service.jk.JkSellerService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = "/seller")
@@ -84,6 +87,14 @@ public class JkSellerController {
         }
     }
 
+    // GET, POST가 같은 동작을 함.
+    // 로그아웃
+    @RequestMapping (value="/logout.do", method={RequestMethod.GET, RequestMethod.POST})
+    public String logoutPOST() {
+        httpSession.invalidate(); // 세션의 정보를 모두 지움.
+        return "redirect:/home.do";
+    }
+
     // 비밀번호 찾기
     // http://127.0.0.1:5959/SOBUN/seller/findpw.do
     @GetMapping(value = "/findpw.do")
@@ -95,8 +106,9 @@ public class JkSellerController {
     public String findpwPOST(@ModelAttribute Seller seller) {
         // 자동으로 임시 비밀번호를 생성, 설정한 뒤 메일에 첨부하는 방식.
         log.info("Find password 1 => {}", seller.toString());
-        String tempPw = UUID.randomUUID().toString().replace("-", ""); // '-' 를 제거
-        tempPw = tempPw.substring(0, 10); // 새로운 암호 발급
+        String tempPw = UUID.randomUUID().toString().replace("-", ""); // 난수 생성시에 '-'는 제외함.
+        tempPw = tempPw.substring(0, 10); // 10자리수의 새로운 암호 발급
+        // (임시비밀번호는 이메일에서 복사 후 붙여넣는 용도라 자릿수는 크게 신경쓰지 않았음.)
 
         seller.setNewPw(bcpe.encode(tempPw)); // 암호화 과정
         int ret = sService.findSellerPw(seller); // 필요한 정보 : no, newPw, email
@@ -108,26 +120,41 @@ public class JkSellerController {
         return "redirect:/seller/findpw.do";
     }
 
-    /* ----------------------------- 마이페이지 ---------------------------------- */
+    /* ----------------------------- 마이페이지(Jpa) ---------------------------------- */
 
     // http://127.0.0.1:5959/SOBUN/seller/updateinfo.do
     // 1. 업체정보
     @GetMapping(value = "/updateinfo.do")
-    public String updateInfoGET() {
-        return "jk/seller/mypage/updateinfo";
+    public String updateInfoGET() { // 기존 업체의 정보를 받아와야함. (업체명, 주소, 연락처 이메일) 
+        return"jk/seller/mypage/updateinfo";
     }
 
-    // @PostMapping(value = "/updateinfo.do")
-    // public String updateInfoPOST() {
-    // return "";
-    // }
+    @PostMapping(value = "/updateinfo.do")
+    public String updateInfoPOST(@AuthenticationPrincipal User user, @ModelAttribute SellerEntity seller1) {
+        try {
+            log.info("mypage info => {}");
+            // 기존 정보 가져오기
+            String sellerId = user.getUsername();
+            SellerEntity seller2 = sRepository.findById(sellerId).orElse(null);
+            // 변경항목 수정
+            seller2.setName(seller1.getName());
+            seller2.setAddress(seller1.getAddress());
+            seller2.setPhone(seller1.getPhone());
+            seller2.setEmail(seller1.getEmail());
+            sRepository.save(seller2);
+            return "redirect:/updateinfo.do";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
 
-    // // http://127.0.0.1:5959/SOBUN/seller/updatepw.do
-    // // 2. 비번변경
-    // @GetMapping(value = "/updatepw.do")
-    // public String updatePwGET() {
-    // return "jk/seller/mypage/updatepw";
-    // }
+    // http://127.0.0.1:5959/SOBUN/seller/updatepw.do
+    // 2. 비번변경
+    @GetMapping(value = "/updatepw.do")
+    public String updatePwGET() {
+    return "jk/seller/mypage/updatepw";
+    }
 
     // @PostMapping(value = "/updateinfo.do")
     // public String updatePwPOST() {
