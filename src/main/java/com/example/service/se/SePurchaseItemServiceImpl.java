@@ -6,8 +6,11 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.example.entity.CustomerAddressEntity;
 import com.example.entity.ItemImage;
 import com.example.mapper.se.SePurchaseItemMapper;
+import com.example.repository.se.SeCustomerAddressRepository;
+import com.example.repository.se.SeCustomerRepository;
 import com.example.repository.se.SeItemImageRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,8 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
 
     final SePurchaseItemMapper piMapper;
     final SeItemImageRepository iiRepository;
+    final SeCustomerRepository cRepository;
+    final SeCustomerAddressRepository caRepository;
     
     // --------------------------------------------------------------------------------------------
     // 공구가 많이 열린 물품 8개
@@ -59,6 +64,17 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
         }
     }
 
-
+    // --------------------------------------------------------------------------------------------
+    // 내 주위 실시간 공구 5개
+    @Override
+    public List<Map<String, Object>> selectAroundPurchaseItem(String id) {
+        try {
+            CustomerAddressEntity obj = caRepository.findByCustomer_id(id).get(0);
+            return piMapper.selectAroundPurchaseItem(obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     
 }

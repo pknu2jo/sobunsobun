@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -95,6 +92,22 @@ public class SeCustomerContorller {
     public String loginGET() {
         try {
             return "/se/customer/login";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "/se/customer/login";
+        }
+    }
+
+    // 카카오로그인
+    @GetMapping(value="/kakaologin.do")
+    public String kakaologinGET(
+        @RequestParam(required = false) String code
+    ) {
+        try {
+            System.out.println("======================================");
+            System.out.println("살려줘요");
+            System.out.println(code);
+            return "/se/customer/home";
         } catch (Exception e) {
             e.printStackTrace();
             return "/se/customer/login";
@@ -242,7 +255,6 @@ public class SeCustomerContorller {
     public String homeGET( Model model ) {
         try {
 
-            // 비로그인 - 세션에 저장된 user 정보가 없을 때
             // 공구가 많이 열린 물품 목록 => 비로그인 시에만 세팅
             List<Map<String, Object>> manyList = piService.selectManyPurchaseItem();
             log.info("공구가 많이 열린 물품 => {}", manyList.toString());
@@ -258,17 +270,16 @@ public class SeCustomerContorller {
             log.info("기한이 얼마 안 남은 공구 => {}", deadList.toString());
             for ( Map<String, Object> deadMap : deadList ) {
                 deadMap.put("PRICE", ((BigDecimal) deadMap.get("PRICE")).toPlainString());
-                // System.out.println(deadMap.get("DEADLINE"));
-                Date date = (Date)deadMap.get("DEADLINE");
-                Timestamp deadlineTS =  Timestamp.valueOf(deadMap.get("DEADLINE").toString());
-                Calendar now = Calendar.getInstance();
-                Calendar deadline = Calendar.getInstance();
-                deadline.setTime(date);
-                long result = (now.getTimeInMillis() - deadline.getTimeInMillis()) / 1000 / 60;
-                System.out.println("=====================================================================================");
-                System.out.println(result);
             }
             model.addAttribute("deadList", deadList);
+            
+            // 내 주위 실시간 공구
+            List<Map<String, Object>> aroundList = piService.selectAroundPurchaseItem("3");
+            log.info("내 주위 실시간 공구 => {}", aroundList.toString());
+            for ( Map<String, Object> aroundMap : aroundList ) {
+                aroundMap .put("PRICE", ((BigDecimal) aroundMap.get("PRICE")).toPlainString());
+            }
+            model.addAttribute("aroundList", aroundList);
             
             return "/se/customer/home";
         } catch (Exception e) {
@@ -276,7 +287,6 @@ public class SeCustomerContorller {
             return "/se/customer/home";
         }
     }
-
     
     // ----------------------------------------------------------------------------------------------------
     // 이미지 url 생성용 => 물품 번호를 보내면 대표이미지를 반환
@@ -307,5 +317,11 @@ public class SeCustomerContorller {
     public String page403GET() {
         return "/error/403page";
     }
+
+    // 이게 안되네..
+    // @GetMapping(value = "/login.do?error")
+    // public String page403sGET() {
+    //     return "/error/403page";
+    // }
     
 }

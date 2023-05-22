@@ -20,6 +20,7 @@ public interface SePurchaseItemService {
     // 물품 대표이미지 가져오기
     public ItemImage selectItemImageOne(BigDecimal itemno);
 
+    // 내 주위 실시간 공구 5개
+    List<Map<String, Object>> selectAroundPurchaseItem(String id);
 
-    
 }
