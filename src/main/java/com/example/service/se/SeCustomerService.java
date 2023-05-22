@@ -19,4 +19,13 @@ public interface SeCustomerService {
     // ----------------------------------------------------------------------------------------------------------
     // 아이디 찾기
     public CustomerEntity findId(CustomerEntity customerEntity);
+    
+    // ----------------------------------------------------------------------------------------------------------
+    // 비밀번호 찾기
+    public CustomerEntity findPw(String email, String phone);
+
+    // ----------------------------------------------------------------------------------------------------------
+    // save()
+    public CustomerEntity saveCustomer(CustomerEntity customerEntity);
+
 }

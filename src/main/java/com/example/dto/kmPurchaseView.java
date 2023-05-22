@@ -18,21 +18,21 @@ public class kmPurchaseView {
  private long no; // 공구 현황 번호
  private long purchaseNo;
  private long participant; // 참여인원 
-//  private long state; // 상태
-//  private long cancel; // 취소 상태
  private Date deadline; // 공구 종료시간
  private long remainingPerson; // 잔여인원
+ //  private long state; // 상태
+ //  private long cancel; // 취소 상태
 
- private long itemNo;
- private String itemName;
- private long itemPrice;
- private String sellerName;
+//  private long itemNo;
+//  private String itemName;
+//  private long itemPrice;
+//  private String sellerName;
  
- private long storageNo;
+//  private long storageNo;
  private String storageName;
 
- private long sCategoryCode;
- private String sCategoryName;
- private String mCategoryName;
- private String lCategoryName;
+//  private long sCategoryCode;
+//  private String sCategoryName;
+//  private String mCategoryName;
+//  private String lCategoryName;
 }

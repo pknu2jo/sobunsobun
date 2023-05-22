@@ -3,13 +3,10 @@ package com.example.controller.km;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
@@ -22,7 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.dto.Item;
+import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
 import com.example.service.km.KmCustomerService;
@@ -36,38 +33,26 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class KmCustomerContorller {
     
-    @Autowired KmCustomerService customerService;
+   final KmCustomerService customerService;
 
 // ------------------------------------------------------------------------------
     // 물품 상세 조회
-    @GetMapping(value = "/item/select.do")
-    public String selectitemGET(Model model, HttpServletRequest request) {
+    @GetMapping(value = "/item/selectone.do")
+    public String selectitemGET(Model model) {
         // @RequestParam(name = "no") long no 로 itemno 받기
-        long no = 11; // 물품 번호
+        // @Auth~ User로 세션 넘기기
+
+        long no = 11; // 물품 번호 (공구 열린거)
+        // long no = 13; // 물품 번호 (공구 안열린거)
 
         log.info("물품 상세 조회 GET");
+        // ------------------------------------------------------------------------------
 
-        // 물품 번호, 물품명, 가격, 업체명
-        Item item = customerService.selectOneItem(no);
-        log.info("item check => {}", item.toString());
+        // 물품 정보 가져오기
+        Map<String,Object> item = customerService.selectOneItem(no);
         
         // 상품 번호에 해당하는 이미지 번호
-        List<String> imageList = new ArrayList<>();
-
-        log.info("what is itemno => {}", BigDecimal.valueOf(no));
-
-        // customerService.findById(BigDecimal.valueOf(no));
-
-        List<ItemImage> imageNoList = customerService.findByItemNo_noOrderByNoAsc(BigDecimal.valueOf(no));
-        if(!imageNoList.isEmpty()) {
-            log.info("itemimage no check => {}", imageNoList);
-            for(ItemImage tmp : imageNoList) {
-                log.info("requestcontextpath => {}{}", request.getContextPath(), tmp.getNo().longValue());
-                imageList.add(request.getContextPath() + "/customer/image?no=" + tmp.getNo().longValue());
-            }
-        }
-
-        log.info("imageurl => {}", imageList.toString());
+        List<Long> imgList = customerService.selectItemImageNoList(no);
 
         // 상품에 대한 열린 공구 가져오기 -> 남은 인원
         List<kmPurchaseView> purchaseList = customerService.selectPurchaseList(no);
@@ -82,11 +67,16 @@ public class KmCustomerContorller {
             }
         }
 
-        log.info("purchaseList => {}", purchaseList);
-
+        // 보관소 지점 가져오기
+        List<Storage> storage = customerService.selectStorageList();           
+        log.info("보관소 정보 storage => {}", storage.toString());
+        
         model.addAttribute("purchaseList", purchaseList);
-        model.addAttribute("imageList", imageList);
-
+        model.addAttribute("item", item);
+        model.addAttribute("imgList", imgList);
+        model.addAttribute("storage", storage);
+        log.info("purchaseList => {}", purchaseList);
+        
         return "/km/customer/selectitem";
     }
 
