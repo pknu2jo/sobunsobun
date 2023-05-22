@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,7 +17,7 @@ import lombok.ToString;
 
 @Data
 @Entity
-@ToString(exclude = { "pw" })
+@ToString(exclude = { "pw", "newPw", "newPwCheck" })
 @Table(name = "SELLER")
 public class SellerEntity {
     
@@ -47,5 +48,11 @@ public class SellerEntity {
 
     @Column(name = "BLOCKCHK")
     private BigDecimal blockChk;
+
+    @Transient // 임시변수 == 컬럼이 생성되지 않는다. Mybatis dto 개념
+    private String newPw;
+
+    @Transient // 임시변수 == 컬럼이 생성되지 않는다. Mybatis dto 개념
+    private String newPwCheck;
 
 }

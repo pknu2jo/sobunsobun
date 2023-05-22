@@ -18,7 +18,7 @@ public class JkMailController {
 
 
     // http://127.0.0.1:5959/SOBUN/mail/send?email=junkue13@gmail.com
-    @GetMapping("/send")
+    @GetMapping("/sendpw")
     public EmailMessage sendPwMail(String email, String newPassword) {
         EmailMessage sendEmail = new EmailMessage();
 
