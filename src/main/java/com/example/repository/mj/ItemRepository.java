@@ -17,4 +17,7 @@ public interface ItemRepository extends JpaRepository<Item, BigDecimal> {
     /** 소분류별 아이템조회 */
     List<Item> findAllByRegNoAndScategoryCode_codeOrderByNoDesc(String regno, String scode);
     // List<Item> findAllByScategoryCode_code(String scode);
+
+    // /** 물품번호로 물품삭제 */
+    // int deleteByNo(List<BigDecimal> chk);
 }

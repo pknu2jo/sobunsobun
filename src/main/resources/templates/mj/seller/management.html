@@ -76,7 +76,7 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        
+
                         <div class="sb-sidenav-menu-heading">마이페이지</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                             data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
@@ -138,35 +138,41 @@
 
                     <h3>물품관리</h3>
                     <form th:action="@{/seller/item/management.do}" method="get" th:object="${cate}">
-                        
+
                         <!-- 대분류 -->
-                        <select class="form-select" aria-label="Default select example" id="LcateSelect" th:field="${cate.Lcode}" onchange="updateMcateSelect()">
+                        <select class="form-select" aria-label="Default select example" id="LcateSelect"
+                            th:field="${cate.Lcode}" onchange="updateMcateSelect()">
                             <option value="000">전체</option>
-                            <option th:each="obj : ${cate.Llist}" th:value="${obj.code.longValue()}" th:text="${obj.name}"></option>
+                            <option th:each="obj : ${cate.Llist}" th:value="${obj.code.longValue()}"
+                                th:text="${obj.name}"></option>
                         </select>
-    
-                        <select class="form-select" aria-label="Default select example" id="McateSelect" th:field="${cate.Mcode}" onchange="updateScateSelect()">
+
+                        <select class="form-select" aria-label="Default select example" id="McateSelect"
+                            th:field="${cate.Mcode}" onchange="updateScateSelect()">
                             <option value="000">전체</option>
-                            <option th:each="obj1 : ${cate.Mlist}" th:value="${obj1.code.longValue()}" th:text="${obj1.name}"></option>
+                            <option th:each="obj1 : ${cate.Mlist}" th:value="${obj1.code.longValue()}"
+                                th:text="${obj1.name}"></option>
                             <!-- <option value="">-- Select Middle Category --</option> -->
                         </select>
-    
-                        <select class="form-select" aria-label="Default select example" id="ScateSelect" th:field="${cate.Scode}" onchange="updateUrl()">
+
+                        <select class="form-select" aria-label="Default select example" id="ScateSelect"
+                            th:field="${cate.Scode}" onchange="updateUrl()">
                             <option value="000">전체</option>
-                            <option th:each="obj2 : ${cate.Slist}" th:value="${obj2.code.longValue()}" th:text="${obj2.name}"></option>
+                            <option th:each="obj2 : ${cate.Slist}" th:value="${obj2.code.longValue()}"
+                                th:text="${obj2.name}"></option>
                             <!-- <option value="">-- Select Small Category --</option> -->
                         </select>
                     </form>
                     <hr>
                     <!------------------------------------------------------------------- -->
-                    
+
 
                     <a th:href="@{/seller/item/insert.do}"><button class="btn btn-primary">물품등록</button></a>
-                    <a th:href="@{/seller/item/update.do}"><button class="btn btn-primary">수정</button></a>
-                    <button class="btn btn-primary" onclick="deleteItems()" >삭제</button>
+                    <button class="btn btn-primary">수정</button></a>
+                    <button class="btn btn-primary">삭제</button>
                     <hr>
-                    
-                    <form th:action="@{/seller/item/management.do}" method="get">
+
+                    <form th:action="@{/seller/item/management.do}" method="post" id="form2">
                         <div class="row">
                             <div class="col">
                                 <div class="card mb-4">
@@ -207,16 +213,19 @@
                                             <tbody>
                                                 <tr th:each="obj : ${list}" style="text-align: center;">
                                                     <!-- <td><input type="checkbox" name="chk[]" th:value="${tmp.no.longValue()}"/></td> -->
-                                                    <td><input type="checkbox" name="chk[]"/></td>
-                                                    <td th:text="${obj.no.longValue()}">물품번호</td>
+                                                    <td><input type="checkbox" name="chk[]" th:value="${obj.no.longValue()}"/></td>
+                                                    <td th:text="${obj.no.longValue()}" id="itemno">물품번호</td>
                                                     <td th:text="${obj.name}"></td>
                                                     <td th:text="${obj.price.longValue()}"></td>
                                                     <td th:text="${obj.quantity.longValue()}"></td>
                                                     <td th:text="${obj.scategoryCode.name}"></td>
                                                     <td th:text="${obj.scategoryCode.mcategoryCode.name}"></td>
-                                                    <td th:text="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}"></td>
-                                                    <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분 ss초')}"></td>
-                                                    <td><a th:href="@{/seller/item/updateimage.do}"><button class="btn btn-primary">이미지 등록/수정</button></a></td>
+                                                    <td th:text="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}">
+                                                    </td>
+                                                    <td
+                                                        th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분 ss초')}">
+                                                    </td>
+                                                    <td><button class="btn btn-primary">이미지 등록/수정</button></a></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -225,37 +234,7 @@
                                 </div>
                             </div>
                         </div>
-                        <table border="1">
-                            <thead style="text-align: center;">
-                                <tr>
-                                    <th>선택</th>
-                                    <th>물품번호</th>
-                                    <th>물품명</th>
-                                    <th>가격</th>
-                                    <th>수량</th>
-                                    <th>소분류</th>
-                                    <th>중분류</th>
-                                    <th>대분류</th>
-                                    <th>등록일</th>
-                                    <th>이미지관리</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="obj : ${list}" style="text-align: center;">
-                                    <!-- <td><input type="checkbox" name="chk[]" th:value="${tmp.no.longValue()}"/></td> -->
-                                    <td><input type="checkbox" name="chk[]"/></td>
-                                    <td th:text="${obj.no.longValue()}">물품번호</td>
-                                    <td th:text="${obj.name}"></td>
-                                    <td th:text="${obj.price.longValue()}"></td>
-                                    <td th:text="${obj.quantity.longValue()}"></td>
-                                    <td th:text="${obj.scategoryCode.name}"></td>
-                                    <td th:text="${obj.scategoryCode.mcategoryCode.name}"></td>
-                                    <td th:text="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}"></td>
-                                    <td th:text="${obj.regdate}"></td>
-                                    <td><a th:href="@{/seller/item/updateimage.do}"><button>이미지 등록/수정</button></a></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        
                     </form>
 
 
@@ -275,12 +254,13 @@
         </div>
     </div>
 
-    
+
 
     <!-- 6. Bootstrap용 js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
         crossorigin="anonymous"></script>
+
     <!-- Chart.js용 CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="js/chart-area-demo.js"></script>
@@ -288,6 +268,7 @@
     <script src="js/chart-pie-demo.js"></script>
     <!-- Simple DataTable용 JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+
     <!-- jQuery 추가 -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
@@ -315,43 +296,57 @@
             new simpleDatatables.DataTable("#datatablesSimple", {
                 searchable: true,
                 fixedHeight: true,
-                
+
             })
         });
-        </script>
+    </script>
 
-        <script th:inline="javascript">
-            function updateMcateSelect() {
-                const code = document.getElementById("LcateSelect").value;
-                console.log(code);
-                window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}`;
-            }
+    <script th:inline="javascript">
+        function updateMcateSelect() {
+            const code = document.getElementById("LcateSelect").value;
+            console.log(code);
+            window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}`;
+        }
 
-            function updateScateSelect() {
-                const code = document.getElementById("LcateSelect").value;
-                const mcode = document.getElementById("McateSelect").value;
-                console.log(code);
-                console.log(mcode);
-                window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}`;
-            }
+        function updateScateSelect() {
+            const code = document.getElementById("LcateSelect").value;
+            const mcode = document.getElementById("McateSelect").value;
+            console.log(code);
+            console.log(mcode);
+            window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}`;
+        }
 
-            function updateUrl() {
-                const code = document.getElementById("LcateSelect").value;
-                const mcode = document.getElementById("McateSelect").value;
-                const scode = document.getElementById("ScateSelect").value;
-                console.log(code);
-                console.log(mcode);
-                console.log(scode);
-                window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
-            }
-            
-        </script>
+        function updateUrl() {
+            const code = document.getElementById("LcateSelect").value;
+            const mcode = document.getElementById("McateSelect").value;
+            const scode = document.getElementById("ScateSelect").value;
+            console.log(code);
+            console.log(mcode);
+            console.log(scode);
+            window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
+        }
 
-        <script>
-            function deleteItems(){
+        
+        // function formAction1(code){
+        //     alert(code);
+        //     const form = document.getElementById('form');
+        //     if(code === 1){
+        //         form.action = /*[[@{/seller/item/updateitem.do}]]*/'';
+        //     }
+        //     else if(code === 2){
+        //         form.action = /*[[@{/seller/item/deleteitem.do}]]*/'';
+        //     }
+        //     form.submit();
+        // }
+        
 
-            }
-        </script>
+        // function insertimage(no){
+        //     const itemno = document.getElementById("itemno").value;
+        //     window.location.href = `/SOBUN/seller/item/updateimage.do?no=${itemno}`;
+        // }
+    </script>
+
+
 
 </body>
 

@@ -39,6 +39,28 @@ public class mjItemController {
     final McateRepository mRepository;
     final ScateRepository sRepository;
 
+
+/* ===========================물품 삭제============================================== */
+
+
+    @PostMapping(value ="/item/deleteitem.do")
+    public String deleteitemPOST(
+        @RequestParam (name = "chk[]", required = false) BigDecimal[] no,
+        @RequestParam (name = "btn", required = false) String btn
+    ){
+        try {
+            // 물품번호를 가져와서 물품삭제
+            // int ret = iRepository.deleteByNo(chk);
+            // log.info("ret =>{}", ret);
+            return "redirect:/seller/item/management.do";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/seller/home.do";
+        }
+    }
+
+/* ===========================이미지 등록/수정============================================== */
+
     @GetMapping(value = "/item/updateimage.do")
     public String updateimageGET(){
         try {
@@ -109,7 +131,7 @@ public class mjItemController {
             cate.setSlist(slist);  // 소분류 코드, 네임
             cate.setScode(Scode);  // 소분류 코드
             
-            log.info("cate => {}", cate);
+            // log.info("cate => {}", cate);
             model.addAttribute("cate", cate);
             return "/mj/seller/iteminsert";
         } catch (Exception e) {
@@ -117,9 +139,13 @@ public class mjItemController {
             return "redirect:/seller/home.do";
         }
     }
+    
+
     @PostMapping(value = "/item/insert.do")
-    public String insertPOST(@ModelAttribute Item obj){
+    public String insertPOST(@ModelAttribute Item obj ){
         try {
+
+            log.info("obj => {}", obj.toString());
             iRepository.save(obj);
             return "redirect:/seller/item/insert.do";
         } catch (Exception e) {

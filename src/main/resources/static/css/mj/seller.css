@@ -389,18 +389,8 @@ main {
 
 main h3 {
     padding-top: 15px;
-    /* background-color: #0D6EFD; */
 }
-/* .updateselect {
-    width: 170px;
-    height: 30px;
-    outline: 0;
-    background: #0D6EFD;
-    color: #fff;
-    border:none;
-    padding: 4px;
-    border-radius: 9px;
-} */
+
 
 .form-select {
     width: 170px;

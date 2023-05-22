@@ -22,7 +22,7 @@
     <!-- Simple DataTable CDN -->
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <!-- CSS -->
-    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/seller.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/mj/seller.css}'>
 </head>
 
 <body class="sb-nav-fixed">
@@ -133,36 +133,59 @@
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
             <main>
-                <div class="container-fluid px-4" style="margin: 10px; padding-top: 20px;"> <!-- 옆쪽에 딱 붙음. -->
-
+                <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
 
                     <h3>물품등록</h3>
+                    <a th:href="@{/seller/item/management.do}"><button class="btn btn-primary">물품리스트</button></a>
                     <hr>
+                    
+                    
+                        
+                    
                     <form th:action="@{/seller/item/insert.do}" method="post">
-                        물품명 : <input type="text" name="name"><br>
-                        가격 : <input type="text" name="price"><br>
-                        수량 : <input type="text" name="quantity"><br>
-                        사업자번호 : <input type="text" name="regNo"><br>
-                        카테고리 : 
-                        <!-- 대분류 -->
-                        <select id="LcateSelect" th:field="${cate.Lcode}" onchange="updateMcateSelect()">
-                            <option value="000">대분류</option>
-                            <option th:each="obj : ${cate.Llist}" th:value="${obj.code.longValue()}" th:text="${obj.name}"></option>
-                        </select>
-                        <!-- 중분류 -->
-                        <select id="McateSelect" th:field="${cate.Mcode}" onchange="updateScateSelect()">
-                            <option value="000">중분류</option>
-                            <option th:each="obj1 : ${cate.Mlist}" th:value="${obj1.code.longValue()}" th:text="${obj1.name}"></option>
-                            <!-- <option value="">-- Select Middle Category --</option> -->
-                        </select>
-                        <!-- 소분류 -->
-                        <select id="ScateSelect" th:field="${cate.Scode}" onchange="updateUrl()">
-                            <option value="000">소분류</option>
-                            <option th:each="obj2 : ${cate.Slist}" th:value="${obj2.code.longValue()}" th:text="${obj2.name}"></option>
-                            <!-- <option value="">-- Select Small Category --</option> -->
-                        </select><br>
-                        <input type="button" value="등록" onclick="insertImage()"><br>
+                        
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">카테고리</span>
+                            <!-- 대분류 -->
+                            <select class="form-select" aria-label="Default select example" id="LcateSelect" th:field="${cate.Lcode}" onchange="updateMcateSelect()">
+                                <option value="000">대분류</option>
+                                <option th:each="obj : ${cate.Llist}" th:value="${obj.code.longValue()}" th:text="${obj.name}"></option>
+                            </select>
+                            <!-- 중분류 -->
+                            <select class="form-select" aria-label="Default select example" id="McateSelect" th:field="${cate.Mcode}" onchange="updateScateSelect()">
+                                <option value="000">중분류</option>
+                                <option th:each="obj1 : ${cate.Mlist}" th:value="${obj1.code.longValue()}" th:text="${obj1.name}"></option>
+                                <!-- <option value="">-- Select Middle Category --</option> -->
+                            </select>
+                            <!-- 소분류 -->
+                            <select class="form-select" aria-label="Default select example" id="ScateSelect" th:field="${cate.Scode}" onchange="updateUrl()">
+                                <option value="000">소분류</option>
+                                <option th:each="obj2 : ${cate.Slist}" th:value="${obj2.code.longValue()}" th:text="${obj2.name}"></option>
+                                <!-- <option value="">-- Select Small Category --</option> -->
+                            </select><br>
+                        </div>
+                        <!-- 소분류코드 파라미터전달받기 -->
+                        <input type="hidden" name="scategoryCode" th:value = ${param.scate} />
+                        
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">물품명</span>
+                            <input type="text" name="name" class="form-control" placeholder="" aria-label="Itemname" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">가격</span>
+                            <input type="text" name="price" class="form-control" placeholder="" aria-label="Itemname" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">수량</span>
+                            <input type="text" name="quantity" class="form-control" placeholder="" aria-label="Itemname" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">사업자번호</span>
+                            <input type="text" name="regNo" class="form-control" placeholder="" aria-label="Itemname" aria-describedby="basic-addon1">
+                        </div>
+                        <button class="btn btn-primary" id="insertitem">등록</button>
                     </form>
+                    
 
 
                 </div>
@@ -221,40 +244,42 @@
             new simpleDatatables.DataTable("#datatablesSimple", {
                 searchable: true,
                 fixedHeight: true,
-
+                
             })
         });
-    </script>
-
-    <script th:inline="javascript">
-        function updateMcateSelect() {
-            const code = document.getElementById("LcateSelect").value;
-            console.log(code);
-            window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}`;
-        }
-
-        function updateScateSelect() {
-            const code = document.getElementById("LcateSelect").value;
-            const mcode = document.getElementById("McateSelect").value;
-            console.log(code);
-            console.log(mcode);
-            window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}`;
-        }
-
-        function updateUrl() {
-            const code = document.getElementById("LcateSelect").value;
-            const mcode = document.getElementById("McateSelect").value;
-            const scode = document.getElementById("ScateSelect").value;
-            console.log(code);
-            console.log(mcode);
-            console.log(scode);
-            window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
-        }
-        
         </script>
-        <script>
-            function insertImage() {
-                if(!confirm('물품등록이 완료되었습니다. 이미지를 등록하시겠습니까?')){
+
+<script th:inline="javascript">
+    function updateMcateSelect() {
+        const code = document.getElementById("LcateSelect").value;
+        console.log(code);
+        window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}`;
+    }
+
+    function updateScateSelect() {
+        const code = document.getElementById("LcateSelect").value;
+        const mcode = document.getElementById("McateSelect").value;
+        console.log(code);
+        console.log(mcode);
+        window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}`;
+    }
+
+    function updateUrl() {
+        const code = document.getElementById("LcateSelect").value;
+        const mcode = document.getElementById("McateSelect").value;
+        const scode = document.getElementById("ScateSelect").value;
+        console.log(code);
+        console.log(mcode);
+        console.log(scode);
+        window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
+    }
+    
+    </script>
+    <!-- <script>
+        document.getElementById("insertitem").addEventListener("click", clickFunction);
+
+        function clickFunction(){
+            if(!confirm('물품등록이 완료되었습니다. 이미지를 등록하시겠습니까?')){
                     // 아니요(취소)
                     window.location.href = `/SOBUN/seller/item/management.do`;
                     
@@ -264,9 +289,9 @@
                     alert('예.이미지등록');
                     window.location.href = `/SOBUN/seller/item/updateimage.do`;
                 }
-            }
+        }
+    </script> -->
 
-        </script>
 </body>
 
 </html>
