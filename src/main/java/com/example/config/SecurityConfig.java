@@ -20,35 +20,33 @@ import com.example.service.SecuritySellerSeviceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Configuration // '이것은 환경설정 파일' 이라는 의미 
+@Configuration // '이것은 환경설정 파일' 이라는 의미
 @EnableWebSecurity // '시큐리티를 사용할 것이다'라는 의미
 @Slf4j
 @RequiredArgsConstructor
 public class SecurityConfig {
-    
+
     final SecurityCustomerSeviceImpl userCustomerDetailsService;
     final SecuritySellerSeviceImpl userSellerDetailsService;
     final SecurityAdminSeviceImpl userAdminDetailsService;
-    
+
     @Bean // 객체를 생성함
     @Order(value = 1) // 관리자
     public SecurityFilterChain filterChain1(HttpSecurity http) throws Exception {
         log.info("SecurityConfig => {}", "start filter chain1");
 
         http.antMatcher("/admin/login.do")
-        .antMatcher("/admin/loginaction.do")
-        .authorizeRequests().anyRequest().authenticated().and();
+                .antMatcher("/admin/loginaction.do")
+                .authorizeRequests().anyRequest().authenticated().and();
 
         // 관리자 로그인 처리
         http.formLogin()
-            .loginPage("/admin/login.do")
-            .loginProcessingUrl("/admin/loginaction.do")
-            .usernameParameter("id")
-            .passwordParameter("pw")
-            .defaultSuccessUrl("/admin/home.do")
-            .permitAll();
-
-        
+                .loginPage("/admin/login.do")
+                .loginProcessingUrl("/admin/loginaction.do")
+                .usernameParameter("id")
+                .passwordParameter("pw")
+                .defaultSuccessUrl("/admin/home.do")
+                .permitAll();
 
         // 서비스 등록
         http.userDetailsService(userAdminDetailsService);
@@ -63,17 +61,17 @@ public class SecurityConfig {
         log.info("SecurityConfig => {}", "start filter chain2");
 
         http.antMatcher("/seller/login.do")
-        .antMatcher("/seller/loginaction.do")
-        .authorizeRequests().anyRequest().authenticated().and();
+                .antMatcher("/seller/loginaction.do")
+                .authorizeRequests().anyRequest().authenticated().and();
 
         // 업체 로그인 처리
         http.formLogin()
-            .loginPage("/seller/login.do")
-            .loginProcessingUrl("/seller/loginaction.do")
-            .usernameParameter("no")
-            .passwordParameter("pw")
-            .defaultSuccessUrl("/seller/home.do")
-            .permitAll();
+                .loginPage("/seller/login.do")
+                .loginProcessingUrl("/seller/loginaction.do")
+                .usernameParameter("no")
+                .passwordParameter("pw")
+                .defaultSuccessUrl("/seller/home.do")
+                .permitAll();
 
         // 서비스 등록
         http.userDetailsService(userSellerDetailsService);
@@ -86,42 +84,45 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain3(HttpSecurity http) throws Exception {
 
         log.info("SecurityConfig => {}", "start filter chain3");
-        
+
         // 권한 설정
         // http.authorizeRequests().anyRequest().permitAll();
         http.authorizeRequests()
-            .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do","/customer/kmtest.do","/customer/image").permitAll()
-            .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do", "/seller/home.do", "/seller/findpw.do","/seller/updateinfo.do", "/seller/updatepw.do", "/seller/logout.do").permitAll()
-            .antMatchers("/admin/join.do").permitAll()
+                .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do", "/customer/kmtest.do",
+                        "/customer/image")
+                .permitAll()
+                .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do", "/seller/home.do",
+                        "/seller/findpw.do", "/seller/updateinfo.do", "/seller/updatepw.do")
+                .permitAll()
+                .antMatchers("/admin/join.do").permitAll()
 
-            .antMatchers("/admin", "/admin/*").hasAuthority("ADMIN")  // 주소가 9090/ROOT/admin  ~~ 모든것
-            .antMatchers("/seller", "/seller/*").hasAnyAuthority("ADMIN", "SELLER")
-            .antMatchers("/customer", "/customer/*").hasAnyAuthority("CUSTOMER")
+                .antMatchers("/admin", "/admin/*").hasAuthority("ADMIN") // 주소가 9090/ROOT/admin ~~ 모든것
+                .antMatchers("/seller", "/seller/*").hasAnyAuthority("ADMIN", "SELLER")
+                .antMatchers("/customer", "/customer/*").hasAnyAuthority("CUSTOMER")
 
-            .anyRequest().permitAll();
-
+                .anyRequest().permitAll();
 
         // 403 페이지 설정 (접근 권한 불가 시 표시할 화면 )
         http.exceptionHandling().accessDeniedPage("/error/403page.do");
 
         // 로그인 처리
         http.formLogin()
-            .loginPage("/customer/login.do")
-            .loginProcessingUrl("/customer/loginaction.do")
-            .usernameParameter("id")
-            .passwordParameter("pw")
-            .defaultSuccessUrl("/customer/home.do")
-            .permitAll();
+                .loginPage("/customer/login.do")
+                .loginProcessingUrl("/customer/loginaction.do")
+                .usernameParameter("id")
+                .passwordParameter("pw")
+                .defaultSuccessUrl("/customer/home.do")
+                .permitAll();
 
         // 로그아웃 처리 (고객, 업체, 관리자 모두 해당)
         http.logout()
-            .logoutUrl("/logout.do")
-            .logoutSuccessHandler(new CustomLogoutHandler())
-            .invalidateHttpSession(true)
-            .clearAuthentication(true)
-            .permitAll();
+                .logoutUrl("/logout.do")
+                .logoutSuccessHandler(new CustomLogoutHandler())
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .permitAll();
 
-        //post는 csrf를 전송해야하지만, 주소가 /api로 시작하는 모든url은  csrf가 없어도 됨
+        // post는 csrf를 전송해야하지만, 주소가 /api로 시작하는 모든url은 csrf가 없어도 됨
         http.csrf().ignoringAntMatchers("/api/**");
 
         // 서비스 등록
