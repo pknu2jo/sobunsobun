@@ -7,7 +7,7 @@ import com.example.dto.Seller;
 
 @Service
 public interface JkSellerService {
-
+    
     // 업체 회원가입
     public int joinSeller(@Param("obj") Seller obj);
 
@@ -19,9 +19,6 @@ public interface JkSellerService {
 
     // 업체 정보수정
     public int updateSellerinfo(@Param("obj") Seller obj);
-
-    // 정보수정용 업체정보 조회
-    public Seller findSellerInfo(String sellerId);
 
     // 업체 비밀번호 변경
     public int updateSellerPw(@Param("obj") Seller obj);
