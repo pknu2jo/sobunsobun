@@ -1,14 +1,14 @@
 package com.example.repository;
 
+import java.math.BigDecimal;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.entity.TotallocationView;
 
 @Repository
-public interface TotallocationViewRepository extends JpaRepository<TotallocationView, String>{
-    // 지역별 인원수 구하기
-    long countByLocationContaining(String location);
+public interface TotallocationViewRepository extends JpaRepository<TotallocationView, String>{    
 
     // 사업자등록번호에 맞는 지역별 인원수 구하기
     // SELECT count(*) FROM TOTALLOCATION t WHERE LOCATION LIKE '%남구%' AND NO='4564546544'

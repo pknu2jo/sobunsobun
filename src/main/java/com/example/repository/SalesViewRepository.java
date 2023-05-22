@@ -6,14 +6,25 @@ import org.springframework.stereotype.Repository;
 
 import com.example.entity.SalesView;
 import com.example.entity.SalesViewProjection;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
 public interface SalesViewRepository extends JpaRepository<SalesView, String>{
-    // 전체 매출
-    @Query(value = "SELECT sum(sv.itemprice) FROM SalesView sv")
-    public long sumByItemprice();
+    // 전체 매출(전체)
+    @Query(value = "SELECT sum(sv.itemprice) FROM SalesView sv Where sv.no = :no")
+    public long sumByItemprice(String no);
 
-    @Query("SELECT sv.regdate AS monthly, SUM(sv.itemprice) AS amount FROM SalesView sv GROUP BY sv.regdate")
-    List<SalesViewProjection> findMonthlySales();
+    // 월간 매출(전체)
+    @Query("SELECT sv.regdate AS monthly, SUM(sv.itemprice) AS amount FROM SalesView sv where sv.no = :no GROUP BY sv.regdate")
+    List<SalesViewProjection> findMonthlySales(String no);
+
+    // 한 물품에 대한 전체 매출
+    @Query(value = "SELECT sum(sv.itemprice) FROM SalesView sv Where sv.no = :no AND sv.itemno = :itemno")
+    public long sumByItempriceAndItemno(String no, BigDecimal itemno);
+
+    // 월간 매출(전체)
+    @Query("SELECT sv.regdate AS monthly, SUM(sv.itemprice) AS amount FROM SalesView sv where sv.no = :no AND sv.itemno = :itemno GROUP BY sv.regdate")
+    List<SalesViewProjection> findMonthlySalesAndItemno(String no, BigDecimal itemno);
 }

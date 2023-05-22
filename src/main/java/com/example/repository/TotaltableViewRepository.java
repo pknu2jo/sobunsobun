@@ -11,5 +11,6 @@ import com.example.entity.TotaltableView;
 @Repository
 public interface TotaltableViewRepository extends JpaRepository<TotaltableView, BigDecimal>{
     
+    // 사업자 번호에 맞는 테이블 구하기
     List<TotaltableView> findByNo(String no);
 }

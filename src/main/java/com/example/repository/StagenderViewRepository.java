@@ -11,4 +11,7 @@ import com.example.entity.StagenderView;
 public interface StagenderViewRepository extends JpaRepository<StagenderView, BigDecimal>{
     // 사업자 번호와 아이템 
     long countByGenderAndItemcodeAndNo(String gender, BigDecimal itemcode, String no);
+    
+    // 물품 명 받아오기
+    StagenderView findByItemcode(BigDecimal itemcode);
 }

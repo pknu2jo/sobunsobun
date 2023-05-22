@@ -29,7 +29,7 @@
     <!-- 네비게이션 영역 -->
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand -->
-        <a class="navbar-brand ps-3" href="#">
+        <a class="navbar-brand ps-3" th:href="@{/seller/home.do}">
             <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tools"
                 viewBox="0 0 16 16">
                 <path
@@ -87,9 +87,9 @@
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="#!">업체정보 수정하기</a>
-                                <a class="nav-link" href="#!">비밀번호 변경</a>
-                                <a class="nav-link" href="#!">탈퇴하기</a>
+                                <a class="nav-link" th:href="@{/seller/updateinfo.do}">업체정보 수정하기</a>
+                                <a class="nav-link" th:href="@{/seller/updatefw.do}">비밀번호 변경</a>
+                                <a class="nav-link" th:href="@{/seller/unregister.do}">탈퇴하기</a>
                             </nav>
                         </div>
 
@@ -103,8 +103,8 @@
                         <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="#!">주문</a>
-                                <a class="nav-link" href="#!">배송</a>
+                                <a class="nav-link" th:href="@{/seller/order/search.do}">주문</a>
+                                <a class="nav-link" th:href="@{/seller/delivery/search.do}">배송</a>
                             </nav>
                         </div>
 
@@ -133,11 +133,11 @@
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
             <main>                
-                <div style="padding-left: 15px; padding-top: 30px;">
-                    <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
-                        <h3>통계입니다.</h3>
-                        여성(hidden처리 해야함) : <input type="number"  th:value="${Female}"/><br/>
-                        남성(hidden처리 해야함) : <input type="number"  th:value="${Male}"/><br/><br/>
+                <div style="padding-left: 15px; padding-top: 30px; padding-right: 15px;">
+                    <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->                        
+                        <label th:text="${itemname}"></label><br/>
+                        여성(hidden처리 해야함) : <input type="number"  th:value="${female}"/><br/>
+                        남성(hidden처리 해야함) : <input type="number"  th:value="${male}"/><br/><br/>
     
                         지역 총 숫자(hidden 처리 하기) : <input type="number"  th:value="${total}"/><br/>
                         지역별 인원수(hidden처리 해야함) : <input type="number"  th:value="${array}"/><br/>                   
@@ -227,10 +227,10 @@
         integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!--ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->
-    <!-- 전체성비에 대한 파이차트 스크립트  -->
+    <!-- 전체성비에 대한 파이차트 스크립트  -->    
     <script th:inline="javascript" type="text/javascript">
-        var female = "[[${Female}]]";
-        var male = "[[${Male}]]";
+        var female = "[[${female}]]";
+        var male = "[[${male}]]";
 
         var ctx = document.getElementById("myPieChart");
         var myPieChart = new Chart(ctx, {
@@ -238,7 +238,7 @@
             data: {
                 labels: ["남성", "여성"],
                 datasets: [{
-                data: [female, male],
+                data: [male, female],
                 backgroundColor: ['#007bff', '#dc3545'],
                 }],
             },
