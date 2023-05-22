@@ -16,6 +16,9 @@ public interface SellerMapper {
     // 비밀번호 찾기 (임시비밀번호 발급)
     public int findSellerPw(Seller seller);
 
+    // 정보수정용 업체정보 조회
+    public Seller findSellerInfo(String sellerId);
+
     // 정보수정 (업체명, 주소, 연락처, 이메일)
     public int updateSellerinfo(Seller seller);
 
