@@ -92,7 +92,9 @@ public class SecurityConfig {
                 http.authorizeRequests()
                                 .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do",
                                                 "/customer/kmtest.do",
-                                                "/customer/mypage.do")
+                                                "/customer/mypage.do",
+                                                "/customer/myorderlist.do",
+                                                "/customer/myinfochk.do")
                                 .permitAll()
                                 .antMatchers("/seller/join.do").permitAll()
                                 .antMatchers("/admin/join.do").permitAll()

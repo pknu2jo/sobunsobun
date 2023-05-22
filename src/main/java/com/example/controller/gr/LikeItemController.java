@@ -28,21 +28,21 @@ public class LikeItemController {
     @Autowired
     ResourceLoader resourceLoader; // resources폴더의 파일을 읽기 위한 객체 생성
 
-    @PostMapping(value = "/mypage.do")
-    public String insertPOST(@RequestParam(name = "memId[]") String[] memId,
-            @RequestParam(name = "scategoryCode[]") long[] scategoryCode) {
-        List<LikeItem> list = new ArrayList<>();
-        for (int i = 0; i < memId.length; i++) {
-            LikeItem likeitem = new LikeItem();
-            likeitem.setMemId(memId[i]);
-            likeitem.setScategoryCode(scategoryCode[i]);
-            list.add(likeitem);
-        }
+    // @PostMapping(value = "/mypage.do")
+    // public String insertPOST(@RequestParam(name = "memId[]") String[] memId,
+    // @RequestParam(name = "scategoryCode[]") long[] scategoryCode) {
+    // List<LikeItem> list = new ArrayList<>();
+    // for (int i = 0; i < memId.length; i++) {
+    // LikeItem likeitem = new LikeItem();
+    // likeitem.setMemId(memId[i]);
+    // likeitem.setScategoryCode(scategoryCode[i]);
+    // list.add(likeitem);
+    // }
 
-        log.info("likeitem => {}", list.toString());
-        int ret = lService.insertLikeItem(list);
-        log.info("likeitem => {}", ret);
-        return "/grLikeItem";
-    }
+    // log.info("likeitem => {}", list.toString());
+    // int ret = lService.insertLikeItem(list);
+    // log.info("likeitem => {}", ret);
+    // return "/grLikeItem";
+    // }
 
 }

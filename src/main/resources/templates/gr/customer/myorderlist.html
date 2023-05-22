@@ -170,107 +170,77 @@
         #submenu .submenu-closer {
             border-top: 1px solid #e5e5e5;
             margin: 0px 0px;
-
         }
 
-        /* 마이페이지 메인 */
-        .mypagemain .grade{
+        /* 날짜 조회 창 */
+        .calender .grade{
             width: 1240px;
-            padding: 36px 0;
             margin-bottom: 60px;
             background-color: #f8f8f8;
         }
 
-        .mypagemain .grade .info{
+        .calender .grade .info{
             width: 670px;
-            height: 95px;
+            height: 60px;
             float: left;
             padding-left: 250px;
             position: relative;
         }
 
-        .mypagemain .grade .info h3{
-            font-size: 23px;
-            letter-spacing: .18px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        .mypagemain .grade .info a{
-            font-size: 20px;
-            line-height: 20px;
-            letter-spacing: .18px;
-            /* padding-top: 10px; */
-        }
-
-        .mypagemain .grade .info .member-icon{
-            position: absolute;
-            top: 5px;
-            left: 80px;
-        }
-        
-        /* 관심물품관련 상품 나오기 */
-        .mypage_likeitem .table_title{
+        /* 주문테이블 창 */
+        table{
+            border-top: 2px solid #171717;
+            border-bottom: 1px solid #171717;
+            table-layout: fixed;
+            margin-bottom: 60px;
             width: 1240px;
-            border-bottom: 3px solid #000;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            position: relative;
-            height: 50px;
-        }
-        
-        .mypage_likeitemitems .likeitem_items{
-            width: 1240px;
-            padding-top: 15px;
-            /* padding-bottom: 150px; */
-            border-bottom: 3px solid #000;
+            border-collapse: separate;
+            display: table;
+            text-indent: initial;
+            border-color: gray;
         }
 
-        .mypage_likeitemitems .likeitem_items ul li{
-            width: 150px;
-            margin-left: 50px;
-            margin-right: 40px;
-            float: left;
-            margin-bottom: 50px;
-            position: relative;
-        }
-
-        .mypage_likeitemitems .likeitem_items ul li a{
+        thead{
+            display: table-header-group;
             vertical-align: middle;
-            text-decoration: none;
+            /* border-color: #333; */
+        }
+        
+        tr{
+            display: table-row;
+            vertical-align: inherit;
         }
 
-        .mypage_likeitemitems .likeitem_items ul li .img{
-            height: 253px;
-            position: relative;
-            margin-bottom: 20px;
-
-        }
-
-        .mypage_likeitemitems .likeitem_items ul li .text{
-            padding: 0 4px 0 6px;
-        }
-
-        .mypage_likeitemitems .likeitem_items ul li .text .title{
-            font-size: 18px;
-            line-height: 20px;
-            margin:  0 0 12px 0 !important;
-            width: auto;
-            min-height: auto;
-            max-height: initial;
-            text-decoration: none;
+        table thead th{
+            height: 68px;
+            font-size: 14px;
+            padding: 0 14px;
             color: #000;
+            text-align: center;
+            vertical-align: middle;
+            border-bottom: 1px solid #b5b5b5;
         }
 
-        .mypage_likeitemitems .likeitem_items ul li .text .price{
-            position: relative;
-            line-height: normal;
-            margin-bottom: 14px;
-            align-items: baseline;
-            text-decoration: none;
-            color: #000;
-            font-weight: bold;
+        tbody{
+            display: table-row-group;
+            vertical-align: middle;
         }
+
+        table tbody tr td{
+            height: 68px;
+            text-align: center;
+            vertical-align: middle;
+            padding: 14px 0;
+        }
+
+        table tbody tr td.date{
+            counter-reset: #666;
+            font-size: 14px;
+            
+        }
+
+
+
 
 
 
@@ -297,7 +267,11 @@
                     <a href="#" class="semi-title">HOME</a>
                     &nbsp;&nbsp;>&nbsp;&nbsp;
                     <a href="#" class="semi-title">MY PAGE</a>
-                    &nbsp;&nbsp;>
+                    &nbsp;&nbsp;>&nbsp;&nbsp;
+                    <a href="#" class="semi-title">주문관리</a>
+                    &nbsp;&nbsp;>&nbsp;&nbsp;
+                    <a href="#" class="semi-title">주문/배송조회</a>
+                    &nbsp;&nbsp;
                 </li>
             </ol>
         </div>
@@ -348,86 +322,44 @@
             </div>
         </div>
 
-        <!-- 마이페이지 내용 -->
-        <div class="mypagemain d-flex justify-content-center">
+        <!-- 날짜 조회 창 -->
+        <div class="calender d-flex justify-content-center">
             <div class="grade ">
-                <div class="info">
-                    <span class="member-icon"><img th:src="@{/images/gr/membericon.png}" width="100px" height="100px"></span>
-                    <h3>00님 안녕하세요.</h3>
-                    <a>전체 공구 참여 횟수 </a><a th:text="${ret}"></a><a>건 입니다. ♡</a>
-
+                <div class="info ">
                 </div>
             </div>
         </div>
 
-        <!-- 관련물품 내용 -->
-        <div class="mypage_likeitem d-flex justify-content-center">
-            <div class="table_title">
-                <h3>~님이 관심있어할 상품이에요!</h3>
-            </div>
+        <!-- 주문내역 조회 창 -->
+        <div class="divList d-flex justify-content-center">
+            <table class="cols" id="ordertable">
+                <!-- <colgroup>
+                    <col style="width: 135px;">
+
+                </colgroup> -->
+
+                <thead>
+                    <tr>
+                        <th>주문일</th>
+                        <th>공구주문번호</th>
+                        <th>상품정보</th>
+                        <th>상품금액</th>
+                        <th>진행상황</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="date">2023.05.22</td>
+                        <td class="order_number">x03191224</td>
+                        <td class="product">상품상품</td>
+                        <td class="price">94,050</td>
+                        <td class="status">배송완료</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
-        <div class="mypage_likeitemitems d-flex justify-content-center">
-            <div class="likeitem_items" >
-                <ul>
-                    <li>
-                        <a href="#">
-                            <div class="img">
-                                <img src="../images/gr/">
-                            </div>
-                            <div class="text">
-                                <div class="title">판매상품이름</div>
-                                <div class="price">판매상품 가격</div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="img">
-                                <img src="../images/gr/">
-                            </div>
-                            <div class="text">
-                                <div class="title">판매상품이름</div>
-                                <div class="price">판매상품 가격</div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="img">
-                                <img src="../images/gr/">
-                            </div>
-                            <div class="text">
-                                <div class="title">판매상품이름</div>
-                                <div class="price">판매상품 가격</div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="img">
-                                <img src="../images/gr/">
-                            </div>
-                            <div class="text">
-                                <div class="title">판매상품이름</div>
-                                <div class="price">판매상품 가격</div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <div class="img">
-                                <img src="../images/gr/">
-                            </div>
-                            <div class="text">
-                                <div class="title">판매상품이름</div>
-                                <div class="price">판매상품 가격</div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+
         
 
     </div>
