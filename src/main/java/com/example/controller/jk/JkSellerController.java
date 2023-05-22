@@ -55,12 +55,13 @@ public class JkSellerController {
     @PostMapping(value = "/home.do")
     public String homePOST(HttpServletRequest request, HttpServletResponse response,
             @ModelAttribute SellerEntity seller) {
+                log.info("logout",seller);
         // 컨트롤러에서 logout처리하기
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        return "redirect:/home.do";
+        return "redirect:/login.do";
 
     }
     /* --------------------------- 회원가입 (Mybatis) ----------------------------- */
@@ -139,7 +140,6 @@ public class JkSellerController {
     }
 
     /* ----------------------------- 마이페이지(Jpa) ---------------------------------- */
-
     // -------------------------정보변경-------------------------- //
 
     // http://127.0.0.1:5959/SOBUN/seller/updateinfo.do

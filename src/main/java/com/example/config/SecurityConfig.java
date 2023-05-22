@@ -91,7 +91,7 @@ public class SecurityConfig {
         // http.authorizeRequests().anyRequest().permitAll();
         http.authorizeRequests()
             .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do","/customer/kmtest.do","/customer/image").permitAll()
-            .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do", "/seller/home.do", "/seller/findpw.do","/seller/updateinfo.do", "/seller/updatepw.do").permitAll()
+            .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do", "/seller/home.do", "/seller/findpw.do","/seller/updateinfo.do", "/seller/updatepw.do", "/seller/logout.do").permitAll()
             .antMatchers("/admin/join.do").permitAll()
 
             .antMatchers("/admin", "/admin/*").hasAuthority("ADMIN")  // 주소가 9090/ROOT/admin  ~~ 모든것
