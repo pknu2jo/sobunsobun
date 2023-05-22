@@ -43,8 +43,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h6 class="coupon__link"><i class="fa fa-tag"></i> <a href="#">Have a coupon?</a> Click
-                        here to enter your code.</h6>
+                    <h6 class="coupon__link"><i class="fa fa-tag"></i> <a href="#" style="text-decoration: none;">이전페이지 돌아가기</a></h6>
                 </div>
             </div>
             <form action="#" class="checkout__form">
@@ -69,8 +68,12 @@
                                     <input type="text" placeholder="Street Address">
                                 </div>
                                 <div class="checkout__form__input">
+                                    <p>참여인원 <span>*</span></p>
+                                    <input type="text"  th:value="|${purchase.participant}명|" readonly>
+                                </div>
+                                <div class="checkout__form__input">
                                     <p>수령지점 <span>*</span></p>
-                                    <input type="text" placeholder="Street Address">
+                                    <input type="text" th:value="${purchase.storageName}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +81,7 @@
                     <!-- ~ 주문 정보 -->
 
                     <!-- 최종 결제 금액 ~ -->
-                    <div class="col-lg-4">
+                    <div class="col-lg-4" style="margin-top: 60px;">
                         <div class="checkout__order">
                             <h5>최종 결제 금액</h5>
                             <div class="checkout__order__product">
@@ -112,13 +115,6 @@
                                 <!-- 결제위젯, 이용약관 영역 -->
                                 <div id="payment-method"></div>
                                 <div id="agreement"></div>
-                                <!-- 결제하기 버튼 -->
-                                <!-- <button id="payment-button" class="site-btn">결제하기</button> -->
-                                <!-- <button type="button" class="site-btn">카카오페이</button> -->
-                                <!-- <div class="checkout__form__input">
-                                    <p>주문하시는 분 <span>*</span></p>
-                                    <input type="text">
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -147,19 +143,20 @@
                                                     <tbody class="table__tbody">
                                                         <tr class="table-row table-row--item">
                                                             <td class="table-row__td">
-                                                                <div class="table-row__img"><img class=""
-                                                                        th:src="@{/images/noimage.jpg}" alt=""></div>
+                                                                <div class="table-row__img">
+                                                                    <img th:src="${purchase.imageUrl}" alt="">
+                                                                </div>
                                                                 <div class="table-row__info">
-                                                                    <p class="table-row__name">여기는 상품명</p>
+                                                                    <p class="table-row__name" th:text="${purchase.itemName}"></p>
                                                                 </div>
                                                             </td>
                                                             <td data-column="Policy" class="table-row__td">
                                                                 <div class="">
-                                                                    <p class="table-row__policy">여기는 가격</p>
+                                                                    <p class="table-row__policy" th:text="${#numbers.formatInteger(purchase.itemPrice, 3, 'COMMA') + '원'}"></p>
                                                                 </div>
                                                             </td>
                                                             <td data-column="Policy" class="table-row__td">
-                                                                <p class="table-row__policy">인당 판매가</p>
+                                                                <p class="table-row__policy" th:text="${#numbers.formatInteger(purchase.pricePerOne, 3, 'COMMA') + '원'}"></p>
                                                             </td>
                                                             <td data-column="Destination" class="table-row__td">
                                                                 배송비

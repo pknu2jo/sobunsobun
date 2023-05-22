@@ -38,4 +38,15 @@
     <select id="selectStorageList" resultType="Storage">
         SELECT * FROM storage ORDER BY NAME ASC
     </select>
+
+    <!-- 공구 번호에 대한 공구 정보 가져오기 -->
+    <select id="selectOnePurchase" parameterType="long" resultType="kmPurchaseView">
+        SELECT * FROM (
+				SELECT * FROM (SELECT *, ROW_NUMBER() OVER 
+				(PARTITION BY PURCHASENO ORDER BY no desc) recent 
+									FROM KMPURCHASEVIEW p WHERE purchaseNo=#{purchaseNo}
+									ORDER BY PURCHASENO DESC 
+				) WHERE recent=1
+    )
+    </select>
 </mapper>

@@ -79,6 +79,17 @@ public class KmCustomerServiceImpl implements KmCustomerService {
         }
     }
 
+// 결제 페이지
+    // 공구 정보 한개 가져오기
+    public kmPurchaseView selectOnePurchase(long purchaseNo) {
+        try {
+            return cMapper.selectOnePurchase(purchaseNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 // 이미지
     // 이미지 번호에 대한 정보 다 가져오기
     public ItemImage findById(BigDecimal no) {
@@ -99,5 +110,15 @@ public class KmCustomerServiceImpl implements KmCustomerService {
             return null;
         }
     }
+
+    // itemno에 해당하는 이미지 중 가장 오래된 이미지 가져오기
+    // public ItemImage findTop1ByItemNo_noOrderByNoAsc(BigDecimal no) {
+    //     try {
+    //         return imageRepository.findTop1ByItemNo_noOrderByNoAsc(no);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return null;
+    //     }
+    // }
     
 }
