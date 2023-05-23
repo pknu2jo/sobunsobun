@@ -49,4 +49,9 @@
 				) WHERE recent=1
     )
     </select>
+
+    <!-- 보관소 번호에 해당하는 보관소 정보 가져오기 -->
+    <select id="selectOneStorage" parameterType="long" resultType="string">
+        SELECT name FROM storage WHERE NO=#{no}
+    </select>
 </mapper>

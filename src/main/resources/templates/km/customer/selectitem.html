@@ -128,13 +128,21 @@
                                                             <span class="plus">+</span>
                                                         </div>
 
-                                                        <div class="modal-storage" th:object="${storage}">
+                                                        <div class="modal-storage">
                                                             <span>수령지점</span>
-                                                            <select id="select" th:field = ${storage}>
+                                                            <select id="select" name="storageNo">
                                                                 <option selected>---[필수 입력]---</option>
                                                                 <option th:each="tmp:${storage}" name="storageNo" th:value="${tmp.no}" th:text="${tmp.name}"></option>
                                                             </select>
                                                         </div>
+
+                                                        <!-- <div class="modal-storage">
+                                                            <span>수령지점</span>
+                                                            <select id="select" th:field = ${storage.name} name="storageNo">
+                                                                <option selected>---[필수 입력]---</option>
+                                                                <option th:each="tmp:${storage.name}" th:value="${tmp}" th:text="${tmp}"></option>
+                                                            </select>
+                                                        </div> -->
                                                         <!-- <div class="modal-storage">
                                                             <span>수령지점</span>
                                                             <select id="select" >
@@ -383,26 +391,6 @@
             };
         };
 
-        // 공구개설 Modal -> select박스 추가
-        // var select = document.querySelector('#select');
-        // select.innerHTML = ''; // 초기화 해주기
-        // const storageList = /*[[${storage}]]*/"";
-
-        // console.log(storageList)
-        // // 하나씩 꺼내기
-        // select.innerHTML += `<option selected>지점 선택</option>`;
-        // if (storageList != null) {
-        //     for (let i = 0; i < storageList.length; i++) {
-
-        //         let tmp = storageList[i];
-
-        //         console.log(tmp.name)
-
-        //         select.innerHTML +=
-        //                 `<option name="storageNo" value="${tmp.no}">${tmp.name}</option>`;
-        //     };
-        // };
-
         // 공구개설 Modal -> participant 숫자 증감
         const plus = document.querySelector(".plus");
         const minus = document.querySelector(".minus");
@@ -410,7 +398,7 @@
         let a = 2;
 
         var totalcost = document.querySelector('#totalcost');
-        totalcost.innerHTML = (itemprice/2).toLocaleString() + '원';
+        totalcost.innerHTML = (itemprice/a).toLocaleString() + '원';
         var input_participant = document.querySelector('#input-participant');
         
         plus.addEventListener("click", () => {
@@ -421,7 +409,7 @@
             } else {
                 alert('최대 5명까지만 선택 가능합니다.')
             }
-            totalcost.innerHTML =  (itemprice/a).toLocaleString() + '원';
+            totalcost.innerHTML =  (Math.floor(itemprice/a)).toLocaleString() + '원';
             console.log(input_participant.value);
         })
         minus.addEventListener("click", () => {
@@ -432,7 +420,7 @@
             } else {
                 alert('2명 이상 선택 가능합니다.')
             }
-            totalcost.innerHTML =  (itemprice/a).toLocaleString() + '원';
+            totalcost.innerHTML =  (Math.floor(itemprice/a)).toLocaleString() + '원';
             console.log(input_participant.value);
         });
 

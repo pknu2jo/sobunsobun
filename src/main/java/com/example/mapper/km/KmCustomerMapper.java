@@ -30,4 +30,7 @@ public interface KmCustomerMapper {
 
     // 공구 정보 한개 가져오기
     public kmPurchaseView selectOnePurchase(long purchaseNo);
+
+// 결제 페이지
+    public String selectOneStorage(long storageNo);
 }

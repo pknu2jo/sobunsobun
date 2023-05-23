@@ -1,5 +1,6 @@
 package com.example.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class kmPurchaseView {
+public class kmPurchaseView implements Serializable {
     
  private long no; // 공구 현황 번호
  private long purchaseNo;

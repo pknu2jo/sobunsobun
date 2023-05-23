@@ -42,6 +42,9 @@ public interface KmCustomerService {
     // 공구 정보 한개 가져오기
     public kmPurchaseView selectOnePurchase(long purchaseNo);
 
+    // 보관소 번호에 해당하는 보관소 정보 가져오기
+    public String selectOneStorage(long storageNo);
+
 // 이미지
     // 이미지 번호에 대한 정보 다 가져오기
     public ItemImage findById(BigDecimal no);
@@ -51,4 +54,5 @@ public interface KmCustomerService {
 
     // itemno에 해당하는 이미지 중 가장 오래된 이미지 가져오기
     // public ItemImage findTop1ByItemNo_noOrderByNoAsc(BigDecimal no);
+
 }
