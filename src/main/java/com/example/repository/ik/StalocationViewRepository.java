@@ -1,11 +1,11 @@
-package com.example.repository;
+package com.example.repository.ik;
 
 import java.math.BigDecimal;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.entity.StalocationView;
+import com.example.entity.ik.StalocationView;
 
 @Repository
 public interface StalocationViewRepository extends JpaRepository<StalocationView, BigDecimal>{

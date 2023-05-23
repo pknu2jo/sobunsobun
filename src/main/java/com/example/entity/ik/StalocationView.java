@@ -1,4 +1,4 @@
-package com.example.entity;
+package com.example.entity.ik;
 
 import java.math.BigDecimal;
 

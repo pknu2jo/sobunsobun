@@ -1,5 +1,6 @@
-package com.example.entity;
+package com.example.entity.ik;
 
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,12 +14,18 @@ import lombok.Data;
 @Data
 @Immutable // 뷰
 @Entity
-@Table(name = "TOTALLOCATION")
-public class TotallocationView {
+@Table(name = "SALES")
+public class SalesView {
     @Id
     @Column(name = "NO")
     private String no;
     
-    @Column(name = "LOCATION")
-    private String location;
+    @Column(name = "ITEMNO")
+    private BigDecimal itemno;
+
+    @Column(name = "ITEMPRICE")
+    private BigDecimal itemprice;
+    
+    @Column(name = "REGDATE")
+    private String regdate;
 }

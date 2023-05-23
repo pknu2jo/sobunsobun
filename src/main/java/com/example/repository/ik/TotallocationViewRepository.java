@@ -1,11 +1,9 @@
-package com.example.repository;
-
-import java.math.BigDecimal;
+package com.example.repository.ik;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.entity.TotallocationView;
+import com.example.entity.ik.TotallocationView;
 
 @Repository
 public interface TotallocationViewRepository extends JpaRepository<TotallocationView, String>{    

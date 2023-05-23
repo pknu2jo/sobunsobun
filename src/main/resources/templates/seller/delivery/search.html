@@ -166,24 +166,23 @@
                                 </form>
                             </div>
                             <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
-                                <form>
-                                    <select>
-                                        <option value ="">1차</option>
-                                        <option value ="a">2차</option>
-                                        <option value ="b">3차</option>
-                                        <option value ="c">4차</option>
-                                    </select>
-                                    <select>
-                                        <option value ="">2차</option>
-                                        <option value ="a">2차</option>
-                                        <option value ="b">3차</option>
-                                        <option value ="c">4차</option>
-                                    </select>
-                                    <select>
-                                        <option value ="">3차</option>
-                                        <option value ="a">2차</option>
-                                        <option value ="b">3차</option>
-                                        <option value ="c">4차</option>
+                                <form th:action="@{/seller/delivery/search.do}" method="get">
+                                    <select id="firstselect" name="lname" onchange="first()">
+                                        <option>대분류</option>
+                                        <option>ㅡㅡㅡㅡㅡㅡ</option>
+                                        <option th:each="obj : ${llist}" th:value ="${obj.code}" th:text="${obj.name}"></option>
+                                    </select>                                    
+                                
+                                    <select id="secondselect" name="mname" onchange="second()">
+                                        <option>중분류</option>
+                                        <option>ㅡㅡㅡㅡㅡㅡ</option>
+                                        <option th:each="obj : ${mlist}" th:value ="${obj.code}" th:text="${obj.name}"></option>
+                                    </select>                                    
+                                
+                                    <select id="thirdselect" name="sname" onchange="third()">
+                                        <option>소분류</option>
+                                        <option>ㅡㅡㅡㅡㅡㅡ</option>
+                                        <option th:each="obj : ${slist}" th:value ="${obj.code}" th:text="${obj.name}"></option>
                                     </select>
                                 </form>
                             </div>
@@ -291,6 +290,14 @@
         integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <script th:inline="javascript" type="text/javascript">
+
+        function first() {            
+            const code = document.getElementById("firstselect").value;            
+            window.location.href = `/SOBUN/seller/delivery/search.do?lcode=${code}`;            
+        }
+
+    </script>
 
     <script>
         $(document).ready(function () {

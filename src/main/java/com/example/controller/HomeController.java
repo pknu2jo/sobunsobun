@@ -10,20 +10,29 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.entity.SalesViewProjection;
-import com.example.entity.StagenderView;
-import com.example.entity.TotaltableView;
-import com.example.repository.DeliveryViewRepository;
-import com.example.repository.SalesViewRepository;
-import com.example.repository.StagenderViewRepository;
-import com.example.repository.StalocationViewRepository;
-import com.example.repository.TotalgenderViewRepository;
-import com.example.repository.TotallocationViewRepository;
-import com.example.repository.TotaltableViewRepository;
+import com.example.entity.Lcategory;
+import com.example.entity.Mcategory;
+import com.example.entity.Scategory;
+import com.example.entity.ik.SalesViewProjection;
+import com.example.entity.ik.StagenderView;
+import com.example.entity.ik.TotaltableView;
+import com.example.repository.LcategoryRepository;
+import com.example.repository.McategoryRepository;
+import com.example.repository.ScategoryRepository;
+import com.example.repository.ik.DeliveryViewRepository;
+import com.example.repository.ik.SalesViewRepository;
+import com.example.repository.ik.StagenderViewRepository;
+import com.example.repository.ik.StalocationViewRepository;
+import com.example.repository.ik.TotalgenderViewRepository;
+import com.example.repository.ik.TotallocationViewRepository;
+import com.example.repository.ik.TotaltableViewRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Controller
@@ -42,8 +51,10 @@ public class HomeController {
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // 배송    
     final DeliveryViewRepository dvRepository;
+    final LcategoryRepository lRepository;
+    final McategoryRepository mRepository;
+    final ScategoryRepository sRepository;
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
 
     @GetMapping(value = "/home.do")
     public String homeGET(){
@@ -187,7 +198,8 @@ public class HomeController {
     /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
     // 배송
     @GetMapping(value="/delivery/search.do")
-    public String deliverysearchGET(Model model) {
+    public String deliverysearchGET(Model model,
+                @RequestParam(name="lcode", defaultValue = "") BigDecimal lcode) {
         try {
             long one = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(0), "1078198143");
             long two = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(1), "1078198143");
@@ -201,7 +213,12 @@ public class HomeController {
             model.addAttribute("three", three);
             model.addAttribute("four", four);
             model.addAttribute("total", total);
-
+            
+            List<Lcategory> llist = lRepository.findAll();
+            List<Mcategory> mlist = mRepository.findByLcategoryCode_code(lcode);
+            
+            model.addAttribute("llist", llist);
+            model.addAttribute("mlist", mlist);
 
             return "/seller/delivery/search";
         } catch (Exception e) {
@@ -209,5 +226,4 @@ public class HomeController {
             return "redirect:/home.do";
         }
     }
-    
 }

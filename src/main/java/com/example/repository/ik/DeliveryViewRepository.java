@@ -1,10 +1,10 @@
-package com.example.repository;
+package com.example.repository.ik;
 
 import java.math.BigDecimal;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.entity.DeliveryView;
+import com.example.entity.ik.DeliveryView;
 
 public interface DeliveryViewRepository extends JpaRepository<DeliveryView, BigDecimal>{
     
