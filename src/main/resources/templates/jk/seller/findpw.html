@@ -12,7 +12,8 @@
 </head>
 
 <body style="margin-top: 60px;">
-    <div style="width: 560px; margin: 0 auto; padding: 45px; padding-bottom: 30px; border: 1px solid #e2e2e2; background-color:rgb(255, 255, 255); border-radius: 0.7rem;">
+    <div
+        style="width: 560px; margin: 0 auto; padding: 45px; padding-bottom: 30px; border: 1px solid #e2e2e2; background-color:rgb(255, 255, 255); border-radius: 0.7rem;">
         <div class="text-center">
             <img th:src="@{/images/jk/logo1.png}" name="soboon" style="height: 150px;">
             <br />
@@ -23,12 +24,12 @@
                     <hr />
                     <br>
                     <div class="form-floating mb-2">
-                        <input type="text" id="id" name="no" value="1234" class="form-control" onkeyup="ajaxIDCheck(this)"> <label
-                            for="id" id="lbl_check" class="form-label">사업자번호</label>
+                        <input type="text" id="id" name="no" value="1234" class="form-control"
+                            onblur="ajaxIDCheck(this)"> <label for="id" id="lbl_check" class="form-label">사업자번호</label>
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="email" id="email" name="email" class="form-control" value="test@test"/>
-                        <label for="email" class="form-label">이메일</label>
+                        <input type="email" id="email" name="email" class="form-control" value="test@test" onblur="ajaxPwFind(this)"/>
+                        <label for="email" id="elb_check" class="form-label">이메일</label>
                     </div>
                     <br>
                     <hr />
@@ -37,7 +38,7 @@
                         <!-- 버튼을 누르면 alert창 = 
                             "등록된 이메일로 새로운 비밀번호가 발송됐습니다. 이메일을 확인해주세요"
                             메시지가 뜨고, 메일로 임시비밀번호 발송. -->
-                        <input type="button" value="비밀번호 찾기" class="btn btn-dark" onclick="findPwsubmit()"/> 
+                        <input id="pw_button" type="button" value="비밀번호 찾기" class="btn btn-dark" onclick="findPwsubmit()" />
                         <a th:href="@{/seller/login.do}" class="btn btn-outline-secondary">로그인 화면으로</a>
                     </div>
                 </div>
@@ -58,21 +59,74 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-    <script>
-        async function findPwsubmit(){
+    <script th:inline="javascript">
+
+        async function ajaxIDCheck(e) {
+            // console.log(e.value);
+            if (e.value.length > 0) {
+                // rest api 호출
+                let url = /*[[@{/api/selleridcheck.json}]]*/""
+                url += `?id=${e.value}`;
+
+                // console.log(url);
+                const headers = { "Content-Type": "application/json" };
+                const { data } = await axios.get(url, { headers });
+                // console.log(data);
+
+                if (data.chk === 0) {
+                    document.getElementById("lbl_check").innerText = '존재하지 않는 사업자번호입니다.';
+                    document.getElementById("lbl_check").style.color = 'red';
+                    document.getElementById("id").className = 'form-control is-invalid';
+                }
+                if (data.chk === 1) {
+                    idcheck = 0;
+                    document.getElementById("lbl_check").innerText = '사업자번호 (아이디)';
+                    document.getElementById("lbl_check").style.color = 'gray';
+                    document.getElementById("id").className = 'form-control';
+                }
+            }
+        }
+
+        async function ajaxPwFind(e) {
+            // console.log(e.value);
+            if (e.value.length > 0) {
+                // rest api 호출
+                let url = /*[[@{/api/sellerpwfind.json}]]*/""
+                url += `?email=${e.value}`;
+
+                // console.log(url);
+                const headers = { "Content-Type": "application/json" };
+                const { data } = await axios.get(url, { headers });
+                // console.log(data);
+
+                if (data.chk === 0) {
+                    document.getElementById("elb_check").innerText = '등록된 이메일과 일치하지 않습니다.';
+                    document.getElementById("elb_check").style.color = 'red';
+                    document.getElementById("id").className = 'form-control is-invalid';
+                }
+                if (data.chk === 1) {
+                    idcheck = 0;
+                    document.getElementById("elb_check").innerText = '이메일';
+                    document.getElementById("elb_check").style.color = 'gray';
+                    document.getElementById("id").className = 'form-control';
+                }
+            }
+        }
+
+        async function findPwsubmit() {
             if (document.getElementById("id").value == "") {
-            alert("사업자번호를 입력해주세요.");
-            return false;
+                alert("사업자번호를 입력해주세요.");
+                return false;
             }
             if (document.getElementById("email").value == "") {
-            alert("이메일을 입력해주세요.");
-            return false;
+                alert("이메일을 입력해주세요.");
+                return false;
             }
-            else{
+            else {
                 document.findpw.submit();
                 alert('등록된 이메일로 임시비밀번호가 전송되었습니다. \n수신된 이메일을 확인후 로그인해주세요.\n\n확인버튼을 누르면 잠시 후 로그인페이지로 이동합니다.');
             }
-            
+
         }
     </script>
 </body>

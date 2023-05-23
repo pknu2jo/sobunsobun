@@ -25,6 +25,9 @@ public interface SellerMapper {
     // 비번변경
     public int updateSellerPw(Seller seller);
     
-    // 탈퇴
+    // 탈퇴 (탈퇴 기능은 Admin 페이지에서 구현해야 할 것 같음!)
     public int deleteSeller(Seller seller);
+
+    // 아이디 중복확인
+    public int idCheck(String id);
 }

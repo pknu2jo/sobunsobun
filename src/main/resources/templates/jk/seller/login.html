@@ -27,7 +27,7 @@
                     <hr />
                     <br>
                     <div class="form-floating mb-2">
-                        <input type="text" id="regno" name="no" class="form-control" /> 
+                        <input type="text" id="id" name="no" class="form-control" /> 
                         <label for="id" class="form-label">사업자번호</label>
                     </div>
                     <div class="form-floating mb-2 ">
@@ -60,7 +60,7 @@
 
 	<script>
     async function loginAction(){
-    	  const regno = document.getElementById("regno");
+    	  const id = document.getElementById("id");
     	  const pw = document.getElementById("pw");
     	  
     	   if(regno.value.length <=0){
@@ -85,8 +85,7 @@
  	          pw.focus();
  	          return false; // 함수종료, 전송하지 않음
  	      }
-    	  
-    	  
+    	
     	  const url 	   = '${pageContext.request.contextPath}/seller/login.do';
     	  const headers  = { "Content-Type": "application/x-www-form-urlencoded" };
     	  const body 	   = { regno : regno.value, pw : pw.value };

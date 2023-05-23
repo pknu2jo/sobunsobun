@@ -21,6 +21,53 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
+
+    <style>
+        body {
+            background-color: #f8f8f8;
+            color: #333;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px;
+            background-color: rgb(255, 255, 255);
+            /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
+            border-radius: 10px;
+        }
+
+        /* 숫자입력칸 옆 화살표 없애는 용도  */
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox  */
+        input[type='number'] {
+            -moz-appearance: textfield;
+        }
+
+        .form-label {
+            color: #b3b3b3;
+        }
+
+        .form-control {
+            color: black;
+        }
+
+        .form-group label {
+            color: #333;
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-color: #ccc;
+        }
+    </style>
 </head>
 
 <body class="sb-nav-fixed">
@@ -30,25 +77,66 @@
     <!-- 전체화면 영역 -->
     <div id="layoutTotal">
         <!-- navbar -->
-            <th:block th:replace="~{/jk/seller/navbar :: navbarHTML}"></th:block>
+        <th:block th:replace="~{/jk/seller/navbar :: navbarHTML}"></th:block>
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
-            <main>
+            <main style="padding-bottom: 5%; background-color: #ffffff;">
                 <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
-
-
-                    <h3>정보수정(seller)</h3>
-                    <hr />
-                    <form th:action="@{/seller/updateinfo.do}" th:object="${seller}" method="post">
-                        <input type="text" th:field="${seller.no}" hidden /><br />
-                        업체명 : <input type="text" th:field="${seller.name}" /><br />
-                        업체주소 : <input type="text" th:field="${seller.address}" /><br />
-                        업체 전화번호 : <input type="text" th:field="${seller.phone}" /><br />
-                        업체 이메일 : <input type="text" th:field="${seller.email}" /><br />
-                        <input type="submit" value="수정하기" />
-                    </form>
-
-
+                    <div class="container mt-5">
+                        <h1 class="mb-4">내정보 수정하기</h1>
+                        <hr />
+                        <form id="form" th:action="@{/seller/updateinfo.do}" th:object="${seller}" method="post">
+                            <input type="text" th:field="${seller.no}" hidden /><br />
+                            <div class="mb-3 form-group">
+                                <label for="companyName" class="form-label">업체명</label>
+                                <input type="text" th:field="${seller.name}" class="form-control" id="name" name="name"
+                                    placeholder="업체명을 입력하세요">
+                            </div>
+                            <br>
+                            <div class="mb-3 form-group">
+                                <label for="companyAddress" class="form-label">현재 등록된 주소</label>
+                                <input type="text" th:field="${seller.address}" class="form-control" id="oldaddress"
+                                    name="oldaddress" style="background-color:rgb(230, 229, 229);" readonly>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="companyAddress" class="form-label">변경할 주소</label>
+                                <div class="text-center d-grid gap-2" style="padding: 0;">
+                                    <input type="button" class="btn btn-dark mb-0" onclick="sample6_execDaumPostcode()"
+                                        value="새 주소 찾기">
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="text" name="address1" class="form-control"
+                                                id="sample6_postcode" placeholder="우편번호" readonly
+                                                style="background-color: rgb(230, 229, 229);">
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" name="address2" id="sample6_address" class="form-control"
+                                                placeholder="주소" readonly style="background-color: rgb(230, 229, 229);">
+                                        </div>
+                                    </div>
+                                    <input type="text" name="address3" class="form-control" id="sample6_detailAddress"
+                                        placeholder="상세주소">
+                                    <input type="text" name="address4" class="form-control" id="sample6_extraAddress"
+                                        placeholder="추가정보" hidden>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="mb-3 form-group">
+                                <label for="companyPhone" class="form-label">업체 전화번호 ('-'는 제외)</label>
+                                <input type="number" th:field="${seller.phone}" class="form-control" id="phone"
+                                    name="phone" placeholder="업체 전화번호를 입력하세요" required>
+                            </div>
+                            <br>
+                            <div class="mb-3 form-group">
+                                <label for="companyEmail" class="form-label">업체 이메일</label>
+                                <input type="email" th:field="${seller.email}" class="form-control" id="email"
+                                    name="email" placeholder="업체 이메일을 입력하세요" required>
+                            </div>
+                            <br>
+                            <hr>
+                            <button type="button" class="btn btn-dark" onclick="updateAction()">수정하기</button>
+                        </form>
+                    </div>
                 </div>
             </main>
             <!-- footer -->
@@ -74,9 +162,57 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
         integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Daum 주소찾기 CDN -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 
     <script>
+        function updateAction() {
+            //변수에 담아주기
+            var name = document.getElementById("name");
+            var email = document.getElementById("email");
+            var phone = document.getElementById("phone");
+            var sample6_postcode = document.getElementById("sample6_postcode");
+            var sample6_detailAddress = document.getElementById("sample6_detailAddress");
+            var form = document.getElementById("form");
+
+            if (name.value == "") {  // 이름을 입력했는지
+                alert("변경할 업체명을 입력해주세요.");
+                name.focus();
+                return false;
+            };
+
+            if (sample6_postcode.value == "") { // 주소가 입력됐는지 (adr1과 adr2는 한번에 같이 입력되기때문에 adr1만 체크.)
+                alert("업체 주소를 입력해주세요.");
+                sample6_postcode.focus();
+                return false;
+            }
+
+            if (sample6_detailAddress.value == "") { // 상세주소 체크
+                alert("상세 주소를 입력해주세요.");
+                sample6_detailAddress.focus();
+                return false;
+            }
+
+            if (phone.value == "") { // 전화번호가 입력됐는지
+                alert("변경할 연락처를 입력해주세요.");
+                phone.focus();
+                return false;
+            }
+
+            if (email.value == "") { // 이메일이 입력됐는지
+                alert("변경할 이메일 주소를 입력해주세요.");
+                email.focus();
+                return false;
+            }
+
+            alert("회원 정보가 성공적으로 수정되었습니다.");
+            //입력 값 전송
+
+            form.submit(); //유효성 검사의 포인트   
+        }
+
+
         $(document).ready(function () {
             const sidebarToggle = $('#sidebarToggle');
             if (sidebarToggle) {
@@ -97,21 +233,65 @@
 
             })
         });
+
+
+        function sample6_execDaumPostcode() {
+            new daum.Postcode(
+                {
+                    oncomplete: function (data) {
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        var addr = ''; // 주소 변수
+                        var extraAddr = ''; // 참고항목 변수
+
+                        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                            addr = data.roadAddress;
+                        } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                            addr = data.jibunAddress;
+                        }
+
+                        // '1'== 1   '1'=== 1 엄격한 비교 (=세개짜리는)
+                        // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                        if (data.userSelectedType === 'R') {
+                            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                            // 정규식, 정규표현식 패털을 찾아서
+                            // ex) 사용자가 입력한 이메일 주소가 정확한지 확인
+                            if (data.bname !== ''
+                                && /[동|로|가]$/g.test(data.bname)) {
+                                extraAddr += data.bname;
+                            }
+                            // 건물명이 있고, 공동주택일 경우 추가한다.
+                            if (data.buildingName !== ''
+                                && data.apartment === 'Y') {
+                                extraAddr += (extraAddr !== '' ? ', '
+                                    + data.buildingName
+                                    : data.buildingName);
+                            }
+                            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                            if (extraAddr !== '') {
+                                extraAddr = ' (' + extraAddr + ')';
+                            }
+                            // 조합된 참고항목을 해당 필드에 넣는다.
+                            document.getElementById("sample6_extraAddress").value = extraAddr;
+
+                        } else {
+                            document.getElementById("sample6_extraAddress").value = '';
+                        }
+
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        document.getElementById('sample6_postcode').value = data.zonecode;
+                        document.getElementById("sample6_address").value = addr;
+                        // 커서를 상세주소 필드로 이동한다.
+                        document.getElementById("sample6_detailAddress")
+                            .focus();
+                    }
+                }).open();
+        }
     </script>
 </body>
-
-<!-- <body>
-    <h3>정보수정(seller)</h3>
-    <hr />
-    <form th:action="@{/seller/updateinfo.do}" th:object="${seller}" method="post">
-        <input type="text" th:field="${seller.no}" hidden /><br />
-        <input type="text" th:field="${seller.name}" /><br />
-        <input type="text" th:field="${seller.address}" /><br />
-        <input type="text" th:field="${seller.phone}" /><br />
-        <input type="text" th:field="${seller.email}" /><br />
-        <input type="submit" value="수정하기" />
-    </form>
-
-</body> -->
 
 </html>

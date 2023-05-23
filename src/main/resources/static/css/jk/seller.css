@@ -6,6 +6,12 @@
     font-family: 'Roboto', sans-serif;
 }
 
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #222;
+    border-color: #222;
+}
+
 html,
 body {
     height: 100vh;

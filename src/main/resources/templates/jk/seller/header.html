@@ -19,7 +19,7 @@
     <!-- Simple DataTable CDN -->
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <!-- CSS -->
-    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/seller.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
 </head>
 
 <body>
@@ -58,13 +58,13 @@
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-circle"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="profile">
-                        <li><a class="dropdown-item" th:href="@{updateinfo.do}">계정 설정</a></li>
+                        <li><a class="dropdown-item" th:href="@{updateinfo.do}">내 정보 설정</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <form th:action="@{/seller/home.do}" method="post">
-                            <a class="dropdown-item" th:href="@{logout.do}">로그아웃</a>
+                            <form th:action="@{/logout.do}" method="post">
+                                <a class="dropdown-item" >로그아웃</a>
                             </form>
                         </li>
                     </ul>
