@@ -34,11 +34,12 @@
             </form>
 
             <!-- 카카오로그인...화이팅 -->
+
             <a id="kakao-login-btn" href="javascript:loginWithKakao()">
                 <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222" alt="카카오 로그인 버튼" />
             </a>
             <button onclick="logoutWithKakao()">로그아웃</button>
-
+            <button onclick="kakaojoin()">회원가입테스트</button>
         </div>
 
     </div>
@@ -50,60 +51,124 @@
 
 
     <!-- script-->
+
     <!-- 카카오 로그인 -->
     <script src = "https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-    <script>
-		Kakao.init('f37acd51f39500af41a1f590e928481e'); // 카카오 JavaScript 키 입력
+    <script th:inline="javascript" type="text/javascript">
+        var id = "";
+        var email = "";
+        var nickname = "";
+        var gender = "";
+
+        Kakao.init('f37acd51f39500af41a1f590e928481e'); // 카카오 JavaScript 키 입력
 	
-		function loginWithKakao() {
-			 Kakao.Auth.login({
-			 	success: function(authObj) {
-			 		console.log('authObj', authObj);
-			 		Kakao.API.request({
-						url: '/v2/user/me',
-						success: function(response) {
-							console.log('response', response);
-							alert('로그인 성공');
-                            console.log(response.properties.nickname);
-                            console.log(response.kakao_account.email);
-                            console.log(response.kakao_account.gender);
+        function loginWithKakao() {
+            Kakao.Auth.login({
+                success: function(authObj) {
+                    console.log('authObj', authObj);
+                    Kakao.API.request({
+                        url: '/v2/user/me',
+                        success: async function(response) {
+                            console.log('response', response);
+                            alert('로그인 성공');
 
-                            if(response.kakao_account.email == null || response.kakao_account.gender == null){
-                                alert('이메일, 성별 정보를 체크해주세요');
-                                logoutWithKakao();
+                            id = response.id + '@k';
+                            email = response.kakao_account.email;
+                            nickname = response.kakao_account.profile.nickname;
+                            gender = response.kakao_account.gender;
+                            if(gender == 'female'){
+                                gender = 'F';
                             }
-                    
+                            else if(gender = 'male'){
+                                gender = 'M';
+                            }
+                            // console.log(email, nickname, gender, id);
+                            
+                            const url = /*[[@{/api/ckakaologin.json}]]*/'';
+                            const body = { "id":id };
+                            const headers = {"Content-Type":"application/json"};
+                            const {data} = await axios.post(url, body,  {headers});
+                            console.log(data.ret);
 
-							// 성공시 이동할 페이지
-							// location.href="http://127.0.0.1:5959/SOBUN/customer/kakaologin.do?code=" + authObj.access_token;
-						}
-					})
-		        },
-		        fail: function(err) {
-					alert(JSON.stringify(err));
-		        }
-			});
-		}
-		
-		
-		function logoutWithKakao(){
-			 if (Kakao.Auth.getAccessToken()) {
-				
-				 Kakao.API.request({
-					url: '/v1/user/unlink',
-					success: function (response) {
-						console.log(response)
-					},
-					fail: function (error) {
-					  console.log(error)
-					},
-				});
-				
-				Kakao.Auth.setAccessToken(null);
-			 }
-		}
+                            // 등록된 아이디(카카오 이메일)이 있으면 home 화면으로
+                            if(data.ret == 1){
+                                location.href="http://127.0.0.1:5959/SOBUN/customer/home.do";
+                            }
+                            // 등록된 아이디(카카오 이메일)이 없으면 회원가입 화면으로
+                            else if(data.ret == 0){
+                                kakaojoin();
+                            }
 
-	</script>
+
+                        }
+                    })
+                },
+                fail: function(err) {
+                    alert(JSON.stringify(err));
+                }
+            });
+        }
+
+        function kakaojoin() {
+            console.log(email, nickname, gender, id);
+            const kakaojoinform = document.createElement("form");
+            kakaojoinform.action = /*[[@{/customer/kakaojoin.do}]]*/"";
+            kakaojoinform.method = "post";
+            kakaojoinform.style.display="none";
+
+            var input1 = document.createElement("input");
+            input1.type = "hidden";
+            input1.name = "id";
+            input1.value = "가나다라";
+            kakaojoinform.appendChild(input1);
+            
+            const input2 = document.createElement("input");
+            input2.type = "hidden";
+            input2.name = "email";
+            input2.value = email;
+            kakaojoinform.appendChild(input2);
+            
+            const input3 = document.createElement("input");
+            input3.type = "hidden";
+            input3.name = "nickname";
+            input3.value = nickname;
+            kakaojoinform.appendChild(input3);
+            
+            const input4 = document.createElement("input");
+            input4.type = "hidden";
+            input4.name = "gender";
+            input4.value = gender;
+            kakaojoinform.appendChild(input4);
+
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "_csrf";
+            input.value =  /*[[${_csrf.token}]]*/"";
+            kakaojoinform.appendChild(input);
+
+            document.body.appendChild(kakaojoinform);
+
+            kakaojoinform.submit();
+        }
+
+        // -------------------------------------- 로그아웃 어째야하는..?
+        function logoutWithKakao(){
+            if (Kakao.Auth.getAccessToken()) {
+            
+                Kakao.API.request({
+                url: '/v1/user/unlink',
+                success: function (response) {
+                    console.log(response)
+                },
+                fail: function (error) {
+                    console.log(error)
+                },
+            });
+            
+            Kakao.Auth.setAccessToken(null);
+            }
+    }
+    </script>
     
 </body>
 </html>

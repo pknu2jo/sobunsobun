@@ -98,21 +98,37 @@ public class SeCustomerContorller {
         }
     }
 
-    // 카카오로그인
-    @GetMapping(value="/kakaologin.do")
-    public String kakaologinGET(
-        @RequestParam(required = false) String code
+    // 카카오로그인 - 회원가입
+    @PostMapping(value="/kakaojoin.do")
+    public String kakaojoinGET(
+        @RequestParam(name = "id", required = false) String id
+        // @ModelAttribute CustomerEntity obj
     ) {
         try {
-            System.out.println("======================================");
-            System.out.println("살려줘요");
-            System.out.println(code);
-            return "/se/customer/home";
+            log.info("카카오 회원가입 => {}", id);
+            // log.info("카카오 회원가입 => {}", obj.toString());
+            return "redirect:kakaojoin1.do";
         } catch (Exception e) {
             e.printStackTrace();
             return "/se/customer/login";
         }
     }
+
+    // 카카오로그인 - 회원가입
+    @GetMapping(value="/kakaojoin1.do")
+    public String kakaojoin1GET(
+
+    ) {
+        try {
+
+            return "/se/customer/kakaojoin";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "/se/customer/login";
+        }
+    }
+
+
 
     // ----------------------------------------------------------------------------------------------------
     // 아이디찾기
