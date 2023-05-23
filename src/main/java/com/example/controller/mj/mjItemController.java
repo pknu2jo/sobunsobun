@@ -3,7 +3,10 @@ package com.example.controller.mj;
 import java.lang.ProcessBuilder.Redirect;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.type.BigDecimalType;
 import org.springframework.stereotype.Controller;
@@ -40,6 +43,64 @@ public class mjItemController {
     final McateRepository mRepository;
     final ScateRepository sRepository;
     final mjItemMapper iMapper;
+    final HttpSession httpSession; //세션객체
+
+
+
+/* ===========================물품 수정============================================== */
+    
+    @PostMapping(value = "/item/updateitemaction.do")
+    public String updateitemactionPOST(
+        @RequestParam(name = "no[]") long[] no,
+        @RequestParam(name = "name[]") String[] name,
+        @RequestParam(name = "price[]") long[] price,
+        @RequestParam(name = "quantity[]") long[] quantity ){
+        try {
+            List<Item> list = new ArrayList<>();
+            for(int i=0; i<no.length; i++){
+                Item item = iRepository.findByNo(BigDecimal[]( no[i] ));
+                item.setNo(BigDecimal.valueOf(no[i]));
+                item.setName(name[i]);
+                item.setPrice(BigDecimal.valueOf(price[i]));
+                item.setQuantity(BigDecimal.valueOf(quantity[i]));
+                list.add(item);
+            }
+            iRepository.saveAll(list);
+            return "redirect:/seller/item/updateitem.do";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/seller/home.do";
+        }
+    }
+
+    
+
+
+
+    @SuppressWarnings("unchecked") // 경고 제외
+    @GetMapping(value = "/item/updateitem.do")
+    public String updateItemGET(Model model){
+        try {
+            List<BigDecimal> chk = (List<BigDecimal>) httpSession.getAttribute("chk[]");
+            List<Item> list =iRepository.findAllById(chk);
+            model.addAttribute("list", list);
+            return "/mj/seller/updateitem";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/seller/home.do";
+        }
+    }
+
+    @PostMapping(value = "/item/updateitem.do")
+    public String updateItemPOST(@RequestParam(name = "chk[]") List<BigDecimal> chk){
+        try {
+            httpSession.setAttribute("chk[]", chk);
+            return "redirect:/seller/item/updateitem.do";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/seller/home.do";
+        }
+    }
 
 
 /* ===========================물품 삭제============================================== */
@@ -47,15 +108,20 @@ public class mjItemController {
 
     @PostMapping(value ="/item/deleteitem.do")
     public String deleteitemPOST(
-        @RequestParam (name = "chk[]", required = false) BigDecimal[] no,
-        @RequestParam (name = "btn", required = false) String btn
+        @RequestParam (name = "chk[]", required = false) long[] no
+        // @RequestParam (name = "btn", required = false) String btn
     ){
         try {
-            log.info("deleteitem.do => {},{}", no, btn);
-            if(btn.equals("일괄삭제")){
-                int ret = iMapper.deleteItemBatch(no);
-                log.info("ret => {}", ret);
+            //확인용
+            for(int i=0; i<no.length; i++){
+                log.info("deleteitem.do => {}", BigDecimal.valueOf(no[i]));
             }
+            
+            int ret = iMapper.deleteItemBatch(no);
+            log.info("삭제된 갯수 => {}", ret);
+            
+            // iRepository.deleteAllByRegNo(no);
+            
             // 물품번호를 가져와서 물품삭제
             // int ret = iRepository.deleteByNo(chk);
             // log.info("ret =>{}", ret);
@@ -77,6 +143,7 @@ public class mjItemController {
             return "redirect:/seller/home.do";
         }
     }
+
     
 
 /* ===========================물품관리============================================== */

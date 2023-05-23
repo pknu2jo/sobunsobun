@@ -8,11 +8,15 @@ import org.apache.ibatis.annotations.Mapper;
 import com.example.dto.Item;
 
 
+
+
+
+
 @Mapper
 public interface mjItemMapper {
 
     /** 일괄삭제 */
-    public int deleteItemBatch( BigDecimal [] itemno);
+    public int deleteItemBatch( long [] itemno);
 
     /** 일괄수정 */
     public int updateItemBatch(List<Item> list);

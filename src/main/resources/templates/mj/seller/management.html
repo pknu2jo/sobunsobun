@@ -67,17 +67,21 @@
                     <hr>
                     <!------------------------------------------------------------------- -->
 
-                    <form th:action="@{/seller/item/deleteitem.do}" method="post">
+                    <!-- <form th:action="@{/seller/item/deleteitem.do}" method="post">
+                        
                         <input type="hidden" name="btn" id="btn"/>
                         <a th:href="@{/seller/item/insert.do}"><button class="btn btn-primary">물품등록</button></a>
                         <button class="btn btn-primary" value="일괄수정" onclick="updateItemAction()">수정</button>
                         <button class="btn btn-primary" value="일괄삭제" onclick="deleteItemAction()">삭제</button>
-
-                    </form>
+                    </form> -->
+                    <hr>
+                    <input type="hidden" name="btn" id="btn"/>
+                    <a th:href="@{/seller/item/insert.do}"><button class="btn btn-primary">물품등록</button></a>
+                    <button class="btn btn-primary" value="일괄수정" onclick="formAction1(1)">수정</button>
+                    <button class="btn btn-primary" value="일괄삭제" onclick="formAction1(2)">삭제</button>
                     
                     <form th:action="@{/seller/item/management.do}" method="post" id="form2">
-                        <hr>
-                        
+
                         <div class="row">
                             <div class="col">
                                 <div class="card mb-4">
@@ -148,25 +152,6 @@
             <th:block th:replace="~{/mj/seller/footer :: footerHTML}"></th:block>
         </div>
     </div>
-    <script>
-        const btn   = document.getElementById('btn');
-        const form2 = document.getElementById('form2');
-    
-        function deleteItemAction(){
-            if( confirm('삭제하시겠습니까?') ){
-                btn.value='일괄삭제';
-                console.log(btn.value);
-                form2.submit();
-            }
-        }
-
-        function updateItemAction(){
-                btn.value='일괄수정';
-                form2.submit();
-        }
-    
-    
-    </script>
 
 
     <!-- 6. Bootstrap용 js -->
@@ -203,16 +188,16 @@
                 });
             }
         });
-
-
+        
+        
         $(document).ready(function () {
             new simpleDatatables.DataTable("#datatablesSimple", {
                 searchable: true,
                 fixedHeight: true,
-
+                
             })
         });
-    </script>
+        </script>
 
     <script th:inline="javascript">
         function updateMcateSelect() {
@@ -228,7 +213,7 @@
             console.log(mcode);
             window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}`;
         }
-
+        
         function updateUrl() {
             const code = document.getElementById("LcateSelect").value;
             const mcode = document.getElementById("McateSelect").value;
@@ -238,29 +223,34 @@
             console.log(scode);
             window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
         }
+        </script>
 
-        
-        // function formAction1(code){
-        //     alert(code);
-        //     const form = document.getElementById('form');
-        //     if(code === 1){
-        //         form.action = /*[[@{/seller/item/updateitem.do}]]*/'';
-        //     }
-        //     else if(code === 2){
-        //         form.action = /*[[@{/seller/item/deleteitem.do}]]*/'';
-        //     }
-        //     form.submit();
-        // }
-        
 
-        // function insertimage(no){
-        //     const itemno = document.getElementById("itemno").value;
-        //     window.location.href = `/SOBUN/seller/item/updateimage.do?no=${itemno}`;
-        // }
+
+    <script th:inline="javascript" type="text/javascript">
+        const btn   = document.getElementById('btn');
+        const form2 = document.getElementById('form2');
+        
+        function formAction1(code){
+            if(code === 1){
+                btn.value='일괄수정';
+                
+                console.log(btn.value);
+                form2.action = /*[[@{/seller/item/updateitem.do}]]*/'';
+            }
+            else if(code === 2){
+                
+                btn.value='일괄삭제';
+                console.log(btn.value);
+                form2.action = /*[[@{/seller/item/deleteitem.do}]]*/'';
+            }
+            
+            form2.submit();
+        }
+
+    
+    
     </script>
-
-
-
 </body>
 
 </html>
