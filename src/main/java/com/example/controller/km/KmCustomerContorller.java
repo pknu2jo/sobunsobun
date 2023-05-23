@@ -19,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.dto.CustomerUser;
 import com.example.dto.Purchase;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
@@ -124,11 +126,12 @@ public class KmCustomerContorller {
 // ---------------------------------------------------------------------------------
 
     @GetMapping(value = "/item/order.do")
-    public String orderGET(Model model, HttpServletRequest request) {
+    public String orderGET(Model model, HttpServletRequest request, @AuthenticationPrincipal CustomerUser user) {
 
         // 세션에서 가져오기
         kmPurchaseView obj = (kmPurchaseView)httpSession.getAttribute("kmPurchaseView");
 
+        log.info("user information 확인 => {}", user.toString());
         long itemNo = 0L;
 
         if(obj.getPurchaseNo() != 0) {

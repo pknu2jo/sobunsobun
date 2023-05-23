@@ -88,17 +88,17 @@ public class SecurityConfig {
         // 권한 설정
         // http.authorizeRequests().anyRequest().permitAll();
         http.authorizeRequests()
-                .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do", "/customer/kmtest.do",
-                        "/customer/image")
+                .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do", 
+                             "/customer/kmtest.do", "/customer/image", "/customer/item/selectone.do")
                 .permitAll()
                 .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do", "/seller/home.do",
-                        "/seller/findpw.do", "/seller/updateinfo.do", "/seller/updatepw.do")
+                             "/seller/findpw.do", "/seller/updateinfo.do", "/seller/updatepw.do")
                 .permitAll()
                 .antMatchers("/admin/join.do").permitAll()
 
                 .antMatchers("/admin", "/admin/*").hasAuthority("ADMIN") // 주소가 9090/ROOT/admin ~~ 모든것
                 .antMatchers("/seller", "/seller/*").hasAnyAuthority("ADMIN", "SELLER")
-                .antMatchers("/customer", "/customer/*").hasAnyAuthority("CUSTOMER")
+                .antMatchers("/customer", "/customer/*", "/customer/item/*").hasAnyAuthority("CUSTOMER")
 
                 .anyRequest().permitAll();
 
