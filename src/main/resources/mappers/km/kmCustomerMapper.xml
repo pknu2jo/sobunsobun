@@ -3,49 +3,39 @@
 
 <mapper namespace="com.example.mapper.km.KmCustomerMapper">
 
+<!-- 물품 상세 조회 페이지 -->
+
+    <!-- 상품 정보 한개 가져오기 -->
+    <select id="selectOneItem" parameterType="long" resultType="map">
+        SELECT * FROM kmitemview k WHERE itemno=#{itemno}
+    </select>
+
+    <!-- 상품 번호에 해당하는 이미지 번호 가져오기 -->
+    <select id="selectItemImageNoList" parameterType="long" resultType="long">
+        SELECT no FROM ITEMIMAGE i WHERE ITEMNO = #{itemno}   
+    </select>
+
     <!-- 상품에 대한 열린 공구 가져오기 -> 남은 인원 -->
     <select id="countRemainingPerson" parameterType="long" resultType="int">
-        SELECT  participant-count(*) 
+       SELECT  participant-count(*) 
         FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY memid ORDER BY no desc) recent 
- 		FROM purchaseview p WHERE purchaseno = #{purchaseno} ) 
+ 		FROM kmpurchaseview p WHERE purchaseno = #{purchaseNo}) 
         WHERE recent=1 AND state=0 AND cancel=0
     </select>
 
-    <!-- 회원가입 -->
-    <!-- <insert id="joinCustomer" parameterType="Customer">
-        INSERT INTO customer(id, pw, name, phone, email, nickname, gender) 
-        VALUES(#{id}, #{pw}, #{name}, #{phone}, #{email}, #{nickname}, #{gender})
-    </insert> -->
-
-    <!-- 로그인하기 -->
-    <!-- <select id="selectMemberOne" parameterType="Member" resultType="Member">
-        SELECT m.id, m.name, m.age, m.role FROM member m 
-        WHERE m.id=#{id} AND m.password=#{password}
-    </select> -->
-
-    <!-- 로그인하기1(아이디를 전달하면 그 정보를 가져오기) -->
-    <!-- <select id="selectCustomerOne" parameterType="string" resultType="Customer">
-        SELECT m.* FROM customer m WHERE m.id=#{id}
-    </select> -->
-
-    <!-- 고객 정보 불러오기 -->
-    <select id="selectCustomerOne" resultType="Customer">
-        SELECT m.id, m.name, m.phone, m.email, m.nickname, m.gender  
-        FROM Customer m WHERE m.id=#{id}
+    <!-- 상품에 대한 열린 공구 가져오기 -> 공구번호, 참여인원, 마감기한, 보관소 코드, 보관소이름 -->
+    <select id="selectPurchaseList" parameterType="long" resultType="KmPurchaseView">
+        SELECT * FROM (
+				SELECT * FROM (SELECT *, ROW_NUMBER() OVER 
+				(PARTITION BY PURCHASENO ORDER BY no desc) recent 
+									FROM KMPURCHASEVIEW p WHERE itemno = #{itemno}
+									ORDER BY PURCHASENO DESC 
+				  ) WHERE recent=1 AND deadline > CURRENT_TIMESTAMP()  ORDER BY deadline DESC
+		)
     </select>
-    <!-- 고객 정보 수정하기 -->
-    <!-- <update id="updateMemberOne" parameterType="Member">
-        UPDATE member SET name=#{name}, age=#{age} WHERE id=#{id}
-    </update> -->
 
-    <!-- 회원정보 수정하기 -->
-    <!-- <update id="updatePassword" parameterType="Member">
-        UPDATE member SET password=#{password} WHERE id=#{id}
-    </update> -->
-
-    <!-- 회원 탈퇴하기 -->
-    <!-- <update id="deleteMemberOne" parameterType="Member">
-        UPDATE member SET password=null, name=null, age=null 
-        WHERE id=#{id} AND password=#{password}
-    </update> -->
+    <!-- 모든 보관소 정보 가져오기 -->
+    <select id="selectStorageList" resultType="Storage">
+        SELECT * FROM storage ORDER BY NAME ASC
+    </select>
 </mapper>

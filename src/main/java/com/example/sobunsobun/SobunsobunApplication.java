@@ -15,7 +15,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = {"com.example.controller",
 								"com.example.restController",
 							    "com.example.service",
-								"com.example.config"}) // 컨트롤러, 서비스, 시큐리티 위치 설정
+								"com.example.config",
+								"com.example.filter"}) // 컨트롤러, 서비스, 시큐리티 위치 설정
 @EntityScan(basePackages = {"com.example.entity"}) // 엔티티 위치		
 @EnableJpaRepositories(basePackages = {"com.example.repository"}) // 저장소 위치
 public class SobunsobunApplication {

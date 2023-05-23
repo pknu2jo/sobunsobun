@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ashion Template">
+    <meta name="keywords" content="Ashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ashion | Template</title>
+
+    <!-- Google Font -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"> -->
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    
+    <link rel="stylesheet" th:href="@{/css/km/noneed_order/elegant-icons.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/km/noneed_order/jquery-ui.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/km/noneed_order/magnific-popup.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/km/noneed_order/owl.carousel.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/km/noneed_order/slicknav.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/km/noneed_order/style.css}" type="text/css">
+    <style>
+        /* 테이블 */
+        @import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
+
+        /*----------------------------------------------------------
+        GENERAL
+        ----------------------------------------------------------*/
+            *{
+                margin:0;
+                padding:0;
+                font-family: 'Roboto', sans-serif;
+            }
+
+            html, body{
+                display:table;
+                height:100%;
+                width:100%;
+                color: #252a3b;
+            }
+
+            .row--top-20{
+                margin-top: 20px;
+            }
+
+            .table__th {
+                color: #9eabb4;
+                font-weight: 500;
+                font-size: 12px;
+                text-transform: uppercase;
+                cursor: pointer;
+                border:0 !important;
+                padding: 15px 8px !important;
+            }
+
+            .table-row {
+                border-bottom: 1px solid #e4e9ea;
+                background-color: #fff;
+            }
+         
+            .table-row__td {
+                padding: 12px 8px !important;
+                vertical-align: middle !important;
+                color: #53646f;
+                font-size: 13px;
+                font-weight: 400;
+                position:relative;
+                line-height: 18px !important;
+                border:0 !important;
+            }
+
+            .table-row__img{
+                /* width: 36px;
+                height: 36px; */
+                width: 130px;
+                height: 160px;
+                display: inline-block;
+                /* border-radius: 50%; */
+                background-position: center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                vertical-align: middle;
+            }
+
+            .table-row--item .table-row__img {
+                background-image: url('https://images.pexels.com/photos/428333/pexels-photo-428333.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb');
+            }
+
+
+            .table-row__info {
+                display: inline-block;
+                padding-left: 12px;
+                vertical-align: middle;
+            }
+            
+
+            .table-row__name {
+                color: #53646f;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 18px;
+                margin-bottom: 0px;
+            }
+
+
+            .table-row__policy {
+                color: #53646f;
+                font-size: 13px;
+                font-weight: 400;
+                line-height: 18px;
+                margin-bottom: 0px;
+            }
+
+            @media screen and (max-width: 991px){
+                .table__thead {
+                        display: none;
+                    }
+
+                .table-row {
+                    display: inline-block;
+                    border: 0;
+                    background-color: #fff;
+                    width: calc(33.3% - 13px);
+                    margin-right: 10px;
+                    margin-bottom: 10px;
+                }
+
+                
+                .table-row__td:before{
+                    /* content:attr(data-column);
+                    color: #9eabb4;
+                    font-weight: 500;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    display: block; */
+                }
+                
+                
+                .table-row__td {
+                    /* display: block;
+                    text-align: center;
+                    padding: 8px !important; */
+                }
+            
+            }
+
+
+         
+            .table__th {
+                margin-top: 0;
+                padding-top: 0 !important;
+            }
+
+            .table_container {
+                width: 1120px;
+                max-width: none !important;
+                padding-right: 0;
+            }
+    </style>
+</head>
+
+<body>
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="./index.html"><i class="fa fa-home"></i> Home</a>
+                        <span>Shopping cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+    <!-- Checkout Section Begin -->
+    <section class="checkout spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h6 class="coupon__link"><i class="fa fa-tag"></i> <a href="#">Have a coupon?</a> Click
+                    here to enter your code.</h6>
+                </div>
+            </div>
+            <form action="#" class="checkout__form">
+                <div class="row" style="margin-right: 0;margin-left: 0;">
+                    <div class="col-lg-8">
+                        <h5>주문정보</h5>
+                        <div class="row">  
+                            <div class="col-lg-12">
+                                <div class="checkout__form__input">
+                                    <p>주문하시는 분 <span>*</span></p>
+                                    <input type="text">
+                                </div>
+
+                                <div class="checkout__form__input">
+                                    <p>휴대전화 <span>*</span></p>
+                                    <input type="text" placeholder="- 빼고 입력해주세요">
+                                </div>
+                                <div class="checkout__form__input">
+                                    <p>이메일 <span>*</span></p>
+                                    <input type="text" placeholder="Street Address">
+                                    <!-- <input type="text" placeholder="Apartment. suite, unite ect ( optinal )"> -->
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="checkout__order">
+                            <h5>최종 결제 금액</h5>
+                            <div class="checkout__order__product">
+                                <ul>
+                                    <li>
+                                        <span class="top__text">카드 결제</span>
+                                        <!-- <span class="top__text__right">Total</span> -->
+                                    </li>
+                                    <li>상품 금액 <span>5,500원</span></li>
+                                    <li>배송비<span>2,200원</span></li>
+                                    <!-- <li>03. Black jean <span>$ 170.0</span></li>
+                                    <li>04. Cotton shirt <span>$ 110.0</span></li> -->
+                                </ul>
+                            </div>
+                            <div class="checkout__order__total">
+                                <ul>
+                                    <!-- <li>Subtotal <span>$ 750.0</span></li> -->
+                                    <li>Total <span id="total_price" th:text="|가나다|"></span></li>
+                                </ul>
+                            </div>
+                            <button type="submit" class="site-btn">결제하기</button>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8 mt-3 table_container">
+                        <h5 style="margin-bottom: 0;">상품정보</h5>
+                        <div class="row">  
+                            <div class="col-lg-12">
+                                <!-- 테이블 시작 ~ -->
+                                <div class="container">
+                                    <div class="row row--top-20">
+                                      <div class="col-md-12">
+                                        <div class="table-container">
+                                          <table class="table">
+                                            <thead class="table__thead">
+                                              <tr>
+                                                <th class="table__th">상품정보</th>
+                                                <th class="table__th">총판매가</th>
+                                                <th class="table__th">1인당 판매가</th>
+                                                <th class="table__th">배송비</th>
+                                                <th class="table__th">합계</th>
+                                              </tr>
+                                            </thead>
+                                            <tbody class="table__tbody">
+                                              <tr class="table-row table-row--item">
+                                                <td class="table-row__td">
+                                                  <div class="table-row__img"></div>
+                                                  <div class="table-row__info">
+                                                    <p class="table-row__name">여기는 상품명</p>
+                                                  </div>
+                                                </td>
+                                                <td data-column="Policy" class="table-row__td">
+                                                  <div class="">
+                                                    <p class="table-row__policy">여기는 가격</p>
+                                                  </div>
+                                                </td>
+                                                <td data-column="Policy" class="table-row__td">
+                                                  <p class="table-row__policy">Approved</p>
+                                                </td>
+                                                <td data-column="Destination" class="table-row__td">
+                                                  Huston, US
+                                                </td>
+                                                <td data-column="Policy" class="table-row__td">
+                                                  <p class="table-row__policy">Active</p>
+                                                </td>
+                                            
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  
+                                  </div>
+                                <!-- ~ 테이블 시작 -->
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <!-- 공간 빈 곳-->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+        
+
+        <!-- Js Plugins -->
+        <!-- <script th:src="@{/js/bootstrap.min.js}"></script> -->
+        <script th:src="@{/js/jquery-3.6.4.min.js}"></script>
+        <script th:src="@{/js/km/noneed_order/jquery.magnific-popup.min.js}"></script>
+        <script th:src="@{/js/km/noneed_order/jquery-ui.min.js}"></script>
+        <script th:src="@{/js/km/noneed_order/mixitup.min.js}"></script>
+        <script th:src="@{/js/km/noneed_order/jquery.countdown.min.js}"></script>
+        <script th:src="@{/js/km/noneed_order/jquery.slicknav.js}"></script>
+        <script th:src="@{/js/km/noneed_order/owl.carousel.min.js}"></script>
+        <script th:src="@{/js/km/noneed_order/jquery.nicescroll.min.js}"></script>
+        <script th:src="@{/js/km/noneed_order/main.js}"></script>
+        <script>
+            // $(document).ready(function() {
+            //     // var price = document.getElementById('total_price');
+            //     // price.value() = 5000+6000;
+
+            //     document.getElementById('total_price').innerHTML = 5000+6000 + '원';
+            // });
+        </script>
+    </body>
+
+    </html>
