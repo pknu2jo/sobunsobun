@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.entity.SalesViewProjection;
 import com.example.entity.StagenderView;
 import com.example.entity.TotaltableView;
+import com.example.repository.DeliveryViewRepository;
 import com.example.repository.SalesViewRepository;
 import com.example.repository.StagenderViewRepository;
 import com.example.repository.StalocationViewRepository;
@@ -30,12 +31,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 @Slf4j
 public class HomeController {
+// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    // 통계
     final TotalgenderViewRepository tgvRepository;
     final TotallocationViewRepository tlvRepository;
     final SalesViewRepository svRepository;
     final TotaltableViewRepository tvRepository;
     final StagenderViewRepository sgvRepository;
     final StalocationViewRepository slvRepository;
+// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    // 배송    
+    final DeliveryViewRepository dvRepository;
+// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
 
     @GetMapping(value = "/home.do")
     public String homeGET(){
@@ -165,24 +173,37 @@ public class HomeController {
         }       
     }
      /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
-    // 배송
-    @GetMapping(value="/delivery/search.do")
-    public String deliverysearchGET() {
-        try {
-
-            return "/seller/delivery/search";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/home.do";
-        }
-    }
-    /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
     // 주문
     @GetMapping(value="/order/search.do")
     public String ordersearchGET() {
         try {
 
             return "/seller/order/search";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/home.do";
+        }
+    }
+    /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+    // 배송
+    @GetMapping(value="/delivery/search.do")
+    public String deliverysearchGET(Model model) {
+        try {
+            long one = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(0), "1078198143");
+            long two = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(1), "1078198143");
+            long three = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(2), "1078198143");
+            long four = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(3), "1078198143");
+            long total = one+two+three+four;
+            
+            // 배송상태별, 전체
+            model.addAttribute("one", one);
+            model.addAttribute("two", two);
+            model.addAttribute("three", three);
+            model.addAttribute("four", four);
+            model.addAttribute("total", total);
+
+
+            return "/seller/delivery/search";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";

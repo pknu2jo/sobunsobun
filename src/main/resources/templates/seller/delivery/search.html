@@ -141,25 +141,56 @@
                                     <div class="col-2">
                                         여백
                                     </div>
-                                    <div class="col-sm">
-                                        전체
-                                        배송
-                                        배송준비중
-                                        배송중
-                                        배송완료
+                                    <div class="col-sm" style="display: inline-block;">
+                                        전체<p th:text="${total}" style="display: inline-block;"></p>
+                                        배송전<p th:text="${one}" style="display: inline-block;"></p>
+                                        배송준비중<p th:text="${two}" style="display: inline-block;"></p>
+                                        배송중<p th:text="${three}" style="display: inline-block;"></p>
+                                        배송완료<p th:text="${four}" style="display: inline-block;"></p>
                                     </div>
                                     <div class ="col-2">
                                         여백
                                     </div>
                             </div>
                             <div class="row" style ="border: 2px solid rgb(229, 229, 229); background-color: rgb(243,245,247);">
-                                상품번호, 물품명, 지역, 공구주문 번호 검색
+                                <form>
+                                    상품번호, 물품명, 지역, 공구주문 번호 검색
+                                </form>
                             </div>
                             <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
-                                상품상태 들어갈 공간 라디오 박스
+                                <form>
+                                    배송전<input type="radio" name="상태" value="배송전"/>
+                                    배송준비중<input type="radio" name="상태" value="배송준비중"/>
+                                    배송중<input type="radio" name="상태" value="배송중"/>
+                                    배송완료<input type="radio" name="상태" value="배송완료"/>
+                                </form>
                             </div>
                             <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
-                                기간
+                                <form>
+                                    <select>
+                                        <option value ="">1차</option>
+                                        <option value ="a">2차</option>
+                                        <option value ="b">3차</option>
+                                        <option value ="c">4차</option>
+                                    </select>
+                                    <select>
+                                        <option value ="">2차</option>
+                                        <option value ="a">2차</option>
+                                        <option value ="b">3차</option>
+                                        <option value ="c">4차</option>
+                                    </select>
+                                    <select>
+                                        <option value ="">3차</option>
+                                        <option value ="a">2차</option>
+                                        <option value ="b">3차</option>
+                                        <option value ="c">4차</option>
+                                    </select>
+                                </form>
+                            </div>
+                            <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
+                                <form>
+                                    기간
+                                </form>
                             </div>
                             <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
                                 초기화 검색
