@@ -39,12 +39,14 @@
     <th:block th:replace="~{/se/customer/header :: headerHTML}"></th:block>
 
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
-    <div class="checkout spad" style="padding-bottom: 300px;">
+    <div class="checkout spad" style="padding-bottom: 350px;">
+
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <h6 class="coupon__link"><i class="fa fa-tag"></i> <a href="#">Have a coupon?</a> Click
-                        here to enter your code.</h6>
+                    <h6 class="coupon__link">
+                        <!-- <i class="fa fa-tag"></i> <a th:href="@{/customer/item/selectone.do(no=${})}" style="text-decoration: none;">이전페이지 돌아가기</a> -->
+                    </h6>
                 </div>
             </div>
             <form action="#" class="checkout__form">
@@ -69,8 +71,12 @@
                                     <input type="text" placeholder="Street Address">
                                 </div>
                                 <div class="checkout__form__input">
+                                    <p>참여인원 <span>*</span></p>
+                                    <input type="text" th:value="|${obj.participant}명|" readonly>
+                                </div>
+                                <div class="checkout__form__input">
                                     <p>수령지점 <span>*</span></p>
-                                    <input type="text" placeholder="Street Address">
+                                    <input type="text" th:value="${obj.storageName}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +84,7 @@
                     <!-- ~ 주문 정보 -->
 
                     <!-- 최종 결제 금액 ~ -->
-                    <div class="col-lg-4">
+                    <div class="col-lg-4" style="margin-top: 60px;">
                         <div class="checkout__order">
                             <h5>최종 결제 금액</h5>
                             <div class="checkout__order__product">
@@ -87,41 +93,30 @@
                                         <span class="top__text">카드 결제</span>
                                         <!-- <span class="top__text__right">Total</span> -->
                                     </li>
-                                    <li>상품 금액 <span>5,500원</span></li>
-                                    <li>배송비<span>2,200원</span></li>
-                                    <!-- <li>03. Black jean <span>$ 170.0</span></li>
-                                    <li>04. Cotton shirt <span>$ 110.0</span></li> -->
+                                    <li>상품 금액 <span th:text="${#numbers.formatInteger(obj.pricePerOne, 3, 'COMMA') + '원'}"></span></li>
+                                    <li>배송비<span th:text="${#numbers.formatInteger(2000 / obj.participant, 3, 'COMMA') + '원'}"></span></li>
                                 </ul>
                             </div>
                             <div class="checkout__order__total">
                                 <ul>
                                     <!-- <li>Subtotal <span>$ 750.0</span></li> -->
-                                    <li>Total <span id="total_price" th:text="|가나다|"></span></li>
+                                    <li>Total <span id="total_price" th:text="${#numbers.formatInteger(obj.pricePerOne + 2000 / obj.participant, 3, 'COMMA') + '원'}"></span></li>
                                 </ul>
                             </div>
-                            <button id="payment-button" class="site-btn">결제하기</button>
+                            <button type="button" onclick="requestPay()" class="site-btn">결제하기</button>
                         </div>
                     </div>
                     <!-- ~ 최종 결제 금액 -->
 
                     <!-- 결제 수단 ~ -->
-                    <div class="col-lg-8 table_container mb-4 mt3">
+                    <!-- <div class="col-lg-8 table_container mb-4 mt3">
                         <h5>결제수단</h5>
                         <div class="row">
                             <div class="col-lg-12">
-                                <!-- 결제위젯, 이용약관 영역 -->
-                                <div id="payment-method"></div>
-                                <div id="agreement"></div>
-                                <!-- 결제하기 버튼 -->
-                                <!-- <button id="payment-button" class="site-btn">결제하기</button> -->
-                                <!-- <button type="button" class="site-btn">카카오페이</button> -->
-                                <!-- <div class="checkout__form__input">
-                                    <p>주문하시는 분 <span>*</span></p>
-                                    <input type="text">
-                                </div> -->
+                                
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- ~ 결제 수단 -->
 
                     <!-- 상품 정보 ~ -->
@@ -147,22 +142,28 @@
                                                     <tbody class="table__tbody">
                                                         <tr class="table-row table-row--item">
                                                             <td class="table-row__td">
-                                                                <div class="table-row__img"><img class=""
-                                                                        th:src="@{/images/noimage.jpg}" alt=""></div>
+                                                                <div class="table-row__img">
+                                                                    <img th:src="${obj.imageUrl}" alt="">
+                                                                </div>
                                                                 <div class="table-row__info">
-                                                                    <p class="table-row__name">여기는 상품명</p>
+                                                                    <p class="table-row__name"
+                                                                        th:text="${obj.itemName}"></p>
                                                                 </div>
                                                             </td>
                                                             <td data-column="Policy" class="table-row__td">
                                                                 <div class="">
-                                                                    <p class="table-row__policy">여기는 가격</p>
+                                                                    <p class="table-row__policy"
+                                                                        th:text="${#numbers.formatInteger(obj.itemPrice, 3, 'COMMA') + '원'}">
+                                                                    </p>
                                                                 </div>
                                                             </td>
                                                             <td data-column="Policy" class="table-row__td">
-                                                                <p class="table-row__policy">인당 판매가</p>
+                                                                <p class="table-row__policy"
+                                                                    th:text="${#numbers.formatInteger(obj.pricePerOne, 3, 'COMMA') + '원'}">
+                                                                </p>
                                                             </td>
-                                                            <td data-column="Destination" class="table-row__td">
-                                                                배송비
+                                                            <td data-column="Destination" class="table-row__td" th:text="|2,000원 / ${obj.participant}명|">
+                                                                
                                                             </td>
                                                             <td data-column="Policy" class="table-row__td">
                                                                 <p class="table-row__policy">합계</p>
@@ -193,8 +194,7 @@
 
 
 
-    <!-- script-->
-    <script th:src="@{/js/jquery-3.6.4.min.js}"></script>
+
     <!-- 
         <script th:src="@{/js/km/noneed_order/jquery.magnific-popup.min.js}"></script> 
         <script th:src="@{/js/km/noneed_order/jquery-ui.min.js}"></script> 
@@ -205,48 +205,76 @@
         <script th:src="@{/js/km/noneed_order/jquery.nicescroll.min.js}"></script> 
         <script th:src="@{/js/km/noneed_order/main.js}"></script> 
     -->
-    
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!-- 아임포트 라이브러리 -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+
     <script th:inline="javascript" type="text/javascript">
-        // 토스 페이
-        // 문서 테스트 키
-        // 토스페이먼츠와 계약하지 않았다면 아래 키로 결제위젯을 연동하세요.
-        const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
-        const secretKey = 'test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R';
+        const IMP = window.IMP; // 생략 가능
+        IMP.init("imp07130721"); // 예: imp00000000a
 
-        // const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq"
-        const customerKey = "dAOmt-WNW0SAF4bZJenK_" // 내 상점의 고객을 식별하는 고유한 키
-        const button = document.getElementById("payment-button")
+        var today = new Date();   
+        var hours = today.getHours(); // 시
+        var minutes = today.getMinutes();  // 분
+        var seconds = today.getSeconds();  // 초
+        var milliseconds = today.getMilliseconds();
+        var makeMerchantUid = hours +  minutes + seconds + milliseconds;
 
-        // ------  결제위젯 초기화 ------ 
-        // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
-        const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
-        // const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
+        totalPrice = Math.floor(parseInt(/*[[${obj.pricePerOne}]]*/"") + parseFloat(2000 / /*[[${obj.participant}]]*/""));
+        console.log(totalPrice)
 
-        // ------  결제위젯 렌더링 ------ 
-        // 결제위젯이 렌더링될 DOM 요소를 지정하는 CSS 선택자 및 결제 금액을 넣어주세요. 
-        // https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
-        paymentWidget.renderPaymentMethods("#payment-method", 1)
+        function requestPay() {
+            IMP.request_pay({
+                // pg: "html5_inicis",
+                pay_method: "card",
+                merchant_uid: "IMP" + makeMerchantUid, // 주문번호 (고유해야함)나중에 IMP 자리에 고객 아이디 집어넣기
+                name: /*[[${obj.itemName}]]*/"",
+                // amount: totalPrice,                         // 숫자 타입
+                amount: 100,    
+                buyer_email: "ming9396@naver.com", // 세션에 저장된 아이디로 컨트롤러에서 customer 가져오기
+                buyer_name: "이경민", 
+                buyer_tel: "010-4665-4069",
+                buyer_addr: "부산시 남구 신선로 365",
+                buyer_postcode: "48905"
+            }, function (rsp) { // callback
+                //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+                if(rsp.success) {
+                    console.log(rsp);
+                    // 담기는 값 확인
+                    // apply_num : "00442238"
+                    // bank_name :  null
+                    // buyer_addr : "부산시 남구 신선로 365"
+                    // buyer_email : "ming9396@naver.com"
+                    // buyer_name : "이경민"
+                    // buyer_postcode : "48905"
+                    // buyer_tel : "010-4665-4069"
+                    // card_name : "현대카드"
+                    // card_number : "489016*********2"
+                    // card_quota : 0
+                    // currency : "KRW"
+                    // custom_data : null
+                    // imp_uid : "imp_667092871400"
+                    // merchant_uid : "IMP194"
+                    // name : "액체형 세제 2.8L 6개"
+                    // paid_amount : 100
+                    // paid_at : 1684826114
+                    // pay_method : "card"
+                    // pg_provider : "html5_inicis"
+                    // pg_tid : "StdpayCARDINIpayTest20230523161514230573"
+                    // pg_type : "payment"
+                    // receipt_url : "https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid=StdpayCARDINIpayTest20230523161514230573&noMethod=1"
+                    // status : "paid"
 
-        // ------  이용약관 렌더링 ------
-        // 이용약관이 렌더링될 DOM 요소를 지정하는 CSS 선택자를 넣어주세요.
-        // https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자
-        paymentWidget.renderAgreement('#agreement')
 
-        // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
-        // 더 많은 결제 정보 파라미터는 결제위젯 SDK에서 확인하세요.
-        // https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
-        button.addEventListener("click", function () {
-            paymentWidget.requestPayment({
-                orderId: "ZvnMmoRlyMSBuxO3ROABx",            // 주문 ID(직접 만들어주세요)
-                orderName: "토스 티셔츠 외 2건",                 // 주문명
-                // successUrl: "http://127.0.0.1:5959/SOBUN/customer/home.do",  // 결제에 성공하면 이동하는 페이지(직접 만들어주세요)
-                successUrl: "https://my-store.com/success",  // 결제에 성공하면 이동하는 페이지(직접 만들어주세요)
-                failUrl: "https://my-store.com/fail",        // 결제에 실패하면 이동하는 페이지(직접 만들어주세요)
-                customerEmail: "customer123@gmail.com",
-                customerName: "김토스"
-            })
-            console.log(successUrl);
-        });
+                    console.log("여기서 이제 replace 해줘..?");
+                    location.replace(/*[[@{/customer/home.do}]]*/"");
+                } else {
+                    console.log(rsp);
+                }
+            });
+        }
     </script>
 </body>
 
