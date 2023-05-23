@@ -20,6 +20,7 @@ import com.example.entity.Item;
 import com.example.entity.Lcategory;
 import com.example.entity.Mcategory;
 import com.example.entity.Scategory;
+import com.example.mapper.mj.mjItemMapper;
 import com.example.repository.mj.ItemRepository;
 import com.example.repository.mj.LcateRepository;
 import com.example.repository.mj.McateRepository;
@@ -38,6 +39,7 @@ public class mjItemController {
     final LcateRepository lRepository;
     final McateRepository mRepository;
     final ScateRepository sRepository;
+    final mjItemMapper iMapper;
 
 
 /* ===========================물품 삭제============================================== */
@@ -49,6 +51,11 @@ public class mjItemController {
         @RequestParam (name = "btn", required = false) String btn
     ){
         try {
+            log.info("deleteitem.do => {},{}", no, btn);
+            if(btn.equals("일괄삭제")){
+                int ret = iMapper.deleteItemBatch(no);
+                log.info("ret => {}", ret);
+            }
             // 물품번호를 가져와서 물품삭제
             // int ret = iRepository.deleteByNo(chk);
             // log.info("ret =>{}", ret);
