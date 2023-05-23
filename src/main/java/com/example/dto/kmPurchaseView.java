@@ -1,5 +1,6 @@
 package com.example.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class kmPurchaseView {
+public class kmPurchaseView implements Serializable {
     
  private long no; // 공구 현황 번호
  private long purchaseNo;
@@ -23,16 +24,21 @@ public class kmPurchaseView {
  //  private long state; // 상태
  //  private long cancel; // 취소 상태
 
-//  private long itemNo;
-//  private String itemName;
-//  private long itemPrice;
+ private long itemNo;
+ private String itemName;
+ private long itemPrice;
 //  private String sellerName;
  
-//  private long storageNo;
+ private long storageNo;
  private String storageName;
 
 //  private long sCategoryCode;
 //  private String sCategoryName;
 //  private String mCategoryName;
 //  private String lCategoryName;
+
+
+// 임시변수
+private long pricePerOne; // 인당가격
+private String imageUrl; // 대표이미지
 }
