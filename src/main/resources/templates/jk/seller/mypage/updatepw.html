@@ -39,43 +39,31 @@
                         <h1 class="mb-4">비밀번호 변경하기</h1>
                         <hr />
                         <form id="form" th:action="@{/seller/updatepw.do}" th:object="${seller}" method="post">
-                            <input type="text" th:field="${seller.no}" hidden /><br />
+                            <input type="text" id="id" name="no" th:field="${seller.no}" hidden /><br />
                             <div class="mb-3 form-group">
-                                <label for="oldPw" id="companyPwChk" class="form-label">현재 비밀번호</label>
-                                <input type="password" th:field="${seller.pw}" class="form-control" id="oldPw" name="oldPw" required>
+                                <label for="pw" id="companyPwChk" class="form-label">현재 비밀번호</label>
+                                <input type="password" th:field="${seller.pw}" class="form-control" id="pw" name="pw"
+                                    required>
                             </div>
                             <br>
 
                             <div class="mb-3 form-group">
                                 <label for="newPw" class="form-label">새 비밀번호</label>
-                                <input type="password" th:field="${seller.newPw}" class="form-control" id="newPw" name="newPw" required>
+                                <input type="password" th:field="${seller.newPw}" class="form-control" id="newPw"
+                                    name="newPw" required>
                             </div>
                             <br>
                             <div class="mb-3 form-group">
-                                <label for="newPwChk" id="companyNewPwChk"class="form-label" >새 비밀번호 확인</label>
-                                <input type="password" th:field="${seller.newPwCheck}" class="form-control" id="newPwChk" name="newPwChk" onblur="pwCheck()" required>
+                                <label for="newPwCheck" id="companyNewPwChk" class="form-label">새 비밀번호 확인</label>
+                                <input type="password" th:field="${seller.newPwCheck}" class="form-control"
+                                    id="newPwCheck" name="newPwCheck" onblur="pwCheck()" required>
                             </div>
                             <br>
                             <hr>
-                            <button type="button" class="btn btn-outline-dark" onclick="updatePw()">수정하기</button>
+                            <button type="button" class="btn btn-outline-dark"
+                                onclick="updatePw(), ajaxPwCheck()">수정하기</button>
                         </form>
                     </div>
-
-
-
-
-                    <!-- <h3>비밀번호수정(seller)</h3>
-                    <hr />
-                    <form id="form" th:action="@{/seller/updatepw.do}" th:object="${seller}" method="post">
-                        <input type="text" th:field="${seller.no}" hidden /><br />
-                        <input id="oldPw" type="password" th:field="${seller.pw}" placeholder="현재 비밀번호" /><br />
-                        <input id="newPw" type="password" th:field="${seller.newPw}" placeholder="새 비밀번호" /><br />
-                        <input id="newPwChk" type="password" th:field="${seller.newPwCheck}"
-                            placeholder="새 비밀번호 확인" /><br />
-                        <button type="button" onclick="updatePw()">수정하기</button>
-                    </form> -->
-
-
                 </div>
             </main>
             <!-- footer -->
@@ -115,9 +103,9 @@
         }
 
         function updatePw() {
-            var oldPw = document.getElementById("oldPw");
+            var oldPw = document.getElementById("pw");
             var newPw = document.getElementById("newPw");
-            var newPwChk = document.getElementById("newPwChk");
+            var newPwChk = document.getElementById("newPwCheck");
             var form = document.getElementById("form");
 
             if (oldPw.value == "") { // 현재비번칸이 비었을 시
@@ -152,19 +140,31 @@
                 newPwChk.focus();
                 return false;
             };
-
-
-            alert("비밀번호가 성공적으로 변경되었습니다.")
-            //입력 값 전송
-            form.submit();
         }
 
+        async function ajaxPwCheck() {
+            // @PostMapping 방식
+            const url = /*[[@{/api/sellerpwcheck.json}]]*/"";
+            const headers = { "Content-Type": "application/json" };
+            const body = { id: "no", pw: "pw" };
+            const { data } = await axios.get(url, body, { headers: headers });
+            console.log('반환되는 결과', data);
+            const pw = $("#pw");
+
+            if (pw.length === 0) {
+                alert("비밀번호가 일치하지 않습니다.")
+            } else if (data.chk === 1) {
+                alert("비밀번호가 성공적으로 변경되었습니다.")
+            } else {
+                alert("비밀번호를 다시 확인해주세요.")
+            }
+        }
         // 비밀번호 확인
         const pwCheck = () => {
             const pw = document.getElementById("newPw");
-            const pw1 = document.getElementById("newPwChk");
+            const pw1 = document.getElementById("newPwCheck");
 
-            if(pw1.value.length < 8){
+            if (pw1.value.length < 8) {
                 document.getElementById("companyNewPwChk").innerText = "새 비밀번호 확인";
                 document.getElementById("companyNewPwChk").style.color = 'black';
             }
@@ -172,11 +172,13 @@
                 document.getElementById("companyNewPwChk").innerText = "암호가 일치하지 않습니다.";
                 document.getElementById("companyNewPwChk").style.color = 'red';
             }
-            else if(pw.value == pw1.value){
+            else if (pw.value == pw1.value) {
                 document.getElementById("companyNewPwChk").innerText = "암호가 일치합니다.";
                 document.getElementById("companyNewPwChk").style.color = 'blue';
             }
         }
+
+
     </script>
 </body>
 

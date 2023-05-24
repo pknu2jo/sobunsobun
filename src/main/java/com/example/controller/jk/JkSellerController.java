@@ -47,7 +47,13 @@ public class JkSellerController {
     @GetMapping(value = "/home.do")
     public String homeGET(@AuthenticationPrincipal User user, Model model) {
         log.info("Seller home User => {}", user);
-        return "/jk/seller/home";
+        if(!user.getUsername().equals("_")){
+            return "/jk/seller/home";
+
+        }else{
+            return "/jk/seller/login";
+        }
+        
     }
 
     // @PostMapping(value = "/logout.do")

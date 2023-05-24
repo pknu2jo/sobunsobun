@@ -1,10 +1,8 @@
 package com.example.restController.jk;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,7 +17,6 @@ import com.example.service.jk.JkSellerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -30,6 +27,8 @@ public class RestSellerController {
     final JkSellerService sSellerService;
     final JkSellerRepository sRepository;
 
+
+    // 사업자번호(id) 중복체크
     @GetMapping("/selleridcheck.json")
     public Map<String, Integer> idCheckGET(@RequestParam("id") String id) {
         // log.info(id.toString());
@@ -44,13 +43,15 @@ public class RestSellerController {
         return retMap;
     }
 
+    // 비밀번호 유효성검사
     @PostMapping(value = "/sellerpwcheck.json")
-    public Map<String, Integer> pwCheckPost(@RequestParam("id") String id, @ModelAttribute SellerEntity seller) {
-        log.info("idInfo => {}", id.toString());
-        Map<String, Integer> retMap = new HashMap<>();
+    public Map<String, Object> pwCheckPost(@ModelAttribute SellerEntity seller) {
+        log.info("idInfo => {}", seller);
+        Map<String, Object> retMap = new HashMap<>();
         try {
             // 세션 ID 이용하여 기존암호 받아오기
             SellerEntity sellerOld = sRepository.findById(seller.getNo()).orElse(null);
+            log.info("idInfo => {}", sellerOld);
             // 암호화용 객체
             BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder(); 
             if (bcpe.matches(seller.getPw(), sellerOld.getPw())) { // 암호 대조(확인단계)
