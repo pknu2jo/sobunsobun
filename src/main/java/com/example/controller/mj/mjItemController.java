@@ -23,7 +23,9 @@ import com.example.entity.Item;
 import com.example.entity.Lcategory;
 import com.example.entity.Mcategory;
 import com.example.entity.Scategory;
+import com.example.entity.mj.ItemCategoryView;
 import com.example.mapper.mj.mjItemMapper;
+import com.example.repository.mj.ItemCategoryViewRepository;
 import com.example.repository.mj.ItemRepository;
 import com.example.repository.mj.LcateRepository;
 import com.example.repository.mj.McateRepository;
@@ -43,6 +45,7 @@ public class mjItemController {
     final McateRepository mRepository;
     final ScateRepository sRepository;
     final mjItemMapper iMapper;
+    final ItemCategoryViewRepository icvRepository;
     final HttpSession httpSession; //세션객체
 
 
@@ -58,8 +61,7 @@ public class mjItemController {
         try {
             List<Item> list = new ArrayList<>();
             for(int i=0; i<no.length; i++){
-                Item item = iRepository.findByNo(BigDecimal[]( no[i] ));
-                item.setNo(BigDecimal.valueOf(no[i]));
+                Item item = iRepository.findById( BigDecimal.valueOf(no[i]) ).orElse(null);
                 item.setName(name[i]);
                 item.setPrice(BigDecimal.valueOf(price[i]));
                 item.setQuantity(BigDecimal.valueOf(quantity[i]));
@@ -153,9 +155,9 @@ public class mjItemController {
     public String managementGET(
         Model model, @ModelAttribute Item obj, 
         @ModelAttribute Lcategory obj1,
-        @RequestParam(name = "lcate", defaultValue = "000", required = false) BigDecimal Lcode,
-        @RequestParam(name = "mcate", defaultValue = "000", required = false) BigDecimal Mcode,
-        @RequestParam(name = "scate", defaultValue = "000", required = false) BigDecimal Scode ){
+        @RequestParam(name = "lcate", required = false) BigDecimal Lcode,
+        @RequestParam(name = "mcate", required = false) BigDecimal Mcode,
+        @RequestParam(name = "scate", required = false) BigDecimal Scode ){
         try {
             Category cate = new Category();
             List<Lcategory> list1 = lRepository.findAll();
@@ -172,10 +174,43 @@ public class mjItemController {
             log.info("cate => {}", cate);
             model.addAttribute("cate", cate);
 
-            List<Item> list = iRepository.findAllByRegNoOrderByNoDesc("1248600538");
-            // log.info("mlist => {}", mlist);
-            
-            // List<Item> itemSlist = iRepository.findAllByScategoryCode_code(Scode.toString());
+            // List<Item> list = new ArrayList<>();
+            // list = iRepository.findAllByRegNoOrderByNoDesc("1248600538");
+            List<ItemCategoryView> list = new ArrayList<>();
+            list = icvRepository.findAllByRegNoOrderByNoDesc("1248600538");
+            // if( Lcode == BigDecimal.valueOf(000) ){ // cate가 없으면?
+            // }
+
+            if(Lcode == null && Mcode == null & Scode == null){
+                list = icvRepository.findAllByRegNoOrderByNoDesc("1248600538");
+
+            }
+            else if( Lcode != null && Mcode == null & Scode == null ){
+                if(Lcode.equals(BigDecimal.valueOf(000))){
+                    list = icvRepository.findAllByRegNoOrderByNoDesc("1248600538");
+                }
+                else{
+
+                    list = icvRepository.findAllByRegNoAndLcategoryCodeOrderByNoDesc("1248600538", Lcode);
+                }
+            }
+            else if( Lcode != null && Mcode != null & Scode == null ){
+                if(Mcode.equals(BigDecimal.valueOf(000))){
+                    list = icvRepository.findAllByRegNoAndLcategoryCodeOrderByNoDesc("1248600538", Lcode);
+                }
+                else {
+                    list = icvRepository.findAllByRegNoAndMcategoryCodeOrderByNoDesc("1248600538", Mcode);
+                }
+                
+            }
+            else if(Lcode != null && Mcode != null && Scode != null){
+                if(Scode.equals(BigDecimal.valueOf(000))){
+                    list = icvRepository.findAllByRegNoAndMcategoryCodeOrderByNoDesc("1248600538", Mcode);
+                }
+                else{
+                    list = icvRepository.findAllByRegNoAndScategoryCodeOrderByNoDesc("1248600538", Scode);
+                }
+            }
 
             model.addAttribute("list", list);
             return "/mj/seller/management";

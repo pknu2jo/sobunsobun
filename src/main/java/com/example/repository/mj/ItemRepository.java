@@ -16,8 +16,16 @@ public interface ItemRepository extends JpaRepository<Item, BigDecimal> {
     // // select * from item i where regno=#{regno} order by no desc;
     List<Item> findAllByRegNoOrderByNoDesc(String regno);
 
+    // // 프로젝션 test
+    // ItemProjection findByMcategoryCode_code(BigDecimal mcode);
+    // List<ItemProjection> findByRegNoAndMcategoryCode_code(String regno, BigDecimal lcode);
+
+    /** 중분류별 아이템조회 */
+    // List<Item> findAllByRegNoAndScategoryCode_McategoryCode_codeOrderByNoDesc(String regno, BigDecimal mcode);
+
+
     /** 소분류별 아이템조회 */
-    List<Item> findAllByRegNoAndScategoryCode_codeOrderByNoDesc(String regno, String scode);
+    List<Item> findAllByRegNoAndScategoryCode_codeOrderByNoDesc(String regno, BigDecimal scode);
     // List<Item> findAllByScategoryCode_code(String scode);
 
     // /** 물품번호로 물품삭제 */
@@ -25,7 +33,9 @@ public interface ItemRepository extends JpaRepository<Item, BigDecimal> {
     // int deleteAllByRegNo(List<BigDecimal> chk);
 
     /** 물품 일괄수정 */
-    List<Item> findByNo(BigDecimal[] no);
+    List<Item> findByNo(BigDecimal no);
+
+    // Optional<T> findByNo(ID id)
     
 
 }

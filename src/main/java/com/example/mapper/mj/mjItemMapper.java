@@ -18,6 +18,4 @@ public interface mjItemMapper {
     /** 일괄삭제 */
     public int deleteItemBatch( long [] itemno);
 
-    /** 일괄수정 */
-    public int updateItemBatch(List<Item> list);
 }

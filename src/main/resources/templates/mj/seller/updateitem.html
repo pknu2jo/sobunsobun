@@ -41,8 +41,16 @@
                     <h3>물품수정</h3>
                     <a th:href="@{/seller/item/management.do}"><button class="btn btn-primary">물품리스트</button></a>
                     <form th:action="@{/seller/item/updateitemaction.do}" method="post">
+                        <div class="row">
+                            <div class="col-8">
+                                <p>col-8</p>
+                            </div>
+                            <div class="col-4" style="background-color: black;">
+                                <p>col-4</p>
+                            </div>
+                        </div>
 
-                        <table class="table caption-top">
+                        <table class="table caption-top" >
                             <caption>물품명, 가격, 수량 수정가능</caption>
                             <thead>
                                 <tr>
@@ -58,6 +66,7 @@
                             </thead>
                             <tbody>
                                 <tr th:each="obj : ${list}">
+                                    
                                     <td><input type="text" name="no[]" th:value="${obj.no.longValue()}" readonly/></td>
                                     <td><input type="text" name="name[]" th:value="${obj.name}" /></td>
                                     <td><input type="text" name="price[]" th:value="${obj.price.longValue()}" /></td>
@@ -173,6 +182,15 @@
         }
 
         
+    </script>
+    <script>
+        document.getElementById("updateitem").addEventListener("click", clickFunction);
+
+        function clickFunction(){
+            if(!confirm('물품수정이 완료되었습니다.')){
+                    window.location.href = `/SOBUN/seller/item/management.do`;
+                }
+        }
     </script>
 
 

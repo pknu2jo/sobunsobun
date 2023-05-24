@@ -22,6 +22,7 @@ hr {
 
 label {
     display: inline-block;
+    /* display: none; */
 }
 
 h1,

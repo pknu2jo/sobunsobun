@@ -12,29 +12,7 @@
         )
     </delete>
 
-    <!-- 일괄수정 -->
-    <update id="updateItemBatch" parameterType="list">
-        UPDATE item SET
-            name = (CASE
-                <foreach collection="list" item="obj" separator=" ">
-                    WHEN NO=#{obj.no} THEN #{obj.name}
-                </foreach>
-            END),
-            price = (CASE
-                <foreach collection="list" item="obj" separator=" ">
-                    WHEN NO=#{obj.no} THEN #{obj.price}
-                </foreach>
-            END),
-            quantity = (CASE
-                <foreach collection="list" item="obj" separator=" ">
-                    WHEN NO=#{obj.no} THEN #{obj.quantity}
-                </foreach>
-        WHERE no IN(
-            <foreach collection="list" item="obj" separator=" , ">
-                #{obj.no}
-            </foreach>
-        )
-    </update>
+    
 
 
 </mapper>

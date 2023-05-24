@@ -126,9 +126,9 @@
                                                     <td th:text="${obj.name}"></td>
                                                     <td th:text="${obj.price.longValue()}"></td>
                                                     <td th:text="${obj.quantity.longValue()}"></td>
-                                                    <td th:text="${obj.scategoryCode.name}"></td>
-                                                    <td th:text="${obj.scategoryCode.mcategoryCode.name}"></td>
-                                                    <td th:text="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}">
+                                                    <td th:text="${obj.sname}"></td>
+                                                    <td th:text="${obj.mname}"></td>
+                                                    <td th:text="${obj.lname}">
                                                     </td>
                                                     <td
                                                         th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분 ss초')}">
