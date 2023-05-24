@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.example.dto.Customer;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
@@ -26,7 +27,6 @@ public interface KmCustomerService {
     // 상품 번호에 해당하는 이미지 번호 가져오기
     public List<Long> selectItemImageNoList(long itemno);
     
-
     // 상품에 대한 열린 공구 가져오기 => 남은인원
     public int countRemainingPerson(long purchaseno);
 
@@ -43,7 +43,11 @@ public interface KmCustomerService {
     public kmPurchaseView selectOnePurchase(long purchaseNo);
 
     // 보관소 번호에 해당하는 보관소 정보 가져오기
-    public String selectOneStorage(long storageNo);
+    public Storage selectOneStorage(long storageNo);
+
+    // 고객 정보 가져오기(id, name, phone, email) 
+    public Customer selectOneCustomer(String id);
+    
 
 // 이미지
     // 이미지 번호에 대한 정보 다 가져오기

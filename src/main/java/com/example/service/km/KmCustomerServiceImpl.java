@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.example.dto.Customer;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
@@ -91,9 +92,19 @@ public class KmCustomerServiceImpl implements KmCustomerService {
     }
 
     // 보관소 번호에 해당하는 보관소 정보 가져오기
-    public String selectOneStorage(long storageNo) {
+    public Storage selectOneStorage(long storageNo) {
         try {
             return cMapper.selectOneStorage(storageNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // 고객 정보 가져오기(id, name, phone, email) SELECT id, name, phone, email FROM CUSTOMER c WHERE id='km1'
+    public Customer selectOneCustomer(String id) {
+        try {
+            return cMapper.selectOneCustomer(id);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

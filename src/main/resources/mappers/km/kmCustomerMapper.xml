@@ -51,7 +51,12 @@
     </select>
 
     <!-- 보관소 번호에 해당하는 보관소 정보 가져오기 -->
-    <select id="selectOneStorage" parameterType="long" resultType="string">
-        SELECT name FROM storage WHERE NO=#{no}
+    <select id="selectOneStorage" parameterType="long" resultType="Storage">
+        SELECT * FROM storage WHERE NO=#{no}
+    </select>
+
+    <!-- 고객 정보 가져오기 -->
+    <select id="selectOneCustomer" parameterType="string" resultType="Customer">
+        SELECT id, name, phone, email FROM CUSTOMER c WHERE id=#{id}
     </select>
 </mapper>

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.dto.Customer;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 
@@ -28,9 +29,15 @@ public interface KmCustomerMapper {
     // 모든 보관소 정보 가져오기
     public List<Storage> selectStorageList();
 
+
+// 결제 페이지
+
     // 공구 정보 한개 가져오기
     public kmPurchaseView selectOnePurchase(long purchaseNo);
 
-// 결제 페이지
-    public String selectOneStorage(long storageNo);
+    // 보관소 번호에 해당하는 보관소 정보 가져오기
+    public Storage selectOneStorage(long storageNo);
+    
+    // 고객 정보 가져오기(id, name, phone, email)
+    public Customer selectOneCustomer(String id);
 }
