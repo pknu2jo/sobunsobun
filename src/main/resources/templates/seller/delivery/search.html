@@ -167,28 +167,31 @@
                             </div>
                             <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
                                 <form th:action="@{/seller/delivery/search.do}" method="get">
-                                    <select id="firstselect" name="lname" onchange="first()">
+                                    <select id="firstselect" name="lname" th:onchange="first()">
                                         <option>대분류</option>
                                         <option>ㅡㅡㅡㅡㅡㅡ</option>
-                                        <option th:each="obj : ${llist}" th:value ="${obj.code}" th:text="${obj.name}"></option>
+                                        <option th:each="obj : ${llist}" th:value ="${obj.code.longValue()}" th:text="${obj.name}"></option>
                                     </select>                                    
                                 
                                     <select id="secondselect" name="mname" onchange="second()">
                                         <option>중분류</option>
                                         <option>ㅡㅡㅡㅡㅡㅡ</option>
-                                        <option th:each="obj : ${mlist}" th:value ="${obj.code}" th:text="${obj.name}"></option>
-                                    </select>                                    
+                                        <option th:each="obj : ${mlist}" th:value ="${obj.code.longValue()}" th:text="${obj.name}"></option>
+                                    </select>           
                                 
                                     <select id="thirdselect" name="sname" onchange="third()">
                                         <option>소분류</option>
                                         <option>ㅡㅡㅡㅡㅡㅡ</option>
-                                        <option th:each="obj : ${slist}" th:value ="${obj.code}" th:text="${obj.name}"></option>
+                                        <option th:each="obj : ${slist}" th:value ="${obj.code.longValue()}" th:text="${obj.name}"></option>
                                     </select>
                                 </form>
                             </div>
                             <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
                                 <form>
-                                    기간
+                                    <h5 style="display: inline;">기간</h5>
+                                    <input type="date" value="" onchage="firstdate()">
+                                    ~
+                                    <input type="date" value="" onchange="seconddate()">
                                 </form>
                             </div>
                             <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">

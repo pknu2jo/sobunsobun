@@ -19,8 +19,7 @@ import lombok.ToString;
 @Entity
 @ToString(exclude = { "pw", "newPw", "newPwCheck" })
 @Table(name = "SELLER")
-public class SellerEntity {
-    
+public class SellerEntity {    
 
     @Id
     @Column(name="NO",length = 20)

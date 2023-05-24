@@ -11,4 +11,6 @@ public interface LcategoryRepository extends JpaRepository<Lcategory, BigDecimal
     List<Lcategory> findAll();
     
     BigDecimal findByName(String name);
+
+    String findByCode(BigDecimal code);
 }

@@ -34,8 +34,8 @@
                 viewBox="0 0 16 16">
                 <path
                     d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0Zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708ZM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11Z" />
-            </svg> -->
-            <img src="../images/logo1.png" style="width: 80px;"/>
+            </svg> -->            
+            <img src="../../images/logo1.png" style="width: 80px;"/>
             <strong>판매자 페이지</strong>
         </a>
 
@@ -134,14 +134,177 @@
         <div id="layoutContent">
             <main>
                 <div style="padding-left: 15px; padding-top: 30px; padding-right: 15px;">
-                    <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
-
-
+                    <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->                                                                
                         <h3>주문 입니다.</h3>
+                        
+                        <div>
+                            <div class="row" style ="border: 2px solid rgb(229, 229, 229); background-color: rgb(243,245,247);">
+                                <div style="display: inline-block;">
+                                    <button th:onclick="all0()">전체</button>
+                                    <button th:onclick="zero0()">배송전</button>
+                                    <button th:onclick="one1()">배송준비중</button>
+                                    <button th:onclick="two2()">배송중</button>
+                                    <button th:onclick="three3()">배송완료</button>
+                                </div>                                
+                            </div>                      
+                        </div>  
 
+                        <div id="all" style="display:block">
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col">
+                                    <div class="card mb-4">
+                                        <div class="card-header">    
+                                            <i class="fas fa-table me-1"></i>
+                                            전체
+                                        </div>
+                                        <div class="card-body">
+                                            <table id="datatablesSimplea">
+                                                <thead>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>
+                                                        <th>배송상태</th>
+                                                        <th>주문일자</th>                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>
+                                                        <th>배송상태</th>
+                                                        <th>주문일자</th>                                                        
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr th:each="obj : ${alist}">                                                    
+                                                        <td th:text="${obj.pno.longValue()}"></td>
+                                                        <td th:text="${obj.itemcode.longValue()}"></td>
+                                                        <td th:text="${obj.itemname}"></td>
+                                                        <td th:text="${obj.address}"></td>
+                                                        <td th:text="${obj.memid}"></td>
+                                                        <td th:if="${obj.state == 0}" th:text="배송전"></td>
+                                                        <td th:if="${obj.state == 1}" th:text="배송준비중"></td>
+                                                        <td th:if="${obj.state == 2}" th:text="배송중"></td>
+                                                        <td th:if="${obj.state == 3}" th:text="배송완료"></td>
+                                                        <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>                                                                                                   
+                                                    </tr>                                            
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="zero" style="display:none">
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-table me-1"></i>
+                                            배송전
+                                        </div>
+                                        <div class="card-body">
+                                            <table id="datatablesSimple0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>
+                                                        <th>배송상태</th>
+                                                        <th>주문일자</th>                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>
+                                                        <th>배송상태</th>
+                                                        <th>주문일자</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr th:each="obj : ${zlist}">                                                    
+                                                        <td th:text="${obj.pno.longValue()}"></td>
+                                                        <td th:text="${obj.itemcode.longValue()}"></td>
+                                                        <td th:text="${obj.itemname}"></td>
+                                                        <td th:text="${obj.address}"></td>
+                                                        <td th:text="${obj.memid}"></td>
+                                                        <td th:text="배송전"></td>
+                                                        <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>                                                                                                  
+                                                    </tr>                                            
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="three" style="display:none">
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-table me-1"></i>
+                                            배송완료
+                                        </div>
+                                        <div class="card-body">
+                                            <table id="datatablesSimple3">
+                                                <thead>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>
+                                                        <th>배송상태</th>
+                                                        <th>주문일자</th>                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>
+                                                        <th>배송상태</th>
+                                                        <th>주문일자</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr th:each="obj : ${thlist}">                                                    
+                                                        <td th:text="${obj.pno.longValue()}"></td>
+                                                        <td th:text="${obj.itemcode.longValue()}"></td>
+                                                        <td th:text="${obj.itemname}"></td>
+                                                        <td th:text="${obj.address}"></td>
+                                                        <td th:text="${obj.memid}"></td>
+                                                        <td th:text="배송완료"></td>
+                                                        <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>                                                                                                  
+                                                    </tr>                                            
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
+
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid py-5">
@@ -175,9 +338,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
         integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
+    
     <script>
+        function all0(){
+            document.getElementById('all').style.display = 'block'
+            document.getElementById('zero').style.display = 'none'
+            document.getElementById('three').style.display = 'none'
+        }
+
+        function zero0(){
+            document.getElementById('all').style.display = 'none'
+            document.getElementById('zero').style.display = 'block'
+            document.getElementById('three').style.display = 'none'
+            $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimple0", {
+                searchable: true,
+                fixedHeight: true,
+            })
+        });
+        }   
+        
+        function three3(){
+            document.getElementById('all').style.display = 'none'
+            document.getElementById('zero').style.display = 'none'
+            document.getElementById('three').style.display = 'block'
+            $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimple3", {
+                searchable: true,
+                fixedHeight: true,
+            })
+        });
+        }        
+
         $(document).ready(function () {
             const sidebarToggle = $('#sidebarToggle');
             if (sidebarToggle) {
@@ -189,15 +381,16 @@
                 });
             }
         });
-
-
+        
         $(document).ready(function () {
-            new simpleDatatables.DataTable("#datatablesSimple", {
+            new simpleDatatables.DataTable("#datatablesSimplea", {
                 searchable: true,
                 fixedHeight: true,
-
             })
         });
+        
+        
+    
     </script>
 </body>
 

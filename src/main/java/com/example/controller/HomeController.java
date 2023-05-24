@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.entity.Lcategory;
 import com.example.entity.Mcategory;
 import com.example.entity.Scategory;
+import com.example.entity.ik.DeliveryView;
+import com.example.entity.ik.OrderView;
 import com.example.entity.ik.SalesViewProjection;
 import com.example.entity.ik.StagenderView;
 import com.example.entity.ik.TotaltableView;
@@ -20,6 +22,7 @@ import com.example.repository.LcategoryRepository;
 import com.example.repository.McategoryRepository;
 import com.example.repository.ScategoryRepository;
 import com.example.repository.ik.DeliveryViewRepository;
+import com.example.repository.ik.OrderViewRepository;
 import com.example.repository.ik.SalesViewRepository;
 import com.example.repository.ik.StagenderViewRepository;
 import com.example.repository.ik.StalocationViewRepository;
@@ -55,7 +58,9 @@ public class HomeController {
     final McategoryRepository mRepository;
     final ScategoryRepository sRepository;
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
+    final OrderViewRepository ovRepository;
+// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    // html 불러오기
     @GetMapping(value = "/home.do")
     public String homeGET(){
         try {
@@ -129,6 +134,7 @@ public class HomeController {
             return "redirect:home.do";
         }        
     }
+
     /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
     // 물품 하나에 대한 통계
     @GetMapping(value="/item/searchdetail.do")
@@ -183,11 +189,22 @@ public class HomeController {
             return "redirect:/home.do";
         }       
     }
+
      /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
     // 주문
     @GetMapping(value="/order/search.do")
-    public String ordersearchGET() {
+    public String ordersearchGET(Model model) {
         try {
+            List<OrderView> alist = ovRepository.findByNo("1078198143");
+            model.addAttribute("alist", alist);
+            List<OrderView> zlist = ovRepository.findByNoAndState("1078198143", BigDecimal.valueOf(0));
+            model.addAttribute("zlist", zlist);            
+            List<OrderView> olist = ovRepository.findByNoAndState("1078198143", BigDecimal.valueOf(1));
+            model.addAttribute("olist", olist);            
+            List<OrderView> tlist = ovRepository.findByNoAndState("1078198143", BigDecimal.valueOf(2));
+            model.addAttribute("tlist", tlist);
+            List<OrderView> thlist = ovRepository.findByNoAndState("1078198143", BigDecimal.valueOf(3));
+            model.addAttribute("thlist", thlist);            
 
             return "/seller/order/search";
         } catch (Exception e) {
@@ -195,31 +212,40 @@ public class HomeController {
             return "redirect:/home.do";
         }
     }
+
+
     /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
     // 배송
     @GetMapping(value="/delivery/search.do")
     public String deliverysearchGET(Model model,
                 @RequestParam(name="lcode", defaultValue = "") BigDecimal lcode) {
         try {
+            /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             long one = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(0), "1078198143");
             long two = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(1), "1078198143");
             long three = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(2), "1078198143");
             long four = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(3), "1078198143");
-            long total = one+two+three+four;
-            
+            long total = one+two+three+four;            
             // 배송상태별, 전체
             model.addAttribute("one", one);
             model.addAttribute("two", two);
             model.addAttribute("three", three);
             model.addAttribute("four", four);
             model.addAttribute("total", total);
-            
+            /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+            // 카테고리
             List<Lcategory> llist = lRepository.findAll();
             List<Mcategory> mlist = mRepository.findByLcategoryCode_code(lcode);
             
+            
             model.addAttribute("llist", llist);
             model.addAttribute("mlist", mlist);
+            /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+            // 테이블 
+            List<DeliveryView> dlist = dvRepository.findAll();
 
+            model.addAttribute("dlist", dlist);
+            /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             return "/seller/delivery/search";
         } catch (Exception e) {
             e.printStackTrace();
