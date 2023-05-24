@@ -18,17 +18,19 @@
             <img th:src="@{/images/jk/logo1.png}" name="soboon" style="height: 150px;">
             <br />
         </div>
+
+
         <form name="findpw" th:action="@{/seller/findpw.do}" method="post">
             <div class="row">
                 <div class="col-sm">
                     <hr />
                     <br>
                     <div class="form-floating mb-2">
-                        <input type="text" id="id" name="no" value="1234" class="form-control"
-                            onblur="ajaxIDCheck(this)"> <label for="id" id="lbl_check" class="form-label">사업자번호</label>
+                        <input type="text" id="id" name="no" class="form-control" onblur="ajaxIDCheck(this)"> 
+                        <label for="id" id="lbl_check" class="form-label">사업자번호 ( '-'는 생략 )</label>
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="email" id="email" name="email" class="form-control" value="test@test" onblur="ajaxPwFind(this)"/>
+                        <input type="email" id="email" name="email" class="form-control" onblur="ajaxPwFind(this)" />
                         <label for="email" id="elb_check" class="form-label">이메일</label>
                     </div>
                     <br>
@@ -38,9 +40,11 @@
                         <!-- 버튼을 누르면 alert창 = 
                             "등록된 이메일로 새로운 비밀번호가 발송됐습니다. 이메일을 확인해주세요"
                             메시지가 뜨고, 메일로 임시비밀번호 발송. -->
-                        <input id="pw_button" type="button" value="비밀번호 찾기" class="btn btn-dark" onclick="findPwsubmit()" />
+                        <input id="pw_button" type="button" value="비밀번호 찾기" class="btn btn-dark"
+                            onclick="findPwsubmit()" />
                         <a th:href="@{/seller/login.do}" class="btn btn-outline-secondary">로그인 화면으로</a>
                     </div>
+
                 </div>
             </div>
         </form>

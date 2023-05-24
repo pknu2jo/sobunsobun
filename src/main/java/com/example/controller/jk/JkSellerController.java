@@ -163,12 +163,17 @@ public class JkSellerController {
         try {
             log.info("idInfo => {}", seller);
             log.info("Seller address update => {}", address1 + address2 + address3 + address4);
-            seller.setAddress(address2 + " " + address3 + address4); // 우편번호는 제외
+
+            
             // 세션 ID 이용하여 기존정보를 받아오기
             SellerEntity sellerOld = sRepository.findById(seller.getNo()).orElse(null);
+            if(address1.equals("")){ // if 새주소값 null => 이전주소 그대로 적용
+                sellerOld.setAddress(sellerOld.getAddress().toString());
+            } else { // else 새주소값 입력 => 새주소 적용
+                sellerOld.setAddress(address2 + " " + address3 + address4); 
+            }
             // 변경항목 수정
             sellerOld.setName(seller.getName());
-            sellerOld.setAddress(seller.getAddress());
             sellerOld.setPhone(seller.getPhone());
             sellerOld.setEmail(seller.getEmail());
             sRepository.save(sellerOld);
@@ -220,7 +225,7 @@ public class JkSellerController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/updatepw.do";
+            return "redirect:/seller/home.do";
         }
     }
 

@@ -185,7 +185,7 @@ ul {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    height: 100vh;
+    height: 100%;
 }
 
 .sb-sidenav .sb-sidenav-menu {
@@ -199,7 +199,7 @@ ul {
 
 .sb-sidenav .sb-sidenav-menu .nav .sb-sidenav-menu-heading {
     padding: 1.75rem 1rem 0.75rem;
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
     opacity: 0.7;
 }
@@ -239,20 +239,20 @@ ul {
 
 /* 왼쪽메뉴 디자인 */
 .sb-sidenav-dark {
-    background-color: #212529;
-    color: rgba(255, 255, 255, 0.5);
+    background-color: #020202;
+    color: rgba(255, 255, 255, 0.45);
 }
 
 .sb-sidenav-dark .sb-sidenav-menu .sb-sidenav-menu-heading {
-    color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.829);
 }
 
 .sb-sidenav-dark .sb-sidenav-menu .nav-link {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgb(255, 255, 255, 0.8);
 }
 
 .sb-sidenav-dark .sb-sidenav-menu .sb-nav-link-icon {
-    color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.5);
     /* 각 메뉴의 아이콘은 글자보다 어둡게 */
 }
 
@@ -291,7 +291,7 @@ ul {
 .datatable-selector:focus {
     color: #212529;
     background-color: white;
-    border-color: #86b7fe;
+    border-color: #b4b9c0;
     outline: 0;
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25)
 }
@@ -382,6 +382,7 @@ ul {
 
     width: 350px;
     height: 350px;
-
-
+}
+.dropdown-menu {
+    --bs-dropdown-link-active-bg: #000000;
 }

@@ -36,6 +36,9 @@ public interface JkSellerService {
     // 아이디 중복확인
     public int countByNo(String id);
 
+    // 비밀번호 일치여부 확인
+    // public int countBy
+
     // // 아이디와 매칭되는 email 확인
     // public SellerEntity findEmailByNo(String id);
 }

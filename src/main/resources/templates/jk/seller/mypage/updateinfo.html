@@ -21,53 +21,7 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
-
-    <style>
-        body {
-            background-color: #f8f8f8;
-            color: #333;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 60px;
-            background-color: rgb(255, 255, 255);
-            /* box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); */
-            border-radius: 10px;
-        }
-
-        /* 숫자입력칸 옆 화살표 없애는 용도  */
-        /* Chrome, Safari, Edge, Opera */
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-
-        /* Firefox  */
-        input[type='number'] {
-            -moz-appearance: textfield;
-        }
-
-        .form-label {
-            color: #b3b3b3;
-        }
-
-        .form-control {
-            color: black;
-        }
-
-        .form-group label {
-            color: #333;
-            font-weight: bold;
-        }
-
-        .form-control {
-            border-color: #ccc;
-        }
-    </style>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller_update_info.css}'>
 </head>
 
 <body class="sb-nav-fixed">
@@ -80,10 +34,10 @@
         <th:block th:replace="~{/jk/seller/navbar :: navbarHTML}"></th:block>
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
-            <main style="padding-bottom: 5%; background-color: #ffffff;">
+            <main style="padding-bottom: 10%; background-color: #ffffff;">
                 <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
                     <div class="container mt-5">
-                        <h1 class="mb-4">내정보 수정하기</h1>
+                        <h1 class="mb-4">업체정보 수정하기</h1>
                         <hr />
                         <form id="form" th:action="@{/seller/updateinfo.do}" th:object="${seller}" method="post">
                             <input type="text" th:field="${seller.no}" hidden /><br />
@@ -134,7 +88,7 @@
                             </div>
                             <br>
                             <hr>
-                            <button type="button" class="btn btn-dark" onclick="updateAction()">수정하기</button>
+                            <button type="button" class="btn btn-outline-dark" onclick="updateAction()">수정하기</button>
                         </form>
                     </div>
                 </div>
@@ -148,13 +102,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
         crossorigin="anonymous"></script>
-    <!-- Chart.js용 CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="js/chart-area-demo.js"></script>
-    <script src="js/chart-bar-demo.js"></script>
-    <script src="js/chart-pie-demo.js"></script>
-    <!-- Simple DataTable용 JS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
     <!-- jQuery 추가 -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
@@ -181,18 +128,6 @@
                 name.focus();
                 return false;
             };
-
-            if (sample6_postcode.value == "") { // 주소가 입력됐는지 (adr1과 adr2는 한번에 같이 입력되기때문에 adr1만 체크.)
-                alert("업체 주소를 입력해주세요.");
-                sample6_postcode.focus();
-                return false;
-            }
-
-            if (sample6_detailAddress.value == "") { // 상세주소 체크
-                alert("상세 주소를 입력해주세요.");
-                sample6_detailAddress.focus();
-                return false;
-            }
 
             if (phone.value == "") { // 전화번호가 입력됐는지
                 alert("변경할 연락처를 입력해주세요.");
@@ -224,16 +159,6 @@
                 });
             }
         });
-
-
-        $(document).ready(function () {
-            new simpleDatatables.DataTable("#datatablesSimple", {
-                searchable: true,
-                fixedHeight: true,
-
-            })
-        });
-
 
         function sample6_execDaumPostcode() {
             new daum.Postcode(
@@ -291,6 +216,7 @@
                     }
                 }).open();
         }
+
     </script>
 </body>
 
