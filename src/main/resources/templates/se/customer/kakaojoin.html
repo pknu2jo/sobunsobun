@@ -23,8 +23,29 @@
     
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;">
-        <!-- <button onclick="logoutWithKakao()">로그아웃</button> -->
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur eaque illum doloremque officiis facilis, iure magni optio nobis earum placeat ab tempore dolore voluptatibus! Corrupti distinctio perspiciatis quo! Placeat, optio?</p>
+        <div class="container">
+            <form th:action="@{/customer/kakaojoinaction.do}" method="post" id="kakaojoinForm"><br>
+                <input type="text" name="name" placeholder="이름" value="이름"><br>
+                <input type="tel" name="phone" placeholder="연락처" value="01053535353"><br>
+
+                <input type="hidden" name="id" placeholder="아이디" th:value="${customer.id}">
+                <input type="hidden" name="email" placeholder="이메일" th:value="${customer.email}">
+                <input type="hidden" name="nickname" placeholder="닉네임" th:value="${customer.nickname}">
+                <input type="hidden" name="gender" placeholder="성별" th:value="${customer.gender}">
+
+                <!-- 주소 -->
+                <input type="button" onclick="sample6_execDaumPostcode()" value="내주소 찾기">
+                <input type="text" name="postcode" id="sample6_postcode" placeholder="우편번호" readonly>
+                <input type="text" name="address1" id="sample6_address" placeholder="주소" readonly>
+                <input type="text" name="address2" id="sample6_detailAddress" placeholder="상세주소">
+                <input type="text" name="address3" id="sample6_extraAddress" placeholder="추가정보">
+                <input type="hidden" name="latitude" id="latitude">
+                <input type="hidden" name="longitude" id="longitude">
+                <!-- 주소 -->
+
+                <button type="button" onclick="joinAction()">회원가입</button>
+            </form>
+        </div>
     </div>
 
     <!-- footer -->
@@ -33,35 +54,116 @@
 
 
     <!-- script-->
-    <script src = "https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-    <script>
-        Kakao.init('f37acd51f39500af41a1f590e928481e'); // 카카오 JavaScript 키 입력
-        // var str = "Pen pineapple apple pen.";
- 
-        // if(str.indexOf("zz")==-1){
-        //     alert("바보");
-        // }
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
-    //     function logoutWithKakao(){
-    //         alert("바보")
-    //         if (Kakao.Auth.getAccessToken()) {
-            
-    //             Kakao.API.request({
-    //             url: '/v1/user/unlink',
-    //             success: function (response) {
-    //                 console.log(response)
-    //             },
-    //             fail: function (error) {
-    //                 console.log(error)
-    //             },
-    //         });
-            
-    //         Kakao.Auth.setAccessToken(null);
-    //         }
-    // }
+    <!-- 다음우편주소 -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f37acd51f39500af41a1f590e928481e&libraries=services"></script> <!-- 카카오 REST API 키 // 사이트 도메인 주소 지정하기 -->
+    
+    <script th:inline="javascript" type="text/javascript">
+
+        // 유효성 검사 -----------------------------------------------------------------------------------
+        const joinAction = () => {
+            const name = document.querySelector("input[name='name']");
+            const phone = document.querySelector("input[name='phone']");
+            const latitude = document.querySelector("input[name='latitude']");
+            const longitude = document.querySelector("input[name='longitude']");
+            if( name.value.length  <= 0 ){
+                alert("이름를 입력하세요");
+                name.focus();
+                return false;
+            }
+            if( phone.value.length  <= 0 ){
+                alert("연락처를 입력하세요");
+                phone.focus();
+                return false;
+            }
+            if( latitude.value.length <= 0 || longitude.value.length <= 0 ){
+                alert("주소를 입력하세요");
+                return false;
+            }
+
+            document.querySelector('#kakaojoinForm').submit();
+        }
+        // 유효성 검사
         
-  
-</script>
+        // 다음우편주소 -----------------------------------------------------------------------------------
+        var latitude = document.getElementById("latitude"); // 위도
+        var longitude = document.getElementById("longitude"); // 경도
+
+        var geocoder = new daum.maps.services.Geocoder();
+        function sample6_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+                    
+                    // 주소 정보를 해당 필드에 넣는다.
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if(data.userSelectedType === 'R'){
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        // 정규식, 정규표현식 패턴을 찾아서
+                        // ex) 사용자가 입력한 이메일 주소가 정확한지 확인
+                        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if(data.buildingName !== '' && data.apartment === 'Y'){
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if(extraAddr !== ''){
+                            extraAddr = ' (' + extraAddr + ')';
+                        }
+                        // 조합된 참고항목을 해당 필드에 넣는다.
+                        document.getElementById("sample6_extraAddress").value = extraAddr;
+                    
+                    } else {
+                        document.getElementById("sample6_extraAddress").value = '';
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('sample6_postcode').value = data.zonecode;
+                    document.getElementById("sample6_address").value = addr;
+                    
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("sample6_detailAddress").focus();
+                    
+                    // 주소로 상세 정보를 검색
+                    geocoder.addressSearch(data.address, function(results, status) {
+                    
+                        // 정상적으로 검색이 완료됐으면
+                        if (status === daum.maps.services.Status.OK) {
+
+                            var result = results[0]; //첫번째 결과의 값을 활용
+
+                            var coords = new daum.maps.LatLng(result.y, result.x);
+        
+                            console.log("위도..?" + result.y);
+                            console.log("경도..?" + result.x);
+                            
+                            latitude.value = result.y;
+                            longitude.value = result.x;
+                            console.log(document.getElementById('sample6_postcode').value);
+                            
+                        }
+                    });
+                }
+            }).open();
+        }
+        // 다음우편주소
+
+    </script>
+
     
 </body>
 </html>

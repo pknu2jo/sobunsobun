@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,13 +61,16 @@ public class SeCustomerContorller {
     // ----------------------------------------------------------------------------------------------------
     // 회원가입
     @GetMapping(value = "/join.do")
-    public String joinGET(                                                 
+    public String joinGET(    
+        Model model,  
+        @AuthenticationPrincipal User user                    
     ) {
         try {
+            model.addAttribute("user", user);
             return "/se/customer/join";
         } catch (Exception e) {
             e.printStackTrace();
-            return "/se/customer/join";
+            return "redirect:/customer/join.do";
         }
     }
 
@@ -82,63 +93,109 @@ public class SeCustomerContorller {
             return "redirect:/customer/login.do";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/customer/home.do";
+            return "redirect:/customer/join.do";
         }
     }
 
     // ----------------------------------------------------------------------------------------------------
     // 로그인
     @GetMapping(value="/login.do")
-    public String loginGET() {
+    public String loginGET(
+        Model model,
+        @AuthenticationPrincipal User user
+    ) {
         try {
+            model.addAttribute("user", user);
             return "/se/customer/login";
         } catch (Exception e) {
             e.printStackTrace();
-            return "/se/customer/login";
+            return "redirect:/customer/login.do";
         }
     }
 
     // 카카오로그인 - 회원가입
     @PostMapping(value="/kakaojoin.do")
-    public String kakaojoinGET(
-        @RequestParam(name = "id", required = false) String id
-        // @ModelAttribute CustomerEntity obj
+    public String kakaojoinPOST(
+        @ModelAttribute CustomerEntity obj
     ) {
         try {
-            log.info("카카오 회원가입 => {}", id);
-            // log.info("카카오 회원가입 => {}", obj.toString());
-            return "redirect:kakaojoin1.do";
+            log.info("카카오 회원가입 => {}", obj.toString());
+            httpSession.setAttribute("forkakaojoin", obj);
+            return "redirect:kakaojoinaction.do";
         } catch (Exception e) {
             e.printStackTrace();
-            return "/se/customer/login";
+            return "redirect:/customer/login.do";
         }
     }
 
     // 카카오로그인 - 회원가입
-    @GetMapping(value="/kakaojoin1.do")
-    public String kakaojoin1GET(
-
+    @GetMapping(value="/kakaojoinaction.do")
+    public String kakaojoinactionGET( 
+        Model model
     ) {
         try {
-
+            CustomerEntity customerEntity = (CustomerEntity) httpSession.getAttribute("forkakaojoin");
+            // log.info("카카오 회원가입 액션 GET => {}", customerEntity.toString());
+            model.addAttribute("customer", customerEntity);
             return "/se/customer/kakaojoin";
         } catch (Exception e) {
             e.printStackTrace();
-            return "/se/customer/login";
+            return "redirect:/customer/login.do";
         }
     }
 
+    @PostMapping(value="/kakaojoinaction.do")
+    public String kakaojoinactionnPOST(
+        @ModelAttribute CustomerEntity customer,
+        @ModelAttribute CustomerAddressEntity customerAddress,
+        Model model
+    ) {
+        try {
+            log.info("카카오 회원가입 액션 POST => {}", customer.toString());
+            customerAddress.setCustomer(customer);
+            int ret = cService.joinCustomerOne(customer, customerAddress);
+            if(ret == 1){
 
+                // 시큐리티 로그인 ---------------------------------------------------------------------------------
+                // 세션에 저장할 객체 생성 (UsernamePasswordAuthenticationToken(저장할 객체, null, 권한))
+                String[] strRole = {"ROLE_CUSTOMER"};
+                Collection<GrantedAuthority> role = AuthorityUtils.createAuthorityList(strRole);
+                customer.setPw(""); // pw => null 이라 오류나서 추가
+                User user = new User( customer.getId(), customer.getPw(), role ); // import org.springframework.security.core.userdetails.User;
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, role);
+
+                // 수동으로 세션에 저장(로그인)
+                SecurityContext context = SecurityContextHolder.createEmptyContext();
+                context.setAuthentication(authenticationToken);
+                SecurityContextHolder.setContext(context);
+                // 시큐리티 로그인
+
+                return "redirect:home.do";
+            }
+            else {
+                model.addAttribute("message", "회원가입 오류");
+                model.addAttribute("url", "login.do");
+                return "/se/sealert";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/customer/kakaojoinaction.do";
+        }
+    }
 
     // ----------------------------------------------------------------------------------------------------
     // 아이디찾기
     @GetMapping(value="/findid.do")
-    public String findidGET() {
+    public String findidGET(
+        Model model,
+        @AuthenticationPrincipal User user
+    ) {
         try {
+            model.addAttribute("user", user);
             return "/se/customer/findid";
         } catch (Exception e) {
             e.printStackTrace();
-            return "/se/customer/findid";
+            return "redirect:/customer/findid.do";
         }
     }
     
@@ -167,11 +224,13 @@ public class SeCustomerContorller {
     // 아이디찾기 - 결과화면
     @GetMapping(value="/findidok.do")
     public String findidokGET(
-        Model model
+        Model model,
+        @AuthenticationPrincipal User user
     ) {
         try {
             model.addAttribute("name", httpSession.getAttribute("name"));
             model.addAttribute("id", httpSession.getAttribute("id"));
+            model.addAttribute("user", user);
             return "/se/customer/findidok";
         } catch (Exception e) {
             e.printStackTrace();
@@ -182,8 +241,12 @@ public class SeCustomerContorller {
     // ----------------------------------------------------------------------------------------------------
     // 비밀번호 찾기
     @GetMapping(value="/findpw.do")
-    public String findpwGET() {
+    public String findpwGET(
+        Model model,
+        @AuthenticationPrincipal User user
+    ) {
         try {
+            model.addAttribute("user", user);
             return "/se/customer/findpw";
         } catch (Exception e) {
             e.printStackTrace();
@@ -253,11 +316,11 @@ public class SeCustomerContorller {
     // 비밀번호찾기 - 결과화면
     @GetMapping(value="/findpwok.do")
     public String findpwokGET(
-        // Model model
+        Model model,
+        @AuthenticationPrincipal User user
     ) {
         try {
-            // model.addAttribute("name", httpSession.getAttribute("name"));
-            // model.addAttribute("id", httpSession.getAttribute("id"));
+            model.addAttribute("user", user);
             return "/se/customer/findpwok";
         } catch (Exception e) {
             e.printStackTrace();
@@ -268,7 +331,10 @@ public class SeCustomerContorller {
     // ----------------------------------------------------------------------------------------------------
     // 홈화면
     @GetMapping(value = "/home.do")
-    public String homeGET( Model model ) {
+    public String homeGET( 
+        Model model,
+        @AuthenticationPrincipal User user // import org.springframework.security.core.annotation.AuthenticationPrincipal;
+    ) {
         try {
 
             // 공구가 많이 열린 물품 목록 => 비로그인 시에만 세팅
@@ -296,11 +362,13 @@ public class SeCustomerContorller {
                 aroundMap .put("PRICE", ((BigDecimal) aroundMap.get("PRICE")).toPlainString());
             }
             model.addAttribute("aroundList", aroundList);
+
+            model.addAttribute("user", user);
             
             return "/se/customer/home";
         } catch (Exception e) {
             e.printStackTrace();
-            return "/se/customer/home";
+            return "redirect:/customer/login.do";
         }
     }
     

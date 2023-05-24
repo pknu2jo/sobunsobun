@@ -27,19 +27,16 @@
 
         <div class="container">
 
-            <form th:action="@{/customer/loginaction.do}" method="post">
+            <form th:action="@{/customer/loginaction.do}" method="post" id="loginFrom">
                 <input type="text" name="id" placeholder="아이디" autofocus>
                 <input type="password" name="pw" placeholder="암호">
-                <input type="submit" value="로그인">
+                <input type="button" value="로그인" onclick="loginAction()">
             </form>
 
             <!-- 카카오로그인...화이팅 -->
-
             <a id="kakao-login-btn" href="javascript:loginWithKakao()">
                 <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222" alt="카카오 로그인 버튼" />
             </a>
-            <button onclick="logoutWithKakao()">로그아웃</button>
-            <button onclick="kakaojoin()">회원가입테스트</button>
         </div>
 
     </div>
@@ -55,6 +52,8 @@
     <!-- 카카오 로그인 -->
     <script src = "https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script th:inline="javascript" type="text/javascript">
+        
+        // 카카오 로그인 -----------------------------------------------------------------------------------
         var id = "";
         var email = "";
         var nickname = "";
@@ -70,7 +69,7 @@
                         url: '/v2/user/me',
                         success: async function(response) {
                             console.log('response', response);
-                            alert('로그인 성공');
+                            // alert('로그인 성공');
 
                             id = response.id + '@k';
                             email = response.kakao_account.email;
@@ -116,10 +115,10 @@
             kakaojoinform.method = "post";
             kakaojoinform.style.display="none";
 
-            var input1 = document.createElement("input");
+            const input1 = document.createElement("input");
             input1.type = "hidden";
             input1.name = "id";
-            input1.value = "가나다라";
+            input1.value = id;
             kakaojoinform.appendChild(input1);
             
             const input2 = document.createElement("input");
@@ -150,24 +149,27 @@
 
             kakaojoinform.submit();
         }
+        // 카카오 로그인
 
-        // -------------------------------------- 로그아웃 어째야하는..?
-        function logoutWithKakao(){
-            if (Kakao.Auth.getAccessToken()) {
-            
-                Kakao.API.request({
-                url: '/v1/user/unlink',
-                success: function (response) {
-                    console.log(response)
-                },
-                fail: function (error) {
-                    console.log(error)
-                },
-            });
-            
-            Kakao.Auth.setAccessToken(null);
+        // 유효성 검사 -----------------------------------------------------------------------------------
+        const loginAction = () => {
+            const id = document.querySelector("input[name='id']");
+            const pw = document.querySelector("input[name='pw']");
+            if( id.value.length  <= 0 ){
+                alert("아이디를 입력하세요");
+                id.focus();
+                return false;
             }
-    }
+            if( pw.value.length  <= 0 ){
+                alert("암호를 입력하세요");
+                pw.focus();
+                return false;
+            }
+
+            document.querySelector('#loginFrom').submit();
+        }
+        // 유효성 검사
+
     </script>
     
 </body>
