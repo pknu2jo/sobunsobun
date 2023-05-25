@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,7 +49,7 @@ public class KmCustomerContorller {
     // ------------------------------------------------------------------------------
     // 물품 상세 조회
     @GetMapping(value = "/item/selectone.do")
-    public String selectitemGET(Model model) {
+    public String selectitemGET(Model model, @AuthenticationPrincipal CustomerUser user) {
         // @RequestParam(name = "no") long no 로 itemno 받기
         // @Auth~ User로 세션 넘기기
 
@@ -88,6 +89,7 @@ public class KmCustomerContorller {
             model.addAttribute("item", item);
             model.addAttribute("imgList", imgList);
             model.addAttribute("storage", storage);
+            model.addAttribute("user", user);
 
             log.info("보관소 정보 storage => {}", storage.toString());
             log.info("purchaseList => {}", purchaseList);
@@ -203,6 +205,7 @@ public class KmCustomerContorller {
             model.addAttribute("customer", customer);
             model.addAttribute("phoneAndEmail", phoneAndEmail);
             model.addAttribute("storage", storage);
+            model.addAttribute("user", user);
 
             return "/km/customer/checkout";
         } catch (Exception e) {

@@ -49,7 +49,7 @@
                     </h6>
                 </div>
             </div>
-            <form action="#" class="checkout__form">
+            <div class="checkout__form">
                 <div class="row" style="margin-right: 0;margin-left: 0;">
 
                     <!-- 주문 정보 ~ -->
@@ -203,7 +203,7 @@
                     <!-- ~ 상품 정보 -->
 
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -228,6 +228,8 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <!-- 아임포트 라이브러리 -->
     <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <!-- axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
 
     <script th:inline="javascript" type="text/javascript">
 
@@ -242,6 +244,12 @@
         const address2 = /*[[${storage.address2}]]*/"";
         const address3 = /*[[${storage.address3}]]*/"";
         const customer_id = /*[[${customer.id}]]*/"";
+        const purchaseNo = /*[[${obj.purchaseNo}]]*/"";
+        const participant = /*[[${obj.participant}]]*/"";
+        const storageNo = /*[[${obj.storageNo}]]*/"";
+        const itemNo = /*[[${obj.itemNo}]]*/"";
+
+
 
         // 이메일 뒤쪽 부분
         var selectEmail = document.querySelector("#selectEmail");
@@ -303,6 +311,8 @@
 
             requestPay();
         }
+
+        
            
 
         // 결제 부분 (아임포트)
@@ -317,7 +327,9 @@
         var makeMerchantUid = hours +  minutes + seconds + milliseconds;
 
         totalPrice = Math.floor(parseInt(/*[[${obj.pricePerOne}]]*/"") + parseFloat(2000 / /*[[${obj.participant}]]*/""));
-        console.log(totalPrice);
+        // console.log(totalPrice);
+        // console.log("---------");
+        // console.log(id + makeMerchantUid);
 
         if( address3 == null) {
             if(address2 == null) {
@@ -333,12 +345,26 @@
             }
         }
 
-        function requestPay() {
+        async function requestPay() {
+
+            const url = /*[[@{/api/customer/order.json}]]*/"";
+            const headers = {"Content-Type":"application/json"};
+            const body = { participant : participant, storageNo:storageNo, 
+                            itemNo:itemNo, totalPrice:totalPrice,
+                            purchaseNo:purchaseNo, no: customer_id + makeMerchantUid,  
+                            };
+            const { data } = await axios.post(url, body, {headers:headers});
+            console.log("반환되는 결과", data);
+
+
+
+
+            console.log("공구 번호", purchaseNo);
 
             IMP.request_pay({
                 pg: "html5_inicis",
                 pay_method: "card",
-                merchant_uid: "IMP" + makeMerchantUid, // 주문번호 (고유해야함)나중에 IMP 자리에 고객 아이디 집어넣기
+                merchant_uid: customer_id + makeMerchantUid, // 주문번호 (고유해야함)나중에 IMP 자리에 고객 아이디 집어넣기
                 name: /*[[${obj.itemName}]]*/"",
                 // amount: totalPrice,                         // 숫자 타입
                 amount: 100,    
@@ -347,47 +373,56 @@
                 buyer_tel: phone1.value + "-" + phone2.value + "-" + phone3.value,
                 buyer_addr: address,
                 buyer_postcode: /*[[${storage.postcode}]]*/""
-            }, function (rsp) { // callback
+            }, async function (rsp) { // callback
                 //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
                 if(rsp.success) {
                     console.log(rsp);
                     // 담기는 값 확인
-                    // apply_num : "00442238"
-                    // bank_name :  null
-                    // buyer_addr : "부산시 남구 신선로 365"
-                    // buyer_email : "ming9396@naver.com"
-                    // buyer_name : "이경민"
-                    // buyer_postcode : "48905"
-                    // buyer_tel : "010-4665-4069"
-                    // card_name : "현대카드"
-                    // card_number : "489016*********2"
-                    // card_quota : 0
-                    // currency : "KRW"
-                    // custom_data : null
-                    // imp_uid : "imp_667092871400"
-                    // merchant_uid : "IMP194"
-                    // name : "액체형 세제 2.8L 6개"
-                    // paid_amount : 100
-                    // paid_at : 1684826114
-                    // pay_method : "card"
-                    // pg_provider : "html5_inicis"
-                    // pg_tid : "StdpayCARDINIpayTest20230523161514230573"
-                    // pg_type : "payment"
-                    // receipt_url : "https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid=StdpayCARDINIpayTest20230523161514230573&noMethod=1"
-                    // status : "paid"
+                        // apply_num : "00442238"
+                        // bank_name :  null
+                        // buyer_addr : "부산시 남구 신선로 365"
+                        // buyer_email : "ming9396@naver.com"
+                        // buyer_name : "이경민"
+                        // buyer_postcode : "48905"
+                        // buyer_tel : "010-4665-4069"
+                        // card_name : "현대카드"
+                        // card_number : "489016*********2"
+                        // card_quota : 0
+                        // currency : "KRW"
+                        // custom_data : null
+                        // imp_uid : "imp_667092871400"
+                        // merchant_uid : "IMP194"
+                        // name : "액체형 세제 2.8L 6개"
+                        // paid_amount : 100
+                        // paid_at : 1684826114
+                        // pay_method : "card"
+                        // pg_provider : "html5_inicis"
+                        // pg_tid : "StdpayCARDINIpayTest20230523161514230573"
+                        // pg_type : "payment"
+                        // receipt_url : "https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid=StdpayCARDINIpayTest20230523161514230573&noMethod=1"
+                        // status : "paid"
 
 
+                    // Rest로 보내보자~~~
+                    // Headers
+                    // DocumentType'
+                    // aef;jlejsfa
+                    // rest Post로 해서 처리해 (공구 추가하기 || 공구 현황 추가하기)
+                    // 처리해서 1이면 
+                    // 여기서 다시 어쩌고 페이지로 반환해 실패하면 ㄷ~ 해
+                    // 주문번호..?글킨해
+                    // const url = /*[[@{/api/customer/order.json}]]*/"";
+                    // const headers = {"Content-Type":"application/json"};
+                    // const body = { participant : participant, storageNo:storageNo, itemNo:itemNo,
+                    //                 purchaseNo:purchaseNo, orderNo: customer_id + makeMerchantUid,  
+                    //                 totalPrice:totalPrice};
+                    // const { data } = await axios.post(url, body, {headers:headers});
+                    // console.log("반환되는 결과", data);
+
+                    // 성공하면 여기띄워
                     // console.log("여기서 이제 replace 해줘..?");
                     // location.replace(/*[[@{/customer/home.do}]]*/"" + `?no=`);
 
-                    Rest로 보내보자~~~
-                    Headers
-                    DocumentType'
-                    aef;jlejsfa
-                    rest Post로 해서 처리 해
-                    처리해서 1이면 
-                    여기서 다시 어쩌고 페이지로 반환해 실패하면 ㄷ~ 해
-                    주문번호..?글킨해
                 } else {
                     console.log(rsp);
                 }

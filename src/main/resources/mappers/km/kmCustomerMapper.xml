@@ -39,6 +39,8 @@
         SELECT * FROM storage ORDER BY NAME ASC
     </select>
 
+
+<!-- 결제 페이지 => /customer/item/order.do -->
     <!-- 공구 번호에 대한 공구 정보 가져오기 -->
     <select id="selectOnePurchase" parameterType="long" resultType="kmPurchaseView">
         SELECT * FROM (
@@ -59,4 +61,49 @@
     <select id="selectOneCustomer" parameterType="string" resultType="Customer">
         SELECT id, name, phone, email FROM CUSTOMER c WHERE id=#{id}
     </select>
+
+
+<!-- 결제페이지 => /api/customer/order.json -->
+    <!-- SEQ_PURCHASE_NO.NEXTVAL 가져오기 -->
+    <select id="selectSeqPurchaseNo" resultType="long">
+        SELECT seq_purchase_no.nextval FROM dual
+    </select>
+
+    <!-- purchase 데이터 추가 -->
+    <insert id="insertOnePurchase" parameterType="Purchase">
+        INSERT INTO PURCHASE (no, participant, storageNo) 
+        VALUES(#{no}, #{participant}, #{storageNo})
+    </insert>
+
+    <!-- purchaseOrder 데이터 추가 -->
+    <insert id="insertOnePurchaseOrder" parameterType="PurchaseOrder">
+        INSERT INTO PURCHASEORDER (no, memId, totalPrice, purchaseNo) 
+        VALUES(#{no}, #{memId}, #{totalPrice}, #{purchaseNo})
+    </insert>
+
+    <!-- purchaseStatus 데이터 추가 -->
+    <insert id="insertOnePurchaseStatus" parameterType="PurchaseStatus">
+        INSERT INTO PURCHASESTATUS (memId, itemNo, purchaseNo) 
+        VALUES(#{memId}, #{itemNo}, #{purchaseNo})
+    </insert>
+
+    <!-- 공구에 참여 중인 memId 가져오기-->
+    <select id="selectIdList" parameterType="long" resultType="list">
+        SELECT memId
+        FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY memid ORDER BY no desc) recent 
+ 		FROM kmpurchaseview p WHERE purchaseno = #{purchaseNo}) 
+        WHERE recent=1 AND state=0 AND cancel=0
+    </select>
+
+    <!-- 공구 인원 다 차면 purchaseStatus 일괄 추가 -->
+    <insert id="PurchaseStatusInsertBatch" parameterType="list">
+        INSERT ALL
+        <foreach collection='list' item='obj' separator=' '>
+            INTO purchaseStatus(state, memId, purchaseNo, itemNo)
+            VALUES(#{obj.state}, #{obj.memId}, #{obj.purchaseNo}, #{obj.itemNo})
+        </foreach>
+        SELECT * FROM DUAL
+    </insert>
+
+    
 </mapper>
