@@ -1,15 +1,48 @@
 @charset "UTF-8";
 @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
 
+/*------ 기본 스타일 ------*/
+
 
 * {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'NanumSquare', sans-serif;
 }
+
+body{
+    background-color: #ffffff;
+    height: 100%;
+}
+
+
+/*-- 그냥 버튼 --*/
+.btn-dark {
+    border-color: #ffffff;
+    background-color: #0b3b63;
+}
+
+.btn-dark:hover {
+    color: #fff;
+    background-color: #082842;
+    border-color: #ffffff;
+}
+
+/*-- outline 버튼 --*/
+.btn-outline-dark {
+    border-color: #0b3b63;
+    background-color: #ffffff;
+}
+
+.btn-outline-dark:hover {
+    color: #fff;
+    background-color: #0b3658;
+    border-color: #ffffff;
+}
+
 
 .btn-primary:hover,
 .btn-primary:focus {
-    background-color: #222;
-    border-color: #222;
+    background-color: #0b3b63;
+    border-color: #0b3b63;
 }
 
 html,
@@ -67,24 +100,30 @@ ul {
     width: 225px;
     height: 100vh;
     z-index: 1001;
+    
 }
 
 .sb-nav-fixed .sb-topnav {
     z-index: 1039;
+    
 }
+
+
 
 .sb-nav-fixed #layoutTotal #layoutLeftSide,
 .sb-sidenav {
-    padding-top: 56px;
+    padding-top: 40px;
 }
 
 .sb-nav-fixed #layoutTotal #layoutLeftSide .sb-sidenav .sb-sidenav-menu {
     overflow-y: auto;
+    
 }
 
 .sb-nav-fixed #layoutTotal #layoutContent {
     padding-left: 225px;
     top: 56px;
+    
 }
 
 /* 전체 레이아웃 */
@@ -95,7 +134,7 @@ ul {
 #layoutTotal #layoutLeftSide {
     flex-basis: 225px;
     flex-shrink: 0;
-    transition: transform 0.15s ease-in-out;
+    transition: transform 0.85s ease;
     z-index: 1000;
     /* transform: translateX(-225px); /* 화면 왼쪽으로 사라지게 하기 위함이다.  */
 }
@@ -123,9 +162,6 @@ ul {
     transition: opacity 0.3s ease-in;
 } */
 
-.sb-sidenav-toggled #sidebarToggle {
-    /* transform: rotate(-180deg); /* 메뉴가 들어갈때 아이콘이 180도 회전 */
-}
 
 /* #layoutLeftSide {
     position: fixed;
@@ -157,6 +193,9 @@ ul {
 .sb-nav-fixed .btn #sb-sidenav-toggle:active {
     color: white;
     font-weight: 600;
+    text-transform: uppercase;
+    opacity: 0.7;
+    
 }
 
 .sb-topnav {
@@ -239,7 +278,7 @@ ul {
 
 /* 왼쪽메뉴 디자인 */
 .sb-sidenav-dark {
-    background-color: #020202;
+    background-color: #082d4b;
     color: rgba(255, 255, 255, 0.45);
 }
 
@@ -264,7 +303,7 @@ ul {
 
 
 .sb-sidenav-dark .sb-sidenav-footer {
-    background-color: #343a40;
+    background-color: #8392834d;
 }
 
 /* Simple Data Tables 영역 */
@@ -277,12 +316,12 @@ ul {
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     background-clip: padding-box;
     border: 1px solid #ced4da;
     border-radius: 0.375rem;
-    transition: border-color 0.15s ease-in-out,
-        box-shadow 0.15s ease-in-out;
+    transition: border-color 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
 
@@ -383,6 +422,12 @@ ul {
     width: 350px;
     height: 350px;
 }
+
 .dropdown-menu {
-    --bs-dropdown-link-active-bg: #000000;
+    --bs-dropdown-link-active-bg: #082c49;
 }
+
+.footer {
+    position: absolute;
+    bottom: 0;
+  }

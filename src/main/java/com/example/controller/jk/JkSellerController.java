@@ -48,15 +48,15 @@ public class JkSellerController {
     public String homeGET(@AuthenticationPrincipal User user, Model model) {
         log.info("판매자 Home 정보 받아오기  => {}", user);
 
-        if(!user.getUsername().equals("_")){
+        if (!user.getUsername().equals("_")) {
             SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
-            log.info( "확인해봅시다 => {}", seller.toString());
+            log.info("확인해봅시다 => {}", seller.toString());
             model.addAttribute("companyName", seller.getName().toString());
             return "/jk/seller/home";
-        }else{
+        } else {
             return "/jk/seller/login";
         }
-        
+
     }
 
     // @PostMapping(value = "/logout.do")
@@ -151,6 +151,37 @@ public class JkSellerController {
     /*
      * ----------------------------- 마이페이지(Jpa) ----------------------------------
      */
+
+    // -------------------------마이페이지 본인인증 (비밀번호)-------------------------- //
+    // http://127.0.0.1:5959/SOBUN/seller/pwcheck.do
+    // (아이디, 비밀번호 필요)
+    @GetMapping(value = "/pwinfocheck.do")
+    public String infopwcheckGET(@AuthenticationPrincipal User user, Model model) { // Security로 정보 받아옴.
+        log.info("pwinfocheck get => {}", user);
+        SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
+        log.info("pwinfocheck get2 => {}", seller.toString());
+        model.addAttribute("seller", seller);
+        model.addAttribute("companyName", seller.getName().toString());
+        return ("jk/seller/mypage/pwinfocheck");
+        // 미리 get에 해당 업체의 정보를 템플릿에 담아서 띄움.
+    }
+
+    @PostMapping(value = "/pwinfocheck.do")
+    public String infopwcheckPost(@ModelAttribute SellerEntity seller) {
+        log.info("pwinfocheck post => {}", seller);
+        try {
+            SellerEntity sellerOld = sRepository.findById(seller.getNo()).orElse(null);
+
+            if (bcpe.matches(seller.getPw(), sellerOld.getPw())) {
+                return("jk/seller/mypage/updateinfo");
+            }else {
+                return ("return:/pwinfocheck.do");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return("redirect:/seller/pwinfocheck.do");
+        }
+    }
 
     // -------------------------정보변경-------------------------- //
 

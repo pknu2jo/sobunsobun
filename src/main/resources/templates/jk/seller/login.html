@@ -9,20 +9,22 @@
 	<!-- bootstrap -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
 	<!-- Font Awesome Icon -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 		integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
 		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- CSS -->
+	<link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller_loginStyle.css}'>
 </head>
 
-<body style="margin-top: 60px">
-	<div
-		style="width: 560px; margin: 0 auto; padding: 45px; padding-bottom: 30px; border: 1px solid #e2e2e2; background-color:rgb(255, 255, 255); border-radius: 0.7rem;">
+<body>
+	<div>
 		<div class="text-center">
-			<img th:src="@{/images/jk/logo1.png}" name="soboon" style="height: 150px;">
+			<img th:src="@{/images/jk/logo1.png}" class="img-fluid mx-auto d-block" style="max-width: 350px;">
 		</div>
-
+		<div class="text-center">
+			<h4 class="login-heading">판매자 전용 페이지</h4>
+		</div>
 		<form th:action="@{/seller/loginaction.do}" method="post" id="login_form">
 			<div class="row">
 				<div class="col-sm">
@@ -40,13 +42,19 @@
 					<hr />
 					<div class="container text-center d-grid gap-2" style="padding: 0;">
 						<!-- 여기서 type을 submit으로 잡고 유효성 검사를 하게되면 강제로 데이터가 넘어가기 때문에 button으로 지정해주어야 함! -->
-						<input type="button" value="로그인" class="btn btn-dark " onclick="loginAction()"/>
+						<input type="button" value="로그인" class="btn btn-dark " onclick="loginAction()" />
 						<a th:href="@{/seller/join.do}" class="btn btn-outline-secondary">업체 회원가입</a>
 						<a th:href="@{/seller/findpw.do}" class="btn btn-outline-secondary">비밀번호를 잊으셨나요?</a>
 					</div>
 				</div>
 			</div>
 		</form>
+		<div class="text-center mt-4">
+			<h5 class="contact-heading">
+				<strong><i class="fas fa-phone-alt"></i> 판매자 콜센터</strong>
+			</h5>
+			<p class="contact-phone"><strong>1577 - 0000</strong></p>
+		</div>
 	</div>
 
 
@@ -54,9 +62,9 @@
 
 	<!-- sweetalert2 -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-	<!-- jQuery -->
-	<script src="${pageContext.request.contextPath}/resources/js/jquery-3.6.4.min.js"></script>
+	<!-- jQuery 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 	<!-- axios -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
 

@@ -2,13 +2,10 @@
 <html lang="ko">
 
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <meta name="author" content="PJK">
-    <meta name="description" content="소분소분 - 판매자를 위한 마이페이지">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>소분소분 - 판매자 페이지</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-
     <!-- 1. Bootstrap용 css CDN 추가 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
         integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
@@ -23,6 +20,7 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller_mypage.css}'>
 </head>
 
 <body class="sb-nav-fixed">
@@ -33,18 +31,24 @@
     <div id="layoutTotal">
         <!-- navbar -->
         <th:block th:replace="~{/jk/seller/navbar :: navbarHTML}"></th:block>
-
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
-            <main>
+            <main style="padding: 10%; background-color: #ffffff;">
                 <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
-
-
-
-                    <!--  각 화면별 상세 화면  -->
-
-
-
+                    <div class="container mt-5">
+                        <h1 class="mb-4"><strong>본인확인</strong></h1>
+                        <hr />
+                        <form id="form" th:action="@{/seller/pwinfocheck.do}" th:object="${seller}" method="post">
+                            <input type="text" id="id" name="no" th:field="${seller.no}" hidden /><br />
+                            <div class="mb-3 form-group">
+                                <label for="pw" id="companyPwChk" class="form-label">비밀번호</label>
+                                <input type="password" class="form-control" id="pw" name="pw" required>
+                            </div>
+                            <br>
+                            <hr>
+                            <button type="button" class="btn btn-outline-dark" onclick="checkPw()">인증하기</button>
+                        </form>
+                    </div>
                 </div>
             </main>
             <!-- footer -->
@@ -63,8 +67,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
         integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
     <script>
         $(document).ready(function () {
             const sidebarToggle = $('#sidebarToggle');
@@ -78,6 +80,16 @@
             }
         });
 
+        function checkPw() {
+            var oldPw = document.getElementById("pw");
+
+            if (oldPw.value == "") { // 현재비번칸이 비었을 시
+                alert("비밀번호를 입력해주세요."); //alert창
+                oldPw.focus(); // 빈 입력창으로 커서 이동
+                return false; // 아래 코드부터 아무것도 전달 안함.
+            }
+            form.submit();
+        }
     </script>
 </body>
 

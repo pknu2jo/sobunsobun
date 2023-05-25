@@ -44,32 +44,32 @@ public class RestSellerController {
     }
 
     // 비밀번호 유효성검사
-    @PostMapping(value = "/sellerpwcheck.json")
-    public Map<String, Object> pwCheckPost(@ModelAttribute SellerEntity seller) {
-        log.info("idInfo => {}", seller);
-        Map<String, Object> retMap = new HashMap<>();
-        try {
-            // 세션 ID 이용하여 기존암호 받아오기
-            SellerEntity sellerOld = sRepository.findById(seller.getNo()).orElse(null);
-            log.info("idInfo => {}", sellerOld);
-            // 암호화용 객체
-            BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder(); 
-            if (bcpe.matches(seller.getPw(), sellerOld.getPw())) { // 암호 대조(확인단계)
-                // 암호가 일치하다면 새 암호값으로 업데이트함.
-                /* -- newPw와 newPwCheck 사이의 유효성검사 후 넘어옴. -- */
-                // 새 암호값으로 업데이트
-                sellerOld.setPw(bcpe.encode(seller.getNewPw()));
-                // 저장
-                sRepository.save(sellerOld);
-                retMap.put("chk", 1);
-            } else {
-                retMap.put("chk", 0);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            retMap.put("chk", -1);
-        }
-        return retMap;
-    }
+    // @GetMapping(value = "/sellerpwcheck.json")
+    // public Map<String, Object> pwCheckPost(@ModelAttribute SellerEntity seller) {
+    //     log.info("idInfo => {}", seller);
+    //     Map<String, Object> retMap = new HashMap<>();
+    //     try {
+    //         // 세션 ID 이용하여 기존암호 받아오기
+    //         SellerEntity sellerOld = sRepository.findById(seller.getNo()).orElse(null);
+    //         log.info("idInfo => {}", sellerOld);
+    //         // 암호화용 객체
+    //         BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder(); 
+    //         if (bcpe.matches(seller.getPw(), sellerOld.getPw())) { // 암호 대조(확인단계)
+    //             // 암호가 일치하다면 새 암호값으로 업데이트함.
+    //             /* -- newPw와 newPwCheck 사이의 유효성검사 후 넘어옴. -- */
+    //             // 새 암호값으로 업데이트
+    //             sellerOld.setPw(bcpe.encode(seller.getNewPw()));
+    //             // 저장
+    //             sRepository.save(sellerOld);
+    //             retMap.put("chk", 1);
+    //         } else {
+    //             retMap.put("chk", 0);
+    //         }
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         retMap.put("chk", -1);
+    //     }
+    //     return retMap;
+    // }
 
 }

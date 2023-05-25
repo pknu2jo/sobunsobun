@@ -1,17 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error</title>
-</head>
-<body>
-    <h3>Error</h3>
-    <hr>
-    접근 불가능한 페이지입니다.
-    <br>
+    <title>소분소분 - 에러발생</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
 
-    <button type="submit" onclick="javascript:location.href='javascript:history.go(-1);'">이전페이지로</button>
+        /*------ 기본 스타일 ------*/
+
+
+        * {
+            font-family: 'NanumSquare', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        .logo-img {
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
+
+        .error-heading {
+            font-size: 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron bg-light">
+            <img th:src="@{/images/se/logo1.png}" class="img-fluid mx-auto d-block"
+                style="max-width: 450px;"><br /><br /><br />
+
+            <h1 class="display-4 error-heading">에러가 발생했습니다</h1><br />
+            <p class="lead text-center">죄송합니다, 요청을 처리하는 동안 에러가 발생했습니다.</p>
+            <hr class="my-4">
+            <button class="btn btn-outline-dark btn-lg mx-auto d-block" onclick="backUrl()">뒤로 가기</button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function backUrl() {
+            window.history.back();
+        }
+    </script>
 </body>
+
 </html>
