@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndViewDefiningException;
 
 import com.example.dto.Category;
 import com.example.entity.Item;
+import com.example.entity.ItemImage;
 import com.example.entity.Lcategory;
 import com.example.entity.Mcategory;
 import com.example.entity.Scategory;
@@ -139,12 +140,21 @@ public class mjItemController {
     @GetMapping(value = "/item/updateimage.do")
     public String updateimageGET(){
         try {
-            
             return "/mj/seller/updateimage";
         } catch (Exception e) {
+            e.printStackTrace();
             return "redirect:/seller/home.do";
         }
     }
+    // @PostMapping(value = "/item/updateimage.do")
+    // public String updateimagePOST(@ModelAttribute ItemImage obj){
+    //     try {
+    //         // return "redirect:/seller/item/updateimage.do?no=" + obj.getItemNo().getNo().longValue();
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return "redirect:/seller/home.do";
+    //     }
+    // }
 
     
 
@@ -177,41 +187,47 @@ public class mjItemController {
             // List<Item> list = new ArrayList<>();
             // list = iRepository.findAllByRegNoOrderByNoDesc("1248600538");
             List<ItemCategoryView> list = new ArrayList<>();
-            list = icvRepository.findAllByRegNoOrderByNoDesc("1248600538");
+            list = icvRepository.findAllByRegNoOrderByNoDesc("1078198143");
             // if( Lcode == BigDecimal.valueOf(000) ){ // cate가 없으면?
             // }
 
+            // 전체 물품리스트
             if(Lcode == null && Mcode == null & Scode == null){
-                list = icvRepository.findAllByRegNoOrderByNoDesc("1248600538");
-
+                list = icvRepository.findAllByRegNoOrderByNoDesc("1078198143");
             }
+            // 대분류별 물품리스트
             else if( Lcode != null && Mcode == null & Scode == null ){
+                // 대분류 전체 클릭시
                 if(Lcode.equals(BigDecimal.valueOf(000))){
-                    list = icvRepository.findAllByRegNoOrderByNoDesc("1248600538");
+                    list = icvRepository.findAllByRegNoOrderByNoDesc("1078198143");
                 }
+                // 대분류 각 카테고리별 물품리스트
                 else{
-
-                    list = icvRepository.findAllByRegNoAndLcategoryCodeOrderByNoDesc("1248600538", Lcode);
+                    list = icvRepository.findAllByRegNoAndLcategoryCodeOrderByNoDesc("1078198143", Lcode);
                 }
             }
+            // 중분류별 물품리스트
             else if( Lcode != null && Mcode != null & Scode == null ){
+                // 중분류 전체 클릭시
                 if(Mcode.equals(BigDecimal.valueOf(000))){
-                    list = icvRepository.findAllByRegNoAndLcategoryCodeOrderByNoDesc("1248600538", Lcode);
+                    list = icvRepository.findAllByRegNoAndLcategoryCodeOrderByNoDesc("1078198143", Lcode);
                 }
+                // 중분류 각 카테고리별 물품리스트
                 else {
-                    list = icvRepository.findAllByRegNoAndMcategoryCodeOrderByNoDesc("1248600538", Mcode);
+                    list = icvRepository.findAllByRegNoAndMcategoryCodeOrderByNoDesc("1078198143", Mcode);
                 }
-                
             }
+            // 소분류별 물품리스트
             else if(Lcode != null && Mcode != null && Scode != null){
+                // 소분류 전체 클릭시
                 if(Scode.equals(BigDecimal.valueOf(000))){
-                    list = icvRepository.findAllByRegNoAndMcategoryCodeOrderByNoDesc("1248600538", Mcode);
+                    list = icvRepository.findAllByRegNoAndMcategoryCodeOrderByNoDesc("1078198143", Mcode);
                 }
+                // 소분류 각 카테고리별 물품리스트
                 else{
-                    list = icvRepository.findAllByRegNoAndScategoryCodeOrderByNoDesc("1248600538", Scode);
+                    list = icvRepository.findAllByRegNoAndScategoryCodeOrderByNoDesc("1078198143", Scode);
                 }
             }
-
             model.addAttribute("list", list);
             return "/mj/seller/management";
         } catch (Exception e) {

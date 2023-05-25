@@ -92,7 +92,8 @@ public class SecurityConfig {
                         "/customer/image")
                 .permitAll()
                 .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do", "/seller/home.do",
-                        "/seller/findpw.do", "/seller/updateinfo.do", "/seller/updatepw.do", "/seller/item/deleteitem.do")
+                        "/seller/findpw.do", "/seller/updateinfo.do", "/seller/updatepw.do", "/seller/item/deleteitem.do",
+                        "/seller/item/updateimage.do")
                 .permitAll()
                 .antMatchers("/admin/join.do").permitAll()
 

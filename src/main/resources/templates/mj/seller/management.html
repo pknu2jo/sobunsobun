@@ -122,18 +122,17 @@
                                             <tbody>
                                                 <tr th:each="obj : ${list}" style="text-align: center;">
                                                     <td><input type="checkbox" name="chk[]" th:value="${obj.no.longValue()}"/></td>
-                                                    <td th:text="${obj.no.longValue()}" id="itemno">물품번호</td>
+                                                    <td th:text="${obj.no.longValue()}" name="no">물품번호</td>
                                                     <td th:text="${obj.name}"></td>
                                                     <td th:text="${obj.price.longValue()}"></td>
                                                     <td th:text="${obj.quantity.longValue()}"></td>
                                                     <td th:text="${obj.sname}"></td>
                                                     <td th:text="${obj.mname}"></td>
-                                                    <td th:text="${obj.lname}">
-                                                    </td>
+                                                    <td th:text="${obj.lname}"></td>
                                                     <td
                                                         th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분 ss초')}">
                                                     </td>
-                                                    <td><button class="btn btn-primary">이미지 등록/수정</button></a></td>
+                                                    <td><a class="btn btn-primary" th:href="@{/seller/itemimage/updateimage.do(no=${obj.no.longValue()})}">이미지 등록/수정</a></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -247,10 +246,17 @@
             
             form2.submit();
         }
-
-    
-    
     </script>
+
+    <!-- <script  th:inline="javascript" type="text/javascript">
+        const itemimage = document.getElementById('itemimage');
+        const itemno = document.getElementById('itemno');
+        function itemimage() {
+            console.log(itemno);
+            window.location.href = `/SOBUN/seller/itemimage/selectlist.do?no=${itemno}`;
+
+        }
+    </script> -->
 </body>
 
 </html>
