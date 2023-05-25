@@ -8,13 +8,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.handler.CustomLogoutHandler;
-import com.example.mapper.SecurityMapper;
 import com.example.service.SecurityAdminSeviceImpl;
 import com.example.service.SecurityCustomerSeviceImpl;
 import com.example.service.SecuritySellerSeviceImpl;
@@ -33,25 +31,25 @@ public class SecurityConfig {
         final SecurityAdminSeviceImpl userAdminDetailsService;
 
         @Bean // 객체를 생성함
-        @Order(value = 1) // 고객
+        @Order(value = 1) // 관리자
         public SecurityFilterChain filterChain1(HttpSecurity http) throws Exception {
                 log.info("SecurityConfig => {}", "start filter chain1");
 
-                http.antMatcher("/customer/login.do")
-                                .antMatcher("/customer/loginaction.do")
+                http.antMatcher("/admin/login.do")
+                                .antMatcher("/admin/loginaction.do")
                                 .authorizeRequests().anyRequest().authenticated().and();
 
-                // 로그인 처리
+                // 관리자 로그인 처리
                 http.formLogin()
-                                .loginPage("/customer/login.do")
-                                .loginProcessingUrl("/customer/loginaction.do")
+                                .loginPage("/admin/login.do")
+                                .loginProcessingUrl("/admin/loginaction.do")
                                 .usernameParameter("id")
                                 .passwordParameter("pw")
-                                .defaultSuccessUrl("/customer/home.do")
+                                .defaultSuccessUrl("/admin/home.do")
                                 .permitAll();
 
                 // 서비스 등록
-                http.userDetailsService(userCustomerDetailsService);
+                http.userDetailsService(userAdminDetailsService);
 
                 return http.build();
         }
@@ -82,7 +80,7 @@ public class SecurityConfig {
         }
 
         @Bean // 객체를 생성함
-        @Order(value = 3) // 관리자
+        @Order(value = 3) // 고객
         public SecurityFilterChain filterChain3(HttpSecurity http) throws Exception {
 
                 log.info("SecurityConfig => {}", "start filter chain3");
@@ -93,8 +91,14 @@ public class SecurityConfig {
                                 .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do",
                                                 "/customer/kmtest.do",
                                                 "/customer/mypage.do",
+                                                "/customer/mylikeitem.do",
                                                 "/customer/myorderlist.do",
-                                                "/customer/myinfochk.do")
+                                                "/customer/myinfochk.do",
+                                                "/customer/myinfo.do",
+                                                "/customer/myaddresschk.do",
+                                                "/customer/myaccountdropchk.do",
+                                                "/customer/myaccountdrop.do",
+                                                "/customer/myaddress.do")
                                 .permitAll()
                                 .antMatchers("/seller/join.do").permitAll()
                                 .antMatchers("/admin/join.do").permitAll()
@@ -108,13 +112,13 @@ public class SecurityConfig {
                 // 403 페이지 설정 (접근 권한 불가 시 표시할 화면 )
                 http.exceptionHandling().accessDeniedPage("/error/403page.do");
 
-                // 관리자 로그인 처리
+                // 로그인 처리
                 http.formLogin()
-                                .loginPage("/admin/login.do")
-                                .loginProcessingUrl("/admin/loginaction.do")
+                                .loginPage("/customer/login.do")
+                                .loginProcessingUrl("/customer/loginaction.do")
                                 .usernameParameter("id")
                                 .passwordParameter("pw")
-                                .defaultSuccessUrl("/admin/home.do")
+                                .defaultSuccessUrl("/customer/home.do")
                                 .permitAll();
 
                 // 로그아웃 처리 (고객, 업체, 관리자 모두 해당)
@@ -129,7 +133,7 @@ public class SecurityConfig {
                 http.csrf().ignoringAntMatchers("/api/**");
 
                 // 서비스 등록
-                http.userDetailsService(userAdminDetailsService);
+                http.userDetailsService(userCustomerDetailsService);
 
                 return http.build();
         }

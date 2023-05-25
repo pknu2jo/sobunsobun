@@ -178,95 +178,201 @@
         #submenu .submenu-closer {
             border-top: 1px solid #e5e5e5;
             margin: 0px 0px;
+
         }
 
-        /* 비밀번호 확인 창 */
-        .myinfochk{
+        /* 마이페이지 메인 */
+        .mypagemain .grade{
             width: 1240px;
-            margin: 0 auto;
+            padding: 36px 0;
+            margin-bottom: 60px;
+            background-color: #f8f8f8;
         }
 
-        .title{
-            height: 41px;
+        .mypagemain .grade .info{
+            width: 670px;
+            height: 95px;
+            float: left;
+            padding-left: 250px;
             position: relative;
-            margin-bottom: 10px;
+        }
+
+        .mypagemain .grade .info h3{
+            font-size: 23px;
+            letter-spacing: .18px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .mypagemain .grade .info a{
+            font-size: 20px;
+            line-height: 20px;
+            letter-spacing: .18px;
+            /* padding-top: 10px; */
+        }
+
+        .mypagemain .grade .info .member-icon{
+            position: absolute;
+            top: 5px;
+            left: 80px;
         }
         
-        .title h3{
+        /* 관심물품관련 상품 나오기 */
+        .mypage_likeitem .table_title{
+            width: 1240px;
+            border-bottom: 3px solid #000;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            position: relative;
+            height: 50px;
+        }
+        
+        .mypage_likeitemitems .likeitem_items{
+            width: 1240px;
+            padding-top: 15px;
+            /* padding-bottom: 150px; */
+            border-bottom: 3px solid #000;
+        }
+
+        .mypage_likeitemitems .likeitem_items ul li{
+            width: 150px;
+            margin-left: 50px;
+            margin-right: 40px;
+            float: left;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .mypage_likeitemitems .likeitem_items ul li a{
+            vertical-align: middle;
+            text-decoration: none;
+        }
+
+        .mypage_likeitemitems .likeitem_items ul li .img{
+            height: 253px;
+            position: relative;
+            margin-bottom: 20px;
+
+        }
+
+        .mypage_likeitemitems .likeitem_items ul li .text{
+            padding: 0 4px 0 6px;
+        }
+
+        .mypage_likeitemitems .likeitem_items ul li .text .title{
+            font-size: 18px;
+            line-height: 20px;
+            margin:  0 0 12px 0 !important;
+            width: auto;
+            min-height: auto;
+            max-height: initial;
+            text-decoration: none;
             color: #000;
-            font-size: 28px;
-            line-height: 36px;
-            display: inline-block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            margin: 0;
+        }
+
+        .mypage_likeitemitems .likeitem_items ul li .text .price{
+            position: relative;
+            line-height: normal;
+            margin-bottom: 14px;
+            align-items: baseline;
+            text-decoration: none;
+            color: #000;
             font-weight: bold;
         }
 
-        .myinfochk .passwordchk-box{
-            width: 1234px;
-            height: 200px;
-            border: 3px solid #EFEFEF;
+        /* 회원탈퇴 내용 */
+
+        .drop-title{
+            width: 1240px;
+            height: 41px;
+            position: relative;
+            border-bottom: 3px solid #333;
+            padding-bottom: 60px;
         }
 
-        .myinfochk .passwordchk-box .chk_guide{
-            margin: 48px 0 0 0;
-            font-size: 16px;
+        .title h3{
+            font-size: 28px;
+            font-weight: bold;
         }
 
-        .myinfochk .passwordchk-box input[type="password"]{
-            height: 40px;
-            margin-right: 5px;
-            line-height: 38px;
-            padding-left: 20px;
-            background-color: #f2f2f2;
-            border: 1px solid #efefef;
-            font-size: 14px;
+        .box{
+            padding-top: 60px;
+        }
+
+        .info-box{
+            width: 1240px;
+            padding: 36px 0 ;
+            margin-bottom: 30px;
+            background-color: #f8f8f8;
+        }
+
+        .info-box .info{
+            width: 670px;
+            height: 100px;
+            float: left;
+            padding-left: 250px;
+            position: relative;
+        }
+
+        .info-box .info a{
+            font-size: 23px;
+            letter-spacing: .18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .info-box .info .content{
+            margin-top: 35px;
+            height: 100px;
             vertical-align: middle;
-            margin-top: 25px;
         }
 
-        .myinfochk .passwordchk-box .btn{
-            min-width: 140px;
-            height: 40px;
+        .info-box .info .member-icon{
+            position: absolute;
+            top: 5px;
+            left: 80px;
+        }
+
+        .box2{
+            padding-top: 20px;
+        }
+
+        .info-box2{
+            width: 1240px;
+            padding: 35px 0;
+            margin-bottom: 30px;
+            border: 2px solid #f8f8f8;
+        }
+
+        .info-box2 .info2 h4{
+            font-size: 16px;
+            letter-spacing: .18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .total_btn{
+            margin-top: 30px;
+        }
+
+        .total_btn .cancel-btn{
+            min-width: 150px;
+            height: 39px;
             font-size: 14px;
             line-height: 38px;
-            background-color: #000;
-            color: #fff;
+            background-color: #fff;
+            color: #333;
             display: inline-block;
             padding: 0 20px;
             text-align: center;
             border: 1px solid #333;
-            margin-top: 25px;
             border-radius: 0;
-        }
-
-        .total_btn{
-            text-align: center;
-        }
-
-        .total_btn .btn:first-child{
-            width: 1240px;
-        }
-
-        /* .total_btn .cancel-btn{
-            min-width: 120px;
-            padding: 0 20px;
-            height: 50px;
-            text-align: center;
-            line-height: 48px;
-            border: 1px solid #333;
-            background-color: #fff;
-            color: #000;
-            font-size: 14px;
             vertical-align: middle;
-        } */
+            margin-right: 20px;
+        }
 
-        
-
-        .total_btn .btn{
-            min-width: 120px;
+        .total_btn .confirm-black{
+            min-width: 150px;
             height: 39px;
             font-size: 14px;
             line-height: 38px;
@@ -278,6 +384,7 @@
             border: 1px solid #333;
             border-radius: 0;
             vertical-align: middle;
+            margin-left: 20px;
         }
 
 
@@ -310,7 +417,7 @@
                     &nbsp;&nbsp;>&nbsp;&nbsp;
                     <a th:href="@{/customer/myinfochk.do}" class="semi-title">정보관리</a>
                     &nbsp;&nbsp;>&nbsp;&nbsp;
-                    <a th:href="@{/customer/myinfochk.do}" class="semi-title">회원정보 수정</a>
+                    <a th:href="@{/customer/myaccountdropchk.do}" class="semi-title">회원 탈퇴</a>
                     &nbsp;&nbsp;
                 </li>
             </ol>
@@ -362,23 +469,41 @@
             </div>
         </div>
 
-        <div class="myinfochk">
-            <div class="title">
-                <h3>비밀번호 확인</h3>
+        <!-- 회원탈퇴 내용 -->
+
+        <div class="title-box d-flex justify-content-center">
+            <div class="drop-title">
+                <h3>회원 탈퇴</h3>
             </div>
-        
-            <div class="passwordchk-box">
-                <p class="chk_guide d-flex justify-content-center">회원님의 안전한 개인정보 보호를 위해 비밀번호를 다시 한번 확인합니다.</p>
-                <div class="chkbox d-flex justify-content-center">
-                    <input type="password" placeholder="비밀번호를 입력해주세요." style="width: 420px;" id="pw" name="pw">
-                    <button class="btn" title="확인">확인</button>
+        </div>
+
+        <div class="box d-flex justify-content-center">
+            <div class="info-box">
+                <div class="info">
+                    <span class="member-icon"><img th:src="@{/images/gr/membericon.png}" width="100px" height="100px"></span>
+                    <div class="content">
+                        <a>00님 전체 공구 참여 횟수 </a><a th:text="${ret}"></a><a>건 입니다.</a>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <div class="box2 d-flex justify-content-center">
+            <div class="info-box2 d-flex justify-content-center">
+                <div class="info2">
+                    <h4>불편사항이 있으셨나요? 고객센터(1688-1360)로 연락주시면 최선을 다하겠습니다.</h4>
+                </div>
+            </div>
+        </div>
+
+        <form th:action="@{/customer/myaccountdrop.do}" method="post">
+            <div class="total_btn d-flex justify-content-center">
+                <button class="cancel-btn" type="button" name="button" onclick="location.href='/SOBUN/customer/mypage.do'" >취소</button>
+                <button class="confirm-black" type="button" name="button" id="accountdrop" th:onclick="dropAction([[${user.username}]])">탈퇴</button>
+            </div>
+        </form>
 
 
-        
 
     </div>
 
@@ -388,6 +513,28 @@
 
 
     <!-- script-->
+    <script th:inline="javascript" type="text/javascript">
+
+        async function dropAction(username){
+
+            console.log(username);
+
+            const url = /*[[@{/api/customer/myaccountdrop.json}]]*/"";
+            const headers = {"Content-Type":"application/json"};
+            const body = {id:username};
+            const { data } = await axios.post(url, body, { headers:headers });
+            console.log('반환되는 결과', data);
+
+            console.log(data.result);
+
+            if(data.result == 1){
+                logoutAction();
+            }
+
+        }
+
+    </script>
+
     
 </body>
 </html>

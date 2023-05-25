@@ -15,6 +15,7 @@ import com.example.service.gr.GrLikeItemService;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Slf4j
@@ -27,6 +28,11 @@ public class LikeItemController {
 
     @Autowired
     ResourceLoader resourceLoader; // resources폴더의 파일을 읽기 위한 객체 생성
+
+    @GetMapping(value = "/mylikeitem.do")
+    public String mylikeitemGET() {
+        return "/gr/customer/mylikeitem";
+    }
 
     // @PostMapping(value = "/mypage.do")
     // public String insertPOST(@RequestParam(name = "memId[]") String[] memId,

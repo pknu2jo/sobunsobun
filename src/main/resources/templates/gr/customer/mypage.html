@@ -296,7 +296,7 @@
                 <li style="padding-top: 13px; padding-bottom: 20px;">
                     <a href="#" class="semi-title">HOME</a>
                     &nbsp;&nbsp;>&nbsp;&nbsp;
-                    <a href="#" class="semi-title">MY PAGE</a>
+                    <a th:href="@{/customer/mypage.do}" class="semi-title">MY PAGE</a>
                     &nbsp;&nbsp;>
                 </li>
             </ol>
@@ -306,13 +306,13 @@
             <div class="submenu-header d-flex justify-content-center">
                 <ul>
                     <li>
-                        <a href="#">관심물품</a>
+                        <a th:href="@{/customer/mylikeitem.do}">관심물품</a>
                     </li>
                     <li>
-                        <a href="#">주문관리</a>
+                        <a th:href="@{/customer/myorderlist.do}">주문관리</a>
                     </li>
                     <li>
-                        <a href="#">정보관리</a>
+                        <a th:href="@{/customer/myinfochk.do}">정보관리</a>
                     </li>
                 </ul>
             </div>
@@ -320,25 +320,25 @@
                 <div class="inner d-flex justify-content-center">
                     <ul>
                         <li>
-                            <a href="#">관심물품 관리</a>
+                            <a th:href="@{/customer/mylikeitem.do}">관심물품 관리</a>
                         </li>
                     </ul>
                     <ul>
                         <!-- ::before -->
                         <li>
-                            <a href="#">주문/배송조회</a>
+                            <a th:href="@{/customer/myorderlist.do}">주문/배송조회</a>
                         </li>
                     </ul>
                     <ul>
                         <!-- ::before -->
                         <li>
-                            <a href="#">회원정보 수정</a>
+                            <a th:href="@{/customer/myinfochk.do}">회원정보 수정</a>
                         </li>
                         <li>
-                            <a href="#">주소 관리</a>
+                            <a th:href="@{/customer/myaddresschk.do}">주소 관리</a>
                         </li>
                         <li>
-                            <a href="#">회원 탈퇴</a>
+                            <a th:href="@{/customer/myaccountdropchk.do}">회원 탈퇴</a>
                         </li>
                     </ul>
                     <!-- ::after -->

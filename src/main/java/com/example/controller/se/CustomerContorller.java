@@ -18,8 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value = "/customer")
 @Slf4j
 public class CustomerContorller {
-    
-    @Autowired KmCustomerMapper cMapper; 
+
+    @Autowired
+    KmCustomerMapper cMapper;
 
     // 홈화면
     @GetMapping(value = "/home.do")
@@ -32,6 +33,7 @@ public class CustomerContorller {
     public String joinGET() {
         return "/se/join";
     }
+
     @PostMapping(value = "/join.do")
     public String joinPOST(@ModelAttribute Customer customer) {
         log.info("Customer Join => {}", customer);
@@ -41,16 +43,16 @@ public class CustomerContorller {
         System.out.println("ret1");
         int ret = cMapper.joinCustomer(customer);
         System.out.println("ret2");
-        if( ret == 1 ) {
+        if (ret == 1) {
             return "redirect:/customer/home.do";
         }
         return "redirect:/se/join.do";
     }
 
     // 로그인
-    @GetMapping(value="/login.do")
+    @GetMapping(value = "/login.do")
     public String loginGET() {
-        return "/se/login";
+        return "/se/customer/login";
     }
 
     // 오류 페이지
@@ -58,5 +60,5 @@ public class CustomerContorller {
     public String page403GET() {
         return "/error/403page";
     }
-    
+
 }
