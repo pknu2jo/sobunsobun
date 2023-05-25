@@ -139,15 +139,15 @@
                         
                         <div>
                             <div class="row" style ="border: 2px solid rgb(229, 229, 229); background-color: rgb(243,245,247);">
-                                <div style="display: inline-block;">
-                                    <button th:onclick="all0()">전체</button>
-                                    <button th:onclick="zero0()">배송전</button>
-                                    <button th:onclick="one1()">배송준비중</button>
-                                    <button th:onclick="two2()">배송중</button>
-                                    <button th:onclick="three3()">배송완료</button>
-                                </div>                                
-                            </div>                      
-                        </div>  
+                                <div style="display: inline-block; text-align: center;" >
+                                    <button type="button" class="btn btn-outline-primary" th:onclick="all0()">전체</button>
+                                    <button type="button" class="btn btn-outline-primary" th:onclick="zero0()">배송전</button>
+                                    <button type="button" class="btn btn-outline-primary" th:onclick="one1()">배송준비중</button>
+                                    <button type="button" class="btn btn-outline-primary" th:onclick="two2()">배송중</button>
+                                    <button type="button" class="btn btn-outline-primary" th:onclick="three3()">배송완료</button>
+                                </div>
+                            </div>
+                        </div>
 
                         <div id="all" style="display:block">
                             <div class="row" style="margin-top: 15px;">
@@ -252,6 +252,106 @@
                             </div>
                         </div>
 
+                        <div id="one" style="display:none">
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-table me-1"></i>
+                                            배송준비중
+                                        </div>
+                                        <div class="card-body">
+                                            <table id="datatablesSimple1">
+                                                <thead>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>
+                                                        <th>배송상태</th>
+                                                        <th>주문일자</th>                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>
+                                                        <th>배송상태</th>
+                                                        <th>주문일자</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr th:each="obj : ${olist}">                                                    
+                                                        <td th:text="${obj.pno.longValue()}"></td>
+                                                        <td th:text="${obj.itemcode.longValue()}"></td>
+                                                        <td th:text="${obj.itemname}"></td>
+                                                        <td th:text="${obj.address}"></td>
+                                                        <td th:text="${obj.memid}"></td>
+                                                        <td th:text="배송준비중"></td>
+                                                        <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>                                                                                                  
+                                                    </tr>                                            
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="two" style="display:none">
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-table me-1"></i>
+                                            배송중
+                                        </div>
+                                        <div class="card-body">
+                                            <table id="datatablesSimple2">
+                                                <thead>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>
+                                                        <th>배송상태</th>
+                                                        <th>주문일자</th>                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>
+                                                        <th>배송상태</th>
+                                                        <th>주문일자</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr th:each="obj : ${tlist}">                                                    
+                                                        <td th:text="${obj.pno.longValue()}"></td>
+                                                        <td th:text="${obj.itemcode.longValue()}"></td>
+                                                        <td th:text="${obj.itemname}"></td>
+                                                        <td th:text="${obj.address}"></td>
+                                                        <td th:text="${obj.memid}"></td>
+                                                        <td th:text="배송중"></td>
+                                                        <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>                                                                                                  
+                                                    </tr>                                            
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div id="three" style="display:none">
                             <div class="row" style="margin-top: 15px;">
                                 <div class="col">
@@ -343,24 +443,58 @@
         function all0(){
             document.getElementById('all').style.display = 'block'
             document.getElementById('zero').style.display = 'none'
+            document.getElementById('one').style.display = 'none'
+            document.getElementById('two').style.display = 'none'
             document.getElementById('three').style.display = 'none'
         }
 
         function zero0(){
-            document.getElementById('all').style.display = 'none'
-            document.getElementById('zero').style.display = 'block'
-            document.getElementById('three').style.display = 'none'
-            $(document).ready(function () {
-            new simpleDatatables.DataTable("#datatablesSimple0", {
-                searchable: true,
-                fixedHeight: true,
-            })
-        });
-        }   
+                document.getElementById('all').style.display = 'none'
+                document.getElementById('zero').style.display = 'block'
+                document.getElementById('one').style.display = 'none'
+                document.getElementById('two').style.display = 'none'
+                document.getElementById('three').style.display = 'none'
+                $(document).ready(function () {
+                new simpleDatatables.DataTable("#datatablesSimple0", {
+                    searchable: true,
+                    fixedHeight: true,
+                })
+            });
+        }
+
+        function one1(){
+                document.getElementById('all').style.display = 'none'
+                document.getElementById('zero').style.display = 'none'
+                document.getElementById('one').style.display = 'block'
+                document.getElementById('two').style.display = 'none'
+                document.getElementById('three').style.display = 'none'
+                $(document).ready(function () {
+                new simpleDatatables.DataTable("#datatablesSimple1", {
+                    searchable: true,
+                    fixedHeight: true,
+                })
+            });
+        } 
+
+        function two2(){
+                document.getElementById('all').style.display = 'none'
+                document.getElementById('zero').style.display = 'none'
+                document.getElementById('one').style.display = 'none'
+                document.getElementById('two').style.display = 'block'
+                document.getElementById('three').style.display = 'none'
+                $(document).ready(function () {
+                new simpleDatatables.DataTable("#datatablesSimple2", {
+                    searchable: true,
+                    fixedHeight: true,
+                })
+            });
+        } 
         
         function three3(){
             document.getElementById('all').style.display = 'none'
             document.getElementById('zero').style.display = 'none'
+            document.getElementById('one').style.display = 'none'
+            document.getElementById('two').style.display = 'none'
             document.getElementById('three').style.display = 'block'
             $(document).ready(function () {
             new simpleDatatables.DataTable("#datatablesSimple3", {
