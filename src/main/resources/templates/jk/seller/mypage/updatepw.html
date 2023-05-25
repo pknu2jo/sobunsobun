@@ -61,7 +61,7 @@
                             <br>
                             <hr>
                             <button type="button" class="btn btn-outline-dark"
-                                onclick="updatePw(), ajaxPwCheck()">수정하기</button>
+                                onclick="updatePw()">수정하기</button>
                         </form>
                     </div>
                 </div>
@@ -140,8 +140,11 @@
                 newPwChk.focus();
                 return false;
             };
+
+            form.submit();
         }
 
+        // 현재 비밀번호 유효성 검사
         async function ajaxPwCheck() {
             // @PostMapping 방식
             const url = /*[[@{/api/sellerpwcheck.json}]]*/"";
@@ -159,6 +162,7 @@
                 alert("비밀번호를 다시 확인해주세요.")
             }
         }
+
         // 비밀번호 확인
         const pwCheck = () => {
             const pw = document.getElementById("newPw");

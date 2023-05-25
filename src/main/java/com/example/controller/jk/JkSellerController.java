@@ -46,10 +46,13 @@ public class JkSellerController {
     // http://127.0.0.1:5959/SOBUN/seller/home.do
     @GetMapping(value = "/home.do")
     public String homeGET(@AuthenticationPrincipal User user, Model model) {
-        log.info("Seller home User => {}", user);
-        if(!user.getUsername().equals("_")){
-            return "/jk/seller/home";
+        log.info("판매자 Home 정보 받아오기  => {}", user);
 
+        if(!user.getUsername().equals("_")){
+            SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
+            log.info( "확인해봅시다 => {}", seller.toString());
+            model.addAttribute("companyName", seller.getName().toString());
+            return "/jk/seller/home";
         }else{
             return "/jk/seller/login";
         }
@@ -73,7 +76,7 @@ public class JkSellerController {
 
     // http://127.0.0.1:5959/SOBUN/seller/join.do
     @GetMapping(value = "/join.do")
-    public String joinGET() {
+    public String joinGET(@AuthenticationPrincipal User user, Model model) {
         return "/jk/seller/join";
     }
 
@@ -154,8 +157,10 @@ public class JkSellerController {
     // http://127.0.0.1:5959/SOBUN/seller/updateinfo.do
     // 1. 정보변경 (이름, 전화번호, 이메일, 주소)
     @GetMapping(value = "/updateinfo.do")
-    public ModelAndView updateInfoGET(@AuthenticationPrincipal User user) { // Security로 정보 받아옴.
+    public ModelAndView updateInfoGET(@AuthenticationPrincipal User user, Model model) { // Security로 정보 받아옴.
         SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
+        model.addAttribute("companyName", seller.getName().toString());
+
         return new ModelAndView("jk/seller/mypage/updateinfo", "seller", seller);
         // 미리 get에 해당 업체의 정보를 템플릿에 담아서 띄움.
     }
@@ -170,13 +175,12 @@ public class JkSellerController {
             log.info("idInfo => {}", seller);
             log.info("Seller address update => {}", address1 + address2 + address3 + address4);
 
-            
             // 세션 ID 이용하여 기존정보를 받아오기
             SellerEntity sellerOld = sRepository.findById(seller.getNo()).orElse(null);
-            if(address1.equals("")){ // if 새주소값 null => 이전주소 그대로 적용
+            if (address1.equals("")) { // if 새주소값 null => 이전주소 그대로 적용
                 sellerOld.setAddress(sellerOld.getAddress().toString());
             } else { // else 새주소값 입력 => 새주소 적용
-                sellerOld.setAddress(address2 + " " + address3 + address4); 
+                sellerOld.setAddress(address2 + " " + address3 + address4);
             }
             // 변경항목 수정
             sellerOld.setName(seller.getName());
@@ -195,8 +199,10 @@ public class JkSellerController {
     // http://127.0.0.1:5959/SOBUN/seller/updatepw.do
     // 2. 비번변경
     @GetMapping(value = "/updatepw.do")
-    public ModelAndView updatepwGET(@AuthenticationPrincipal User user) { // Security로 정보 받아옴.
+    public ModelAndView updatepwGET(@AuthenticationPrincipal User user, Model model) { // Security로 정보 받아옴.
         SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
+        model.addAttribute("companyName", seller.getName().toString());
+
         return new ModelAndView("jk/seller/mypage/updatepw", "seller", seller);
         // 미리 get에 해당 업체의 정보를 템플릿에 담아서 띄움.
     }

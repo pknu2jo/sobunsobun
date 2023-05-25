@@ -35,11 +35,8 @@
                         <hr class="dropdown-divider">
                     </li>
                     <form id="logout_Form" th:action="@{/logout.do}" method="post">
-                        <li>
-                            <div class="dropdown-item">
-                                <a th:onclick="logoutAction()"><i class="fas fa-sign-out"></i> 로그아웃</a>
-                            </div>
-                        </li>
+                        <li><a class="dropdown-item" th:onclick="logoutAction()"><i class="fas fa-sign-out"></i>
+                            로그아웃</a></li>
                     </form>
                 </ul>
             </li>
