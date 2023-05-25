@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -19,7 +20,7 @@ import lombok.ToString;
 @Data
 @Entity
 @Table(name = "Customer")
-public class CustomerEntity {
+public class CustomerEntity implements Serializable {
 
     @Id
     @Column(name = "ID")
@@ -45,10 +46,10 @@ public class CustomerEntity {
     private String gender;
 
     @Column(name = "BLOCKCHK")
-    private BigDecimal blockchk;
+    private BigDecimal blockchk = BigDecimal.valueOf(0L);
     
     @Column(name = "QUITCHK")
-    private BigDecimal quitchk;
+    private BigDecimal quitchk = BigDecimal.valueOf(0L);
 
     @CreationTimestamp
     @Column(name = "REGDATE", insertable = true, updatable = false)
