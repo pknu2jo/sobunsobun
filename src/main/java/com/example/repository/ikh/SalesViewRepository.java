@@ -1,11 +1,11 @@
-package com.example.repository.ik;
+package com.example.repository.ikh;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.example.entity.ik.SalesView;
-import com.example.entity.ik.SalesViewProjection;
+import com.example.entity.ikh.SalesView;
+import com.example.entity.ikh.SalesViewProjection;
 
 import java.math.BigDecimal;
 import java.util.List;

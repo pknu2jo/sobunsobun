@@ -1,9 +1,9 @@
-package com.example.repository.ik;
+package com.example.repository.ikh;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.entity.ik.TotallocationView;
+import com.example.entity.ikh.TotallocationView;
 
 @Repository
 public interface TotallocationViewRepository extends JpaRepository<TotallocationView, String>{    

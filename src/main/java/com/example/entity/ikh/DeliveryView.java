@@ -1,4 +1,4 @@
-package com.example.entity.ik;
+package com.example.entity.ikh;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -23,7 +23,7 @@ public class DeliveryView {
     private String no;
     
     @Column(name = "ITEMCODE")
-    private BigDecimal itemno;
+    private BigDecimal itemcode;
 
     @Column(name = "ITEMNAME")
     private String itemname;

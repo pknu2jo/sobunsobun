@@ -1,4 +1,4 @@
-package com.example.repository.ik;
+package com.example.repository.ikh;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.entity.ik.TotaltableView;
+import com.example.entity.ikh.TotaltableView;
 
 @Repository
 public interface TotaltableViewRepository extends JpaRepository<TotaltableView, BigDecimal>{

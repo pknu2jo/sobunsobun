@@ -1,4 +1,4 @@
-package com.example.entity.ik;
+package com.example.entity.ikh;
 
 
 import javax.persistence.Column;
@@ -13,12 +13,12 @@ import lombok.Data;
 @Data
 @Immutable // 뷰
 @Entity
-@Table(name = "TOTALLOCATION")
-public class TotallocationView {
+@Table(name = "TOTALGENDER")
+public class TotalgenderView {
     @Id
     @Column(name = "NO")
     private String no;
     
-    @Column(name = "LOCATION")
-    private String location;
+    @Column(name = "GENDER")
+    private String gender;
 }

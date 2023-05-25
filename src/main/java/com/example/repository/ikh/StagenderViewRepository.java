@@ -1,11 +1,11 @@
-package com.example.repository.ik;
+package com.example.repository.ikh;
 
 import java.math.BigDecimal;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.entity.ik.StagenderView;
+import com.example.entity.ikh.StagenderView;
 
 @Repository
 public interface StagenderViewRepository extends JpaRepository<StagenderView, BigDecimal>{

@@ -1,4 +1,4 @@
-package com.example.entity.ik;
+package com.example.entity.ikh;
 
 import java.math.BigDecimal;
 
@@ -14,19 +14,18 @@ import lombok.Data;
 @Data
 @Immutable // 뷰
 @Entity
-@Table(name = "STAGENDER")
-public class StagenderView {
-    
+@Table(name = "SALES")
+public class SalesView {
+    @Id
     @Column(name = "NO")
     private String no;
-
-    @Id
-    @Column(name = "ITEMCODE")
-    private BigDecimal itemcode;
     
-    @Column(name = "ITEMNAME")
-    private String itemname;
+    @Column(name = "ITEMNO")
+    private BigDecimal itemno;
 
-    @Column(name = "GENDER")
-    private String gender;
+    @Column(name = "ITEMPRICE")
+    private BigDecimal itemprice;
+    
+    @Column(name = "REGDATE")
+    private String regdate;
 }

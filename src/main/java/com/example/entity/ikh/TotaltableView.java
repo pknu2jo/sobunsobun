@@ -1,4 +1,4 @@
-package com.example.entity.ik;
+package com.example.entity.ikh;
 
 import java.math.BigDecimal;
 import java.util.Date;

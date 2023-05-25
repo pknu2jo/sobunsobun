@@ -2,6 +2,8 @@ package com.example.controller;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,29 +15,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.entity.Lcategory;
 import com.example.entity.Mcategory;
 import com.example.entity.Scategory;
-import com.example.entity.ik.DeliveryView;
-import com.example.entity.ik.OrderView;
-import com.example.entity.ik.SalesViewProjection;
-import com.example.entity.ik.StagenderView;
-import com.example.entity.ik.TotaltableView;
+import com.example.entity.SellerEntity;
+import com.example.entity.ikh.DeliveryView;
+import com.example.entity.ikh.OrderView;
+import com.example.entity.ikh.SalesViewProjection;
+import com.example.entity.ikh.StagenderView;
+import com.example.entity.ikh.TotaltableView;
 import com.example.repository.LcategoryRepository;
 import com.example.repository.McategoryRepository;
 import com.example.repository.ScategoryRepository;
-import com.example.repository.ik.DeliveryViewRepository;
-import com.example.repository.ik.OrderViewRepository;
-import com.example.repository.ik.SalesViewRepository;
-import com.example.repository.ik.StagenderViewRepository;
-import com.example.repository.ik.StalocationViewRepository;
-import com.example.repository.ik.TotalgenderViewRepository;
-import com.example.repository.ik.TotallocationViewRepository;
-import com.example.repository.ik.TotaltableViewRepository;
+import com.example.repository.SellerRepository;
+import com.example.repository.ikh.DeliveryViewRepository;
+import com.example.repository.ikh.OrderViewRepository;
+import com.example.repository.ikh.SalesViewRepository;
+import com.example.repository.ikh.StagenderViewRepository;
+import com.example.repository.ikh.StalocationViewRepository;
+import com.example.repository.ikh.TotalgenderViewRepository;
+import com.example.repository.ikh.TotallocationViewRepository;
+import com.example.repository.ikh.TotaltableViewRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 
 
 @Controller
@@ -57,14 +58,16 @@ public class HomeController {
     final LcategoryRepository lRepository;
     final McategoryRepository mRepository;
     final ScategoryRepository sRepository;
+    final SellerRepository selRepository;
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+    // 주문
     final OrderViewRepository ovRepository;
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // html 불러오기
     @GetMapping(value = "/home.do")
     public String homeGET(){
         try {
-            return "/seller/home";    
+            return "/ikh/home";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
@@ -128,7 +131,7 @@ public class HomeController {
             model.addAttribute("tlist", tlist);
             /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
-            return "/seller/item/search";
+            return "/ikh/seller/item/search";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:home.do";
@@ -183,7 +186,7 @@ public class HomeController {
             model.addAttribute("mlist", mlist); // 월 매출
             /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
-            return "/seller/item/searchdetail";
+            return "/ikh/seller/item/searchdetail";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
@@ -206,7 +209,7 @@ public class HomeController {
             List<OrderView> thlist = ovRepository.findByNoAndState("1078198143", BigDecimal.valueOf(3));
             model.addAttribute("thlist", thlist);            
 
-            return "/seller/order/search";
+            return "/ikh/seller/order/search";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
@@ -221,12 +224,12 @@ public class HomeController {
                 @RequestParam(name="lcode", defaultValue = "") BigDecimal lcode) {
         try {
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+            // 배송상태별, 전체
             long one = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(0), "1078198143");
             long two = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(1), "1078198143");
             long three = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(2), "1078198143");
             long four = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(3), "1078198143");
-            long total = one+two+three+four;            
-            // 배송상태별, 전체
+            long total = one+two+three+four;
             model.addAttribute("one", one);
             model.addAttribute("two", two);
             model.addAttribute("three", three);
@@ -234,19 +237,26 @@ public class HomeController {
             model.addAttribute("total", total);
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 카테고리
-            List<Lcategory> llist = lRepository.findAll();
-            List<Mcategory> mlist = mRepository.findByLcategoryCode_code(lcode);
-            
-            
-            model.addAttribute("llist", llist);
-            model.addAttribute("mlist", mlist);
+            // List<Lcategory> llist = lRepository.findAll();
+            // List<Mcategory> mlist = mRepository.findByLcategoryCode_code(lcode);            
+            // model.addAttribute("llist", llist);
+            // model.addAttribute("mlist", mlist);
+            /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+            // 기간 설정
+            LocalDate today = LocalDate.now();            
+            SellerEntity seller =  selRepository.findByNo("1078198143");
+            LocalDate sdate =  new java.sql.Date(seller.getRegdate().getTime()).toLocalDate();
+            model.addAttribute("sdate", sdate); // 업체의 생성 날짜 보내주기
+            model.addAttribute("today", today); // 오늘 날짜 보내주기
+
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 테이블 
-            List<DeliveryView> dlist = dvRepository.findAll();
+            List<DeliveryView> list = dvRepository.findByNo("1078198143");
+            
 
-            model.addAttribute("dlist", dlist);
+            model.addAttribute("list", list);
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
-            return "/seller/delivery/search";
+            return "/ikh/seller/delivery/search";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/home.do";
