@@ -1,185 +1,223 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>새로운 1인가구 공구문화 - 소분소분</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
-    <link th:href="@{/css/km/font-awesome.min.css}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/km/selectitem.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/single_responsive.css}">
-
-    <!-- font-awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <th:block th:replace="~{/se/customer/header :: headerCSS}"></th:block>
     <th:block th:replace="~{/km/customer/footer :: footerCSS}"></th:block>
 
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <!-- <link th:href="@{/css/km/font-awesome.min.css}" rel="stylesheet" type="text/css"> -->
+    <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/km/single_styles.css}"> -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/km/single_responsive.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/km/selectitem.css}">
+    <!-- font-awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        input {
+            display: none;
+        }
+    </style>
+
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <!-- axios (https://cdnjs.com/libraries/axios) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
+        integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
     <!-- header -->
     <th:block th:replace="~{/se/customer/header :: headerHTML}"></th:block>
-    
+
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;">
         <div class="super_container">
-            <div class="container single_product_container">     
+            <div class="container single_product_container">
                 <div class="row">
                     <div class="col">
                         <!-- Breadcrumbs -->
                         <div class="breadcrumbs d-flex flex-row align-items-center">
                             <ul>
-                                <li><span>대분류</span></li>
-                                <li><span><i class="fa fa-angle-right" aria-hidden="true"></i>중분류</span></li>
-                                <li class="active"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i>소분류</a></li>
+                                <li><span th:text="${item.LCATEGORYNAME}"></span></li>
+                                <li>
+                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    <span th:text="${item.MCATEGORYNAME}"></span>
+                                </li>
+                                <li class="active">
+                                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                    <a href="#" th:text="${item.SCATEGORYNAME}"></a>
+                                    <!-- /customer/item/selectlist.do?scode=4 -->
+                                </li>
                             </ul>
                         </div>
-        
+
                     </div>
                 </div>
 
                 <div class="row">
+                    <!-- 물품 간단 사진 영역 ~ -->
                     <div class="col-lg-6">
-                        <div class="single_product_pics">
-                            <div class="row">
-                                <!-- <div class="col-lg-3 thumbnails_col order-lg-1 order-2">
-                                    <div class="single_product_thumbnails">
-                                        <ul>
-                                            <li><img th:src="@{/images/km/single_1_thumb.jpg}" data-image="images/single_1.jpg"></li>
-                                            <li class="active"><img th:src="@{/images/km/single_2_thumb.jpg}" data-image="images/single_2.jpg"></li>
-                                            <li><img th:src="@{/images/km/single_3_thumb.jpg}" data-image="images/single_3.jpg"></li>
-                                        </ul>
-                                    </div>
-                                </div> -->
-                                <div class="col-lg-9 image_col order-lg-2 order-1">
-                                    <div class="single_product_image">
-                                        <div class="single_product_image_background" th:style="'background-image:url('+ @{/images/km/single_2.jpg} +');height: 500px;mt-5'"></div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="single_product_image_background">
+                            <img th:src="@{/customer/image(no=${imgList[0]})}" alt="">
                         </div>
                     </div>
+                    <!-- ~ 물품 간단 사진 영역 -->
+
+                    <!-- 물품 설명 영역 ~ -->
                     <div class="col-lg-6">
                         <div class="product_details">
                             <div class="product_details_title">
-                                <p>업체명</p>
-                                <h2>물건명</h2>
-                                <!-- <h3>가격</h3> -->
-                                <div class="product_price">$495.00</div>
+                                <p th:text="${item.SELLERNAME}"></p>
+                                <h2 th:text="${item.ITEMNAME}"></h2>
+                                <div class="product_price"
+                                    th:text="${#numbers.formatInteger(item.ITEMPRICE, 3, 'COMMA') + '원'}">
+                                </div>
                             </div>
-                            <div class="free_delivery d-flex flex-row align-items-center justify-content-center mt-0"
-                                style="height: 300px;">
-                                열린 공구영역
+                            <!-- 열린 공구 영역 ~ -->
+                            <div class="tablediv">
+                                <table class="table table-hover scrolltable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">번호</th>
+                                            <th scope="col">참여인원</th>
+                                            <th scope="col">남은인원</th>
+                                            <th scope="col">수령지점</th>
+                                            <th scope="col">인당가격</th>
+                                            <th scope="col">남은시간</th>
+                                            <th scope="col">공구참여</th>
+                                        </tr>
+                                    </thead>
+                                        <tbody id="tbody">
+                                         
+                                        </tbody>
+                                </table>
                             </div>
-                            <!-- <div class="original_price">$629.99 물품 전체가격</div>
-                                <div class="product_price">$495.00 1인당 구매가격</div> -->
-                            <!-- <ul class="star_rating">
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                            </ul> -->
-                            <!-- <div class="product_color">
-                                <span>Select Color:</span>
-                                <ul>
-                                    <li style="background: #e54e5d"></li>
-                                    <li style="background: #252525"></li>
-                                    <li style="background: #60b3f3"></li>
-                                </ul>
-                            </div> -->
-                            <div class="quantity d-flex flex-column flex-sm-row align-items-sm-center justify-content-center">
-                                <!-- <span>Quantity:</span>
-                                <div class="quantity_selector">
-                                    <span class="minus"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                    <span id="quantity_value">1</span>
-                                    <span class="plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                </div> -->
-                                <div class="red_button add_to_cart_button"><a href="#">공구개설</a></div>
-                                <!-- <div class="product_favorite d-flex flex-column align-items-center justify-content-center"></div> -->
+                            <!-- ~ 열린 공구 영역 -->
+
+                            <div
+                                class="quantity d-flex flex-column flex-sm-row align-items-sm-center justify-content-center">
+
+                                <!-- 공구 개설 modal ~ -->
+                                <div class="red_button add_to_cart_button">
+                                    <div class="modal fade" id="exampleModalToggle" aria-hidden="true"
+                                        aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">참여인원,
+                                                        수령지점을 선택해주세요.
+                                                    </h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form th:action="@{/customer/item/selectone.do}" method="post" id="form2">
+                                                        <div class="modal-participant">
+                                                            <span>참여인원</span>
+                                                            <span class="minus">-</span>
+                                                            <span class="participant">2</span>
+                                                            <input type="hidden" name="participant" value="2" id="input-participant">
+                                                            <span class="plus">+</span>
+                                                        </div>
+
+                                                        <div class="modal-storage">
+                                                            <span>수령지점</span>
+                                                            <select id="select" name="storageNo">
+                                                                <option selected>---[필수 입력]---</option>
+                                                                <option th:each="tmp:${storage}" name="storageNo" th:value="${tmp.no}" th:text="${tmp.name}"></option>
+                                                            </select>
+                                                        </div>
+
+                                                        <!-- <div class="modal-storage">
+                                                            <span>수령지점</span>
+                                                            <select id="select" th:field = ${storage.name} name="storageNo">
+                                                                <option selected>---[필수 입력]---</option>
+                                                                <option th:each="tmp:${storage.name}" th:value="${tmp}" th:text="${tmp}"></option>
+                                                            </select>
+                                                        </div> -->
+                                                        <!-- <div class="modal-storage">
+                                                            <span>수령지점</span>
+                                                            <select id="select" >
+                                                                
+                                                            </select>
+                                                        </div> -->
+                                                        
+                                                        <div class="modal-totalcost">
+                                                            <span>인당 물품가격</span>
+                                                            <span id="totalcost"></span>
+                                                        </div>
+                                                        <input type="hidden" name="itemNo" th:value="${item.ITEMNO}">
+                                                        
+                                                        </div>
+                                                    </form>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn open-btn" onclick="openPurchase()">개설하기</button>
+                                                        </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn open-btn" data-bs-target="#exampleModalToggle"
+                                        data-bs-toggle="modal">공구 개설하기</button>
+                                </div>
+                                <!-- ~ 공구 개설 Modal-->
                             </div>
                         </div>
                     </div>
+                    <!-- ~ 물품 설명 영역 -->
                 </div>
-        
+
             </div>
-        
-            <!-- Tabs -->
+
+            <!-- 물품 상세 영역 ~  -->
             <div class="tabs_section_container">
-        
                 <div class="container">
                     <div class="row">
                         <div class="col">
                             <div class="tabs_container">
-                                <ul class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
-                                    <li class="tab active" data-active-tab="tab_1"><span>Description</span></li>
-                                    <!-- <li class="tab" data-active-tab="tab_2"><span>Additional Information</span></li> -->
-                                    <li class="tab" data-active-tab="tab_3"><span>Reviews</span></li>
+                                <ul
+                                    class="tabs d-flex flex-sm-row flex-column align-items-left align-items-md-center justify-content-center">
+                                    <li class="tab active" data-active-tab="tab_1"><span>물품상세</span></li>
+                                    <li class="tab" data-active-tab="tab_3"><span>리뷰</span></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
+                            <!-- 물품상세 영역 ~  -->
                             <div id="tab_1" class="tab_container active">
                                 <div class="row">
-                                    <div class="col-lg-5 desc_col">
-                                        <div class="tab_title">
-                                            <h4>Description</h4>
-                                        </div>
-                                        <div class="tab_text_block">
-                                            <h2>Pocket cotton sweatshirt</h2>
-                                            <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
-                                        </div>
-                                        <div class="tab_image">
-                                            <img th:src="@{/images/km/desc_1.jpg}">
-                                        </div>
-                                        <div class="tab_text_block">
-                                            <h2>Pocket cotton sweatshirt</h2>
-                                            <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
-                                        </div>
+                                    <div class="col-lg-12 desc_col">
+                                        <h4 class="tab_title">Description
+                                            <!-- <h4>Description</h4> -->
+                                        </h4>
                                     </div>
-                                    <div class="col-lg-5 offset-lg-2 desc_col">
+                                    <div class="col-lg-12 desc_col">
                                         <div class="tab_image">
-                                            <img th:src="@{/images/km/desc_2.jpg}">
-                                        </div>
-                                        <div class="tab_text_block">
-                                            <h2>Pocket cotton sweatshirt</h2>
-                                            <p>Nam tempus turpis at metus scelerisque placerat nulla deumantos solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis ut...</p>
-                                        </div>
-                                        <div class="tab_image desc_last">
-                                            <img th:src="@{/images/km/desc_3.jpg}">
+                                            <img th:src="@{/customer/image(no=${imgList[1]})}">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-        
-                            <!-- <div id="tab_2" class="tab_container">
-                                <div class="row">
-                                    <div class="col additional_info_col">
-                                        <div class="tab_title additional_info_title">
-                                            <h4>Additional Information</h4>
-                                        </div>
-                                        <p>COLOR:<span>Gold, Red</span></p>
-                                        <p>SIZE:<span>L,M,XL</span></p>
-                                    </div>
-                                </div>
-                            </div> -->
-        
+                            <!-- ~ 물품상세 영역 -->
+
+                            <!-- 리뷰 영역 ~ -->
                             <div id="tab_3" class="tab_container">
                                 <div class="row">
-        
+
                                     <div class="col-lg-6 reviews_col">
-                                        <div class="tab_title reviews_title">
-                                            <h4>Reviews</h4>
-                                        </div>
-        
+                                        <h4 class="tab_title reviews_title">
+                                            Reviews
+                                        </h4>
+
                                         <div class="user_review_container d-flex flex-column flex-sm-row">
                                             <div class="user">
                                                 <div class="user_pic"></div>
@@ -196,11 +234,12 @@
                                             <div class="review">
                                                 <div class="review_date">27 Aug 2016</div>
                                                 <div class="user_name">Brandon William</div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                             </div>
                                         </div>
-        
-        
+
+
                                         <div class="user_review_container d-flex flex-column flex-sm-row">
                                             <div class="user">
                                                 <div class="user_pic"></div>
@@ -217,20 +256,25 @@
                                             <div class="review">
                                                 <div class="review_date">27 Aug 2016</div>
                                                 <div class="user_name">Brandon William</div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                             </div>
                                         </div>
                                     </div>
-        
-        
+
+
                                     <div class="col-lg-6 add_review_col">
-        
+
                                         <div class="add_review">
                                             <form id="review_form" action="post">
                                                 <div>
                                                     <h1>Add Review</h1>
-                                                    <input id="review_name" class="form_input input_name" type="text" name="name" placeholder="Name*" required="required" data-error="Name is required.">
-                                                    <input id="review_email" class="form_input input_email" type="email" name="email" placeholder="Email*" required="required" data-error="Valid email is required.">
+                                                    <input id="review_name" class="form_input input_name" type="text"
+                                                        name="name" placeholder="Name*" required="required"
+                                                        data-error="Name is required.">
+                                                    <input id="review_email" class="form_input input_email" type="email"
+                                                        name="email" placeholder="Email*" required="required"
+                                                        data-error="Valid email is required.">
                                                 </div>
                                                 <div>
                                                     <h1>Your Rating:</h1>
@@ -241,38 +285,210 @@
                                                         <li><i class="fa fa-star" aria-hidden="true"></i></li>
                                                         <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
                                                     </ul>
-                                                    <textarea id="review_message" class="input_review" name="message"  placeholder="Your Review" rows="4" required data-error="Please, leave us a review."></textarea>
+                                                    <textarea id="review_message" class="input_review" name="message"
+                                                        placeholder="Your Review" rows="4" required
+                                                        data-error="Please, leave us a review."></textarea>
                                                 </div>
                                                 <div class="text-left text-sm-right">
-                                                    <button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Submit">submit</button>
+                                                    <button id="review_submit" type="submit"
+                                                        class="red_button review_submit_btn trans_300"
+                                                        value="Submit">submit</button>
                                                 </div>
                                             </form>
                                         </div>
-        
+
                                     </div>
-        
+
                                 </div>
                             </div>
-        
+                            <!-- ~ 리뷰 영역 ~ -->
                         </div>
                     </div>
                 </div>
-        
+
             </div>
-        
+            <!-- ~ 물품 상세 영역 -->
         </div>
     </div>
+
 
     <!-- footer -->
     <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
 
 
 
+
+
     <!-- script-->
     <script th:src="@{/js/jquery-3.6.4.min.js}"></script>
-    <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/km/jquery-ui.js}"></script>
     <script th:src="@{/js/km/single_custom.js}"></script>
-    
+
+    <script th:inline="javascript" type="text/javascript">
+
+        // 카운트다운 타이머
+        function CountDownTimer(dt, id) {
+            var end = new Date(dt);
+            var _second = 1000;
+            var _minute = _second * 60;
+            var _hour = _minute * 60;
+            var _day = _hour * 24;
+            var timer;
+            function showRemaining() {
+                var now = new Date();
+                var distance = end - now;
+                if (distance < 0) {
+                    clearInterval(timer);
+                    document.getElementById(id).innerHTML = '공구 종료';
+                    return;
+                }
+                var days = Math.floor(distance / _day);
+                var hours = Math.floor((distance % _day) / _hour);
+                var minutes = Math.floor((distance % _hour) / _minute);
+                var seconds = Math.floor((distance % _minute) / _second);
+                document.getElementById(id).innerHTML = days + '일 ';
+                document.getElementById(id).innerHTML += hours + '시간 ';
+                document.getElementById(id).innerHTML += minutes + '분 ';
+                document.getElementById(id).innerHTML += seconds + '초';
+            }
+            timer = setInterval(showRemaining, 1000);
+        }
+
+        // 열린 공구 목록 (tbody) 추가
+        const tbody = document.getElementById('tbody');
+        tbody.innerHTML = ''; // 초기화 해주기
+        const list = /*[[${ purchaseList }]]*/"";
+        const itemprice = /*[[${item.ITEMPRICE}]]*/"";
+
+        console.log(list)
+        // 하나씩 꺼내기
+        if (list != null) {
+            for (let i = 0; i < list.length; i++) {
+
+                let tmp = list[i];
+
+                var deadline = new Date(tmp.deadline);
+                CountDownTimer(deadline, `clock${i}`);
+
+                var totalPrice = Math.floor(itemprice / tmp.participant);
+                var price1 = totalPrice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '원';
+
+                console.log(tmp.deadline);
+                console.log(totalPrice);
+                // console.log(price1);
+
+                tbody.innerHTML +=
+                        `<tr>` +
+                        `<td scope="row">${tmp.purchaseNo}</td>` +
+                        `<input type="text" name="purchaseNo" value="${tmp.purchaseNo}">` + 
+                        `<td scope="row">${tmp.participant}</td>` +
+                        `<td>${tmp.remainingPerson}</td>` +
+                        `<td>${tmp.storageName}</td>` +
+                        `<td>` + price1 + `</td>` +
+                        '<td id="clock' + i + '">' + deadline + '</td>' +
+                        `<td><button class="btn participant-btn" onclick="participate(${tmp.purchaseNo},${Math.floor(itemprice / tmp.participant)})">참여</button></td>` +
+                        `</tr>`;
+            };
+        };
+
+        // 공구개설 Modal -> participant 숫자 증감
+        const plus = document.querySelector(".plus");
+        const minus = document.querySelector(".minus");
+        var participant = document.querySelector(".participant");
+        let a = 2;
+
+        var totalcost = document.querySelector('#totalcost');
+        totalcost.innerHTML = (itemprice/a).toLocaleString() + '원';
+        var input_participant = document.querySelector('#input-participant');
+        
+        plus.addEventListener("click", () => {
+            if (a < 5) {
+                a++;
+                participant.innerHTML = a;
+                input_participant.value = a;
+            } else {
+                alert('최대 5명까지만 선택 가능합니다.')
+            }
+            totalcost.innerHTML =  (Math.floor(itemprice/a)).toLocaleString() + '원';
+            console.log(input_participant.value);
+        })
+        minus.addEventListener("click", () => {
+            if (a > 2) {
+                a--;
+                participant.innerHTML = a;
+                input_participant.value = a;
+            } else {
+                alert('2명 이상 선택 가능합니다.')
+            }
+            totalcost.innerHTML =  (Math.floor(itemprice/a)).toLocaleString() + '원';
+            console.log(input_participant.value);
+        });
+
+        const itemNO = /*[[${item.ITEMNO}]]*/"";
+        
+        // 공구 개설 버튼
+        function openPurchase() {
+            // participante는 위의 addEventListener에서 처리함
+            if( confirm('공구 개설하시겠습니까?') ) {
+                // const form = ;
+
+                document.querySelector('#form2').submit();
+            } else {
+                return;
+            }
+                
+        }
+
+        
+        
+
+        // 공구 참여 버튼
+        function participate(purchaseNo) {
+            console.log(purchaseNo);
+
+            if( confirm('공구 참여하시겠습니까?') ) {
+                const form = document.createElement("form");
+                form.action = /*[[@{/customer/item/selectone.do}]]*/"";
+                form.style.display = "none";
+                form.method = "post";
+
+                const input1 = document.createElement("input");
+                input1.type = "hidden";
+                input1.name = "_csrf";
+                input1.value = /*[[${_csrf.token}]]*/"";
+
+                const input2 = document.createElement("input");
+                input2.type = "hidden";
+                input2.name = "purchaseNo";
+                input2.value = purchaseNo;
+
+                // const input3 = document.createElement("input");
+                // input3.type = "hidden";
+                // input3.name = "pricePerOne";
+                // input3.value = pricePerOne;
+
+                // const input4 = document.createElement("input");
+                // input4.type = "hidden";
+                // input4.name = "itemNo";
+                // input4.value = itemNO;
+
+                form.appendChild(input1);
+                form.appendChild(input2);
+                // form.appendChild(input3);
+                // form.appendChild(input4);
+
+                document.body.appendChild(form);
+
+                form.submit();
+            } else {
+                return;
+            }
+        }
+
+        
+    </script>
+
+
 </body>
+
 </html>

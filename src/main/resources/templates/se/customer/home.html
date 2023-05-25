@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>새로운 1인가구 공구문화 - 소분소분</title>
+    <link rel="icon" th:href="@{/images/se/sobun.ico}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <!-- font-awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -22,14 +23,37 @@
     
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;">
-        
-        <!-- <div>
-            <h3>Customer Home</h3>
-            <a th:href="@{join.do}">회원가입</a>
-            <a th:href="@{login.do}">로그인</a>
+
+        <div class="container">
+
+            <!-- 비로그인 -->
+            공구가 많이 열린 물품 (최대 8개)
             <hr>
-            <a th:href="@{select.do}">회원정보</a>
-        </div> -->
+            <th:block th:each=" manyMap : ${manyList} ">
+                <th:block th:text="${manyMap.PRICE}"></th:block>
+                <img th:src="@{/customer/seimage(itemno=${manyMap.ITEMNO})}" style="width: 100px;">
+            </th:block>
+            <hr>
+
+            기한이 얼마 안 남은 공구 (최대 5개) // 로그인시 8개
+            <hr>
+            <th:block th:each=" deadMap : ${deadList} ">
+                <th:block th:text="${deadMap.PRICE}"></th:block>
+                <th:block th:text="|D-${deadMap.DDAY}|"></th:block>
+                <img th:src="@{/customer/seimage(itemno=${deadMap.ITEMNO})}" style="width: 100px;">
+            </th:block>
+            <hr>
+
+            <!-- 로그인 -->
+            내 주위 실시간 공구 (최대 5개)
+            <hr>
+            <th:block th:each=" aroundMap : ${aroundList} ">
+                <th:block th:text="${aroundMap.PRICE}"></th:block>
+                <img th:src="@{/customer/seimage(itemno=${aroundMap.ITEMNO})}" style="width: 100px;">
+            </th:block>
+
+
+        </div>
 
     </div>
 

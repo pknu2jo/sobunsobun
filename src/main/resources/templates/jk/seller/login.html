@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>소분소분 - 판매자 로그인</title>
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body style="margin-top: 60px">
+    <div style="width: 560px; margin: 0 auto; padding: 45px; padding-bottom: 30px; border: 1px solid #e2e2e2; background-color:rgb(255, 255, 255); border-radius: 0.7rem;">
+        <div class="text-center">
+            <img th:src="@{/images/jk/logo1.png}" name="soboon" style="height: 150px;">
+        </div>
+
+        <form th:action="@{/seller/loginaction.do}" method="post" id="form">
+            <div class="row">
+                <div class="col-sm">
+                    <hr />
+                    <br>
+                    <div class="form-floating mb-2">
+                        <input type="text" id="regno" name="no" class="form-control" /> 
+                        <label for="id" class="form-label">사업자번호</label>
+                    </div>
+                    <div class="form-floating mb-2 ">
+                        <input type="password" id="pw" name="pw" class="form-control" />
+                        <label for="pw" class="form-label">암호</label>
+                    </div>
+                    <br>
+                    <hr />
+                    <div class="container text-center d-grid gap-2" style="padding: 0;">
+                        <!-- 여기서 type을 submit으로 잡고 유효성 검사를 하게되면 강제로 데이터가 넘어가기 때문에 button으로 지정해주어야 함! -->
+                        <input type="submit" value="로그인" class="btn btn-dark " />
+                        <a th:href="@{/seller/join.do}" class="btn btn-outline-secondary">업체 회원가입</a>
+                        <a th:href="@{/seller/findpw.do}" class="btn btn-outline-secondary">비밀번호를 잊으셨나요?</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+  
+
+    <!-- sweetalert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- jQuery -->
+    <script src="${pageContext.request.contextPath}/resources/js/jquery-3.6.4.min.js"></script>
+    <!-- axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+
+	<script>
+    async function loginAction(){
+    	  const regno = document.getElementById("regno");
+    	  const pw = document.getElementById("pw");
+    	  
+    	   if(regno.value.length <=0){
+ 	          Swal.fire({
+ 	              icon: 'error',
+ 	              title: '아이디가 비어있어요.',
+ 	              text: '아이디를 다시 확인해주세요!',
+ 	              showConfirmButton: true,
+ 	              timer: 2500
+ 	          });
+ 	          regno.focus();
+ 	          return false; // 함수종료, 전송하지 않음
+ 	      }
+ 	  		if(pw.value.length <=0){
+ 	          Swal.fire({
+ 	              icon: 'error',
+ 	              title: '패스워드가 비어있어요.',
+ 	              text: '패스워드를 다시 확인해주세요!',
+ 	              showConfirmButton: true,
+ 	              timer: 2500
+ 	          });
+ 	          pw.focus();
+ 	          return false; // 함수종료, 전송하지 않음
+ 	      }
+    	  
+    	  
+    	  const url 	   = '${pageContext.request.contextPath}/seller/login.do';
+    	  const headers  = { "Content-Type": "application/x-www-form-urlencoded" };
+    	  const body 	   = { regno : regno.value, pw : pw.value };
+    	  const { data } = await axios.post(url, body, {headers});
+    	  console.log(data);
+    	  
+    	  if(data.ret === 1) {
+    	      Swal.fire({
+    	          icon: 'success',
+    	          title: '로그인 성공!',
+    	          text: '${sessionScope.name}님 안녕하세요?',
+    	          showConfirmButton: true,
+    	          timer: 3000
+    	      });
+    	  
+    	      window.location.href='home.do';
+    	  }
+    	  else{
+    	      Swal.fire({
+    	          icon: 'error',
+    	          title: '로그인 오류!',
+    	          text: '아이디 또는 패스워드를 다시 확인해주세요!',
+    	          showConfirmButton: true,
+    	      });
+    	  }
+    	}
+
+
+    </script>
+</body>
+
+</html>

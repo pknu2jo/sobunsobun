@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.jk.SellerMapper">
+
+    <!-- 업체 회원가입 -->
+    <insert id="joinSeller" parameterType="com.example.dto.Seller">
+        INSERT INTO seller(no, pw, name, phone, email, address)
+        VALUES(#{no}, #{pw}, #{name}, #{phone}, #{email}, #{address})
+    </insert>
+
+    <!-- 업체 로그인 -->
+    <select id="sellerLogin" parameterType="com.example.dto.Seller" resultType="com.example.dto.Seller">
+        SELECT * FROM seller WHERE no =#{no} AND pw=#{pw}
+    </select>
+
+    <!-- 업체 비밀번호 찾기( 임시비밀번호 발급 ) -->
+    <update id="findSellerPw" parameterType="com.example.dto.Seller">
+        Update seller SET pw = #{newPw} WHERE no =#{no} AND email=#{email}
+    </update>
+
+    <!-- 업체 정보수정 (업체명, 주소, 연락처, 이메일) -->
+    <update id="updateSellerinfo" parameterType="com.example.dto.Seller">
+        UPDATE seller SET name = #{name}, phone = #{phone}, email = #{email}, address = {address}
+        WHERE no = #{no}
+    </update>
+
+    <!-- 업체 비밀번호 변경 -->
+    <update id="updateSellerPw" parameterType="com.example.dto.Seller">
+        UPDATE seller SET pw = #{newPw} WHERE no = #{no} AND pw = #{pw}
+    </update>
+
+    <!-- 업체 회원탈퇴 -->
+    <update id="deleteSeller" parameterType="com.example.dto.Seller">
+        UPDATE seller SET no = null, pw = null, name = null, phone = null, email = null, address = null, blockchk = null, regdate = null
+        WHERE no = #{no} AND pw = #{pw}
+    </update>
+
+</mapper>

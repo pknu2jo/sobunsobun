@@ -1,16 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Login</title>
+    <title>새로운 1인가구 공구문화 - 소분소분</title>
+    <link rel="icon" th:href="@{/images/se/sobun.ico}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- font-awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <th:block th:replace="~{/se/customer/header :: headerCSS}"></th:block>
+    <th:block th:replace="~{/km/customer/footer :: footerCSS}"></th:block>
+
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <!-- axios (https://cdnjs.com/libraries/axios) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 </head>
+
 <body>
-    <form th:action="@{/customer/loginaction.do}" method="post">
-        <input type="text" name="id" placeholder="아이디" autofocus>
-        <input type="password" name="pw" placeholder="비밀번호">
-        <input type="submit" value="로그인">
-    </form>
+    <!-- header -->
+    <th:block th:replace="~{/se/customer/header :: headerHTML}"></th:block>
+    
+    <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
+    <div style="padding-bottom: 300px;">
+
+        <div class="container">
+
+            <form th:action="@{/customer/loginaction.do}" method="post" id="loginFrom">
+                <input type="text" name="id" placeholder="아이디" autofocus>
+                <input type="password" name="pw" placeholder="암호">
+                <input type="button" value="로그인" onclick="loginAction()">
+            </form>
+
+            <!-- 카카오로그인...화이팅 -->
+            <a id="kakao-login-btn" href="javascript:loginWithKakao()">
+                <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222" alt="카카오 로그인 버튼" />
+            </a>
+        </div>
+
+    </div>
+
+
+    <!-- footer -->
+    <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
+
+
+
+    <!-- script-->
+
+    <!-- 카카오 로그인 -->
+    <script src = "https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script th:inline="javascript" type="text/javascript">
+        
+        // 카카오 로그인 -----------------------------------------------------------------------------------
+        var id = "";
+        var email = "";
+        var nickname = "";
+        var gender = "";
+
+        Kakao.init('f37acd51f39500af41a1f590e928481e'); // 카카오 JavaScript 키 입력
+	
+        function loginWithKakao() {
+            Kakao.Auth.login({
+                success: function(authObj) {
+                    console.log('authObj', authObj);
+                    Kakao.API.request({
+                        url: '/v2/user/me',
+                        success: async function(response) {
+                            console.log('response', response);
+                            // alert('로그인 성공');
+
+                            id = response.id + '@k';
+                            email = response.kakao_account.email;
+                            nickname = response.kakao_account.profile.nickname;
+                            gender = response.kakao_account.gender;
+                            if(gender == 'female'){
+                                gender = 'F';
+                            }
+                            else if(gender = 'male'){
+                                gender = 'M';
+                            }
+                            // console.log(email, nickname, gender, id);
+                            
+                            const url = /*[[@{/api/ckakaologin.json}]]*/'';
+                            const body = { "id":id };
+                            const headers = {"Content-Type":"application/json"};
+                            const {data} = await axios.post(url, body,  {headers});
+                            console.log(data.ret);
+
+                            // 등록된 아이디(카카오 이메일)이 있으면 home 화면으로
+                            if(data.ret == 1){
+                                location.href="http://127.0.0.1:5959/SOBUN/customer/home.do";
+                            }
+                            // 등록된 아이디(카카오 이메일)이 없으면 회원가입 화면으로
+                            else if(data.ret == 0){
+                                kakaojoin();
+                            }
+
+
+                        }
+                    })
+                },
+                fail: function(err) {
+                    alert(JSON.stringify(err));
+                }
+            });
+        }
+
+        function kakaojoin() {
+            console.log(email, nickname, gender, id);
+            const kakaojoinform = document.createElement("form");
+            kakaojoinform.action = /*[[@{/customer/kakaojoin.do}]]*/"";
+            kakaojoinform.method = "post";
+            kakaojoinform.style.display="none";
+
+            const input1 = document.createElement("input");
+            input1.type = "hidden";
+            input1.name = "id";
+            input1.value = id;
+            kakaojoinform.appendChild(input1);
+            
+            const input2 = document.createElement("input");
+            input2.type = "hidden";
+            input2.name = "email";
+            input2.value = email;
+            kakaojoinform.appendChild(input2);
+            
+            const input3 = document.createElement("input");
+            input3.type = "hidden";
+            input3.name = "nickname";
+            input3.value = nickname;
+            kakaojoinform.appendChild(input3);
+            
+            const input4 = document.createElement("input");
+            input4.type = "hidden";
+            input4.name = "gender";
+            input4.value = gender;
+            kakaojoinform.appendChild(input4);
+
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "_csrf";
+            input.value =  /*[[${_csrf.token}]]*/"";
+            kakaojoinform.appendChild(input);
+
+            document.body.appendChild(kakaojoinform);
+
+            kakaojoinform.submit();
+        }
+        // 카카오 로그인
+
+        // 유효성 검사 -----------------------------------------------------------------------------------
+        const loginAction = () => {
+            const id = document.querySelector("input[name='id']");
+            const pw = document.querySelector("input[name='pw']");
+            if( id.value.length  <= 0 ){
+                alert("아이디를 입력하세요");
+                id.focus();
+                return false;
+            }
+            if( pw.value.length  <= 0 ){
+                alert("암호를 입력하세요");
+                pw.focus();
+                return false;
+            }
+
+            document.querySelector('#loginFrom').submit();
+        }
+        // 유효성 검사
+
+    </script>
+    
 </body>
 </html>
