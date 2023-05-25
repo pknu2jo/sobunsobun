@@ -21,6 +21,15 @@ public interface SePurchaseItemService {
     public ItemImage selectItemImageOne(BigDecimal itemno);
 
     // 내 주위 실시간 공구 5개
-    List<Map<String, Object>> selectAroundPurchaseItem(String id);
+    public List<Map<String, Object>> selectAroundPurchaseItem(String id);
+
+    // 물품목록 - 검색어
+    public List<Map<String, Object>> selectSearchItem(Map<String, Object> map);
+
+    // 물품목록 - 소분류
+    public List<Map<String, Object>> selectScodeItem(Map<String, Object> map);
+
+    // 물품목록 - 소분류 BEST
+    public List<Map<String, Object>> selectScodeItemBest(long scode);
 
 }

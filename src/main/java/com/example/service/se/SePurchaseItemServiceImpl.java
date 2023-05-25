@@ -76,5 +76,39 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
             return null;
         }
     }
+
+    // --------------------------------------------------------------------------------------------
+    // 물품목록 - 검색어
+    @Override
+    public List<Map<String, Object>> selectSearchItem(Map<String, Object> map) {
+       try {
+        return piMapper.selectSearchItem(map);
+       } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+       }
+    }
+
+    // 물품목록 - 소분류
+    @Override
+    public List<Map<String, Object>> selectScodeItem(Map<String, Object> map) {
+        try {
+            return piMapper.selectScodeItem(map);
+        } catch (Exception e) {
+             e.printStackTrace();
+             return null;
+        }
+    }
+
+    // 물품목록 - 소분류 BEST
+    @Override
+    public List<Map<String, Object>> selectScodeItemBest(long scode) {
+        try {
+            return piMapper.selectScodeItemBest(scode);
+        } catch (Exception e) {
+             e.printStackTrace();
+             return null;
+        }
+    }
     
 }
