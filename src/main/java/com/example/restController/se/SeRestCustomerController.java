@@ -45,7 +45,7 @@ public class SeRestCustomerController {
 
                 // 시큐리티 로그인 ---------------------------------------------------------------------------------
                 // 세션에 저장할 객체 생성 (UsernamePasswordAuthenticationToken(저장할 객체, null, 권한))
-                String[] strRole = {"ROLE_CUSTOMER"};
+                String[] strRole = {"CUSTOMER"};
                 Collection<GrantedAuthority> role = AuthorityUtils.createAuthorityList(strRole);
                 obj.setPw(""); // pw => null 이라 오류나서 추가
                 User user = new User( obj.getId(), obj.getPw(), role ); // import org.springframework.security.core.userdetails.User;
