@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -154,59 +153,59 @@
                                     </div>
                             </div>
 
-                            <div class="row" style ="border: 2px solid rgb(229, 229, 229); background-color: rgb(243,245,247);">
-                                <form>
-                                    상품번호, 물품명, 지역, 공구주문 번호 검색
-                                </form>
-                            </div>
-
-                            <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
-                                <form>
-                                    배송전<input type="radio" name="상태" value="배송전"/>
-                                    배송준비중<input type="radio" name="상태" value="배송준비중"/>
-                                    배송중<input type="radio" name="상태" value="배송중"/>
-                                    배송완료<input type="radio" name="상태" value="배송완료"/>
-                                </form>
-                            </div>
-
-                            <!-- <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
-                                <form th:action="@{/seller/delivery/search.do}" method="get">
-                                    <select id="firstselect" name="lname" th:onchange="first()">
-                                        <option>대분류</option>
-                                        <option>ㅡㅡㅡㅡㅡㅡ</option>
-                                        <option th:each="obj : ${llist}" th:value ="${obj.code.longValue()}" th:text="${obj.name}"></option>
-                                    </select>                                    
-                                
-                                    <select id="secondselect" name="mname" onchange="second()">
-                                        <option>중분류</option>
-                                        <option>ㅡㅡㅡㅡㅡㅡ</option>
-                                        <option th:each="obj : ${mlist}" th:value ="${obj.code.longValue()}" th:text="${obj.name}"></option>
-                                    </select>           
-                                
-                                    <select id="thirdselect" name="sname" onchange="third()">
-                                        <option>소분류</option>
-                                        <option>ㅡㅡㅡㅡㅡㅡ</option>
-                                        <option th:each="obj : ${slist}" th:value ="${obj.code.longValue()}" th:text="${obj.name}"></option>
-                                    </select>
-                                </form>
-                            </div> -->
-
-                            <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
-                                <form>
-                                    <h6 style="display: inline;">기간</h6>
-                                    <input type="date" id="fd" th:min="${sdate}" name="firstdate" onchange="firstdate()"/>
-                                     ~ 
-                                    <input type="date" id="sd" th:max="${today}" name="seconddate" onchange="seconddate()">
-                                </form>
-                            </div>
-
-                            <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
-                                <div style="display: inline-block; text-align: center;" >
-                                    <a th:href="@{/seller/delivery/search.do}"><button type="button" class="btn btn-outline-primary" >초기화</button></a>
-                                    <button type="button" class="btn btn-outline-primary" >검색</button>
+                            <form th:action="@{/seller/delivery/search.do}" method="get">
+                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); background-color: rgb(243,245,247);">
+                                    검색어<hr/>
+                                    물품코드 <input type="number" name="itemcode" placeholder="물품코드 입력" />
+                                    물품이름 <input type="text" name="itemname" placeholder="물품이름 입력" />
+                                    주소 <input type="text" name="address" placeholder="주소 입력" />
+                                    공구주문번호 <input type="number" name="purchaseno" placeholder="공구주문번호 입력" />
                                 </div>
-                            </div>
-                        </div>  
+
+                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">                                                                        
+                                    배송상태<hr/>
+                                    <input type="radio" th:each="obj : ${statuslist}" name="status" th:text="${obj.status}" th:value="${obj.no}"/>
+                                </div>
+
+                                <!-- <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
+                                    <form th:action="@{/seller/delivery/search.do}" method="get">
+                                        <select id="firstselect" name="lname" th:onchange="first()">
+                                            <option>대분류</option>
+                                            <option>ㅡㅡㅡㅡㅡㅡ</option>
+                                            <option th:each="obj : ${llist}" th:value ="${obj.code.longValue()}" th:text="${obj.name}"></option>
+                                        </select>                                    
+                                    
+                                        <select id="secondselect" name="mname" onchange="second()">
+                                            <option>중분류</option>
+                                            <option>ㅡㅡㅡㅡㅡㅡ</option>
+                                            <option th:each="obj : ${mlist}" th:value ="${obj.code.longValue()}" th:text="${obj.name}"></option>
+                                        </select>           
+                                    
+                                        <select id="thirdselect" name="sname" onchange="third()">
+                                            <option>소분류</option>
+                                            <option>ㅡㅡㅡㅡㅡㅡ</option>
+                                            <option th:each="obj : ${slist}" th:value ="${obj.code.longValue()}" th:text="${obj.name}"></option>
+                                        </select>
+                                    </form>
+                                </div> -->
+
+                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">                                    
+                                    <h6 style="display: inline;">기간</h6>
+                                    <!-- script -->
+                                    <input type="date" id="fd" th:min="${sdate}" name="firstdate" th:onchange="firstdatechange()"/>
+                                    &nbsp;~&nbsp;
+                                    <input type="date" id="sd" th:max="${today}" name="seconddate" th:onchange="seconddatechange()"/>                                   
+                                </div>                            
+
+                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
+                                    <div style="display: inline-block; text-align: center;" >
+                                        <a th:href="@{/seller/delivery/search.do}"><button type="button" class="btn btn-outline-primary" >초기화</button></a>
+                                        <button type="submit" class="btn btn-outline-primary">검색</button>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                        </div>
 
                             <div class="row" style="margin-top: 15px;">
                                 <div class="col">
@@ -312,20 +311,16 @@
 
     <!-- 달력 -->
     <script th:inline="javascript" type="text/javascript">
-
-
-        function firstdate() {            
-            const fd = document.getElementById("fd").value;            
+        function firstdatechange() {
+            var fd = document.getElementById("fd").value;            
             console.log(fd);
         }
 
-        function seconddate() {            
-            const sd = document.getElementById("sd").value;
+        function seconddatechange() {            
+            var sd = document.getElementById("sd").value;            
             console.log(sd);            
         }
-    </script>
-
-    <script>
+    
         $(document).ready(function () {
             const sidebarToggle = $('#sidebarToggle');
             if (sidebarToggle) {

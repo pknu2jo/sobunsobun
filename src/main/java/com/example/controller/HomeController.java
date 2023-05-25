@@ -10,8 +10,10 @@ import java.util.Locale;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.entity.DeliveryEntity;
 import com.example.entity.Lcategory;
 import com.example.entity.Mcategory;
 import com.example.entity.Scategory;
@@ -21,6 +23,7 @@ import com.example.entity.ikh.OrderView;
 import com.example.entity.ikh.SalesViewProjection;
 import com.example.entity.ikh.StagenderView;
 import com.example.entity.ikh.TotaltableView;
+import com.example.repository.DeliveryRepository;
 import com.example.repository.LcategoryRepository;
 import com.example.repository.McategoryRepository;
 import com.example.repository.ScategoryRepository;
@@ -59,6 +62,7 @@ public class HomeController {
     final McategoryRepository mRepository;
     final ScategoryRepository sRepository;
     final SellerRepository selRepository;
+    final DeliveryRepository dRepository;
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // 주문
     final OrderViewRepository ovRepository;
@@ -216,12 +220,14 @@ public class HomeController {
         }
     }
 
-
     /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
     // 배송
     @GetMapping(value="/delivery/search.do")
-    public String deliverysearchGET(Model model,
-                @RequestParam(name="lcode", defaultValue = "") BigDecimal lcode) {
+    public String deliverysearchGET(Model model,                          
+                @RequestParam(name="status", defaultValue = "") BigDecimal status,
+                @RequestParam(name="firstdate", defaultValue = "") String firstdate,
+                @RequestParam(name="seconddate", defaultValue = "") String seconddate,
+                @ModelAttribute DeliveryView deliveryview){
         try {
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 배송상태별, 전체
@@ -236,6 +242,20 @@ public class HomeController {
             model.addAttribute("four", four);
             model.addAttribute("total", total);
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+            // 검색어
+            // log.info("물품 코드 => {}", deliveryview.getItemcode());
+            // log.info("물품 이름 => {}", deliveryview.getItemname());
+            // log.info("주소 => {}", deliveryview.getAddress());
+            // log.info("공구주문번호 => {}", deliveryview.getPurchaseno());
+            // log.info("status {}", status);
+            // log.info("firstdate {}", firstdate);
+            // log.info("seconddate {}", seconddate);
+            /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+            // 배송상태
+            List<DeliveryEntity> dlist = dRepository.findAll();
+            model.addAttribute("statuslist", dlist);            
+            
+            /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 카테고리
             // List<Lcategory> llist = lRepository.findAll();
             // List<Mcategory> mlist = mRepository.findByLcategoryCode_code(lcode);            
@@ -248,7 +268,7 @@ public class HomeController {
             LocalDate sdate =  new java.sql.Date(seller.getRegdate().getTime()).toLocalDate();
             model.addAttribute("sdate", sdate); // 업체의 생성 날짜 보내주기
             model.addAttribute("today", today); // 오늘 날짜 보내주기
-
+            
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 테이블 
             List<DeliveryView> list = dvRepository.findByNo("1078198143");
