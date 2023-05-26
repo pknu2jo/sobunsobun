@@ -3,8 +3,19 @@
 
 <mapper namespace="com.example.mapper.se.SePurchaseItemMapper">
 
-    <!-- <select id="selectManyPurchaseItem" resultType="map">
-        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <= 8 ORDER BY ROWNUM ASC
-    </select> -->
+    <select id="selectManyPurchaseItem" resultType="map">
+        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> 8 ORDER BY ROWNUM ASC
+    </select>
         
+    <select id="selectDeadLinePurchaseItem" parameterType="long" resultType="map">
+        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY DEADLINE ASC) ROWNNUM FROM SEDEADLINEPURCHASEDDAYVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> #{no} ORDER BY ROWNUM ASC
+    </select>
+
+    <select id="selectAroundPurchaseItem" parameterType="com.example.entity.CustomerAddressEntity" resultType="map">
+        SELECT * FROM 
+        (SELECT *, ROW_NUMBER() OVER(ORDER BY distance ASC) ROWNNUM FROM 
+        (SELECT * FROM (SELECT *, 6371 * ACOS( COS(RADIANS(35.1310310271862)) * COS(RADIANS(#{latitude})) * COS(RADIANS(#{longitude}) - RADIANS(129.0771369881199)) + SIN(RADIANS(35.1310310271862)) * SIN(RADIANS(#{latitude}))) distance 
+        FROM SEAROUNDPURCHASEVIEW) WHERE distance <![CDATA[ <= ]]> 10)) WHERE ROWNNUM <![CDATA[ <= ]]> 5 ORDER BY ROWNNUM ASC
+    </select>
+
 </mapper>

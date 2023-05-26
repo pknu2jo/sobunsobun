@@ -70,7 +70,9 @@ public class SeCustomerServiceImpl implements SeCustomerService {
             return null;
         }
     }
-
+    
+    // ----------------------------------------------------------------------------------------------------------
+    // 그냥 save()
     @Override
     public CustomerEntity saveCustomer(CustomerEntity customerEntity) {
         try {
@@ -81,6 +83,19 @@ public class SeCustomerServiceImpl implements SeCustomerService {
         }
     }
 
+    
+    // ----------------------------------------------------------------------------------------------------------
+    // 그냥 findById()
+    @Override
+    public CustomerEntity findById(String id) {
+        try {
+            return cRepository.findById(id).orElse(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
 
 
 }

@@ -55,16 +55,7 @@
             border: 1px solid #204710;
             border-radius: 1px;
         }
-
-        /* 카테고리 - 전체 물품 버튼 */
-        .allItemBtn {
-            /* margin: 15px 0px 0px 50px;
-            height: 35px;
-            padding: 4px;
-            padding-top: 8px;
-            border-radius: 1px; */
-        }
-
+        
         /* 헤더 */
         .header1 {
             background-size: cover;
@@ -281,11 +272,9 @@
                 
                 <div class="myPage col d-flex align-items-center flex-row-reverse">
                     <div class="row d-flex justify-content-end">
-                        <!-- <th:block th:if="${user} != null"> -->
+                        <th:block th:if="${user} != null">
                             <div class="col-auto">
-                                <form th:action="@{/logout.do}" method="post">
-                                    <input type="submit" value="로그아웃" class="logoutBtn">
-                                </form>
+                                <button type="button" class="logoutBtn" th:onclick="logoutAction([[${user.username}]])">로그아웃</button>
                             </div>
                             <div class="col-auto">
                                 <a th:href="@{/customer/mypage.do}">
@@ -293,18 +282,16 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="fill: #dddddd;"><path d="M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"></path></svg>
                                 </a>
                             </div>
-                        <!-- </th:block> -->
-                        <!-- <th:block th:if="${user} == null"> -->
-                            <!-- <div class="col-auto">
+                        </th:block>
+                        <th:block th:if="${user} == null">
+                            <div class="col-auto">
                                 <a th:href="@{/customer/login.do}">로그인</a>
                             </div>
                             <div class="col-auto">
-                                <a th:href="@{/customer/join.do}">회원가입</a>
+                                <a th:href="@{/customer/join.do}" style="display: inline-block;">회원가입</a>
+                                <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg enable-background="new 0 0 32 32" height="16px" id="Layer_1" version="1.1" viewBox="0 0 32 32" width="16px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="fill: #dddddd;"><g><polyline fill="none" points="   649,137.999 675,137.999 675,155.999 661,155.999  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><polyline fill="none" points="   653,155.999 649,155.999 649,141.999  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><polyline fill="none" points="   661,156 653,162 653,156  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/></g><path d="M29.7,2.767C29.593,2.317,29.189,2,28.728,2c-0.002,0-0.004,0-0.006,0c-5.267,0.033-18.075,0.916-23.246,8.38  c-2.686,3.878-2.917,8.913-0.687,14.965c0.017,0.047,0.052,0.079,0.075,0.122C4.067,27.44,3.758,28.753,3.75,28.79  c-0.116,0.54,0.229,1.072,0.769,1.188C4.589,29.993,4.659,30,4.729,30c0.461,0,0.876-0.321,0.977-0.79  c0.021-0.102,2.569-10.373,11.577-16.378c0.46-0.306,0.584-0.927,0.277-1.387s-0.927-0.585-1.387-0.277  c-5.108,3.405-8.254,8.008-10.104,11.656c-1.324-4.578-0.977-8.377,1.052-11.305c3.993-5.764,13.464-7.154,19.181-7.448  C25.072,5.872,23.728,9.174,23.728,15c0,3.12-0.885,5.522-2.629,7.14c-2.796,2.591-7.338,2.834-10.66,2.584  c-0.552-0.045-1.031,0.371-1.073,0.922c-0.042,0.55,0.371,1.03,0.921,1.072c0.665,0.051,1.375,0.082,2.113,0.082  c3.382,0,7.327-0.663,10.058-3.194c2.17-2.011,3.27-4.906,3.27-8.605c0-9.099,3.43-11.096,3.447-11.105  C29.591,3.687,29.809,3.219,29.7,2.767z"/></svg>
                             </div>
-                            <div class="col-auto m-0 p-0">
-                                <a href="#"><?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg enable-background="new 0 0 32 32" height="16px" id="Layer_1" version="1.1" viewBox="0 0 32 32" width="16px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><polyline fill="none" points="   649,137.999 675,137.999 675,155.999 661,155.999  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><polyline fill="none" points="   653,155.999 649,155.999 649,141.999  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><polyline fill="none" points="   661,156 653,162 653,156  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/></g><path d="M29.7,2.767C29.593,2.317,29.189,2,28.728,2c-0.002,0-0.004,0-0.006,0c-5.267,0.033-18.075,0.916-23.246,8.38  c-2.686,3.878-2.917,8.913-0.687,14.965c0.017,0.047,0.052,0.079,0.075,0.122C4.067,27.44,3.758,28.753,3.75,28.79  c-0.116,0.54,0.229,1.072,0.769,1.188C4.589,29.993,4.659,30,4.729,30c0.461,0,0.876-0.321,0.977-0.79  c0.021-0.102,2.569-10.373,11.577-16.378c0.46-0.306,0.584-0.927,0.277-1.387s-0.927-0.585-1.387-0.277  c-5.108,3.405-8.254,8.008-10.104,11.656c-1.324-4.578-0.977-8.377,1.052-11.305c3.993-5.764,13.464-7.154,19.181-7.448  C25.072,5.872,23.728,9.174,23.728,15c0,3.12-0.885,5.522-2.629,7.14c-2.796,2.591-7.338,2.834-10.66,2.584  c-0.552-0.045-1.031,0.371-1.073,0.922c-0.042,0.55,0.371,1.03,0.921,1.072c0.665,0.051,1.375,0.082,2.113,0.082  c3.382,0,7.327-0.663,10.058-3.194c2.17-2.011,3.27-4.906,3.27-8.605c0-9.099,3.43-11.096,3.447-11.105  C29.591,3.687,29.809,3.219,29.7,2.767z"/></svg></a>
-                            </div> -->
-                        <!-- </th:block> -->
+                        </th:block>
                     </div>
                 </div>
             </div>
@@ -315,7 +302,7 @@
         <header id="header2" class="container-fluid">
             <div class="row p-3">
                 <div class="col-auto d-flex align-items-center m-0 ps-5 pe-2">
-                    <a href="#"><img th:src="@{/images/se/logo2.png}" style="height: 45px;"></a>
+                    <a href="#"><img th:src="@{/images/se/header2logo.png}" style="height: 45px;"></a>
                 </div>
                 <div class="col">
                     <form th:action="@{/customer/item/selectlist.do}" method="get" class="d-flex position-relative">
@@ -326,16 +313,14 @@
                     </form>
                 </div>
                 <div class="col-auto d-flex align-items-center pe-5 header2Button">
-                    <!-- <th:block th:if="${user} != null"> -->
+                    <th:block th:if="${user} != null">
                         <a th:href="@{/customer/mypage.do}">마이페이지</a>
-                        <form th:action="@{/logout.do}" method="post">
-                            <input type="submit" value="로그아웃" class="logoutBtn2">
-                        </form>
-                    <!-- </th:block> -->
-                    <!-- <th:block th:if="${user} == null">
+                        <button type="button" class="logoutBtn2" th:onclick="logoutAction([[${user.username}]])">로그아웃</button>
+                    </th:block>
+                    <th:block th:if="${user} == null">
                         <a th:href="@{/customer/login.do}">로그인</a>
                         <a th:href="@{/customer/join.do}">회원가입</a>
-                    </th:block> -->
+                    </th:block>
                 </div>
             </div>
             <div id="headerLine2"></div>
@@ -348,74 +333,115 @@
         </div>    
     </div>
 
+    <script src = "https://developers.kakao.com/sdk/js/kakao.min.js"></script> <!-- 로그아웃용 -->
+    <script th:inline="javascript" type="text/javascript">
+        Kakao.init('f37acd51f39500af41a1f590e928481e'); // 로그아웃용
 
-        <script th:inline="javascript" type="text/javascript">
-            // 스크롤시 header2 보이기
-            window.addEventListener('scroll', () => {
-                const headerheight =  document.querySelector('header').clientHeight;
-                // console.log(headerheight);
-                const scrollposition = pageYOffset;
-                // console.log(pageYOffset);
-                const header2 = document.getElementById("header2");
-                if(headerheight<=scrollposition){
-                    header2.style.display = 'block';
-                } else {
-                    header2.style.display = 'none';
-                }
-            });
+        // 스크롤시 header2 보이기
+        window.addEventListener('scroll', () => {
+            const headerheight =  document.querySelector('header').clientHeight;
+            // console.log(headerheight);
+            const scrollposition = pageYOffset;
+            // console.log(pageYOffset);
+            const header2 = document.getElementById("header2");
+            if(headerheight<=scrollposition){
+                header2.style.display = 'block';
+            } else {
+                header2.style.display = 'none';
+            }
+        });
+        
+        // 카테고리 세팅
+        async function cateAction(){
+            const url = /*[[@{/api/category/select.json}]]*/'';
+            const headers = {"Content-Type":"application/json"};
+            const {data} = await axios.get(url, {headers});
+            // console.log(data);
             
-            // 카테고리 세팅
-            async function cateAction(){
-                const url = /*[[@{/api/category/select.json}]]*/'';
-                const headers = {"Content-Type":"application/json"};
-                const {data} = await axios.get(url, {headers});
-                // console.log(data);
-                
-                let str = "";
-                for(let one of data.llist) { // 대분류 카테고리
-                    str += `<div class="col my-auto mt-3" style="height: auto;">`;
-                    str += `<div class="lcate">${one.lname}</div>`;
-                    str += `<hr />`;
-                    for (let one2 of data.mlist) { // 중분류 카테고리
-                        if(one.lcode/100 == Math.floor(one2.mcode/100)){
-                            str += `<div class="mcate">${one2.mname}</div>`;
-                            for(let one3 of data.slist) { // 소분류 카테고리
-                                if(Math.floor(one2.mcode/10) == Math.floor(one3.scode/10)) {
-                                    str += `<a href="/SOBUN/customer/item/selectlist.do?scode=${one3.scode}" class="scate">${one3.sname}</a>`;
-                                    str += `<br />`;
-                                }
+            let str = "";
+            for(let one of data.llist) { // 대분류 카테고리
+                str += `<div class="col my-auto mt-3" style="height: auto;">`;
+                str += `<div class="lcate">${one.lname}</div>`;
+                str += `<hr />`;
+                for (let one2 of data.mlist) { // 중분류 카테고리
+                    if(one.lcode/100 == Math.floor(one2.mcode/100)){
+                        str += `<div class="mcate">${one2.mname}</div>`;
+                        for(let one3 of data.slist) { // 소분류 카테고리
+                            if(Math.floor(one2.mcode/10) == Math.floor(one3.scode/10)) {
+                                str += `<a href="/SOBUN/customer/item/selectlist.do?scode=${one3.scode}" class="scate">${one3.sname}</a>`;
+                                str += `<br />`;
                             }
-                            str += `<br />`;
                         }
+                        str += `<br />`;
                     }
-                    str += `</div>`;
                 }
-                str += 
-                `<div class="col my-auto mt-3 position-relative">` +
-                    `<div class="row">` + 
-                        `<div class="col allItemBtn">` +
-                            `<a href="/SOBUN/customer/item/selectlist.do" method="get">전체물품</a> ` +
-                            `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="fill: #204710;"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg>` +
-                        `</div>` +
+                str += `</div>`;
+            }
+            str += 
+            `<div class="col my-auto mt-3 position-relative">` +
+                `<div class="row">` + 
+                    `<div class="col allItemBtn">` +
+                        `<a href="/SOBUN/customer/item/selectlist.do" method="get">전체물품</a> ` +
+                        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="fill: #204710;"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"></path></svg>` +
                     `</div>` +
-                    `<hr />` +
-                    `<div class="row d-flex justify-content-end">` +
-                        `<form action="/SOBUN/customer/item/selectlist.do" method="get" class="d-flex position-relative flex-row-reverse">` + 
-                            `<input class="searchBar w-100" type="text" name="search" placeholder="검색어">` +
-                            `<button class="position-absolute searchButton" type="submit">` +
-                                `<i class="fa-solid fa-magnifying-glass fa-sm" style="color: #204710;"></i>` +
-                            `</button>` +
-                        `</form> ` +
-                    `</div>` +
-                `</div>`;
-                // console.log(str);
+                `</div>` +
+                `<hr />` +
+                `<div class="row d-flex justify-content-end">` +
+                    `<form action="/SOBUN/customer/item/selectlist.do" method="get" class="d-flex position-relative flex-row-reverse">` + 
+                        `<input class="searchBar w-100" type="text" name="search" placeholder="검색어">` +
+                        `<button class="position-absolute searchButton" type="submit">` +
+                            `<i class="fa-solid fa-magnifying-glass fa-sm" style="color: #204710;"></i>` +
+                        `</button>` +
+                    `</form> ` +
+                `</div>` +
+            `</div>`;
+            // console.log(str);
+            
+            const navbarContent = document.getElementById('navbarContent');
+            navbarContent.innerHTML = '';
+            navbarContent.innerHTML += str;
+
+        }
+
+        // 로그아웃
+        function logoutAction(e) {
+            const logoutform = document.createElement("form");
+            logoutform.action = /*[[@{/logout.do}]]*/"";
+            logoutform.method = "post";
+            logoutform.style.display="none";
+
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "_csrf";
+            input.value =  /*[[${_csrf.token}]]*/"";
+            logoutform.appendChild(input);
+            
+            if(e.indexOf("@k") != -1) { // 카카오톡 로그인일 때
+
+                // alert('카카오로그인'); // 확인용
+
+                if (Kakao.Auth.getAccessToken()) {
+            
+                    Kakao.API.request({
+                        url: '/v1/user/unlink',
+                        success: function (response) {
+                            console.log(response)
+                        },
+                        fail: function (error) {
+                            console.log(error)
+                        },
+                    });
                 
-                const navbarContent = document.getElementById('navbarContent');
-                navbarContent.innerHTML = '';
-                navbarContent.innerHTML += str;
+                    Kakao.Auth.setAccessToken(null);
+                }
 
             }
-        </script>
+
+            document.body.appendChild(logoutform);
+            logoutform.submit();
+        }
+        
+    </script>
 
 </th:block>
 </body>
