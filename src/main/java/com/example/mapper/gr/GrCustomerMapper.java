@@ -29,4 +29,10 @@ public interface GrCustomerMapper {
     // 회원 비밀번호 변경
     public int updatepw(Customer customer);
 
+    // 회원탈퇴 -> 주소 삭제
+    public int deletemyaddress(CustomerAddress customeraddress);
+
+    // 카카오톡 로그인 아이디 찾기
+    public Customer searchkakao(String id);
+
 }

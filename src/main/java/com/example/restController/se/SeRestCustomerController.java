@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.dto.CustomerUser;
 import com.example.entity.CustomerEntity;
 import com.example.service.se.SeCustomerService;
 
@@ -28,28 +29,30 @@ import lombok.extern.slf4j.Slf4j;
 public class SeRestCustomerController {
 
     final SeCustomerService cService;
-    
+
     @PostMapping(value = "/ckakaologin.json")
     public Map<String, Integer> kakaologinPOST(
-        @RequestBody Map<String, Object> map
-        ) {
+            @RequestBody Map<String, Object> map) {
         Map<String, Integer> retMap = new HashMap<>(); // 반환용 객체 생성
         try {
             // 넘어온 정보 받기
             log.info("카카오로그인 => {}", map.get("id"));
 
             // DB 에 저장된 아이디 중에 일치하는 값이 있으면 => 시큐리티 세션에 로그인한 후 ret:1 반환
-            CustomerEntity obj = cService.findById((String)map.get("id"));
-            if(obj != null){
+            CustomerEntity obj = cService.findById((String) map.get("id"));
+            if (obj != null) {
                 log.info("카카오로그인 => {}", obj.toString());
 
-                // 시큐리티 로그인 ---------------------------------------------------------------------------------
+                // 시큐리티 로그인
+                // ---------------------------------------------------------------------------------
                 // 세션에 저장할 객체 생성 (UsernamePasswordAuthenticationToken(저장할 객체, null, 권한))
-                String[] strRole = {"ROLE_CUSTOMER"};
+                String[] strRole = { "CUSTOMER" };
                 Collection<GrantedAuthority> role = AuthorityUtils.createAuthorityList(strRole);
                 obj.setPw(""); // pw => null 이라 오류나서 추가
-                User user = new User( obj.getId(), obj.getPw(), role ); // import org.springframework.security.core.userdetails.User;
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, role);
+                User user = new CustomerUser(obj.getId(), obj.getPw(), role, obj.getNickname()); // import
+                // org.springframework.security.core.userdetails.User;
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user,
+                        null, role);
 
                 // 수동으로 세션에 저장(로그인)
                 SecurityContext context = SecurityContextHolder.createEmptyContext();
@@ -60,7 +63,7 @@ public class SeRestCustomerController {
                 retMap.put("ret", 1);
             }
             // 없으면 ret:0 반환
-            else if(obj == null){
+            else if (obj == null) {
                 log.info("카카오로그인 => {널이다 널}");
                 retMap.put("ret", 0);
             }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.gr.GrPurchaseItemMapper">
+
+    <!-- 공구가 많이 열린 물품 5개 -->
+    <select id="selectManyPurchaseItem" resultType="map">
+        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> 5 ORDER BY ROWNUM ASC
+    </select>
+
+    <!-- 물품 대표이미지 가져오기
+    <select id="selectItemImageOne" resultType="ItemImage">
+        SELECT NVL(min(no), 0) FROM ItemImage WHERE itemNo=#{itemno}
+    </select> -->
+        
+    
+</mapper>

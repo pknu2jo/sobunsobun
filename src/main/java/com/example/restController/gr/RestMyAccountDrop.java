@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.Customer;
+import com.example.dto.CustomerAddress;
 import com.example.mapper.gr.GrCustomerMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,8 @@ public class RestMyAccountDrop {
             // Customer customer = new Customer();
             // customer.setId(id);
             int ret = cMapper.myaccountdrop(customer);
+            CustomerAddress c = cMapper.selectOneCustomerAddress(customer.getId());
+            cMapper.deletemyaddress(c);
             retMap.put("result", ret);
 
         } catch (Exception e) {

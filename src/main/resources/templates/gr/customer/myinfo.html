@@ -129,7 +129,7 @@
             content: '';
             width: 1px;
             height: 100%;
-            background-color: #e5e5e5;
+            background-color: #7e7b7b;
             display: block;
             position: absolute;
             top: 0;
@@ -295,6 +295,11 @@
             margin: 0;
         }
 
+        .changepassword .pw1{
+            padding-bottom: 13px;
+            vertical-align: middle;
+        }
+
         .changepassword input[type="password"]{
             height: 40px;
             width: 360px;
@@ -304,7 +309,11 @@
             background-color: #f2f2f2;
             border: 1px solid #efefef;
             font-size: 14px;
-            vertical-align: middle;
+        }
+
+        .changepassword .pw1{
+            display: inline-block;
+            width: 800px;
         }
 
         .changepassword label{
@@ -314,7 +323,17 @@
             line-height: 40px;
             float: left;
             margin-right: 50px;
+            
         }
+
+        .changepassword .pwcheck{
+            width: 200px;
+            font-size: 14px;
+            vertical-align: middle;
+            float: right;
+        }
+
+        
 
         .changepassword .btn-password{
             min-width: 120px;
@@ -465,6 +484,8 @@
             </div>
         </div>
 
+        
+
         <div class="myinfo">
             <div class="title">
                 <h3>회원정보 수정</h3><br/>
@@ -472,7 +493,8 @@
             </div>
         </div>
 
-        <form th:action="@{/customer/myinfo.do}" method="post">
+        <!-- <form th:action="@{/customer/myinfo.do}" method="post" > -->
+        <form th:action="@{/customer/myinfo.do}" method="post" id="form">
             <div class="table-box d-flex justify-content-center">
                 <table class="tbl_info">
                     <tbody>
@@ -503,16 +525,18 @@
                             <td>
                                 <div class="changepassword">
                                     <p>
-                                        <div class="pw1">
+                                        <div class="pw1" >
                                             <label>새 비밀번호</label>
                                             <input type="password" id="pw" name="pw">
+                                            <label id="pwcheck" name="pwcheck" class="pwcheck"></label>
                                         </div>
                                     </p>
                                     <p>
                                         <div class="pw2">
                                             <label>새 비밀번호 확인</label>
-                                            <input type="password" id="pwConfirm" name="pwConfirm">
-                                            <button class="btn-password" type="button" name="button">변경</button>
+                                            <input type="password" id="pwConfirm" name="pwConfirm" onkeyup="isSame()">
+                                            <button class="btn-password" id="button1" type="button" name="button1" onclick="formAction1(1)" >변경</button>
+                                            <!-- <button class="btn-password" type="button" name="button"  >변경</button> -->
                                         </div>
                                     </p>
                                 </div>
@@ -542,14 +566,17 @@
                 
 
             </div>
+
+        
         
 
             <div class="total_btn d-flex justify-content-center">
-                <button class="cancel-btn" type="button" name="button" onclick="location.href='/SOBUN/customer/mypage.do'">취소</button>
-                <button class="confirm-black" type="submit" name="button" >수정</button>
+                <button class="cancel-btn" type="button" name="button" th:onclick="location.href='/SOBUN/customer/mypage.do'">취소</button>
+                <button class="confirm-black" type="button" name="button" onclick="formAction1(2)" >수정</button>
+                <!-- <button class="confirm-black" type="button" name="button"  >수정</button> -->
             </div>
-
         </form>
+        
         
 
         
@@ -563,8 +590,28 @@
 
     <!-- script-->
 
-    <!-- 이메일 셀렉박스 -->
-    <script>
+    
+    <script th:inline="javascript" type="text/javascript">
+
+        const id = /*[[${user.username}]]*/"";
+        console.log(id);
+        const pwConfirm = document.querySelector("#pwConfirm");
+        const pw = document.querySelector("#pw");
+        const pwcheck = document.querySelector("#pwcheck");
+        const button1 = document.querySelector('#button1');
+
+        if(id.indexOf("@k") != -1 ){ // 카카오톡 로그인일 때
+
+            pw.disabled = true;
+            pw.style.backgroundColor = '#f2f2f2';
+            pw.placeholder = '변경 불가';
+            pwConfirm.disabled = true;
+            pwConfirm.style.backgroundColor = '#f2f2f2';
+            pwConfirm.placeholder='변경 불가';
+            button1.hidden = true;
+        } 
+
+        // 이메일 셀렉박스
         function selectEmail(ele){
             var $ele = $(ele);
             var $email2 = $('input[name=email2]');
@@ -579,8 +626,54 @@
                 $email2.val($ele.val());
             }
         }
+
+        // 비밀번호 확인
+        function isSame(){
+            const pw = document.querySelector("input[name='pw']");
+            const pwConfirm = document.querySelector("input[name='pwConfirm']");
+
+            if( pw.value !== pwConfirm.value ){
+                document.getElementById("pwcheck").innerText = "일치하지 않는 암호입니다";
+                document.getElementById("pwcheck").style.color = 'red';
+            }
+            else {
+                document.getElementById("pwcheck").innerText = "암호가 일치합니다";
+                document.getElementById("pwcheck").style.color = 'black';
+            }
+        }
+
+        function formAction1(code){
+
+            const form = document.getElementById('form');
+
+            if(code === 1 ){
+                const pw = document.querySelector("input[name='pw']");
+                const pwConfirm = document.querySelector("input[name='pwConfirm']");
+
+                // 비밀번호변경 유효성 검사
+                if( pw.value !== pwConfirm.value ){
+                    alert("암호가 일치하지 않습니다");
+                    pwConfirm.focus();
+                    return false;
+                }
+                else{
+                    form.action = /*[[@{/customer/updatepw.do}]]*/'';
+                    console.log(/*[[@{/customer/updatepw.do}]]*/'');
+                    form.submit();
+                }
+            }
+            else if(code === 2 ){
+                form.action = /*[[@{/customer/myinfo.do}]]*/'';
+                form.submit();
+            }
+
+        }
+
+ 
+
     </script>
 
+ 
     
 </body>
 </html>

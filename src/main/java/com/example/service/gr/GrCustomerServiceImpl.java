@@ -47,6 +47,17 @@ public class GrCustomerServiceImpl implements GrCustomerService {
         }
     }
 
+    // 회원탈퇴시 주소 삭제
+    @Override
+    public int deletemyaddress(CustomerAddress customeraddress) {
+        try {
+            return cMapper.deletemyaddress(customeraddress);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
     // 회원정보수정
     @Override
     public int updateinfo(Customer customer) {
@@ -88,6 +99,16 @@ public class GrCustomerServiceImpl implements GrCustomerService {
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
+        }
+    }
+
+    @Override
+    public Customer searchkakao(String id) {
+        try {
+            return cMapper.searchkakao(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
