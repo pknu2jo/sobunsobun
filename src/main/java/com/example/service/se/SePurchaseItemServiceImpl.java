@@ -27,9 +27,9 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
     // --------------------------------------------------------------------------------------------
     // 공구가 많이 열린 물품 8개
     @Override
-    public List<Map<String, Object>> selectManyPurchaseItem() {
+    public List<Map<String, Object>> selectManyPurchaseItem(long no) {
         try {
-            return piMapper.selectManyPurchaseItem();
+            return piMapper.selectManyPurchaseItem(no);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -108,6 +108,17 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
         } catch (Exception e) {
              e.printStackTrace();
              return null;
+        }
+    }
+
+    // 물품이 현재 공구 중인지 확인
+    @Override
+    public long selectPurchaseChk(long itemno) {
+        try {
+            return piMapper.selectPurchaseChk(itemno);
+        } catch (Exception e) {
+             e.printStackTrace();
+             return 0L;
         }
     }
     

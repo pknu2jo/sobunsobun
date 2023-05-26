@@ -3,8 +3,8 @@
 
 <mapper namespace="com.example.mapper.se.SePurchaseItemMapper">
 
-    <select id="selectManyPurchaseItem" resultType="map">
-        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> 8 ORDER BY ROWNUM ASC
+    <select id="selectManyPurchaseItem" parameterType="long" resultType="map">
+        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> #{no} ORDER BY ROWNUM ASC
     </select>
         
     <select id="selectDeadLinePurchaseItem" parameterType="long" resultType="map">
@@ -27,7 +27,11 @@
     </select>
 
     <select id="selectScodeItemBest" parameterType="long" resultType="map">
-        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWN FROM SESELECTITEMLISTVIEW s WHERE scode = #{scode}) WHERE ROWN <![CDATA[ <= ]]> 6 ORDER BY purchasecnt DESC;
+        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWN FROM SESELECTITEMLISTVIEW s WHERE scode = #{scode}) WHERE ROWN <![CDATA[ <= ]]> 6 ORDER BY purchasecnt DESC
+    </select>
+
+    <select id="selectPurchaseChk" parameterType="long" resultType="long">
+        SELECT COUNT(*) purchasechk FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY PURCHASENO ORDER BY REGDATE DESC) rown FROM PURCHASESTATUS p WHERE itemno = #{itemno}) WHERE rown = 1 AND state = 0
     </select>
 
 </mapper>

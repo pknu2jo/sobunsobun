@@ -31,7 +31,7 @@ public class SePurchaseItemController {
     final SeCategoryService cateService;
 
     // ----------------------------------------------------------------------------------------------------
-    // 물품목록
+    // 물품목록 // 검색어 menu1, 소분류 menu2, 전체 menu3
     @GetMapping(value = "/selectlist.do")
     public String selectGET( 
         Model model,
@@ -41,22 +41,25 @@ public class SePurchaseItemController {
         @RequestParam(name = "orderby", defaultValue = "regdate", required = false) String orderby
     ) {
         try {
+            log.info("물품목록 param orderby => {}", orderby);
             List<Map<String, Object>> list = new ArrayList<>();
             Map<String, Object> map = new HashMap<>();
             map.put("sort", "DESC"); // 기본 정렬 DESC // 정렬 기준이 price 일 때만 ASC
 
             if(!orderby.equals("regdate")) { // 정렬 기준이 있을 때
-                map.put("tests", orderby);
+                map.put("orderby", orderby);
                 if(orderby.equals("price")) {
                     map.put("sort", "ASC"); // 정렬 기준이 price 일 때 ASC
                 }
             }
+
 
             if(!search.equals("")) { // 검색어가 있을 때
                 map.put("search", search);
                 list = piService.selectSearchItem(map);
                 // log.info("물품목록 검색 map => {}", map.toString());
                 log.info("물품목록 검색 => {}", list.toString());
+                model.addAttribute("menu", 1);
             }
             else if(search.equals("") && scode!=0) { // 검색어가 없고 소분류가 있을 때 => 1) 소분류 별 목록 / 2) Best 목록 / 3) 소분류에 해당하는 중분류 대분류
                 map.put("scode", scode);
@@ -74,10 +77,21 @@ public class SePurchaseItemController {
                 
                 // log.info("물품목록 소분류 => {}", list.toString());
                 // log.info("물품목록 소분류 => {}", bestlist.toString());
+                model.addAttribute("menu", 2);
             }
             else if(search.equals("") && scode==0) { // 검색어가 없고 소분류도 없을 때 => 전체 물품 출력
+                map.put("search", search);
+                log.info("전체 정렬 확인 => {}", map.toString());
                 list = piService.selectSearchItem(map);
-                log.info("물품목록 전체 => {}", list.toString());
+                // log.info("물품목록 전체 => {}", list.toString());
+
+                List<Map<String, Object>> bestlist = piService.selectManyPurchaseItem(6);
+                for(Map<String, Object> bestone : bestlist) {
+                    bestone.put("ITEMNO", ((BigDecimal) bestone.get("ITEMNO")).toPlainString());
+                    bestone.put("PRICE", ((BigDecimal) bestone.get("PRICE")).toPlainString());
+                }
+                model.addAttribute("bestlist", bestlist);
+                model.addAttribute("menu", 3);
             }
 
             for(Map<String, Object> obj : list) {

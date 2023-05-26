@@ -26,43 +26,75 @@
         
         <div class="container">
 
+            <!-- 검색어별 -->
+            <th:block th:if="${menu == 1}">
+                <th:block th:text="| 검색 결과 ${list.size} 개|"></th:block>
+                <hr>
+                검색목록
+                <hr>
+                <th:block th:each=" searchlist, idx : ${list} ">
+                    <th:block th:text="${searchlist.ITEMNO}"></th:block>
+                    <th:block th:text="${searchlist.PRICE}"></th:block>
+                    <label name="testchk"></label>
+                    <img th:src="@{/customer/seimage(itemno=${searchlist.ITEMNO})}" style="width: 100px;" th:onload="chkPurchase([[${idx.index}]], [[${searchlist.ITEMNO}]])">
+                </th:block>
+            </th:block>
+
+
+
             <!-- 소분류별 -->
-            소분류별
-            <hr>
-            BEST
-            <th:block th:each=" bestone : ${bestlist} ">
-                <th:block th:text="${bestone.ITEMNO}"></th:block>
-                <th:block th:text="${bestone.PRICE}"></th:block>
-                <img th:src="@{/customer/seimage(itemno=${bestone.ITEMNO})}" style="width: 100px;">
+            <th:block th:if="${menu == 2}">
+                소분류별
+                <hr>
+                BEST
+                <th:block th:each=" bestone : ${bestlist} ">
+                    <th:block th:text="${bestone.ITEMNO}"></th:block>
+                    <th:block th:text="${bestone.PRICE}"></th:block>
+                    <img th:src="@{/customer/seimage(itemno=${bestone.ITEMNO})}" style="width: 100px;">
+                </th:block>
+
+                <hr>
+                <th:block th:text="${cate.lname}"></th:block>
+                <th:block th:text="${cate.mname}"></th:block>
+                <th:block th:text="${cate.sname}"></th:block>
+                
+                <hr>
+                소분류별 전체목록
+                <th:block th:each=" scodelist, idx : ${list} ">
+                    <th:block th:text="${scodelist.ITEMNO}"></th:block>
+                    <th:block th:text="${scodelist.PRICE}"></th:block>
+                    <label name="testchk"></label>
+                    <img th:src="@{/customer/seimage(itemno=${scodelist.ITEMNO})}" style="width: 100px;" th:onload="chkPurchase([[${idx.index}]], [[${scodelist.ITEMNO}]])">
+                </th:block>
             </th:block>
 
-            <hr>
-            <th:block th:text="${cate.lname}"></th:block>
-            <th:block th:text="${cate.mname}"></th:block>
-            <th:block th:text="${cate.sname}"></th:block>
 
-            <hr>
-            소분류별 전체목록
-            <th:block th:each=" obj : ${list} ">
-                <th:block th:text="${obj.ITEMNO}"></th:block>
-                <th:block th:text="${obj.PRICE}"></th:block>
-                <img th:src="@{/customer/seimage(itemno=${obj.ITEMNO})}" style="width: 100px;">
-            </th:block>
 
             <!-- 전체목록 -->
-            <hr>
-            전체물품목록
-            <hr>
-            BEST
-            <hr>
-            전체목록
-            <th:block th:each=" obj : ${list} ">
-                <th:block th:text="${obj.ITEMNO}"></th:block>
-                <th:block th:text="${obj.PRICE}"></th:block>
-                <img th:src="@{/customer/seimage(itemno=${obj.ITEMNO})}" style="width: 100px;">
+            <th:block th:if="${menu == 3}">
+                <hr>
+                전체물품목록
+                <hr>
+                BEST
+                <th:block th:each=" bestone : ${bestlist} ">
+                    <th:block th:text="${bestone.ITEMNO}"></th:block>
+                    <th:block th:text="${bestone.PRICE}"></th:block>
+                    <img th:src="@{/customer/seimage(itemno=${bestone.ITEMNO})}" style="width: 100px;">
+                </th:block>
+                <hr>
+                <br><br><br>
+                전체목록
+                <a th:href="@{/customer/item/selectlist.do(orderby=price)}">저가순</a>
+                
+                공구 많이 열린 순
+                <hr>
+                <th:block th:each=" totallist, idx : ${list} ">
+                    <!-- <th:block th:text="${totallist.ITEMNO}"></th:block> -->
+                    <!-- <img th:src="@{/customer/seimage(itemno=${totallist.ITEMNO})}" style="width: 100px;" th:onload="chkPurchase([[${idx.index}]], [[${totallist.ITEMNO}]])"> -->
+                    <th:block th:text="${totallist.PRICE}"></th:block>
+                    <!-- <label name="testchk"></label> -->
+                </th:block>
             </th:block>
-
-            <!-- 검색어별 -->
 
         </div>
 
@@ -74,6 +106,25 @@
 
 
     <!-- script-->
+    <script th:inline="javascript" type="text/javascript">
+        const chkPurchase = async (idx, itemno) => {
+            // console.log(document.getElementsByName('testchk')[idx]);
+
+            const url = [[@{/api/purchasechk.json}]] + `?itemno=${itemno}`;
+            const headers = {"Content-Type" : "application/json"};
+            const { data } = await axios.get(url, {headers});
+            console.log(data.chk);
+
+            if( data.chk != 0){
+                document.getElementsByName('testchk')[idx].innerHTML = `공구열림`;
+                document.getElementsByName('testchk')[idx].style.color = 'red';
+            }
+            
+        }
+
+
+
+    </script>
     
 </body>
 </html>
