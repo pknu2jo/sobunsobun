@@ -65,5 +65,7 @@ public interface KmCustomerMapper {
     // 공구 인원 다 참 -> purchastStatus 일괄 insert
     public int PurchaseStatusInsertBatch(List<PurchaseStatus> obj);
 
+    // item 수량 -1 해주기
+    public int updateItemQuantity(long itemNo);
 
 }

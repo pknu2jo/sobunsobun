@@ -30,7 +30,7 @@
 				(PARTITION BY PURCHASENO ORDER BY no desc) recent 
 									FROM KMPURCHASEVIEW p WHERE itemno = #{itemno}
 									ORDER BY PURCHASENO DESC 
-				  ) WHERE recent=1 AND deadline > CURRENT_TIMESTAMP()  ORDER BY deadline DESC
+				  ) WHERE recent=1 AND deadline > CURRENT_TIMESTAMP()  ORDER BY deadline ASC
 		)
     </select>
 
@@ -105,5 +105,8 @@
         SELECT * FROM DUAL
     </insert>
 
-    
+    <!-- item 수량 -1 해주기 -->
+    <update>
+    </update>
+   
 </mapper>
