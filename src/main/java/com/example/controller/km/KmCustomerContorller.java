@@ -49,10 +49,12 @@ public class KmCustomerContorller {
     // ------------------------------------------------------------------------------
     // 물품 상세 조회
     @GetMapping(value = "/item/selectone.do")
-    public String selectitemGET(Model model, @AuthenticationPrincipal CustomerUser user) {
+    public String selectitemGET(@RequestParam(name = "itemno") long itemno,
+                                @AuthenticationPrincipal CustomerUser user,
+                                Model model ) {
         // @RequestParam(name = "no") long no 로 itemno 받기
 
-        long no = 11; // 물품 번호 (공구 열린거)
+        // long no = 11; // 물품 번호 (공구 열린거)
         // long no = 13; // 물품 번호 (공구 안열린거)
 
         log.info("물품 상세 조회 GET");
@@ -62,15 +64,15 @@ public class KmCustomerContorller {
             log.info("user 정보 보기 => {}", user);
 
             // 물품 정보 가져오기
-            Map<String, Object> item = customerService.selectOneItem(no);
+            Map<String, Object> item = customerService.selectOneItem(itemno);
             // itemView => {SELLERNAME=LG생활건강, ITEMPRICE=8.97E+4, SCATEGORYNAME=세탁세제, ITEMNO=11,
             //              SCATEGORYCODE=132, MCATEGORYNAME=세제/청소/주방세제, LCATEGORYNAME=생활용품, ITEMNAME=액체형세제 2.8L 6개}
 
             // 상품 번호에 해당하는 이미지 번호
-            List<Long> imgList = customerService.selectItemImageNoList(no);
+            List<Long> imgList = customerService.selectItemImageNoList(itemno);
 
             // 상품에 대한 열린 공구 가져오기 -> 남은 인원
-            List<kmPurchaseView> purchaseList = customerService.selectPurchaseList(no);
+            List<kmPurchaseView> purchaseList = customerService.selectPurchaseList(itemno);
             for (Iterator<kmPurchaseView> it = purchaseList.iterator(); it.hasNext();) {
                 kmPurchaseView obj = it.next();
 
