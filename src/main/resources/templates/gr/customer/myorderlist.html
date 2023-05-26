@@ -197,15 +197,15 @@
 
         /* 주문테이블 창 */
         table{
-            border-top: 2px solid #171717;
-            border-bottom: 1px solid #171717;
+            border-top: 3px solid black;
+            border-bottom: 2.1px solid black;
             table-layout: fixed;
             margin-bottom: 60px;
             width: 1240px;
             border-collapse: separate;
             display: table;
             text-indent: initial;
-            border-color: gray;
+            /* border-color: gray; */
         }
 
         thead{
@@ -226,7 +226,24 @@
             color: #000;
             text-align: center;
             vertical-align: middle;
-            border-bottom: 1px solid #b5b5b5;
+            border-bottom: 1px solid gray;
+
+        }
+
+        table thead th:first-child{
+            width: 180px;
+        }
+
+        table thead th.second{
+            width: 180px;
+        }
+
+        table thead th.forth{
+            width: 200px;
+        }
+
+        table thead th.fifth{
+            width: 200px;
         }
 
         tbody{
@@ -235,16 +252,27 @@
         }
 
         table tbody tr td{
-            height: 68px;
+            height: 110px;
             text-align: center;
             vertical-align: middle;
             padding: 14px 0;
+            border-top: 1px solid #e5e5e5;
         }
+
+        table tbody tr td .img{
+            float: left;
+            padding-left: 20px;
+            width: 80px;
+            height: 100px;
+        }
+        
+
+        
 
         table tbody tr td.date{
             counter-reset: #666;
             font-size: 14px;
-            
+            /* width: 150px; */
         }
 
 
@@ -349,18 +377,27 @@
                 <thead>
                     <tr>
                         <th>주문일</th>
-                        <th>공구주문번호</th>
-                        <th>상품정보</th>
-                        <th>상품금액</th>
-                        <th>진행상황</th>
+                        <th class="second">공구주문번호</th>
+                        <th class="third">상품정보</th>
+                        <th class="forth">상품금액</th>
+                        <th class="fifth">진행상황</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="date">2023.05.22</td>
-                        <td class="order_number">x03191224</td>
-                        <td class="product">상품상품</td>
-                        <td class="price">94,050</td>
+                    <tr th:each="obj:${list}">
+                        <td th:text="${#dates.format(obj.regdate, 'yyyy.MM.dd')}" class="date"></td>
+                        <td th:text="${obj.pono}" class="order_number"></td>
+                        <td class="product">
+                            <div class="img">
+                                <img th:src="@{/customer/seimage(itemno=${obj.itemno})}" style="width: 80px; height: 100px;">
+                            </div>
+                            <div class="text">
+                                <div class="title" th:text="${obj.name}"></div>
+                                <div class="detail" th:text="${obj.storename}"></div>
+                                <div class="detail" th:text="${obj.participant}"></div>
+                            </div>
+                        </td>
+                        <td th:text="${obj.price.longValue()}" class="price"></td>
                         <td class="status">배송완료</td>
                     </tr>
                 </tbody>
