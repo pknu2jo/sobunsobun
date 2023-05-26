@@ -7,12 +7,12 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.handler.CustomLogoutHandler;
+import com.example.handler.LoginSuccessHandler;
 import com.example.service.SecurityAdminSeviceImpl;
 import com.example.service.SecurityCustomerSeviceImpl;
 import com.example.service.SecuritySellerSeviceImpl;
@@ -91,8 +91,7 @@ public class SecurityConfig {
                 .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do", "/customer/findid.do","/customer/findidok.do",
                           "/customer/findpw.do", "/customer/findpwok.do", "/customer/seimage","/customer/kakaojoin.do",
                           "/customer/kakaojoinaction.do", "/customer/item/selectlist.do",
-                          "/customer/kmtest.do", "/customer/image", "/customer/item/selectone.do", "/customer/ordersuccess.do"
-                           )
+                          "/customer/kmtest.do", "/customer/image", "/customer/item/selectone.do")
                 .permitAll()
                 .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do", "/seller/home.do",
                              "/seller/findpw.do", "/seller/updateinfo.do", "/seller/updatepw.do")
@@ -114,7 +113,8 @@ public class SecurityConfig {
                 .loginProcessingUrl("/customer/loginaction.do")
                 .usernameParameter("id")
                 .passwordParameter("pw")
-                .defaultSuccessUrl("/customer/home.do")
+                // .defaultSuccessUrl("/customer/home.do")
+                .successHandler(new LoginSuccessHandler())
                 .permitAll();
 
         // 로그아웃 처리 (고객, 업체, 관리자 모두 해당)
