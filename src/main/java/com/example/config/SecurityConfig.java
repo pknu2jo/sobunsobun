@@ -88,7 +88,7 @@ public class SecurityConfig {
         // 권한 설정
         // http.authorizeRequests().anyRequest().permitAll();
         http.authorizeRequests()
-                .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do", 
+                .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do", "/customer/seimage",
                              "/customer/kmtest.do", "/customer/image", "/customer/item/selectone.do")
                 .permitAll()
                 .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do", "/seller/home.do",
