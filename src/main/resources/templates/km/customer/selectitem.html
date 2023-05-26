@@ -39,7 +39,8 @@
 
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;">
-        <div class="super_container">
+
+        <div class="super_container" style="margin-top: -100px;">
             <div class="container single_product_container">
                 <div class="row">
                     <div class="col">
@@ -54,7 +55,7 @@
                                 <li class="active">
                                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                                     <a href="#" th:text="${item.SCATEGORYNAME}"></a>
-                                    <!-- /customer/item/selectlist.do?scode=4 -->
+                                    <!-- th:href="/customer/item/selectlist.do(scode=${item.SCATEGORYCODE}) -->
                                 </li>
                             </ul>
                         </div>
@@ -131,7 +132,7 @@
                                                         <div class="modal-storage">
                                                             <span>수령지점</span>
                                                             <select id="select" name="storageNo">
-                                                                <option selected>---[필수 입력]---</option>
+                                                                <option value="0" selected >---[필수 입력]---</option>
                                                                 <option th:each="tmp:${storage}" name="storageNo" th:value="${tmp.no}" th:text="${tmp.name}"></option>
                                                             </select>
                                                         </div>
@@ -360,9 +361,16 @@
         const list = /*[[${ purchaseList }]]*/"";
         const itemprice = /*[[${item.ITEMPRICE}]]*/"";
 
-        console.log(list)
+        var username = "";
+        const user = /*[[${user}]]*/"";
+        if( user != null ) {
+            username = user.username;
+        }
+        console.log("username 확인 => {", username, "}")
+
         // 하나씩 꺼내기
         if (list != null) {
+
             for (let i = 0; i < list.length; i++) {
 
                 let tmp = list[i];
@@ -386,8 +394,20 @@
                         `<td>${tmp.storageName}</td>` +
                         `<td>` + price1 + `</td>` +
                         '<td id="clock' + i + '">' + deadline + '</td>' +
-                        `<td><button class="btn participant-btn" onclick="participate(${tmp.purchaseNo},${Math.floor(itemprice / tmp.participant)})">참여</button></td>` +
+                        `<td><input type='button' class="btn participant-btn" value="참여" 
+                                    onclick="participate(${tmp.purchaseNo},${Math.floor(itemprice / tmp.participant)})" 
+                                    id="participateBtn` +i+ `" ></td>` +
                         `</tr>`;
+
+                const participateBtn = document.querySelector("#participateBtn" + i);
+
+                for(let j=0; j<tmp.memIdList.length; j++) {
+
+                    if(tmp.memIdList[j] === username) {
+                        participateBtn.disabled = true;
+                        participateBtn.value = "참여중";
+                    }
+                }
             };
         };
 
@@ -426,11 +446,28 @@
 
         const itemNO = /*[[${item.ITEMNO}]]*/"";
         
+
+
         // 공구 개설 버튼
         function openPurchase() {
             // participante는 위의 addEventListener에서 처리함
+
+
+           // 여기에다가 유효성 검사실시
+           const select = document.querySelector('#select');
+        //    var options = select.options;
+        //    for(let i=0; i<options.length; i++) {
+        //     var optionValue = options[i].value;
+        //     console.log(optionValue);
+        //    } 
+
+           if (select.options[select.selectedIndex].value == 0) {
+                alert('수령지점을 선택해주세요.');
+                return;
+           }
+
+
             if( confirm('공구 개설하시겠습니까?') ) {
-                // const form = ;
 
                 document.querySelector('#form2').submit();
             } else {

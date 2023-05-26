@@ -36,7 +36,7 @@ public class UrlFilter extends OncePerRequestFilter {
             // url에 login, logout이 포함되지 않는 경우에만 보관
             // 다른 경우가 또 뭐가있지..?
 
-            if( !path.contains("login")  && !path.contains("logout") ) {
+            if( !path.contains("login")  && !path.contains("logout") && !path.contains("image")) {
                 HttpSession httpSession = request.getSession();                
 
                 if(query == null) {

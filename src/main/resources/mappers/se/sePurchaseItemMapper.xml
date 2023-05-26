@@ -6,6 +6,10 @@
     <select id="selectManyPurchaseItem" resultType="map">
         SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> 8 ORDER BY ROWNUM ASC
     </select>
+
+    <select id="selectManyPurchaseItem1" parameterType="long" resultType="map">
+        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> #{no} ORDER BY ROWNUM ASC
+    </select>
         
     <select id="selectDeadLinePurchaseItem" parameterType="long" resultType="map">
         SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY DEADLINE ASC) ROWNNUM FROM SEDEADLINEPURCHASEDDAYVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> #{no} ORDER BY ROWNUM ASC
@@ -16,6 +20,22 @@
         (SELECT *, ROW_NUMBER() OVER(ORDER BY distance ASC) ROWNNUM FROM 
         (SELECT * FROM (SELECT *, 6371 * ACOS( COS(RADIANS(35.1310310271862)) * COS(RADIANS(#{latitude})) * COS(RADIANS(#{longitude}) - RADIANS(129.0771369881199)) + SIN(RADIANS(35.1310310271862)) * SIN(RADIANS(#{latitude}))) distance 
         FROM SEAROUNDPURCHASEVIEW) WHERE distance <![CDATA[ <= ]]> 10)) WHERE ROWNNUM <![CDATA[ <= ]]> 5 ORDER BY ROWNNUM ASC
+    </select>
+
+    <select id="selectSearchItem" parameterType="map" resultType="map">
+        SELECT * FROM SESELECTITEMLISTVIEW s WHERE name LIKE '%' || #{search} || '%' ORDER BY '${orderby}' '${sort}'
+    </select>
+
+    <select id="selectScodeItem" parameterType="map" resultType="map">
+        SELECT * FROM SESELECTITEMLISTVIEW s WHERE scode = #{scode} ORDER BY '${orderby}' '${sort}'
+    </select>
+
+    <select id="selectScodeItemBest" parameterType="long" resultType="map">
+        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWN FROM SESELECTITEMLISTVIEW s WHERE scode = #{scode}) WHERE ROWN <![CDATA[ <= ]]> 6 ORDER BY purchasecnt DESC
+    </select>
+
+    <select id="selectPurchaseChk" parameterType="long" resultType="long">
+        SELECT COUNT(*) purchasechk FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY PURCHASENO ORDER BY REGDATE DESC) rown FROM PURCHASESTATUS p WHERE itemno = #{itemno}) WHERE rown = 1 AND state = 0
     </select>
 
 </mapper>
