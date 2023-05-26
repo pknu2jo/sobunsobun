@@ -88,7 +88,7 @@
     </insert>
 
     <!-- 공구에 참여 중인 memId 가져오기-->
-    <select id="selectIdList" parameterType="long" resultType="list">
+    <select id="selectIdList" parameterType="long" resultType="string">
         SELECT memId
         FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY memid ORDER BY no desc) recent 
  		FROM kmpurchaseview p WHERE purchaseno = #{purchaseNo}) 
@@ -97,16 +97,16 @@
 
     <!-- 공구 인원 다 차면 purchaseStatus 일괄 추가 -->
     <insert id="PurchaseStatusInsertBatch" parameterType="list">
-        INSERT ALL
-        <foreach collection='list' item='obj' separator=' '>
-            INTO purchaseStatus(state, memId, purchaseNo, itemNo)
-            VALUES(#{obj.state}, #{obj.memId}, #{obj.purchaseNo}, #{obj.itemNo})
+        INSERT INTO purchaseStatus(state, memId, purchaseNo, itemNo)
+        VALUES
+        <foreach collection='list' item='purchasestatus' separator=','>
+            (1, #{purchasestatus.memId}, #{purchasestatus.purchaseNo}, #{purchasestatus.itemNo}) 
         </foreach>
-        SELECT * FROM DUAL
     </insert>
 
     <!-- item 수량 -1 해주기 -->
-    <update>
+    <update id="updateItemQuantity" parameterType="long">
+        UPDATE item SET QUANTITY = QUANTITY-1 WHERE NO=#{itemNo}
     </update>
    
 </mapper>

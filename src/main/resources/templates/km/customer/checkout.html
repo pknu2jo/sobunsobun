@@ -345,21 +345,9 @@
             }
         }
 
-        async function requestPay() {
+        function requestPay() {
 
-            const url = /*[[@{/api/customer/order.json}]]*/"";
-            const headers = {"Content-Type":"application/json"};
-            const body = { participant : participant, storageNo:storageNo, 
-                            itemNo:itemNo, totalPrice:totalPrice,
-                            purchaseNo:purchaseNo, no: customer_id + makeMerchantUid,  
-                            };
-            const { data } = await axios.post(url, body, {headers:headers});
-            console.log("반환되는 결과", data);
-
-
-
-
-            console.log("공구 번호", purchaseNo);
+            
 
             IMP.request_pay({
                 pg: "html5_inicis",
@@ -404,25 +392,27 @@
 
 
                     // Rest로 보내보자~~~
-                    // Headers
-                    // DocumentType'
-                    // aef;jlejsfa
                     // rest Post로 해서 처리해 (공구 추가하기 || 공구 현황 추가하기)
                     // 처리해서 1이면 
                     // 여기서 다시 어쩌고 페이지로 반환해 실패하면 ㄷ~ 해
                     // 주문번호..?글킨해
-                    // const url = /*[[@{/api/customer/order.json}]]*/"";
-                    // const headers = {"Content-Type":"application/json"};
-                    // const body = { participant : participant, storageNo:storageNo, itemNo:itemNo,
-                    //                 purchaseNo:purchaseNo, orderNo: customer_id + makeMerchantUid,  
-                    //                 totalPrice:totalPrice};
-                    // const { data } = await axios.post(url, body, {headers:headers});
-                    // console.log("반환되는 결과", data);
+                    const url = /*[[@{/api/customer/order.json}]]*/"";
+                    const headers = {"Content-Type":"application/json"};
+                    const body = { participant : participant, storageNo:storageNo, 
+                                    itemNo:itemNo, totalPrice:totalPrice,
+                                    purchaseNo:purchaseNo, no: customer_id + makeMerchantUid,  
+                                    };
+                    const { data } = await axios.post(url, body, {headers:headers});
+                    console.log("반환되는 결과", data);
 
-                    // 성공하면 여기띄워
-                    // console.log("여기서 이제 replace 해줘..?");
-                    // location.replace(/*[[@{/customer/home.do}]]*/"" + `?no=`);
-
+                    
+                    if ( data.result == 200) {
+                        // 성공하면 결제 성공 페이지 띄워
+                        location.replace(/*[[@{/customer/home.do}]]*/"" + `?no=`);
+                    } else {
+                        // 실패하면 에러 페이지 띄워
+                        location.replace(/*[[@{/error/404page}]]*/"");
+                    }
                 } else {
                     console.log(rsp);
                 }

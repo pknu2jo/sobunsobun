@@ -89,21 +89,14 @@ public class KmRestCustomerController {
                 log.info("공구참여 ret 확인 => {} {}", ret2, ret3);
             }
 
-            if( purchaseNo == 0 ) {
-                if (ret1 == 1 && ret2 == 1 && ret3 == 1) {
-                    retMap.put("result", 200);
-                }
-            } else if( purchaseNo != 0 ) {
-                if (ret2 == 1 && ret3 == 1) {
-                    retMap.put("result", 200);
-                }
-            }  
+              
             
             // 공구의 참여 인원 다 찼는지 체크 해주기
             int remaingPerson = customerService.countRemainingPerson(purchaseNo);
 
+            int ret4 = 0;
+            int ret5 = 0;
             if ( remaingPerson == 0 ) {
-                
                 // 공구 참여중인 회원ID 목록 다 불러오기
                 List<String> idList =  customerService.selectIdList(purchaseNo);
                 
@@ -112,15 +105,36 @@ public class KmRestCustomerController {
                 List<PurchaseStatus> statusInsertList = new ArrayList<>();
                 for(int i=0; i<idList.size(); i++) {
                     PurchaseStatus obj = new PurchaseStatus();
-                    obj.setState(1);
                     obj.setMemId(idList.get(i));
                     obj.setPurchaseNo(purchaseNo);
                     obj.setItemNo(purchaseOrder.getItemNo());
+                    statusInsertList.add(obj);
                 }
+                ret4 = customerService.PurchaseStatusInsertBatch(statusInsertList);
+                log.info("rest로 일괄 추가해야할 statusInsertList 확인하기 => {}", statusInsertList.toString());
 
                 // item의 수량 -1 해주기
+                ret5 = customerService.updateItemQuantity(purchaseOrder.getItemNo());
             }
 
+            
+            log.info("rest로 확인하기 => {}, {}", ret4, ret5);
+
+            if( purchaseNo == 0 ) {
+                if (ret1 == 1 && ret2 == 1 && ret3 == 1) {
+                    retMap.put("result", 200);
+                }
+            } else if( purchaseNo != 0 ) {
+                if (ret2 == 1 && ret3 == 1) {
+                    if(remaingPerson != 0) {
+                        retMap.put("result", 200);
+                    } else {
+                        if(ret4 > 0 && ret5 == 1) {
+                            retMap.put("result", 200);
+                        }
+                    }
+                }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

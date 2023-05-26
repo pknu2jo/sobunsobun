@@ -223,20 +223,40 @@ public class KmCustomerContorller {
     public ResponseEntity<byte[]> image(@RequestParam(name = "no", defaultValue = "0") BigDecimal no)
             throws IOException {
 
-        ItemImage obj = customerService.findById(no);
-        HttpHeaders headers = new HttpHeaders();
+        try {
+            ItemImage obj = customerService.findById(no);
+            HttpHeaders headers = new HttpHeaders();
 
-        if (obj != null) {
-            if (obj.getFilesize().longValue() > 0L) {
-                headers.setContentType(MediaType.parseMediaType(obj.getFiletype()));
+            if (obj != null) {
+                if (obj.getFilesize().longValue() > 0L) {
+                    headers.setContentType(MediaType.parseMediaType(obj.getFiletype()));
 
-                return new ResponseEntity<>(obj.getFiledata(), headers, HttpStatus.OK);
+                    return new ResponseEntity<>(obj.getFiledata(), headers, HttpStatus.OK);
+                }
             }
-        }
 
-        InputStream is = resourceLoader.getResource(DEFAULTIMAGE).getInputStream();
-        headers.setContentType(MediaType.IMAGE_JPEG);
-        return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
+            InputStream is = resourceLoader.getResource(DEFAULTIMAGE).getInputStream();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        
+    }
+
+
+    @GetMapping(value = "/ordersuccess.do")
+    public String orderSuccessGET(Model model,
+                    @AuthenticationPrincipal CustomerUser user) {
+        try {
+            
+            model.addAttribute("user", user);
+            return "/km/customer/ordersuccess";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/customer/home.do";
+        }
     }
 
     @GetMapping(value = "/kmtest.do")
