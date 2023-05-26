@@ -194,8 +194,8 @@
                                     <!-- script -->
                                     <input type="date" id="fd" th:min="${sdate}" name="firstdate" th:onchange="firstdatechange()"/>
                                     &nbsp;~&nbsp;
-                                    <input type="date" id="sd" th:max="${today}" name="seconddate" th:onchange="seconddatechange()"/>                                   
-                                </div>                            
+                                    <input type="date" id="sd" min="" th:max="${today}" name="seconddate" th:onchange="seconddatechange()"/>                                   
+                                </div>                                
 
                                 <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
                                     <div style="display: inline-block; text-align: center;" >
@@ -311,8 +311,10 @@
 
     <!-- 달력 -->
     <script th:inline="javascript" type="text/javascript">
+
         function firstdatechange() {
-            var fd = document.getElementById("fd").value;            
+            var fd = document.getElementById("fd").value;
+            document.getElementById("sd").setAttribute( "min", fd );        
             console.log(fd);
         }
 

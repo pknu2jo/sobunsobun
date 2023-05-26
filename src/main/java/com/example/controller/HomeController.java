@@ -1,8 +1,11 @@
 package com.example.controller;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -14,9 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.entity.DeliveryEntity;
-import com.example.entity.Lcategory;
-import com.example.entity.Mcategory;
-import com.example.entity.Scategory;
 import com.example.entity.SellerEntity;
 import com.example.entity.ikh.DeliveryView;
 import com.example.entity.ikh.OrderView;
@@ -224,11 +224,21 @@ public class HomeController {
     // 배송
     @GetMapping(value="/delivery/search.do")
     public String deliverysearchGET(Model model,                          
+                @RequestParam(name="itemcode", defaultValue = "") BigDecimal itemcode,
+                @RequestParam(name="itemname", defaultValue = "") String itemname,
+                @RequestParam(name="address", defaultValue = "") String address,
+                @RequestParam(name="purchaseno", defaultValue = "") BigDecimal purchaseno,
                 @RequestParam(name="status", defaultValue = "") BigDecimal status,
                 @RequestParam(name="firstdate", defaultValue = "") String firstdate,
-                @RequestParam(name="seconddate", defaultValue = "") String seconddate,
-                @ModelAttribute DeliveryView deliveryview){
-        try {
+                @RequestParam(name="seconddate", defaultValue = "") String seconddate){        
+        try {            
+            // log.info("물품 코드 => {}", itemcode);
+            // log.info("물품 이름 => {}", itemname);
+            // log.info("주소 => {}", address);
+            // log.info("공구주문번호 => {}", purchaseno);
+            // log.info("status {}", status);
+            // log.info("firstdate {}", firstdate);
+            // log.info("seconddate {}", seconddate);            
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 배송상태별, 전체
             long one = dvRepository.countByDeliveryAndNo(BigDecimal.valueOf(0), "1078198143");
@@ -243,6 +253,7 @@ public class HomeController {
             model.addAttribute("total", total);
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 검색어
+            // log.info("전체 => {}", deliveryview.toString());
             // log.info("물품 코드 => {}", deliveryview.getItemcode());
             // log.info("물품 이름 => {}", deliveryview.getItemname());
             // log.info("주소 => {}", deliveryview.getAddress());
@@ -253,7 +264,7 @@ public class HomeController {
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 배송상태
             List<DeliveryEntity> dlist = dRepository.findAll();
-            model.addAttribute("statuslist", dlist);            
+            model.addAttribute("statuslist", dlist);           
             
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 카테고리
@@ -268,18 +279,380 @@ public class HomeController {
             LocalDate sdate =  new java.sql.Date(seller.getRegdate().getTime()).toLocalDate();
             model.addAttribute("sdate", sdate); // 업체의 생성 날짜 보내주기
             model.addAttribute("today", today); // 오늘 날짜 보내주기
+            Date date1 = new Date();
+            Date date2 = new Date();
+
+            if(!firstdate.equals("") && !seconddate.equals("")){
+                
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                date1 = dateFormat.parse(firstdate);
+                date2 = dateFormat.parse(seconddate);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date1);
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                date1 = calendar.getTime();
+
+                calendar.setTime(date2);
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                date2 = calendar.getTime();
+
+                log.info("date1 {}", date1);
+                log.info("date2 {}", date2);
+            }
+
             
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
-            // 테이블 
-            List<DeliveryView> list = dvRepository.findByNo("1078198143");
-            
+            // 테이블             
+            int a=0, b=0, c=0, d=0, e=0, f=0;            
+            //sum 구하기 (입력값이 있냐 없냐 확인)
+            if(itemcode != null){
+                a=1;                    
+            }
+            if(!itemname.equals("")){
+                b=1;
+            }
+            if(!address.equals("")){
+                c=1;
+            }
+            if(purchaseno != null){
+                d=1;
+            }                
+            if(status != null){
+                e=1;
+            }                   
+            if(!firstdate.equals("")){
+                f=1;
+            }
+            int sum = a+b+c+d+e+f;            
+            log.info("sum => {}", sum);
+
+            List<DeliveryView> list = new ArrayList<>();
+            // 입력값을 토대로 검색 조건 선택
+            if(sum==0){
+                list = dvRepository.findByNo("1078198143");
+            }
+            else if(sum==1){
+                if(a == 1 ){
+                    list = dvRepository.findByNoAndItemcode("1078198143", itemcode);
+                }
+                else if(b==1){
+                    list = dvRepository.findByNoAndItemnameContaining("1078198143", itemname);
+                }
+                else if(c==1){
+                    list = dvRepository.findByNoAndAddressContaining("1078198143", address);
+                }
+                else if(d==1){
+                    list = dvRepository.findByNoAndPurchaseno("1078198143", purchaseno);
+                }
+                else if(e==1){
+                    list = dvRepository.findByNoAndDelivery("1078198143", status);
+                }
+                else if(f==1){
+                    list = dvRepository.findByNoAndRegdateBetween("1078198143", date1, date2);
+                }
+            }
+            else if(sum==2){
+                if(a==1){
+                    if (b==1){
+                        list = dvRepository.findByNoAndItemcodeAndItemnameContaining("1078198143", itemcode, itemname);
+                    }
+                    else if(c==1){
+                        list = dvRepository.findByNoAndItemcodeAndAddressContaining("1078198143", itemcode, address);
+                    }
+                    else if(d==1){
+                        list = dvRepository.findByNoAndItemcodeAndPurchaseno("1078198143", itemcode, purchaseno);
+                    }
+                    else if(e==1){
+                        list = dvRepository.findByNoAndItemcodeAndDelivery("1078198143", itemcode, status);
+                    }
+                    else if(f==1){
+                        list = dvRepository.findByNoAndItemcodeAndRegdateBetween("1078198143", itemcode, date1, date2);
+                    }
+                }
+                else if(b==1){
+                    if(c==1){
+                        list = dvRepository.findByNoAndItemnameContainingAndAddressContaining("1078198143", itemname, address);
+                    }
+                    else if(d==1){
+                        list = dvRepository.findByNoAndItemnameContainingAndPurchaseno("1078198143", itemname, purchaseno);
+                    }
+                    else if(e==1){
+                        list = dvRepository.findByNoAndItemnameContainingAndDelivery("1078198143", itemname, status);
+                    }
+                    else if(f==1){
+                        list = dvRepository.findByNoAndItemnameContainingAndRegdateBetween("1078198143", itemname, date1, date2);
+                    }
+                }
+                else if(c==1){
+                    if(d==1){
+                        list = dvRepository.findByNoAndAddressContainingAndPurchaseno("1078198143", address, purchaseno);
+                    }
+                    else if(e==1){
+                        list = dvRepository.findByNoAndAddressContainingAndDelivery("1078198143", address, status);
+                    }
+                    else if(f==1){
+                        list = dvRepository.findByNoAndAddressContainingAndRegdateBetween("1078198143", address, date1, date2);
+                    }
+                }
+                else if(d==1){
+                    if(e==1){
+                        list = dvRepository.findByNoAndPurchasenoAndDelivery("1078198143", purchaseno, status);
+                    }
+                    else if(f==1){
+                        list = dvRepository.findByNoAndPurchasenoAndRegdateBetween("1078198143", purchaseno, date1, date2);
+                    }
+                }
+                else if(e==1){
+                    if(f==1){
+                        list = dvRepository.findByNoAndDeliveryAndRegdateBetween("1078198143", status, date1, date2);
+                    }
+                }
+            }
+            else if(sum==3){
+                if(a==1){
+                    if(b==1){
+                        if(c==1){
+                            list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndAddressContaining("1078198143", itemcode, itemname, address);
+                        }
+                        else if(d==1){
+                            list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndPurchaseno("1078198143", itemcode, itemname, purchaseno);
+                        }
+                        else if(e==1){
+                            list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndDelivery("1078198143", itemcode, itemname, status);
+                        }
+                        else if(f==1){
+                            list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndRegdateBetween("1078198143", itemcode, itemname, date1, date2);
+                        }
+                    }
+                    else if(c==1){
+                        if(d==1){
+                            list = dvRepository.findByNoAndItemcodeAndAddressContainingAndPurchaseno("1078198143", itemcode, address, purchaseno);
+                        }
+                        else if(e==1){
+                            list = dvRepository.findByNoAndItemcodeAndAddressContainingAndDelivery("1078198143", itemcode, address, status);
+                        }
+                        else if(f==1){
+                            list = dvRepository.findByNoAndItemcodeAndAddressContainingAndRegdateBetween("1078198143", itemcode, address, date1, date2);
+                        }
+                    }
+                    else if(d==1){
+                        if(e==1){
+                            list = dvRepository.findByNoAndItemcodeAndPurchasenoAndDelivery("1078198143", itemcode, purchaseno, status);
+                        }
+                        else if(f==1){
+                            list = dvRepository.findByNoAndItemcodeAndPurchasenoAndRegdateBetween("1078198143", itemcode, purchaseno, date1, date2);
+                        }
+                    }
+                    else if(e==1){
+                        if(f==1){
+                            list = dvRepository.findByNoAndItemcodeAndDeliveryAndRegdateBetween("1078198143", itemcode, status, date1, date2);
+                        }
+                    }
+                }
+                else if(b==1){
+                    if(c==1){
+                        if(d==1){
+                            list = dvRepository.findByNoAndItemnameContainingAndAddressContainingAndPurchaseno("1078198143", itemname, address, purchaseno);
+                        }
+                        else if(e==1){
+                            list = dvRepository.findByNoAndItemnameContainingAndAddressContainingAndDelivery("1078198143", itemname, address, status);
+                        }
+                        else if(f==1){
+                            list = dvRepository.findByNoAndItemnameContainingAndAddressContainingAndRegdateBetween("1078198143", itemname, address, date1, date2);
+                        }
+                    }
+                    else if(d==1){
+                        if(e==1){
+                            list = dvRepository.findByNoAndItemnameContainingAndPurchasenoAndDelivery("1078198143", itemname, purchaseno, status);
+                        }
+                        else if(f==1){
+                            list = dvRepository.findByNoAndItemnameContainingAndPurchasenoAndRegdateBetween("1078198143", itemname, purchaseno, date1, date2);
+                        }
+                    }
+                    else if(e==1){
+                        if(f==1){
+                            list = dvRepository.findByNoAndItemnameContainingAndDeliveryAndRegdateBetween("1078198143", itemname, status, date1, date2);
+                        }
+                    }
+                }
+                else if(c==1){
+                    if(d==1){
+                        if(e==1){
+                            list = dvRepository.findByNoAndAddressContainingAndPurchasenoAndDelivery("1078198143", address, purchaseno, status);
+                        }
+                        else if(f==1){
+                            list = dvRepository.findByNoAndItemnameContainingAndDeliveryAndRegdateBetween("1078198143", address, purchaseno, date1, date2);
+                        }
+                    }
+                    else if(e==1){
+                        if(f==1){
+                            list = dvRepository.findByNoAndAddressContainingAndDeliveryAndRegdateBetween("1078198143", address, status, date1, date2);
+                        }
+                    }
+                }
+                else if(d==1){
+                    if(e==1){
+                        if(f==1){
+                            list = dvRepository.findByNoAndPurchasenoAndDeliveryAndRegdateBetween("1078198143", purchaseno, status, date1, date2);
+                        }
+                    }
+                }                
+            }
+            else if(sum==4){
+                if(a==1){
+                    if(b==1){
+                        if(c==1){
+                            if(d==1){
+                                list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndAddressContainingAndPurchaseno("1078198143", itemcode, itemname, address, purchaseno);
+                            }
+                            else if(e==1){
+                                list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndAddressContainingAndDelivery("1078198143", itemcode, itemname, address, status);
+                            }
+                            else if(f==1){
+                                list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndAddressContainingAndRegdateBetween("1078198143", itemcode, itemname, address, date1, date2);
+                            }
+                        }
+                        if(d==1){
+                            if(e==1){
+                                list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndPurchasenoAndDelivery("1078198143", itemcode, itemname, purchaseno, status);
+                            }
+                            else if(f==1){
+                                list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndPurchasenoAndRegdateBetween("1078198143", itemcode, itemname, purchaseno, date1, date2);
+                            }
+                        }
+                        if(e==1){
+                            if(f==1){
+                                list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndDeliveryAndRegdateBetween("1078198143", itemcode, itemname, status, date1, date2);
+                            }
+                        }
+                    }
+                    else if(c==1){
+                        if(d==1){
+                            if(e==1){
+                                list = dvRepository.findByNoAndItemcodeAndAddressContainingAndPurchasenoAndDelivery("1078198143", itemcode, address, purchaseno, status);
+                            }
+                            else if(f==1){
+                                list = dvRepository.findByNoAndItemcodeAndAddressContainingAndPurchasenoAndRegdateBetween("1078198143", itemcode, address, purchaseno, date1, date2);
+                            }
+                        }
+                        else if(e==1){
+                            if(f==1){
+                                list = dvRepository.findByNoAndItemcodeAndAddressContainingAndDeliveryAndRegdateBetween("1078198143", itemcode, address, status, date1, date2);
+                            }
+                        }
+                    }
+                    else if(d==1){
+                        if(e==1){
+                            if(f==1){
+                                list = dvRepository.findByNoAndItemcodeAndPurchasenoAndDeliveryAndRegdateBetween("1078198143", itemcode, purchaseno, status, date1, date2);
+                            }
+                        }
+                    }
+                }
+                else if(b==1){
+                    if(c==1){
+                        if(d==1){
+                            if(e==1){
+                                list = dvRepository.findByNoAndItemnameContainingAndAddressContainingAndPurchasenoAndDelivery("1078198143", itemname, address, purchaseno, status);
+                            }
+                            else if(f==1){
+                                list = dvRepository.findByNoAndItemnameContainingAndAddressContainingAndPurchasenoAndRegdateBetween("1078198143", itemname, address, purchaseno, date1, date2);
+                            }
+                        }
+                        if(e==1){
+                            if(f==1){
+                                list = dvRepository.findByNoAndItemnameContainingAndAddressContainingAndDeliveryAndRegdateBetween("1078198143", itemname, address, status, date1, date2);
+                            }
+                        }
+                    }
+                    if(d==1){
+                        if(e==1){
+                            if(f==1){
+                                list = dvRepository.findByNoAndItemnameContainingAndPurchasenoAndDeliveryAndRegdateBetween("1078198143", itemname, purchaseno, status, date1, date2);
+                            }
+                        }
+                    }
+                }
+                else if(c==1){
+                    if(d==1){
+                        if(e==1){
+                            if(f==1){
+                                list = dvRepository.findByNoAndAddressContainingAndPurchasenoAndDeliveryAndRegdateBetween("1078198143", address, purchaseno, status, date1, date2);
+                            }
+                        }
+                    }
+                }
+            }
+            else if(sum==5){
+                if(a==1){
+                    if(b==1){
+                        // 123
+                        if(c==1){
+                            //1234
+                            if(d==1){
+                                if(e==1){
+                                    list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndAddressContainingAndPurchasenoAndDelivery("1078198143", itemcode, itemname, address, purchaseno, status);
+                                }
+                                else if(f==1){
+                                    list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndAddressContainingAndPurchasenoAndRegdateBetween("1078198143", itemcode, itemname, address, purchaseno, date1, date2);
+                                }
+                            }
+                            //1235
+                            else if(e==1){
+                                if(f==1){
+                                    list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndAddressContainingAndDeliveryAndRegdateBetween("1078198143", itemcode, itemname, address, status, date1, date2);
+                                }
+                            }
+                        }
+                        // 124
+                        else if(d==1){
+                            if(e==1){
+                                if(f==1){
+                                    list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndPurchasenoAndDeliveryAndRegdateBetween("1078198143", itemcode, itemname, purchaseno, status, date1, date2);
+                                }
+                            }
+                        }
+                    }
+                    //13
+                    else if(c==1){
+                        if(d==1){
+                            if(e==1){
+                                if(f==1){
+                                    list = dvRepository.findByNoAndItemcodeAndAddressContainingAndPurchasenoAndDeliveryAndRegdateBetween("1078198143", itemcode, address, purchaseno, status, date1, date2);
+                                }
+                            }
+                        }
+                    }
+                }
+                else if(b==1){
+                    if(c==1){
+                        if(d==1){
+                            if(e==1){
+                                if(f==1){
+                                    list = dvRepository.findByNoAndItemnameContainingAndAddressContainingAndPurchasenoAndDeliveryAndRegdateBetween("1078198143", itemname, address, purchaseno, status, date1, date2);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else{
+                list = dvRepository.findByNoAndItemcodeAndItemnameContainingAndAddressContainingAndPurchasenoAndDeliveryAndRegdateBetween("1078198143", itemcode, itemname, address, purchaseno, status, date1, date2);
+            }
 
             model.addAttribute("list", list);
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             return "/ikh/seller/delivery/search";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/home.do";
+            return "redirect:/seller/home.do";
         }
     }
 }
