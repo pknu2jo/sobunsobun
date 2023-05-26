@@ -25,11 +25,21 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
     final SeCustomerAddressRepository caRepository;
     
     // --------------------------------------------------------------------------------------------
-    // 공구가 많이 열린 물품 8개
+    // 공구가 많이 열린 물품 n개
     @Override
-    public List<Map<String, Object>> selectManyPurchaseItem(long no) {
+    public List<Map<String, Object>> selectManyPurchaseItem() {
         try {
-            return piMapper.selectManyPurchaseItem(no);
+            return piMapper.selectManyPurchaseItem();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Map<String, Object>> selectManyPurchaseItem1(long no) {
+        try {
+            return piMapper.selectManyPurchaseItem1(no);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -121,5 +131,7 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
              return 0L;
         }
     }
+
+
     
 }

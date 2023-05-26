@@ -344,7 +344,7 @@ public class SeCustomerContorller {
 
             if(user == null){ // 비로그인
                 // 공구가 많이 열린 물품 목록 => 비로그인 시에만 세팅
-                List<Map<String, Object>> manyList = piService.selectManyPurchaseItem(8);
+                List<Map<String, Object>> manyList = piService.selectManyPurchaseItem1(8);
                 // log.info("공구가 많이 열린 물품 => {}", manyList.toString());
                 for ( Map<String, Object> manyMap : manyList ) {
                     // System.out.println( ((BigDecimal) map.get("PRICE")).toPlainString() ); // 확인용
