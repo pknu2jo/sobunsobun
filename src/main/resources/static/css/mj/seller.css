@@ -398,4 +398,13 @@ main h3 {
     display: inline;
 }
 
+.mainimage {
+    width: 100px;
+    height: 100px;
+}
 
+.detailimage {
+    width: 100px;
+    height: 100px;
+    
+}

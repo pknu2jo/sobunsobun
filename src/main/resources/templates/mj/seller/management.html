@@ -132,7 +132,7 @@
                                                     <td
                                                         th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분 ss초')}">
                                                     </td>
-                                                    <td><a class="btn btn-primary" th:href="@{/seller/itemimage/updateimage.do(no=${obj.no.longValue()})}">이미지 등록/수정</a></td>
+                                                    <td><a class="btn btn-primary" th:href="@{/seller/itemimage/selectlist.do(no=${obj.no.longValue()})}">이미지 등록/수정</a></td>
                                                 </tr>
                                             </tbody>
                                         </table>

@@ -40,7 +40,46 @@
 
 
                     <h3>이미지등록/수정</h3>
-                    대표이미지<img th:src="${item.imageUrl}" style="width:100px; height: 100px;">(가장먼저등록한 이미지) <br>
+                    <a th:href="@{/seller/item/management.do}"><button class="btn btn-primary">물품리스트</button></a><br>
+                    물품번호: <label th:text="${item.no}"></label><br>
+                    물품명: <label th:text="${item.name}"></label>
+                    <hr>
+
+                    대표이미지
+                    <div>
+
+                        <img th:src="${item.imageUrl}"  class="mainimage"> <br>
+                        <div class="modal">
+                            <span class="close">&times;</span>
+                            <img class="modal_content" id="img01">
+                          </div>
+                    </div>
+                    <form th:action="@{/seller/itemimage/insertimage.do(image=0)}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="item.no" th:value="${item.no}" /><br>
+                        <input type="file" name="tmpFile" accept="image/*"/><br>
+                        <input type="submit" value="이미지업로드" />
+                    </form>
+                    <hr>
+
+                    상세이미지
+                    <form th:action="@{/seller/itemimage/deleteimage.do}" method="post">
+                        <input type="submit" value="선택삭제">
+                        <div th:each="tmp : ${imageList}">
+                            <input type="hidden" name="item.no" th:value="${item.no}" /><br>
+                            <input type="checkbox" name="imageno" th:value="${tmp[0]}" >
+                            <label>[[${tmp[0]}]]</label>
+                            <img th:src="${tmp[1]}" class="detailimage">
+                        </div>
+                    </form>
+
+                    <h3>이미지등록</h3>
+                    <form th:action="@{/seller/itemimage/insertimage.do(image=1)}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="item.no" th:value="${item.no}" /><br>
+                        <input type="file" name="tmpFile[]" accept="image/*"/><br>
+                        <input type="submit" value="이미지업로드" />
+                    </form>
+
+                    <hr>
                     <!-- 글번호: <label th:text="${board1.no}"></label><br>
                     글제목: <label th:text="${board1.title}"></label> -->
 
@@ -97,10 +136,6 @@
             })
         });
         </script>
-
-    
-
-
 
     
 

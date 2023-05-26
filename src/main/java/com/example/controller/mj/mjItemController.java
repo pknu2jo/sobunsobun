@@ -137,24 +137,24 @@ public class mjItemController {
 
 /* ===========================이미지 등록/수정============================================== */
 
-    @GetMapping(value = "/item/updateimage.do")
-    public String updateimageGET(){
-        try {
-            return "/mj/seller/updateimage";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/seller/home.do";
-        }
-    }
-    // @PostMapping(value = "/item/updateimage.do")
-    // public String updateimagePOST(@ModelAttribute ItemImage obj){
+    // @GetMapping(value = "/item/updateimage.do")
+    // public String updateimageGET(){
     //     try {
-    //         // return "redirect:/seller/item/updateimage.do?no=" + obj.getItemNo().getNo().longValue();
+    //         return "/mj/seller/updateimage";
     //     } catch (Exception e) {
     //         e.printStackTrace();
     //         return "redirect:/seller/home.do";
     //     }
     // }
+    // // @PostMapping(value = "/item/updateimage.do")
+    // // public String updateimagePOST(@ModelAttribute ItemImage obj){
+    // //     try {
+    // //         // return "redirect:/seller/item/updateimage.do?no=" + obj.getItemNo().getNo().longValue();
+    // //     } catch (Exception e) {
+    // //         e.printStackTrace();
+    // //         return "redirect:/seller/home.do";
+    // //     }
+    // // }
 
     
 
@@ -266,18 +266,18 @@ public class mjItemController {
     }
     
 
-    @PostMapping(value = "/item/insert.do")
-    public String insertPOST(@ModelAttribute Item obj ){
-        try {
+    // @PostMapping(value = "/item/insert.do")
+    // public String insertPOST(@ModelAttribute Item obj ){
+    //     try {
 
-            log.info("obj => {}", obj.toString());
-            iRepository.save(obj);
-            return "redirect:/seller/item/insert.do";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/seller/home.do";
-        }
-    }
+    //         log.info("obj => {}", obj.toString());
+    //         iRepository.save(obj);
+    //         return "redirect:/seller/item/insert.do";
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return "redirect:/seller/home.do";
+    //     }
+    // }
 
     
 }
