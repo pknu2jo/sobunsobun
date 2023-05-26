@@ -8,11 +8,31 @@
     font-family: 'NanumSquare', sans-serif;
 }
 
-body{
-    background-color: #ffffff;
+html,
+body {
     height: 100%;
 }
 
+
+
+a {
+    text-decoration: none;
+    color: #1a7bcf;
+}
+
+body {
+    background-color: #ffffff;
+}
+
+footer {
+    flex-shrink: 0;
+  }
+
+.container-fluid {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
 
 /*-- 그냥 버튼 --*/
 .btn-dark {
@@ -100,12 +120,12 @@ ul {
     width: 225px;
     height: 100vh;
     z-index: 1001;
-    
+
 }
 
 .sb-nav-fixed .sb-topnav {
     z-index: 1039;
-    
+
 }
 
 
@@ -117,13 +137,13 @@ ul {
 
 .sb-nav-fixed #layoutTotal #layoutLeftSide .sb-sidenav .sb-sidenav-menu {
     overflow-y: auto;
-    
+
 }
 
 .sb-nav-fixed #layoutTotal #layoutContent {
     padding-left: 225px;
     top: 56px;
-    
+
 }
 
 /* 전체 레이아웃 */
@@ -195,7 +215,7 @@ ul {
     font-weight: 600;
     text-transform: uppercase;
     opacity: 1;
-    
+
 }
 
 .sb-topnav {
@@ -205,7 +225,7 @@ ul {
 
 }
 
-.navbar-brand{
+.navbar-brand {
     padding-right: 16px;
 }
 
@@ -434,4 +454,4 @@ ul {
 .footer {
     position: absolute;
     bottom: 0;
-  }
+}

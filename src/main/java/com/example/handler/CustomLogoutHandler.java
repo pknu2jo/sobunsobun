@@ -35,7 +35,7 @@ public class CustomLogoutHandler implements LogoutSuccessHandler {
             response.sendRedirect( request.getContextPath() + "/customer/home.do" );
             // response.sendRedirect( request.getContextPath() + backUrl );
             // backUrl은 안됩니다..왜냐면 로그아웃 누르면서 세션이 다 날아가기 때문ㅇ...
-        } else if ( role.equals("SELLER") ) { 
+        } else if ( role.equals("ROLE_SELLER") ) { 
             response.sendRedirect( request.getContextPath() + "/seller/login.do" );
         } else if ( role.equals("ADMIN") ) { 
             response.sendRedirect( request.getContextPath() + "/admin/login.do" );

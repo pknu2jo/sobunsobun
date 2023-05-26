@@ -151,6 +151,7 @@ public class JkSellerController {
     public ModelAndView updateInfoGET(@AuthenticationPrincipal User user, Model model) { // Security로 정보 받아옴.
         SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
         model.addAttribute("companyName", seller.getName().toString());
+        model.addAttribute("user", user);
 
         return new ModelAndView("jk/seller/mypage/updateinfo", "seller", seller);
         // 미리 get에 해당 업체의 정보를 템플릿에 담아서 띄움.
