@@ -3,7 +3,11 @@
 
 <mapper namespace="com.example.mapper.se.SePurchaseItemMapper">
 
-    <select id="selectManyPurchaseItem" parameterType="long" resultType="map">
+    <select id="selectManyPurchaseItem" resultType="map">
+        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> 8 ORDER BY ROWNUM ASC
+    </select>
+
+    <select id="selectManyPurchaseItem1" parameterType="long" resultType="map">
         SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> #{no} ORDER BY ROWNUM ASC
     </select>
         

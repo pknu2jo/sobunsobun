@@ -12,7 +12,8 @@ import com.example.entity.ItemImage;
 public interface SePurchaseItemService {
 
     // 공구가 많이 열린 물품 n개
-    public List<Map<String, Object>> selectManyPurchaseItem(long no);
+    public List<Map<String, Object>> selectManyPurchaseItem();
+    public List<Map<String, Object>> selectManyPurchaseItem1(long no);
 
     // 기한이 얼마 안 남은 공구 n 개
     public List<Map<String, Object>> selectDeadLinePurchaseItem(long no);

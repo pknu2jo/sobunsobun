@@ -85,7 +85,7 @@ public class SePurchaseItemController {
                 list = piService.selectSearchItem(map);
                 // log.info("물품목록 전체 => {}", list.toString());
 
-                List<Map<String, Object>> bestlist = piService.selectManyPurchaseItem(6);
+                List<Map<String, Object>> bestlist = piService.selectManyPurchaseItem1(6);
                 for(Map<String, Object> bestone : bestlist) {
                     bestone.put("ITEMNO", ((BigDecimal) bestone.get("ITEMNO")).toPlainString());
                     bestone.put("PRICE", ((BigDecimal) bestone.get("PRICE")).toPlainString());
