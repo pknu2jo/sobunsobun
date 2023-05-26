@@ -14,6 +14,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @MapperScan(basePackages = {"com.example.mapper"}) // 매퍼 위치 설정
 @ComponentScan(basePackages = {"com.example.controller",
 								"com.example.restController",
+								"com.example.restController.jk",
 							    "com.example.service",
 								"com.example.config",
 								"com.example.filter"}) // 컨트롤러, 서비스, 시큐리티 위치 설정

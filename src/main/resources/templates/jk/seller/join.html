@@ -35,7 +35,7 @@
                             id="lbl_pw" class="form-label">암호</label>
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="password" id="pw1" class="form-control" required onkeyup="pwCheck()" />
+                        <input type="password" id="pw1" class="form-control" onblur="pwCheck()" required />
                         <label for="pw1" id="lbl_pwCheck" class="form-label">암호재확인</label>
                     </div>
                     <div class="form-floating mb-2">
@@ -107,8 +107,8 @@
             var email = document.getElementById("email");
             var sample6_postcode = document.getElementById("sample6_postcode");
             var form = document.getElementById("form");
-            //비밀번호 영문자+숫자+특수조합(8~25자리 입력) 정규식
-            var pwCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+
+
 
             if (id.value == "") { // 해당 입력값이 없을 경우 같은말: if(!id.value)
                 alert("사업자번호(아이디)를 입력해주세요.");
@@ -119,12 +119,6 @@
 
             if (id.value.length < 10) { // 사업자번호가 10자리인지
                 alert("사업자번호가 너무 짧습니다. 다시 확인해주세요.");
-                id.focus();
-                return false;
-            };
-
-            if (idCheck.test(id.value)) { // 암호와 암호재확인값이 일치하는지
-                alert("사업자번호에는 문자나 기호를 사용할 수 없습니다.");
                 id.focus();
                 return false;
             };
@@ -140,6 +134,9 @@
                 pw.focus();
                 return false;
             };
+
+            //비밀번호 영문자+숫자+특수조합(8~25자리 입력) 정규식
+            var pwCheck = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
 
             if (!pwCheck.test(pw.value)) { // 암호와 암호재확인값이 일치하는지
                 alert("비밀번호는 영문자+숫자+특수문자 조합으로 8~25자리 사용해야 합니다.");
@@ -176,17 +173,17 @@
             form.submit(); //유효성 검사의 포인트   
         }
 
-
         async function ajaxIDCheck(e) {
             // console.log(e.value);
             if (e.value.length > 0) {
                 // rest api 호출
-                const url = /*[[@{/api/selleridcheck.json}]]*/""
-                url += `?id=${e.value}`;
+                var url = /*[[@{/api/selleridcheck.json}]]*/"";
+                url += `?id=${e.value}`
+                // console.log(e.value);
+                // console.log( url );
 
-                // console.log(url);
                 const headers = { "Content-Type": "application/json" };
-                const { data } = await axios.get(url, { headers });
+                const { data } = await axios.get(url, { headers: headers });
                 // console.log(data);
 
                 if (data.chk === 1) {
@@ -194,11 +191,11 @@
                     document.getElementById("lbl_check").innerText = '이미 사용중인 사업자번호입니다!';
                     document.getElementById("lbl_check").style.color = 'red';
                     document.getElementById("id").className = 'form-control is-invalid';
-                }
-                if (data.chk === 0) {
+                } else if (data.chk === 0) {
                     document.getElementById("lbl_check").innerText = '사업자번호 (아이디)';
                     document.getElementById("lbl_check").style.color = 'gray';
                     document.getElementById("id").className = 'form-control';
+
                 }
             }
         }
@@ -207,7 +204,6 @@
         const pwCheck = () => {
             const pw = document.getElementById("pw");
             const pw1 = document.getElementById("pw1");
-
 
             if (pw1.value.length < 8) {
                 document.getElementById("companyNewPwChk").innerText = "새 비밀번호 확인";

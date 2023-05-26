@@ -19,6 +19,7 @@
 
 <body>
 	<div>
+
 		<div class="text-center">
 			<img th:src="@{/images/jk/logo1.png}" class="img-fluid mx-auto d-block" style="max-width: 350px;">
 		</div>
@@ -39,6 +40,34 @@
 						<label for="pw" class="form-label">암호</label>
 					</div>
 					<br>
+
+					<!-- Button trigger modal -->
+					<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						Launch demo modal
+					</button> -->
+
+					<!-- Modal -->
+					<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+						aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									...
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary"
+										data-bs-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary">Save changes</button>
+								</div>
+							</div>
+						</div>
+					</div> -->
+
 					<hr />
 					<div class="container text-center d-grid gap-2" style="padding: 0;">
 						<!-- 여기서 type을 submit으로 잡고 유효성 검사를 하게되면 강제로 데이터가 넘어가기 때문에 button으로 지정해주어야 함! -->
@@ -60,11 +89,12 @@
 
 
 
+
 	<!-- sweetalert2 -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<!-- jQuery 추가 -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+		integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 	<!-- axios -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
 

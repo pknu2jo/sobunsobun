@@ -141,7 +141,7 @@ ul {
 
 /* 토글버튼 누를 시 사이드메뉴 숨기기 */
 .sb-sidenav-toggled #layoutTotal #layoutLeftSide {
-    transform: translateX(-225px);
+    transform: translateX(-250px);
 }
 
 .sb-sidenav-toggled #layoutTotal #layoutContent {
@@ -194,7 +194,7 @@ ul {
     color: white;
     font-weight: 600;
     text-transform: uppercase;
-    opacity: 0.7;
+    opacity: 1;
     
 }
 
@@ -205,9 +205,13 @@ ul {
 
 }
 
+.navbar-brand{
+    padding-right: 16px;
+}
+
 .sb-topnav .navbar-brand {
     width: 225px;
-    margin: 0;
+    margin: 10;
 }
 
 .sb-topnav.navbar-dark #sb-sidenav-toggle {

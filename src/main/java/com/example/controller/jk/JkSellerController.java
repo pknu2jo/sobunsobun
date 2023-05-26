@@ -58,20 +58,6 @@ public class JkSellerController {
         }
 
     }
-
-    // @PostMapping(value = "/logout.do")
-    // public String homePOST(HttpServletRequest request, HttpServletResponse
-    // response,
-    // @ModelAttribute SellerEntity seller) {
-    // log.info("seller logout => {}", seller);
-
-    // // 컨트롤러에서 logout처리하기
-    // Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    // if (auth != null) {
-    // new SecurityContextLogoutHandler().logout(request, response, auth);
-    // }
-    // return "/jk/seller/login";
-    // }
     /* --------------------------- 회원가입 (Mybatis) ----------------------------- */
 
     // http://127.0.0.1:5959/SOBUN/seller/join.do
@@ -114,15 +100,6 @@ public class JkSellerController {
         }
     }
 
-    // // GET, POST가 같은 동작을 함.
-    // // 로그아웃
-    // @RequestMapping(value = "/logout.do", method = { RequestMethod.GET,
-    // RequestMethod.POST })
-    // public String logoutPOST() {
-    // httpSession.invalidate(); // 세션의 정보를 모두 지움.
-    // return "redirect:/home.do";
-    // }
-
     // 비밀번호 찾기
     // http://127.0.0.1:5959/SOBUN/seller/findpw.do
     @GetMapping(value = "/findpw.do")
@@ -164,23 +141,6 @@ public class JkSellerController {
         model.addAttribute("companyName", seller.getName().toString());
         return ("jk/seller/mypage/pwinfocheck");
         // 미리 get에 해당 업체의 정보를 템플릿에 담아서 띄움.
-    }
-
-    @PostMapping(value = "/pwinfocheck.do")
-    public String infopwcheckPost(@ModelAttribute SellerEntity seller) {
-        log.info("pwinfocheck post => {}", seller);
-        try {
-            SellerEntity sellerOld = sRepository.findById(seller.getNo()).orElse(null);
-
-            if (bcpe.matches(seller.getPw(), sellerOld.getPw())) {
-                return("jk/seller/mypage/updateinfo");
-            }else {
-                return ("return:/pwinfocheck.do");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return("redirect:/seller/pwinfocheck.do");
-        }
     }
 
     // -------------------------정보변경-------------------------- //
@@ -243,15 +203,12 @@ public class JkSellerController {
     // return "";
     // }
     @PostMapping(value = "/updatepw.do")
-    public String updatepwPOST(@ModelAttribute SellerEntity seller, Model model) {
+    public String updatepwPOST(@ModelAttribute SellerEntity seller) {
         try {
             log.info("idInfo => {}", seller);
             // 세션 ID 이용하여 기존암호 받아오기
             SellerEntity sellerOld = sRepository.findById(seller.getNo()).orElse(null);
-            // 암호 대조(확인단계)
-            // seller.setPw(bcpe.encode(seller.getPw()));
             log.info("Info => {}", seller);
-            if (bcpe.matches(seller.getPw(), sellerOld.getPw())) {
                 // 기존암호가 일치한다면 새암호 & 새암호 확인 대조
                 /* -- newPw와 newPwCheck 사이의 유효성검사 필요! (JS) -- */
                 // 새 암호값으로 업데이트
@@ -260,15 +217,9 @@ public class JkSellerController {
                 // 저장
                 sRepository.save(sellerOld);
                 return "redirect:/seller/home.do";
-            } else {
-                String alertMessage = "현재 비밀번호가 일치하지 않습니다. 다시 확인해주세요.";
-                model.addAttribute("alertMessage", alertMessage);
-                return "redirect:/seller/updatepw.do";
-            }
-
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/seller/home.do";
+            return "redirect:/seller/updatepw.do";
         }
     }
 

@@ -40,28 +40,21 @@
                         <hr />
                         <form id="form" th:action="@{/seller/updatepw.do}" th:object="${seller}" method="post">
                             <input type="text" id="id" name="no" th:field="${seller.no}" hidden /><br />
-                            <div class="mb-3 form-group">
-                                <label for="pw" id="companyPwChk" class="form-label">현재 비밀번호</label>
-                                <input type="password" th:field="${seller.pw}" class="form-control" id="pw" name="pw"
-                                    required>
-                            </div>
                             <br>
-
                             <div class="mb-3 form-group">
                                 <label for="newPw" class="form-label">새 비밀번호</label>
                                 <input type="password" th:field="${seller.newPw}" class="form-control" id="newPw"
-                                    name="newPw" required>
+                                    name="newPw">
                             </div>
                             <br>
                             <div class="mb-3 form-group">
                                 <label for="newPwCheck" id="companyNewPwChk" class="form-label">새 비밀번호 확인</label>
                                 <input type="password" th:field="${seller.newPwCheck}" class="form-control"
-                                    id="newPwCheck" name="newPwCheck" onblur="pwCheck()" required>
+                                    id="newPwCheck" name="newPwCheck" onkeyup="pwCheck()">
                             </div>
                             <br>
                             <hr>
-                            <button type="button" class="btn btn-outline-dark"
-                                onclick="updatePw()">수정하기</button>
+                            <a id="okbutton" class="btn btn-outline-dark disabled" onclick="updatePw()">수정하기</a>
                         </form>
                     </div>
                 </div>
@@ -103,16 +96,9 @@
         }
 
         function updatePw() {
-            var oldPw = document.getElementById("pw");
             var newPw = document.getElementById("newPw");
             var newPwChk = document.getElementById("newPwCheck");
             var form = document.getElementById("form");
-
-            if (oldPw.value == "") { // 현재비번칸이 비었을 시
-                alert("현재 사용중인 비밀번호를 입력해주세요."); //alert창
-                oldPw.focus(); // 빈 입력창으로 커서 이동
-                return false; // 아래 코드부터 아무것도 전달 안함.
-            }
 
             if (newPw.value == "") { // 새 비밀번호칸
                 alert("사용하실 새로운 비밀번호를 입력해주세요.");
@@ -140,7 +126,6 @@
                 newPwChk.focus();
                 return false;
             };
-
             form.submit();
         }
 
@@ -162,23 +147,25 @@
                 alert("비밀번호를 다시 확인해주세요.")
             }
         }
-
         // 비밀번호 확인
         const pwCheck = () => {
             const pw = document.getElementById("newPw");
             const pw1 = document.getElementById("newPwCheck");
-
+            
             if (pw1.value.length < 8) {
                 document.getElementById("companyNewPwChk").innerText = "새 비밀번호 확인";
                 document.getElementById("companyNewPwChk").style.color = 'black';
+                document.getElementById("okbutton").className = "btn btn-outline-dark disabled";
             }
             else if (pw.value !== pw1.value) {
                 document.getElementById("companyNewPwChk").innerText = "암호가 일치하지 않습니다.";
                 document.getElementById("companyNewPwChk").style.color = 'red';
+                document.getElementById("okbutton").className = "btn btn-outline-dark disabled";
             }
             else if (pw.value == pw1.value) {
                 document.getElementById("companyNewPwChk").innerText = "암호가 일치합니다.";
                 document.getElementById("companyNewPwChk").style.color = 'blue';
+                document.getElementById("okbutton").className = "btn btn-dark";
             }
         }
 
