@@ -32,15 +32,15 @@ public class CustomLogoutHandler implements LogoutSuccessHandler {
         log.info("로그아웃 핸들러의 backUrl => {}", backUrl);
 
         if( role.equals("CUSTOMER") ) { 
-            System.out.println("hello ohhhhhh");
             response.sendRedirect( request.getContextPath() + "/customer/home.do" );
             // response.sendRedirect( request.getContextPath() + backUrl );
-        } else if ( role.equals("ROLE_SELLER") ) { 
+            // backUrl은 안됩니다..왜냐면 로그아웃 누르면서 세션이 다 날아가기 때문ㅇ...
+        } else if ( role.equals("SELLER") ) { 
             response.sendRedirect( request.getContextPath() + "/seller/login.do" );
-        } else if ( role.equals("ROLE_ADMIN") ) { 
+        } else if ( role.equals("ADMIN") ) { 
             response.sendRedirect( request.getContextPath() + "/admin/login.do" );
         } else {
-            response.sendRedirect(request.getContextPath() + "/customer/login.do");
+            response.sendRedirect(request.getContextPath() + "/customer/home.do");
         }
     }
     
