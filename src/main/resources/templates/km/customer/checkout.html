@@ -347,8 +347,6 @@
 
         function requestPay() {
 
-            
-
             IMP.request_pay({
                 pg: "html5_inicis",
                 pay_method: "card",
@@ -408,10 +406,10 @@
                     
                     if ( data.result == 200) {
                         // 성공하면 결제 성공 페이지 띄워
-                        location.replace(/*[[@{/customer/home.do}]]*/"" + `?no=`);
+                        location.replace(/*[[@{/customer/ordersuccess.do}]]*/"");
                     } else {
                         // 실패하면 에러 페이지 띄워
-                        location.replace(/*[[@{/error/404page}]]*/"");
+                        location.replace(/*[[@{/error}]]*/"");
                     }
                 } else {
                     console.log(rsp);

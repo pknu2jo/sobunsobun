@@ -51,7 +51,6 @@ public class KmCustomerContorller {
     @GetMapping(value = "/item/selectone.do")
     public String selectitemGET(Model model, @AuthenticationPrincipal CustomerUser user) {
         // @RequestParam(name = "no") long no 로 itemno 받기
-        // @Auth~ User로 세션 넘기기
 
         long no = 11; // 물품 번호 (공구 열린거)
         // long no = 13; // 물품 번호 (공구 안열린거)
@@ -59,6 +58,9 @@ public class KmCustomerContorller {
         log.info("물품 상세 조회 GET");
 
         try {
+
+            log.info("user 정보 보기 => {}", user);
+
             // 물품 정보 가져오기
             Map<String, Object> item = customerService.selectOneItem(no);
             // itemView => {SELLERNAME=LG생활건강, ITEMPRICE=8.97E+4, SCATEGORYNAME=세탁세제, ITEMNO=11,
@@ -78,6 +80,11 @@ public class KmCustomerContorller {
                 if (obj.getRemainingPerson() <= 0L) {
                     it.remove();
                 }
+            }
+
+            // 열린 공구들에 참가 중인 고객의 id list 가져오기
+            for (kmPurchaseView obj : purchaseList) {
+                obj.setMemIdList( customerService.selectIdList( obj.getPurchaseNo() ) );
             }
 
             // 보관소 지점 가져오기
