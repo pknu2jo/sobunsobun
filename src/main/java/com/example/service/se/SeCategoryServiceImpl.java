@@ -41,5 +41,16 @@ public class SeCategoryServiceImpl implements SeCategoryService {
             return null;
         }
     }
+
+    // 물품목록용 -------------------------------------------------------------
+    // 소분류에 해당하는 중분류, 대분류 불러오기
+    @Override
+    public CategoryAll selectByScode(long scode) {
+        try {
+            return cMapper.selectByScode(scode);
+        } catch (Exception e) {
+            return null;
+        }
+    }
     
 }

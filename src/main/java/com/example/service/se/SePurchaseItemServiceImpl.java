@@ -27,9 +27,9 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
     // --------------------------------------------------------------------------------------------
     // 공구가 많이 열린 물품 8개
     @Override
-    public List<Map<String, Object>> selectManyPurchaseItem() {
+    public List<Map<String, Object>> selectManyPurchaseItem(long no) {
         try {
-            return piMapper.selectManyPurchaseItem();
+            return piMapper.selectManyPurchaseItem(no);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -74,6 +74,51 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    // --------------------------------------------------------------------------------------------
+    // 물품목록 - 검색어
+    @Override
+    public List<Map<String, Object>> selectSearchItem(Map<String, Object> map) {
+       try {
+        return piMapper.selectSearchItem(map);
+       } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+       }
+    }
+
+    // 물품목록 - 소분류
+    @Override
+    public List<Map<String, Object>> selectScodeItem(Map<String, Object> map) {
+        try {
+            return piMapper.selectScodeItem(map);
+        } catch (Exception e) {
+             e.printStackTrace();
+             return null;
+        }
+    }
+
+    // 물품목록 - 소분류 BEST
+    @Override
+    public List<Map<String, Object>> selectScodeItemBest(long scode) {
+        try {
+            return piMapper.selectScodeItemBest(scode);
+        } catch (Exception e) {
+             e.printStackTrace();
+             return null;
+        }
+    }
+
+    // 물품이 현재 공구 중인지 확인
+    @Override
+    public long selectPurchaseChk(long itemno) {
+        try {
+            return piMapper.selectPurchaseChk(itemno);
+        } catch (Exception e) {
+             e.printStackTrace();
+             return 0L;
         }
     }
     

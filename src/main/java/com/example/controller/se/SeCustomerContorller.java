@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,7 +72,7 @@ public class SeCustomerContorller {
             return "/se/customer/join";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/customer/join.do";
+            return "redirect:/customer/home.do";
         }
     }
 
@@ -109,7 +111,7 @@ public class SeCustomerContorller {
             return "/se/customer/login";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/customer/login.do";
+            return "redirect:/customer/home.do";
         }
     }
 
@@ -144,6 +146,7 @@ public class SeCustomerContorller {
         }
     }
 
+    // 카카오로그인 - 회원가입
     @PostMapping(value="/kakaojoinaction.do")
     public String kakaojoinactionnPOST(
         @ModelAttribute CustomerEntity customer,
@@ -195,7 +198,7 @@ public class SeCustomerContorller {
             return "/se/customer/findid";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/customer/findid.do";
+            return "redirect:/customer/home.do";
         }
     }
     
@@ -250,7 +253,7 @@ public class SeCustomerContorller {
             return "/se/customer/findpw";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/customer/findpw.do";
+            return "redirect:/customer/home.do";
         }
     }
 
@@ -337,31 +340,37 @@ public class SeCustomerContorller {
     ) {
         try {
 
-            // 공구가 많이 열린 물품 목록 => 비로그인 시에만 세팅
-            List<Map<String, Object>> manyList = piService.selectManyPurchaseItem();
-            log.info("공구가 많이 열린 물품 => {}", manyList.toString());
-            for ( Map<String, Object> manyMap : manyList ) {
-                // System.out.println( ((BigDecimal) map.get("PRICE")).toPlainString() ); // 확인용
-                manyMap.put("PRICE", ((BigDecimal) manyMap.get("PRICE")).toPlainString());
+            long selectNo = 5; // 기한이 얼마 안 남은 공구 목록 출력 개수 // 비로그인 시 5개 // 로그인 시 8개 세팅
+
+            if(user == null){ // 비로그인
+                // 공구가 많이 열린 물품 목록 => 비로그인 시에만 세팅
+                List<Map<String, Object>> manyList = piService.selectManyPurchaseItem(8);
+                // log.info("공구가 많이 열린 물품 => {}", manyList.toString());
+                for ( Map<String, Object> manyMap : manyList ) {
+                    // System.out.println( ((BigDecimal) map.get("PRICE")).toPlainString() ); // 확인용
+                    manyMap.put("PRICE", ((BigDecimal) manyMap.get("PRICE")).toPlainString());
+                }
+                model.addAttribute("manyList", manyList);
             }
-            model.addAttribute("manyList", manyList);
+            else { // 로그인
+                selectNo = 8;
+                // 내 주위 실시간 공구 => 로그인 시에만 세팅
+                List<Map<String, Object>> aroundList = piService.selectAroundPurchaseItem("3");
+                // log.info("내 주위 실시간 공구 => {}", aroundList.toString());
+                for ( Map<String, Object> aroundMap : aroundList ) {
+                    aroundMap .put("PRICE", ((BigDecimal) aroundMap.get("PRICE")).toPlainString());
+                }
+                model.addAttribute("aroundList", aroundList);
+            }
 
             // 기한이 얼마 안 남은 공구 목록
-            long selectNo = 5; // 비로그인 시 5개 // 로그인 시 8개 세팅
             List<Map<String, Object>> deadList = piService.selectDeadLinePurchaseItem(selectNo);
-            log.info("기한이 얼마 안 남은 공구 => {}", deadList.toString());
+            // log.info("기한이 얼마 안 남은 공구 => {}", deadList.toString());
             for ( Map<String, Object> deadMap : deadList ) {
                 deadMap.put("PRICE", ((BigDecimal) deadMap.get("PRICE")).toPlainString());
             }
             model.addAttribute("deadList", deadList);
-            
-            // 내 주위 실시간 공구
-            List<Map<String, Object>> aroundList = piService.selectAroundPurchaseItem("3");
-            log.info("내 주위 실시간 공구 => {}", aroundList.toString());
-            for ( Map<String, Object> aroundMap : aroundList ) {
-                aroundMap .put("PRICE", ((BigDecimal) aroundMap.get("PRICE")).toPlainString());
-            }
-            model.addAttribute("aroundList", aroundList);
+
 
             model.addAttribute("user", user);
             
@@ -372,6 +381,7 @@ public class SeCustomerContorller {
         }
     }
     
+
     // ----------------------------------------------------------------------------------------------------
     // 이미지 url 생성용 => 물품 번호를 보내면 대표이미지를 반환
     // 127.0.0.1:5959/customer/seimage.do?itemno=?
