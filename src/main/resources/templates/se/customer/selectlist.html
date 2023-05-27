@@ -32,6 +32,8 @@
                 <hr>
                 검색목록
                 <hr>
+                <a th:href="@{/customer/item/selectlist.do(search=${param.search}, orderby=price)}">저가순</a>
+                <a th:href="@{/customer/item/selectlist.do(search=${param.search}, orderby=purchasecnt)}">공구 많이 열린 순</a>
                 <th:block th:each=" searchOne, idx : ${list} ">
                     <th:block th:text="${searchOne.itemno}"></th:block>
                     <th:block th:text="${searchOne.price}"></th:block>
@@ -58,8 +60,8 @@
                 
                 <hr>
                 소분류별 전체목록
-                <!-- <a th:href="@{/customer/item/selectlist.do(orderby=price)}">저가순</a> -->
-
+                <a th:href="@{/customer/item/selectlist.do(scode=${cate.scode}, orderby=price)}">저가순</a>
+                <a th:href="@{/customer/item/selectlist.do(scode=${cate.scode}, orderby=purchasecnt)}">공구 많이 열린 순</a>
                 <th:block th:each=" scodeOne, idx : ${list} ">
                     <th:block th:text="${scodeOne.itemno}"></th:block>
                     <th:block th:text="${scodeOne.price}"></th:block>
@@ -78,20 +80,19 @@
                 <hr>
                 <th:block th:each=" totalbestone : ${bestlist} ">
                     <th:block th:text="${totalbestone.itemno}"></th:block>
-                    <th:block th:text="${totalbestone.price}"></th:block>
-                    <img th:src="@{/customer/seimage(itemno=${totalbestone.itemno})}" style="width: 100px;">
+                    <!-- <th:block th:text="${totalbestone.price}"></th:block> -->
+                    <!-- <img th:src="@{/customer/seimage(itemno=${totalbestone.itemno})}" style="width: 100px;"> -->
                 </th:block>
                 <hr>
                 <br><br><br>
                 전체목록
                 <a th:href="@{/customer/item/selectlist.do(orderby=price)}">저가순</a>
-                
                 <a th:href="@{/customer/item/selectlist.do(orderby=purchasecnt)}">공구 많이 열린 순</a>
                 <hr>
                 <th:block th:each=" totalOne, idx : ${list} ">
-                    <!-- <th:block th:text="${totalOne.itemno}"></th:block> -->
+                    <th:block th:text="${totalOne.itemno}"></th:block>
                     <!-- <img th:src="@{/customer/seimage(itemno=${totalOne.itemno})}" style="width: 100px;" th:onload="chkPurchase([[${idx.index}]], [[${totalOne.itemno}]])"> -->
-                    <th:block th:text="${totalOne.price}"></th:block>
+                    <!-- <th:block th:text="${totalOne.price}"></th:block> -->
                     <label name="testchk"></label>
                 </th:block>
             </th:block>

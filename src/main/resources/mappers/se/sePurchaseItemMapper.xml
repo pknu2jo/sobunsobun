@@ -4,15 +4,15 @@
 <mapper namespace="com.example.mapper.se.SePurchaseItemMapper">
 
     <select id="selectManyPurchaseItem" resultType="map">
-        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> 8 ORDER BY ROWNUM ASC
+        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> 8 ORDER BY ROWNNUM ASC
     </select>
 
     <select id="selectManyPurchaseItem1" parameterType="long" resultType="com.example.dto.SeManyPurchaseItemView">
-        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> #{no} ORDER BY ROWNUM ASC
+        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> #{no} ORDER BY ROWNNUM ASC
     </select>
         
     <select id="selectDeadLinePurchaseItem" parameterType="long" resultType="com.example.dto.SeDeadlinePurchaseDdayView">
-        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY DEADLINE ASC) ROWNNUM FROM SEDEADLINEPURCHASEDDAYVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> #{no} ORDER BY ROWNUM ASC
+        SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY DEADLINE ASC) ROWNNUM FROM SEDEADLINEPURCHASEDDAYVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> #{no} ORDER BY ROWNNUM ASC
     </select>
 
     <select id="selectAroundPurchaseItem" parameterType="com.example.entity.CustomerAddressEntity" resultType="com.example.dto.SeAroundPurchaseView">
