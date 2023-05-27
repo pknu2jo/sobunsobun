@@ -50,7 +50,7 @@ public class JkSellerController {
 
         if (!user.getUsername().equals("_")) {
             SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
-            log.info("확인해봅시다 => {}", seller.toString());
+            // log.info("확인해봅시다 => {}", seller.toString());
             model.addAttribute("companyName", seller.getName().toString());
             return "/jk/seller/home";
         } else {
