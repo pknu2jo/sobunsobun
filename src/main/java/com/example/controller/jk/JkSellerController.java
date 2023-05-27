@@ -46,7 +46,7 @@ public class JkSellerController {
     // http://127.0.0.1:5959/SOBUN/seller/home.do
     @GetMapping(value = "/home.do")
     public String homeGET(@AuthenticationPrincipal User user, Model model) {
-        log.info("판매자 Home 정보 받아오기  => {}", user);
+        // log.info("판매자 Home 정보 받아오기  => {}", user);
 
         if (!user.getUsername().equals("_")) {
             SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
