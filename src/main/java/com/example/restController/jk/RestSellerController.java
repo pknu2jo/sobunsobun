@@ -2,6 +2,7 @@ package com.example.restController.jk;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.controller.jk.JkMailController;
 import com.example.entity.SellerEntity;
 import com.example.repository.jk.JkSellerRepository;
 import com.example.service.jk.JkSellerService;
@@ -28,12 +30,12 @@ public class RestSellerController {
 
     final JkSellerService sSellerService;
     final JkSellerRepository sRepository;
+    final JkMailController mailController;
+    String tempCodeChk = null;
 
-
-    
     // ------------------------ 사업자번호(id) 중복체크 (GET)-------------------------- //
 
-    @GetMapping("/selleridcheck.json")
+    @GetMapping(value = "/selleridcheck.json")
     public Map<String, Integer> idCheckGET(@RequestParam("id") String id) {
         log.info("사업자번호 중복체크 => {}", id.toString());
         Map<String, Integer> retMap = new HashMap<>();
@@ -47,11 +49,57 @@ public class RestSellerController {
         return retMap;
     }
 
-    // ------------------------ 본인인증 (GET)-------------------------- // 
+    // ------------------------ 이메일 인증코드 발송 (POST)-------------------------- //
+
+    @PostMapping(value = "/sellercodesend.json")
+    public Map<String, Object> codeCheckPOST(@RequestBody String email) {
+        log.info("Send Code To => {}", email);
+        Map<String, Object> retMap = new HashMap<>();
+        try {
+            String tempCode = UUID.randomUUID().toString().replace("-", ""); // 난수 생성시에 위의 문자들은 제외함.
+            tempCode = tempCode.substring(0, 6); // 6자리수의 새로운 암호 발급
+            if (tempCode != "") { // 확인코드 생성시
+                tempCodeChk = tempCode; //
+                mailController.sendChkMail(email, tempCode);
+                retMap.put("chk", 1);
+
+            } else { // 확인코드생성 실패시
+                retMap.put("chk", 0);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("chk", -1);
+        }
+        return retMap;
+    }
+
+    // ------------------------ 이메일 인증코드 확인 (POST)-------------------------- //
+    @PostMapping(value = "/sellercodecheck.json")
+    public Map<String, Integer> codeCheckGET(@RequestBody String inputCode) {
+        log.info("Input Code is => {}", inputCode);
+        Map<String, Integer> retMap = new HashMap<>();
+        try {
+            String code = inputCode.replace("\"", "");
+            log.info("Input Code is => {}", code);
+            log.info("Answer Code is => {}", tempCodeChk);
+            if (tempCodeChk.equals(code.toString())) {
+                retMap.put("chk", 1);
+            } else {
+                retMap.put("chk", 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("chk", -1);
+        }
+        return retMap;
+    }
+
+    // ------------------------ 본인인증 (GET)-------------------------- //
 
     @GetMapping(value = "/sellerpwcheck.json")
     public Map<String, Object> pwCheckGET(@RequestParam("redirect") String redirect) {
-        log.info(" redirect 경로 => {}",redirect.toString());
+        log.info(" redirect 경로 => {}", redirect.toString());
         Map<String, Object> retMap = new HashMap<>();
         try {
             retMap.put("param", redirect);
@@ -62,7 +110,7 @@ public class RestSellerController {
         return retMap;
     }
 
-    // ------------------------ 새 비밀번호 지정 (POST)-------------------------- // 
+    // ------------------------ 새 비밀번호 지정 (POST)-------------------------- //
 
     @PostMapping(value = "/sellerpwcheck.json")
     public Map<String, Object> pwCheckPOST(@RequestBody SellerEntity seller) {

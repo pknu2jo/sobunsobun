@@ -31,4 +31,18 @@ public class JkMailController {
 
         return sendEmail;
     }
+
+    @GetMapping("/sendcode")
+    public EmailMessage sendChkMail(String email, String ChkCode) {
+        EmailMessage sendEmail = new EmailMessage();
+
+        sendEmail.setAddress(email);
+        sendEmail.setTitle("[소분소분] - 이메일 인증 코드입니다.");
+        sendEmail.setMessage("고객님의 이메일 인증코드는 "  + "[" + ChkCode + "]" + " 입니다.\n로그인 후 비밀번호를 반드시 변경해주세요." );
+
+
+        mailService.sendMail(sendEmail);
+
+        return sendEmail;
+    }
 }

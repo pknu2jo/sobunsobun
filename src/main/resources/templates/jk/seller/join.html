@@ -25,10 +25,9 @@
             <div class="row">
                 <div class="col-sm">
                     <hr />
-                    <br>
                     <div class="form-floating mb-2">
-                        <input type="text" id="id" name="no" class="form-control" onblur="ajaxIDCheck(this)"> <label
-                            for="id" id="lbl_check" class="form-label">사업자번호 ( '-'는 생략 )</label>
+                        <input type="number" id="id" name="no" class="form-control" onblur="ajaxIDCheck(this)"> <label
+                            for="id" id="lbl_check" class="form-label">사업자번호 ( "-"는 생략 )</label>
                     </div>
                     <div class="form-floating mb-2">
                         <input type="password" id="pw" name="pw" class="form-control" required /> <label for="pw"
@@ -44,13 +43,27 @@
                     </div>
                     <div class="form-floating mb-2">
                         <input type="number" id="phone" name="phone" class="form-control" />
-                        <label for="phone" class="form-label">연락처 ( '-'는 생략 )</label>
+                        <label for="phone" class="form-label">연락처 ( "-"는 생략 )</label>
+                    </div>
+                    <hr />
+                    <div class="form-floating mb-2">
+                        <div class="input-group">
+                            <input type="email" id="email" name="email" class="form-control"
+                                placeholder="email@example.com" />
+                            <button type="button" id="emailVerificationBtn" class="btn btn-dark"
+                                onclick="enableEmailVerification()">이메일 인증</button>
+                        </div>
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="email" id="email" name="email" class="form-control" />
-                        <label for="email" class="form-label">이메일</label>
+                        <input type="text" id="verificationCode" name="verificationCode" class="form-control"
+                            disabled />
+                        <label for="verificationCode" id="lbl_verificationCode" class="form-label">이메일 인증 코드</label>
                     </div>
-                    <br>
+
+                    <div class="container text-center d-grid gap-2" style="padding: 0;">
+                        <input type="button" id="verButton" class="btn btn-dark mb-3" value="인증 확인"
+                            onclick="emailCodeCheck()">
+                    </div>
                     <hr />
                     <div class="container text-center d-grid gap-2" style="padding: 0;">
                         <input type="button" class="btn btn-dark mb-3" onclick="sample6_execDaumPostcode()"
@@ -58,22 +71,22 @@
                         <div class="row">
                             <div class="col">
                                 <input type="text" name="address1" class="form-control" id="sample6_postcode"
-                                    placeholder="우편번호" readonly style="background-color: rgb(230, 229, 229);">
+                                    placeholder="우편번호" readonly style="background-color: #e9ecef;">
                             </div>
                             <div class="col">
                                 <input type="text" name="address2" id="sample6_address" class="form-control"
-                                    placeholder="주소" readonly style="background-color: rgb(230, 229, 229);">
+                                    placeholder="주소" readonly style="background-color: #e9ecef;">
                             </div>
                         </div>
                         <input type="text" name="address3" class="form-control" id="sample6_detailAddress"
-                            placeholder="상세주소">
+                            placeholder="상세주소" disabled>
                         <input type="text" name="address4" class="form-control" id="sample6_extraAddress"
                             placeholder="추가정보" hidden>
                     </div>
                     <hr />
                     <div class="container text-center d-grid gap-2" style="padding: 0;">
                         <!-- 여기서 type을 submit으로 잡고 유효성 검사를 하게되면 강제로 데이터가 넘어가기 때문에 button으로 지정해주어야 함! -->
-                        <input type="button" value="가입하기" class="btn btn-dark" onclick="joinAction()" />
+                        <input type="button" id="joinButton" value="가입하기" class="btn btn-dark" onclick="joinAction()" />
                         <a th:href="@{/seller/login.do}" class="btn btn-outline-secondary">로그인 화면으로</a>
                     </div>
                 </div>
@@ -97,22 +110,26 @@
 
     <script th:inline="javascript">
 
+        var id = document.getElementById("id");
+        var pw = document.getElementById("pw");
+        var pw1 = document.getElementById("pw1");
+        var name = document.getElementById("name");
+        var emailadr = document.getElementById("email");
+        var sample6_postcode = document.getElementById("sample6_postcode");
+        var form = document.getElementById("form");
+        var code = document.getElementById("verificationCode");
+        var joinButton = document.getElementById("joinButton");
+        let checkCode = 0; // 인증여부 확인용 변수
 
         function joinAction() {
             //변수에 담아주기
-            var id = document.getElementById("id");
-            var pw = document.getElementById("pw");
-            var pw1 = document.getElementById("pw1");
-            var name = document.getElementById("name");
-            var email = document.getElementById("email");
-            var sample6_postcode = document.getElementById("sample6_postcode");
-            var form = document.getElementById("form");
 
 
 
             if (id.value == "") { // 해당 입력값이 없을 경우 같은말: if(!id.value)
                 alert("사업자번호(아이디)를 입력해주세요.");
                 id.focus(); //focus(): 커서가 깜빡이는 현상, blur(): 커서가 사라지는 현상
+
                 return false; //return: 반환하다 return false:  아무것도 반환하지 말아라 아래 코드부터 아무것도 진행하지 말것
             };
 
@@ -156,9 +173,15 @@
                 return false;
             };
 
-            if (email.value == "") { // 이메일이 입력됐는지
+            if (emailadr.value == "") { // 이메일이 입력됐는지
                 alert("이메일 주소를 입력해주세요.");
-                email.focus();
+                emailadr.focus();
+                return false;
+            }
+
+            if (code.value == "") { // 인증코드가 입력됐는지
+                alert("인증코드를 입력해주세요.");
+                code.focus();
                 return false;
             }
 
@@ -168,9 +191,18 @@
                 return false;
             }
 
-            alert("회원가입이 완료되었습니다.\n새로가입한 정보로 로그인해주세요.");
-            //입력 값 전송
-            form.submit(); //유효성 검사의 포인트   
+            if (checkCode === 0) {
+                alert("이메일 인증을 진행해주세요.");
+                code.focus();
+                return false;
+            }
+            else {
+                alert("회원가입이 완료되었습니다.\n새로가입한 정보로 로그인해주세요.");
+                //입력 값 전송
+                form.submit(); //유효성 검사의 포인트   
+            }
+
+
         }
 
         async function ajaxIDCheck(e) {
@@ -192,10 +224,9 @@
                     document.getElementById("lbl_check").style.color = 'red';
                     document.getElementById("id").className = 'form-control is-invalid';
                 } else if (data.chk === 0) {
-                    document.getElementById("lbl_check").innerText = '사업자번호 (아이디)';
+                    document.getElementById("lbl_check").innerText = '사업자번호 ( "-"는 생략 )';
                     document.getElementById("lbl_check").style.color = 'gray';
                     document.getElementById("id").className = 'form-control';
-
                 }
             }
         }
@@ -272,10 +303,90 @@
                         document.getElementById("sample6_address").value = addr;
                         // 커서를 상세주소 필드로 이동한다.
                         document.getElementById("sample6_detailAddress")
+                            .disabled = false;
+                        document.getElementById("sample6_detailAddress")
                             .focus();
                     }
                 }).open();
         }
+
+        // 이메일 인증코드 타이머
+        var verificationCodeEnabled = false; // 초기상태
+        var timerInterval;
+
+        async function enableEmailVerification() {
+
+            if (emailadr.value == "") { // 이메일값이 없을때 전송이 안되도록.
+                alert("이메일을 입력해주세요.")
+                return false;
+            }
+
+            if (!verificationCodeEnabled) { // if 이메일 인증버튼 클릭 시
+                document.getElementById("emailVerificationBtn").disabled = true; // 이메일 인증버튼 (입력 불가능상태로 전환)
+                document.getElementById("verificationCode").disabled = false; // 인증코드 입력칸 (입력상태 전환)
+                document.getElementById("email").disabled = true; // 이메일 입력칸 수정 불가능 상태로 전환
+                startTimer(); // 타이머 시작
+                verificationCodeEnabled = true;
+
+                const url = /*[[@{/api/sellercodesend.json}]]*/"";
+                const headers = { "Content-Type": "application/json" };
+                const body = emailadr.value;
+                const { data } = await axios.post(url, body, { headers: headers });
+
+                // console.log('반환되는 결과', data); // 결과 확인 완료. 작동잘됨.
+            }
+        }
+
+        function startTimer() {
+            var duration = 180; // 타이머는 3분
+            var timer = duration, minutes, seconds;
+            timerInterval = setInterval(function () {
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                document.getElementById("lbl_verificationCode").textContent = "남은 시간 " + minutes + ":" + seconds;
+
+                if (--timer < 0) { // 타이머 시간 종료시
+                    clearInterval(timerInterval); // 다시 처음상태로 되돌아감.
+                    document.getElementById("emailVerificationBtn").disabled = false;
+                    document.getElementById("verificationCode").disabled = true;
+                    document.getElementById("lbl_verificationCode").textContent = "이메일 인증 코드";
+                    document.getElementById("email").disabled = false;
+
+                    verificationCodeEnabled = false;
+                }
+            }, 1000);
+        }
+
+        async function emailCodeCheck() {
+            if (code.value == "") { // 이메일값이 없을때 전송이 안되도록.
+                alert("인증코드를 입력해주세요.")
+                return false;
+            }
+
+            const url = /*[[@{/api/sellercodecheck.json}]]*/"";
+            const headers = { "Content-Type": "application/json" };
+            const body = code.value;
+            const { data } = await axios.post(url, body, { headers: headers });
+            console.log('반환되는 결과', data);
+
+            if (data.chk === 0) { // 이메일값이 없을때 전송이 안되도록.
+                alert("인증번호가 일치하지 않습니다.")
+                return false;
+            } else if (data.chk === 1) {
+                alert("인증이 완료되었습니다.")
+                checkCode = 1;
+                code.disabled = true;
+                clearInterval(timerInterval);
+                document.getElementById("lbl_verificationCode").textContent = "인증이 완료되었습니다.";
+                document.getElementById("lbl_verificationCode").style.color = 'blue';
+                document.getElementById("verButton").disabled = true;
+            }
+        }
+
 
     </script>
 
