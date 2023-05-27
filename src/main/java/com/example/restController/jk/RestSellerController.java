@@ -5,9 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,7 +54,7 @@ public class RestSellerController {
         log.info("Send Code To => {}", email);
         Map<String, Object> retMap = new HashMap<>();
         try {
-            String tempCode = UUID.randomUUID().toString().replace("-", ""); // 난수 생성시에 위의 문자들은 제외함.
+            String tempCode = UUID.randomUUID().toString().replace("-", ""); // 난수 생성시에 - 문자는 제외함.
             tempCode = tempCode.substring(0, 6); // 6자리수의 새로운 암호 발급
             if (tempCode != "") { // 확인코드 생성시
                 tempCodeChk = tempCode; //
@@ -80,13 +78,12 @@ public class RestSellerController {
         log.info("Input Code is => {}", inputCode);
         Map<String, Integer> retMap = new HashMap<>();
         try {
-            String code = inputCode.replace("\"", "");
-            log.info("Input Code is => {}", code);
+            String code = inputCode.replace("\"", "");// " 표시를 없앰.
             log.info("Answer Code is => {}", tempCodeChk);
             if (tempCodeChk.equals(code.toString())) {
-                retMap.put("chk", 1);
+                retMap.put("chk", 1); // 일치하면 1
             } else {
-                retMap.put("chk", 0);
+                retMap.put("chk", 0); // 불일치하면 0 출력
             }
         } catch (Exception e) {
             e.printStackTrace();

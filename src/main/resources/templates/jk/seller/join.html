@@ -56,13 +56,13 @@
                     </div>
                     <div class="form-floating mb-2">
                         <input type="text" id="verificationCode" name="verificationCode" class="form-control"
-                            disabled />
-                        <label for="verificationCode" id="lbl_verificationCode" class="form-label">이메일 인증 코드</label>
+                            hidden />
+                        <label for="verificationCode" id="lbl_verificationCode" class="form-label" hidden>이메일 인증 코드</label>
                     </div>
 
                     <div class="container text-center d-grid gap-2" style="padding: 0;">
                         <input type="button" id="verButton" class="btn btn-dark mb-3" value="인증 확인"
-                            onclick="emailCodeCheck()">
+                            onclick="emailCodeCheck()" hidden>
                     </div>
                     <hr />
                     <div class="container text-center d-grid gap-2" style="padding: 0;">
@@ -119,7 +119,7 @@
         var form = document.getElementById("form");
         var code = document.getElementById("verificationCode");
         var joinButton = document.getElementById("joinButton");
-        let checkCode = 0; // 인증여부 확인용 변수
+        var checkCode = 0; // 인증여부 확인용 변수
 
         function joinAction() {
             //변수에 담아주기
@@ -323,8 +323,10 @@
 
             if (!verificationCodeEnabled) { // if 이메일 인증버튼 클릭 시
                 document.getElementById("emailVerificationBtn").disabled = true; // 이메일 인증버튼 (입력 불가능상태로 전환)
-                document.getElementById("verificationCode").disabled = false; // 인증코드 입력칸 (입력상태 전환)
-                document.getElementById("email").disabled = true; // 이메일 입력칸 수정 불가능 상태로 전환
+                document.getElementById("verificationCode").hidden = false; // 인증코드 입력칸 (입력상태 전환)
+                document.getElementById("verButton").hidden = false; // 인증버튼 활성화
+                document.getElementById("lbl_verificationCode").hidden = false; // 인증입력칸 라벨 활성화
+                document.getElementById("email").readOnly = true; // 이메일 입력칸 수정 불가능 상태로 전환
                 startTimer(); // 타이머 시작
                 verificationCodeEnabled = true;
 
@@ -354,7 +356,7 @@
                     document.getElementById("emailVerificationBtn").disabled = false;
                     document.getElementById("verificationCode").disabled = true;
                     document.getElementById("lbl_verificationCode").textContent = "이메일 인증 코드";
-                    document.getElementById("email").disabled = false;
+                    document.getElementById("email").readOnly = false;
 
                     verificationCodeEnabled = false;
                 }
