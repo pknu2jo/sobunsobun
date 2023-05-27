@@ -31,7 +31,7 @@ public class UrlFilter extends OncePerRequestFilter {
             String path = request.getServletPath();         // path == /api/student2/update.json
             String query = request.getQueryString();        //  query  == id=a
 
-            log.info("{}, {}, {}", contextPath, path, query);
+            log.info("왜 query 안찍혀.. {}, {}, {}", contextPath, path, query);
 
             // url에 login, logout이 포함되지 않는 경우에만 보관
             // 다른 경우가 또 뭐가있지..?

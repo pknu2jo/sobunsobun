@@ -120,7 +120,7 @@
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form th:action="@{/customer/item/selectone.do}" method="post" id="form2">
+                                                    <form th:action="@{/customer/item/selectone1.do}" method="post" id="form2">
                                                         <div class="modal-participant">
                                                             <span>참여인원</span>
                                                             <span class="minus">-</span>
@@ -468,7 +468,7 @@
 
             if( confirm('공구 참여하시겠습니까?') ) {
                 const form = document.createElement("form");
-                form.action = /*[[@{/customer/item/selectone.do}]]*/"";
+                form.action = /*[[@{/customer/item/selectone1.do}]]*/"";
                 form.style.display = "none";
                 form.method = "post";
 

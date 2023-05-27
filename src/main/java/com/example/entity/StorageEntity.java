@@ -26,41 +26,37 @@ import lombok.ToString;
 
 @Data
 @Entity
-@Table(name = "ITEM")
-@SequenceGenerator(name = "SEQ_ITEM_NO", sequenceName = "SEQ_ITEM_NO", initialValue = 1, allocationSize = 1)
-public class Item {
-
+@Table(name = "Storage")
+@SequenceGenerator(name = "seq_storage_no", sequenceName = "seq_storage_no", initialValue = 1, allocationSize = 1)
+public class StorageEntity {
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ITEM_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_storage_no")
     @Column(name = "NO")
     private BigDecimal no;
 
-    @Column(name = "NAME")
     private String name;
-    
-    @Column(name = "PRICE")
-    private BigDecimal price;
-    
-    @Column(name = "QUANTITY")
-    private BigDecimal quantity;
-    
+    private String phone;
+    private String postcode;
+    private String address1;
+    private String address2;
+    private String address3;
+
+    private BigDecimal latitude;
+    private BigDecimal longitude;
+
+    // @manyto 관리자 아이디
+    @ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ADMINID", referencedColumnName = "ID")
+    private AdminEntity adminEntity;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @CreationTimestamp
     @Column(name = "REGDATE", updatable = false)
     private Date regdate;
-    
-    @Column(name = "REGNO")
-    private String regNo;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SCATEGORYCODE", referencedColumnName = "CODE")
-    private Scategory scategoryCode;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "itemNo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    List<ItemImage> imageList = new ArrayList<>();
+    @OneToMany(mappedBy = "storageEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    List<PurchaseEntity> purchaseList = new ArrayList<>();
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "itemEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    List<ReviewEntity> reviewList = new ArrayList<>();
 }

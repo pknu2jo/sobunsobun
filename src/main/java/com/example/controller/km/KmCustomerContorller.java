@@ -18,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,7 +48,7 @@ public class KmCustomerContorller {
     // ------------------------------------------------------------------------------
     // 물품 상세 조회
     @GetMapping(value = "/item/selectone.do")
-    public String selectitemGET(@RequestParam(name = "itemno") long itemno,
+    public String selectitemGET(@RequestParam(name = "itemno") BigDecimal no,
                                 @AuthenticationPrincipal CustomerUser user,
                                 Model model ) {
         // @RequestParam(name = "no") long no 로 itemno 받기
@@ -60,6 +59,8 @@ public class KmCustomerContorller {
         log.info("물품 상세 조회 GET");
 
         try {
+
+            long itemno = Long.valueOf(no.toPlainString());
 
             log.info("user 정보 보기 => {}", user);
 
@@ -100,9 +101,9 @@ public class KmCustomerContorller {
             model.addAttribute("storage", storage);
             model.addAttribute("user", user);
 
-            log.info("보관소 정보 storage => {}", storage.toString());
-            log.info("purchaseList => {}", purchaseList);
-            log.info("itemView  => {}", item);
+            // log.info("보관소 정보 storage => {}", storage.toString());
+            // log.info("purchaseList => {}", purchaseList);
+            // log.info("itemView  => {}", item);
 
             return "/km/customer/selectitem";
         } catch (Exception e) {
@@ -112,7 +113,7 @@ public class KmCustomerContorller {
 
     }
 
-    @PostMapping(value = "/item/selectone.do")
+    @PostMapping(value = "/item/selectone1.do")
     public String selectitemPOST(@ModelAttribute kmPurchaseView obj, Model model) {
         try {
             log.info("post view 확인1 => {}", obj.toString());
@@ -127,6 +128,7 @@ public class KmCustomerContorller {
             // => participate, itemNo, storageNo 넘어옴
 
             httpSession.setAttribute("kmPurchaseView", obj);
+            
 
             return "redirect:/customer/item/order.do";
         } catch (Exception e) {
