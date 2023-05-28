@@ -125,10 +125,14 @@
             const longitude = document.querySelector("input[name='longitude']");
             // console.log(gender); // 비어있으면 null // .value => 오류
 
-            var idRegExp = /^[a-zA-z0-9]{4,12}$/;
-            if(!idRegExp.test(id)){
-                alert("아이디는 영문 대소문자와 숫자만 포함할 수 있습니다 (최대 12자리)");
-                id.value = "";
+            var regIdPw = /^[a-zA-Z0-9]*$/;
+            if(id.value.length <= 0){
+                alert("아이디를 입력하세요");
+                id.focus();
+                return false;
+            }
+            if(!regIdPw.test(id.value)){
+                alert("아이디는 영문 대소문자와 숫자만 포함할 수 있습니다");
                 id.focus();
                 return false;
             }

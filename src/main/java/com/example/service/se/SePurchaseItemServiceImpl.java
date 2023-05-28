@@ -6,6 +6,10 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.example.dto.SeAroundPurchaseView;
+import com.example.dto.SeDeadlinePurchaseDdayView;
+import com.example.dto.SeManyPurchaseItemView;
+import com.example.dto.SeSelectItemListView;
 import com.example.entity.CustomerAddressEntity;
 import com.example.entity.ItemImage;
 import com.example.mapper.se.SePurchaseItemMapper;
@@ -37,7 +41,7 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
     }
 
     @Override
-    public List<Map<String, Object>> selectManyPurchaseItem1(long no) {
+    public List<SeManyPurchaseItemView> selectManyPurchaseItem1(long no) {
         try {
             return piMapper.selectManyPurchaseItem1(no);
         } catch (Exception e) {
@@ -49,7 +53,7 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
     // --------------------------------------------------------------------------------------------
     // 기한이 얼마 안 남은 공구 n 개
     @Override
-    public List<Map<String, Object>> selectDeadLinePurchaseItem(long no) {
+    public List<SeDeadlinePurchaseDdayView> selectDeadLinePurchaseItem(long no) {
         try {
             return piMapper.selectDeadLinePurchaseItem(no);
         } catch (Exception e) {
@@ -77,7 +81,7 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
     // --------------------------------------------------------------------------------------------
     // 내 주위 실시간 공구 5개
     @Override
-    public List<Map<String, Object>> selectAroundPurchaseItem(String id) {
+    public List<SeAroundPurchaseView> selectAroundPurchaseItem(String id) {
         try {
             CustomerAddressEntity obj = caRepository.findByCustomer_id(id).get(0);
             return piMapper.selectAroundPurchaseItem(obj);
@@ -90,9 +94,9 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
     // --------------------------------------------------------------------------------------------
     // 물품목록 - 검색어
     @Override
-    public List<Map<String, Object>> selectSearchItem(Map<String, Object> map) {
+    public List<SeSelectItemListView> selectSearchItem(SeSelectItemListView obj) {
        try {
-        return piMapper.selectSearchItem(map);
+        return piMapper.selectSearchItem(obj);
        } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -101,9 +105,9 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
 
     // 물품목록 - 소분류
     @Override
-    public List<Map<String, Object>> selectScodeItem(Map<String, Object> map) {
+    public List<SeSelectItemListView> selectScodeItem(SeSelectItemListView obj) {
         try {
-            return piMapper.selectScodeItem(map);
+            return piMapper.selectScodeItem(obj);
         } catch (Exception e) {
              e.printStackTrace();
              return null;
@@ -112,7 +116,7 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
 
     // 물품목록 - 소분류 BEST
     @Override
-    public List<Map<String, Object>> selectScodeItemBest(long scode) {
+    public List<SeSelectItemListView> selectScodeItemBest(long scode) {
         try {
             return piMapper.selectScodeItemBest(scode);
         } catch (Exception e) {
