@@ -55,6 +55,7 @@ public class KmRestCustomerController {
                 
                 // 1. SEQ_PURCHASE_NO.NEXTVAL 가져오기
                 purchaseNo = customerService.selectSeqPurchaseNo();
+                log.info("rest에서 공구 개설 시 purchaseNo 확인 => {}", purchaseNo);
 
                 // 2. purchase 데이터 추가
                     // no(1에서 가져온 값 넣어줌), participant, storageNo
@@ -62,6 +63,9 @@ public class KmRestCustomerController {
                 purchase.setNo(purchaseNo);
                 purchase.setParticipant(purchaseOrder.getParticipant());
                 purchase.setStorageNo(purchaseOrder.getStorageNo());
+
+                log.info("rest에서 공구 개설 시 purchase 확인 => {}", purchase.toString());
+
                 ret1 = customerService.insertOnePurchase(purchase);      
 
             }      
@@ -92,13 +96,14 @@ public class KmRestCustomerController {
             
             // 공구의 참여 인원 다 찼는지 체크 해주기
             int remaingPerson = customerService.countRemainingPerson(purchaseNo);
+            log.info("rest remainingPerson => {}", remaingPerson);
 
             int ret4 = 0;
             int ret5 = 0;
             if ( remaingPerson == 0 ) {
                 // 공구 참여중인 회원ID 목록 다 불러오기
                 List<String> idList =  customerService.selectIdList(purchaseNo);
-                
+                log.info("rest idList => {}", idList.toString());
 
                 // 공구 현황 일괄 insert
                 List<PurchaseStatus> statusInsertList = new ArrayList<>();
