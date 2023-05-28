@@ -9,6 +9,8 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.type.BigDecimalType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -169,6 +171,9 @@ public class mjItemController {
         @RequestParam(name = "mcate", required = false) BigDecimal Mcode,
         @RequestParam(name = "scate", required = false) BigDecimal Scode ){
         try {
+            // log.info("user => {}", user.getUsername());
+
+
             Category cate = new Category();
             List<Lcategory> list1 = lRepository.findAll();
             cate.setLlist(list1);  // 대분류 코드, 네임
