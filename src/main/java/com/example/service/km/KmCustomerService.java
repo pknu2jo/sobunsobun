@@ -86,4 +86,13 @@ public interface KmCustomerService {
     // itemno에 해당하는 이미지 중 가장 오래된 이미지 가져오기
     // public ItemImage findTop1ByItemNo_noOrderByNoAsc(BigDecimal no);
 
+
+// ----------------------------------------------------------------------------------------------------
+// 리뷰 등록
+    
+    // 리뷰 등록 전 구매한 상품이 맞는지 확인하기
+    public List<BigDecimal> selectCheckOrder(String itemno, String memid);
+
+    // 리뷰 작성 여부 확인하기 (위에서 purchaseNo 받아옴)
+    public long countCheckReview(String memid, long purchaseno);
 }

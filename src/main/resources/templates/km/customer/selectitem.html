@@ -54,8 +54,7 @@
                                 </li>
                                 <li class="active">
                                     <i class="fa fa-angle-right" aria-hidden="true"></i>
-                                    <a href="#" th:text="${item.SCATEGORYNAME}"></a>
-                                    <!-- th:href="/customer/item/selectlist.do(scode=${item.SCATEGORYCODE}) -->
+                                    <a th:href="@{/customer/item/selectlist.do(scode=${item.SCATEGORYCODE})}" th:text="${item.SCATEGORYNAME}"></a>
                                 </li>
                             </ul>
                         </div>

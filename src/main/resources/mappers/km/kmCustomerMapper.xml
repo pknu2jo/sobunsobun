@@ -117,11 +117,11 @@
 <!-- 리뷰 등록 -->
 
     <!-- 구매한 상품이 맞는지 확인하기 -->
-    <select id="selectCheckOrder" parameterType="long" resultType="string">
+    <!-- <select id="selectCheckOrder" parameterType="" resultType="">
         SELECT * FROM (
         SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY memid, purchaseNo ORDER BY NO desc) recent
         FROM PURCHASESTATUS p WHERE itemno = 13 ORDER BY memid DESC)
         ) WHERE recent=1 AND state=1 AND memid='km1'
-    </select>
+    </select> -->
    
 </mapper>
