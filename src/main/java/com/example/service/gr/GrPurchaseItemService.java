@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.example.dto.ItemImage;
+import com.example.entity.gr.grpurchaseview;
 
 @Service
 public interface GrPurchaseItemService {
@@ -15,5 +16,11 @@ public interface GrPurchaseItemService {
 
     // // 물품 대표이미지 가져오기
     // public ItemImage selectItemImageOne(Long itemno);
+
+    // 전체 개수( 페이지네이션용)
+    public long countMyOrderList(String id);
+
+    // 페이지네이션
+    public List<grpurchaseview> selectMyOrderListPage(Map<String, Object> map);
 
 }

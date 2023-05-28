@@ -14,6 +14,7 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <!-- axios (https://cdnjs.com/libraries/axios) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <th:block th:gragment="mypageCSS">
         <style>
@@ -239,11 +240,11 @@
         }
 
         table thead th.forth{
-            width: 200px;
+            width: 220px;
         }
 
         table thead th.fifth{
-            width: 200px;
+            width: 210px;
         }
 
         tbody{
@@ -270,7 +271,7 @@
         table tbody tr td .text{
             width: 300px;
             height: 125px;
-            margin-left: 140px;
+            margin-left: 160px;
         }
 
         table tbody tr td .title{
@@ -298,6 +299,18 @@
             font-size: 14px;
             /* width: 150px; */
         }
+
+        .pagearea a{
+            font-size: 20px;
+            text-decoration: none;
+            padding: 5px 12px;
+            color: gray;
+        }
+
+        .pagearea .num.active, .pagearea .num:active{
+            color: #000;
+        }
+
 
 
 
@@ -407,6 +420,7 @@
                         <th class="fifth">진행상황</th>
                     </tr>
                 </thead>
+                
                 <tbody>
                     <tr th:each="obj:${list}">
                         <td th:text="${#dates.format(obj.regdate, 'yyyy.MM.dd')}" class="date"></td>
@@ -418,21 +432,24 @@
                             <div class="text">
                                 <div class="title" th:text="${obj.name}"></div><br/>
                                 <div class="details">
-                                    <div class="detail"><a>옵션 :  </a></div>
-                                    <div class="detail" th:text="${obj.storename}"></div>
-                                    <div class="detail"><a>, </a></div>
-                                    <div class="detail" th:text="${obj.participant}"></div>
-                                    <div class="detail"><a>인 공구</a></div>
+                                    <div class="detail" th:text="|옵션 : ${obj.storename}, |"></div>
+                                    <div class="detail" th:text="|${obj.participant}인 공구|"></div>
                                 </div>
                             </div>
                         </td>
-                        <!-- <td th:text="${obj.commaprice}" class="price"></td> -->
                         <td th:text="|${#numbers.formatInteger(obj.commaprice , 3 , 'COMMA')}원|" class="price"></td>
-                        <!-- <td class="status">배송완료</td> -->
                         <td class="status" th:text="${obj.statechk}"></td>
                     </tr>
                 </tbody>
             </table>
+
+            
+        </div>
+
+        <div class="pagearea d-flex justify-content-center" >
+            <th:block th:each="num : ${#numbers.sequence(1,pages)}" >
+                <a class="num" th:href="@{/customer/myorderlist.do(page=${num})}" th:text="${num}"></a>
+            </th:block>
         </div>
 
 
@@ -448,13 +465,8 @@
     <!-- script-->
     <script th:inline="javascript" type="text/javascript">
 
-        const price = document.querySelector("#price");
+  
         
-        console.log(price);
-
-        function pricetoString(price){
-            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        }
     </script>
     
 </body>
