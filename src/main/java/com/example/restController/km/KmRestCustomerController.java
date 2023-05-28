@@ -15,7 +15,6 @@ import com.example.dto.CustomerUser;
 import com.example.dto.Purchase;
 import com.example.dto.PurchaseOrder;
 import com.example.dto.PurchaseStatus;
-import com.example.mapper.km.KmCustomerMapper;
 import com.example.service.km.KmCustomerService;
 
 import lombok.RequiredArgsConstructor;

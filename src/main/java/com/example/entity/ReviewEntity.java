@@ -13,8 +13,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -26,41 +28,38 @@ import lombok.ToString;
 
 @Data
 @Entity
-@Table(name = "ITEM")
-@SequenceGenerator(name = "SEQ_ITEM_NO", sequenceName = "SEQ_ITEM_NO", initialValue = 1, allocationSize = 1)
-public class Item {
+@Table(name = "REVIEW")
+@SequenceGenerator(name = "SEQ_REVIEW_NO", sequenceName = "SEQ_REVIEW_NO", initialValue = 1, allocationSize = 1)
+public class ReviewEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ITEM_NO")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_REVIEW_NO")
     @Column(name = "NO")
     private BigDecimal no;
 
-    @Column(name = "NAME")
-    private String name;
+    @Column(name = "RATING")
+    private BigDecimal rating;
     
-    @Column(name = "PRICE")
-    private BigDecimal price;
-    
-    @Column(name = "QUANTITY")
-    private BigDecimal quantity;
+    @Lob
+    @Column(name = "COMMENT")
+    private String comment;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @CreationTimestamp
     @Column(name = "REGDATE", updatable = false)
     private Date regdate;
     
-    @Column(name = "REGNO")
-    private String regNo;
-    
     @ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SCATEGORYCODE", referencedColumnName = "CODE")
-    private Scategory scategoryCode;
+	@JoinColumn(name = "ITEMNO", referencedColumnName = "no")
+    private Item itemEntity;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "itemNo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    List<ItemImage> imageList = new ArrayList<>();
+    @OneToMany(mappedBy = "reviewNo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    List<ReviewImageEntity> imageList = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "ORDERNO", referencedColumnName = "NO")
     @ToString.Exclude
-    @OneToMany(mappedBy = "itemEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    List<ReviewEntity> reviewList = new ArrayList<>();
+    private PurchaseOrderEntity purchaseOrderEntity;
+    
 }
