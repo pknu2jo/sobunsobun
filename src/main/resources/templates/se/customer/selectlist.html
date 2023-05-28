@@ -91,7 +91,7 @@
                 <hr>
                 <th:block th:each=" totalOne, idx : ${list} ">
                     <th:block th:text="${totalOne.itemno}"></th:block>
-                    <!-- <img th:src="@{/customer/seimage(itemno=${totalOne.itemno})}" style="width: 100px;" th:onload="chkPurchase([[${idx.index}]], [[${totalOne.itemno}]])"> -->
+                    <img th:src="@{/customer/seimage(itemno=${totalOne.itemno})}" style="height: 500px;" th:onload="chkPurchase([[${idx.index}]], [[${totalOne.itemno}]])">
                     <!-- <th:block th:text="${totalOne.price}"></th:block> -->
                     <label name="testchk"></label>
                 </th:block>
@@ -122,6 +122,7 @@
             }
             
         }
+        
 
 
 
