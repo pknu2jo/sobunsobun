@@ -63,10 +63,13 @@ public class MyAccountDropController {
     @GetMapping(value = "/myaccountdrop.do")
     public String myaccountdropGET(@AuthenticationPrincipal User user,
             Model model) {
+        int ret = cMapper.countPurchase(user.getUsername());
+        model.addAttribute("ret", ret);
         model.addAttribute("user", user);
         return "/gr/customer/myaccountdrop";
     }
 
+    // rest사용했기때문에 주석처리함
     // @PostMapping(value = "/myaccountdrop.do")
     // public String myaccountdropPOST(@AuthenticationPrincipal User user,
     // @ModelAttribute Customer customer) {

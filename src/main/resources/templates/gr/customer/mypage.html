@@ -267,10 +267,11 @@
 
         .mypage_likeitemitems .likeitem_items ul li .text{
             padding: 0 4px 0 11px;
-            /* padding-top: 10px; */
+            padding-top: 13px;
         }
 
         .mypage_likeitemitems .likeitem_items ul li .text .title{
+            height: 20PX;
             font-size: 18px;
             line-height: 20px;
             margin:  0 0 12px 0 !important;
@@ -285,26 +286,19 @@
         .mypage_likeitemitems .likeitem_items ul li .text .price1{
             position: relative;
             line-height: normal;
-            margin-top: 13px;
             margin-bottom: 14px;
             align-items: baseline;
             text-decoration: none;
             color: #000;
             font-weight: bold;
             display: inline-block;
-            font-size: 14px;
-        }
-        .mypage_likeitemitems .likeitem_items ul li .text .price2{
-            position: relative;
-            line-height: normal;
-            margin-top: 13px;
-            margin-bottom: 14px;
-            align-items: baseline;
-            text-decoration: none;
-            color: #000;
+            font-size: 16px;
             font-weight: bold;
-            display: inline-block;
         }
+
+        /* #price1{
+            pointer-events: none;
+        } */
 
 
 
@@ -414,9 +408,8 @@
                                     <img th:src="@{/customer/seimage(itemno=${manyMap.ITEMNO})}" style="width: 193px; height: 250px;" >
                                 </div>
                                 <div class="text">
-                                    <div class="title" th:text="${manyMap.NAME}"></div><div></div>
-                                    <div class="price1" id="price" th:text="${manyMap.PRICE}" ></div>
-                                    <div class="price2"><a> 원</a></div>
+                                    <div class="title" th:text="${manyMap.NAME}" th:href="@{/customer/"></div><div></div>
+                                    <div class="price1" id="price" th:text="|${manyMap.PRICE} 원|"  style="pointer-events: none;"></div>
                                 </div>
                             </a>
                         </li>
