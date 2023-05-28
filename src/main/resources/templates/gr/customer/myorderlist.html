@@ -264,8 +264,32 @@
             padding-left: 20px;
             width: 80px;
             height: 100px;
+            vertical-align: middle;
         }
-        
+
+        table tbody tr td .text{
+            width: 300px;
+            height: 125px;
+            margin-left: 140px;
+        }
+
+        table tbody tr td .title{
+            font-size: 18px;
+            font-weight: bold;
+            float: left;
+            padding-top: 27px;
+        }
+
+        table tbody tr td .details{
+            width: 300;
+            float: left;
+            padding-top: 7px;
+        }
+    
+        table tbody tr td .detail{
+            display: inline-block;
+            color: gray;
+        }
 
         
 
@@ -389,16 +413,23 @@
                         <td th:text="${obj.pono}" class="order_number"></td>
                         <td class="product">
                             <div class="img">
-                                <img th:src="@{/customer/seimage(itemno=${obj.itemno})}" style="width: 80px; height: 100px;">
+                                <img th:src="@{/customer/seimage(itemno=${obj.itemno})}" style="width: 90px; height: 120px;">
                             </div>
                             <div class="text">
-                                <div class="title" th:text="${obj.name}"></div>
-                                <div class="detail" th:text="${obj.storename}"></div>
-                                <div class="detail" th:text="${obj.participant}"></div>
+                                <div class="title" th:text="${obj.name}"></div><br/>
+                                <div class="details">
+                                    <div class="detail"><a>옵션 :  </a></div>
+                                    <div class="detail" th:text="${obj.storename}"></div>
+                                    <div class="detail"><a>, </a></div>
+                                    <div class="detail" th:text="${obj.participant}"></div>
+                                    <div class="detail"><a>인 공구</a></div>
+                                </div>
                             </div>
                         </td>
-                        <td th:text="${obj.price.longValue()}" class="price"></td>
-                        <td class="status">배송완료</td>
+                        <!-- <td th:text="${obj.commaprice}" class="price"></td> -->
+                        <td th:text="|${#numbers.formatInteger(obj.commaprice , 3 , 'COMMA')}원|" class="price"></td>
+                        <!-- <td class="status">배송완료</td> -->
+                        <td class="status" th:text="${obj.statechk}"></td>
                     </tr>
                 </tbody>
             </table>
@@ -415,6 +446,16 @@
 
 
     <!-- script-->
+    <script th:inline="javascript" type="text/javascript">
+
+        const price = document.querySelector("#price");
+        
+        console.log(price);
+
+        function pricetoString(price){
+            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+    </script>
     
 </body>
 </html>

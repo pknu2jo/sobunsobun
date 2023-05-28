@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.data.annotation.Immutable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -66,5 +67,11 @@ public class grpurchaseview {
 
     @Column(name = "STORENAME")
     private String storename;
+
+    @Transient
+    private long commaprice;
+
+    @Transient
+    private String statechk;
 
 }

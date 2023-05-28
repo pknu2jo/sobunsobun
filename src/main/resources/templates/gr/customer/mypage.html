@@ -282,7 +282,7 @@
             overflow: hidden;
         }
 
-        .mypage_likeitemitems .likeitem_items ul li .text .price{
+        .mypage_likeitemitems .likeitem_items ul li .text .price1{
             position: relative;
             line-height: normal;
             margin-top: 13px;
@@ -291,6 +291,19 @@
             text-decoration: none;
             color: #000;
             font-weight: bold;
+            display: inline-block;
+            font-size: 14px;
+        }
+        .mypage_likeitemitems .likeitem_items ul li .text .price2{
+            position: relative;
+            line-height: normal;
+            margin-top: 13px;
+            margin-bottom: 14px;
+            align-items: baseline;
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+            display: inline-block;
         }
 
 
@@ -402,7 +415,8 @@
                                 </div>
                                 <div class="text">
                                     <div class="title" th:text="${manyMap.NAME}"></div><div></div>
-                                    <div class="price" id="price" th:text="${manyMap.PRICE}" ></div>
+                                    <div class="price1" id="price" th:text="${manyMap.PRICE}" ></div>
+                                    <div class="price2"><a> 원</a></div>
                                 </div>
                             </a>
                         </li>
