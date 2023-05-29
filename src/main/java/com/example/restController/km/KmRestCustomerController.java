@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.dto.CustomerUser;
 import com.example.dto.KmReviewCheck;
@@ -181,4 +182,39 @@ public class KmRestCustomerController {
         }
         return retMap;
     }
+
+
+    // 리뷰 & 리뷰 이미지 등록하기
+    @PostMapping(value="/enterreview.json")
+    public Map<String, Object> enterReviewPOST (
+                        @RequestParam("rating") BigDecimal rating,
+                        @RequestParam("comment") String comment,
+                        @RequestParam(name="file1", required = false) MultipartFile file1,
+                        @RequestParam(name="file2", required = false) MultipartFile file2
+                        ) {
+
+        Map<String, Object> retMap = new HashMap<>();
+
+        try {
+            System.out.println("----------------------------------");
+            log.info("enter review Rating => {}", rating);
+            log.info("enter review Comment => {}", comment);
+            if (file1 != null){
+                log.info("enter review Files => {}", file1.toString());
+            }
+            if(file2 != null) {
+                log.info("enter review Files => {}", file2.toString());
+            } else {
+                System.out.println("file2는 noImage");
+            }
+            System.out.println("----------------------------------");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("result", -1);
+        } 
+        return retMap;
+    }
+
+
 }

@@ -62,7 +62,7 @@
                     </div>
                     <hr>
                     <div class="popup__comment">
-                        <textarea name="comment" id="" cols="50" rows="10"></textarea>
+                        <textarea name="comment" id="comment" cols="50" rows="10"></textarea>
                     </div>
                     
                     <div class="popup__reviewimg">
@@ -635,9 +635,61 @@
             }
         }
 
-        function writeReview() {
-            if(confirm('리뷰 등록할까요?')) {
-                document.querySelector('#form1').submit();
+        
+
+        
+
+        async function writeReview() {
+
+            const ratingElement = document.querySelector('input[name="rating"]:checked');
+            const rating = ratingElement ? ratingElement.value : null;
+            const comment = document.querySelector('#comment').value;
+            const file1 = document.querySelector('#file1').files[0];
+            const file2 = document.querySelector('#file2').files[0];
+
+            console.log('별점', rating);
+            console.log('평가', comment);
+
+            if(rating === null) {
+                alert('별점을 선택해주세요~');
+                false;
+            } else if(comment.length < 10) {
+                alert('10자 이상 작성 부탁드려요~~');
+                false;
+            } else if(confirm('리뷰 등록할까요?')) {
+                
+            // controller로 보낼 때
+                // const form1 = document.querySelector('#form1');
+                // const input = document.createElement("input");
+
+                // input.type = "hidden";
+                // input.name = "itemno";
+                // input.value = itemNO;
+
+                // form1.appendChild(input);
+                // form1.submit();
+
+                
+               
+            
+            // rest로 보낼 때
+                const url = /*[[@{/api/customer/enterreview.json}]]*/"";
+                const headers = {"Content-Type":"multipart/form-data"};
+                // const headers = {"Content-Type":"application/json"};
+
+                const formData = new FormData();
+                formData.append("rating", rating);
+                formData.append("comment", comment);
+
+                if(file1 !== null) {
+                    formData.append("file1", file1);
+                }
+                if(file2 !== null) {
+                    formData.append("file2", file2);
+                }
+
+                const { data } = await axios.post(url, formData, {headers:headers});
+                console.log("반환되는 결과", data);
             }
             
         }
