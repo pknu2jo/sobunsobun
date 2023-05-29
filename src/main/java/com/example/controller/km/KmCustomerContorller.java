@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.catalina.util.CustomObjectInputStream;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
@@ -25,12 +26,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.dto.Customer;
 import com.example.dto.CustomerUser;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
+import com.example.entity.ReviewEntity;
+import com.example.entity.ReviewImageEntity;
+import com.example.entity.km.KmReviewNoProjection;
 import com.example.service.km.KmCustomerService;
 
 import lombok.RequiredArgsConstructor;
@@ -103,7 +108,7 @@ public class KmCustomerContorller {
 
             // log.info("보관소 정보 storage => {}", storage.toString());
             // log.info("purchaseList => {}", purchaseList);
-            // log.info("itemView  => {}", item);
+            log.info("itemView 확인  => {}", item);
 
             return "/km/customer/selectitem";
         } catch (Exception e) {
@@ -264,6 +269,75 @@ public class KmCustomerContorller {
             
             model.addAttribute("user", user);
             return "/km/customer/ordersuccess";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/customer/home.do";
+        }
+    }
+
+    @PostMapping(value = "/enterreview.do")
+    public String enterReviewPOST(@ModelAttribute ReviewEntity review, 
+            @RequestParam(name="file1", required = false) MultipartFile file1,
+            @RequestParam(name="file2", required = false) MultipartFile file2,
+            @RequestParam(name="itemno") long itemno,
+            Model model ){
+        try {
+            // 화면에서 review(rating, comment), reviewImage (0, 1, 2장) 받아오기
+
+            log.info("enterReview Review 확인 => {}", review);
+            // log.info("enterReview Review image1 확인 => {}", file1.getSize());
+            // log.info("enterReview Review image2 확인 => {}", file2.getSize());
+
+            BigDecimal reviewNo = (customerService.findTop1ReviewNo().getNo()).add(BigDecimal.ONE);
+
+            // 리뷰 등록하기
+            ReviewEntity obj1 = new ReviewEntity();
+            obj1.setNo(reviewNo);
+            obj1.setComment(review.getComment());
+            obj1.setRating(review.getRating());
+            // int ret1 = customerService.saveReview(obj1);
+
+            int ret2 = 0;
+            int ret3 = 0;
+            if(file1.getSize() > 0) {
+                ReviewImageEntity reviewImg1 = new ReviewImageEntity();
+                reviewImg1.setReviewNo(obj1);
+                reviewImg1.setFilesize( BigDecimal.valueOf(file1.getSize()) );
+                reviewImg1.setFiledata( file1.getInputStream().readAllBytes() );
+                reviewImg1.setFiletype( file1.getContentType() );
+                reviewImg1.setFilename( file1.getOriginalFilename() );
+                // ret2 = customerService.saveReviewImage(reviewImg1);
+            }
+
+            if(file2.getSize() > 0) {
+                ReviewImageEntity reviewImg2 = new ReviewImageEntity();
+                reviewImg2.setReviewNo(obj1);
+                reviewImg2.setFilesize( BigDecimal.valueOf(file2.getSize()) );
+                reviewImg2.setFiledata( file2.getInputStream().readAllBytes() );
+                reviewImg2.setFiletype( file2.getContentType() );
+                reviewImg2.setFilename( file2.getOriginalFilename() );
+                // ret3 = customerService.saveReviewImage(reviewImg2);
+            }       
+            
+            // if (file2.getSize() > 0) {
+            //     if(ret1 == 1 && ret2 == 1 && ret3 ==1) {
+            //       model.addAttribute("message", "리뷰 등록에 성공하셨습니다."); 
+            //       model.addAttribute("url", "/selectone.do?itemno="+itemno);
+            //     } 
+            // } else if (file1.getSize() > 0) {
+            //     if(ret1 == 1 && ret2 == 1) {
+            //         // 등록 완료 
+            //     }
+            // } else {
+            //     if(ret1 == 1) {
+            //         // 등록 완료 
+            //     }
+            // }
+
+            model.addAttribute("message", "리뷰 등록에 성공하셨습니다."); 
+            model.addAttribute("url", "/SOBUN/customer/item/selectone.do?itemno="+itemno);
+            return "/km/customer/kmAlert";
+
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/customer/home.do";

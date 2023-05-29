@@ -14,7 +14,15 @@ import com.example.dto.PurchaseStatus;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
+import com.example.entity.ReviewEntity;
+import com.example.entity.ReviewImageEntity;
+import com.example.entity.km.KmCheckReviewView;
+import com.example.entity.km.KmReviewNoProjection;
 import com.example.mapper.km.KmCustomerMapper;
+import com.example.repository.km.KmCheckReviewViewRepository;
+import com.example.repository.km.KmPurchaseStatusRepository;
+import com.example.repository.km.KmReviewImageRepository;
+import com.example.repository.km.KmReviewRepository;
 import com.example.repository.km.kmItemImageRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +33,10 @@ public class KmCustomerServiceImpl implements KmCustomerService {
 
     final KmCustomerMapper cMapper;
     final kmItemImageRepository imageRepository;
+    final KmPurchaseStatusRepository psRepository;
+    final KmCheckReviewViewRepository roRepository;
+    final KmReviewRepository rRepository;
+    final KmReviewImageRepository riRepository;
 
 // 물품 상세 조회 페이지
 
@@ -230,5 +242,60 @@ public class KmCustomerServiceImpl implements KmCustomerService {
     //         return null;
     //     }
     // }
+
+// ----------------------------------------------------------------------------------------------------
+// 리뷰 등록
+    
+    // 리뷰 등록 전 구매한 상품이 맞는지 확인하기
+    public List<BigDecimal> selectCheckOrder(long itemno, String memid) {
+        try {
+            return psRepository.selectCheckOrder(itemno, memid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // 리뷰 작성 여부 확인하기 (위에서 purchaseNo 받아옴)
+    public KmCheckReviewView checkReview(String memid, BigDecimal purchaseno) {
+        try {
+            return roRepository.findByMemidAndPurchaseno(memid, purchaseno);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // 리뷰 전체에서 가장 최신 번호 가져오기
+    public KmReviewNoProjection findTop1ReviewNo() {
+        try {
+            return rRepository.findTop1ByOrderByNoDesc();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // 리뷰 저장하기
+    public int saveReview(ReviewEntity obj) {
+        try {
+            rRepository.save(obj);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    // 리뷰 이미지 저장하기
+    public int saveReviewImage(ReviewImageEntity obj) {
+        try {
+            riRepository.save(obj);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
     
 }

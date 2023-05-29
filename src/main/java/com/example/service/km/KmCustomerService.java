@@ -14,6 +14,10 @@ import com.example.dto.PurchaseStatus;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
+import com.example.entity.ReviewEntity;
+import com.example.entity.ReviewImageEntity;
+import com.example.entity.km.KmCheckReviewView;
+import com.example.entity.km.KmReviewNoProjection;
 
 
 
@@ -86,4 +90,22 @@ public interface KmCustomerService {
     // itemno에 해당하는 이미지 중 가장 오래된 이미지 가져오기
     // public ItemImage findTop1ByItemNo_noOrderByNoAsc(BigDecimal no);
 
+
+// ----------------------------------------------------------------------------------------------------
+// 리뷰 등록
+    
+    // 리뷰 등록 전 구매한 상품이 맞는지 확인하기
+    public List<BigDecimal> selectCheckOrder(long itemno, String memid);
+
+    // 리뷰 작성 여부 확인하기 (위에서 purchaseNo 받아옴)
+    public KmCheckReviewView checkReview(String memid, BigDecimal purchaseno);
+
+    // 리뷰 전체에서 가장 최신 번호 가져오기
+    public KmReviewNoProjection findTop1ReviewNo();
+
+    // 리뷰 저장하기
+    public int saveReview(ReviewEntity obj);
+
+    // 리뷰 이미지 저장하기
+    public int saveReviewImage(ReviewImageEntity obj);
 }

@@ -60,5 +60,5 @@ public class ReviewImageEntity {
      // 물품번호(시퀀스) - FK
      @ManyToOne(fetch = FetchType.LAZY)
      @JoinColumn(name = "reviewno", referencedColumnName = "NO")
-     private Item reviewNo;
+     private ReviewEntity reviewNo;
 }
