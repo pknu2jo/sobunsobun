@@ -282,8 +282,7 @@ public class HomeController {
             Date date1 = new Date();
             Date date2 = new Date();
 
-            if(!firstdate.equals("") && !seconddate.equals("")){
-                
+            if(!firstdate.equals("") && !seconddate.equals("")){                
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 date1 = dateFormat.parse(firstdate);
                 date2 = dateFormat.parse(seconddate);
@@ -330,8 +329,7 @@ public class HomeController {
             if(!firstdate.equals("")){
                 f=1;
             }
-            int sum = a+b+c+d+e+f;            
-            log.info("sum => {}", sum);
+            int sum = a+b+c+d+e+f;                        
 
             List<DeliveryView> list = new ArrayList<>();
             // 입력값을 토대로 검색 조건 선택

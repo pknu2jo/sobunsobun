@@ -12,6 +12,10 @@ public interface DeliveryViewRepository extends JpaRepository<DeliveryView, BigD
     // no /\ itemcode itemname address purchaseno delivery regdate
     long countByDeliveryAndNo(BigDecimal delivery, String no);
     
+
+
+
+    
     // 0
     List<DeliveryView> findByNo(String no);
 
