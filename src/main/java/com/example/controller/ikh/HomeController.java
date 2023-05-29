@@ -129,9 +129,9 @@ public class HomeController {
 
             // 상세정보로 가기 위한 리스트 추출
             List<TotaltableView> tlist = tvRepository.findByNo("1078198143");
-            for(TotaltableView obj : tlist){
-                obj.setItemregdate(sourceFormat.parse(obj.getItemregdate().toString()));                
-            }            
+            // for(TotaltableView obj : tlist){
+            //     obj.setItemregdate(sourceFormat.parse(obj.getItemregdate().toString()));                
+            // }            
             model.addAttribute("tlist", tlist);
             /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
