@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -89,7 +88,7 @@ public class HomeController {
             long Female = tgvRepository.countByGenderAndNo("F", "1078198143");
             // 전체 남성 인원수 구하기
             long Male = tgvRepository.countByGenderAndNo("M", "1078198143");                            
-
+            
             // html로 값 넘기기
             model.addAttribute("sellername", "1078198143");
             model.addAttribute("female", Female);
@@ -124,14 +123,12 @@ public class HomeController {
             model.addAttribute("all", all); // 전체매출
             model.addAttribute("mlist", mlist); // 월 매출
             /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
-            // 물품 테이블 넘기기
-            SimpleDateFormat sourceFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.KOREA);            
+            // 물품 테이블 넘기기                       
 
             // 상세정보로 가기 위한 리스트 추출
             List<TotaltableView> tlist = tvRepository.findByNo("1078198143");
-            for(TotaltableView obj : tlist){
-                obj.setItemregdate(sourceFormat.parse(obj.getItemregdate().toString()));                
-            }            
+            
+            log.info("test {}",tlist);
             model.addAttribute("tlist", tlist);
             /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 

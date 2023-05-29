@@ -261,15 +261,16 @@
                                                         <td th:if="${obj.delivery == 3}" th:text="배송완료"></td>
                                                         <td th:text="${obj.lname}"></td>
                                                         <td th:text="${obj.mname}"></td>
-                                                        <td th:text="${obj.sname}"></td>                                                        
-                                                        <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>                                                                                                         
+                                                        <td th:text="${obj.sname}" my="aaa"></td>
+                                                        <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>
                                                         <td>
                                                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                                                                th:value="${obj.delivery}" th:attr="id='dvact' + ${iterStat.index}" th:onclick="'dvclick(' + ${iterStat.index} + ')'">
+                                                            th:value="${obj.delivery}" th:attr="id='dvact' + ${iterStat.index}" th:onclick="dvclick([[${iterStat.index}]], [[${obj.enid}]])">
+                                                                <!-- th:value="${obj.delivery}" th:attr="id='dvact' + ${iterStat.index}" th:onclick="'dvclick(' + ${iterStat.index} + ',' + ${obj.enid}+ ')'"> -->
                                                                 변경
                                                             </button>
                                                         </td>
-                                                    </tr>                                            
+                                                    </tr>
                                                 </tbody>
                                             </table>                   
                                         </div>
@@ -310,9 +311,9 @@
                 </div>
                 <div class="modal-footer">
                     <form>
-                        <button type="button" class="btn btn-outline-primary" onclick="dvvalue()">변경저장</button>
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="button" value="" id="btndv" class="btn btn-outline-primary" onclick="dvvalue()">변경저장</button>
                     </form>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
                 </div>
             </div>
         </div>
@@ -366,26 +367,32 @@
         var bt1 = document.getElementById('btn-1').className;
         var bt2 = document.getElementById('btn-2').className;
         var bt3 = document.getElementById('btn-3').className;
-        var equals = 'btn btn-outline-primary active';
+        var btndv = document.getElementById('btndv').value;
+        var equals = 'btn btn-outline-primary active';        
         
         if(bt0 == equals) {
             console.log(0);
+            console.log(btndv);
         }
         else if(bt1 == equals) {
             console.log(1);
+            console.log(btndv);
         }
         else if(bt2 == equals) {
             console.log(2);
+            console.log(btndv);
         }
         else if(bt3 == equals) {
             console.log(3);
+            console.log(btndv);
         }
     }
 
     // 배송상태설정 변경
-    function dvclick(index) {
+    function dvclick(index, enid) {
         var dv = document.getElementById('dvact' + index).value;
         console.log("상태 : " + dv); 
+        console.log("enid : " + enid);
 
         // 상태에 맞는 토글 설정
         if(dv == 0){
@@ -393,24 +400,29 @@
             document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary');
+            document.getElementById('btndv').setAttribute('value', enid);
+            // name 추가해주기
         }
         else if(dv == 1){
             document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary active');
             document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary');
+            document.getElementById('btndv').setAttribute('value', enid);
         }
         else if(dv == 2){
             document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary active');
             document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary');
+            document.getElementById('btndv').setAttribute('value', enid);
         }
         else if(dv == 3){
             document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary active');                
+            document.getElementById('btndv').setAttribute('value', enid);
         }
     }    
         
