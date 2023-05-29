@@ -23,4 +23,7 @@ public interface GrPurchaseItemMapper {
     // 페이지네이션
     public List<grpurchaseview> selectMyOrderListPage(Map<String, Object> map);
 
+    // 기한내 구매목록 불러오기
+    public List<grpurchaseview> searchMyOrderList(String id);
+
 }

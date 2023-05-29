@@ -1,5 +1,9 @@
 package com.example.controller.gr;
 
+import java.lang.annotation.Repeatable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @Slf4j
@@ -45,9 +50,10 @@ public class MyOrderListController {
 
     @GetMapping(value = "/myorderlist.do")
     public String myorderlistGET(@AuthenticationPrincipal User user, Model model,
-            @RequestParam(name = "page", defaultValue = "0", required = false) int page) {
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "timelimit", defaultValue = "0", required = false) int timelimit) {
 
-        if (page == 0) {
+        if (page == 0 && timelimit == 0) {
             return "redirect:/customer/myorderlist.do?page=1";
         }
 
@@ -58,14 +64,12 @@ public class MyOrderListController {
 
         map.put("start", start);
         map.put("end", end);
-        map.put("memId", "gr9");
+        map.put("memId", user.getUsername());
 
-        // List<grpurchaseview> list = grRepository.findByMemid("gr9");/* 주문확인 할 수 있는
-        // 아이디가 se4 나중에 user.username으로 변경 */
         List<grpurchaseview> list = gpiService.selectMyOrderListPage(map);
         // log.info("rkfkarkfka => {}", list.toString());
 
-        long cnt = gpiService.countMyOrderList("gr9");
+        long cnt = gpiService.countMyOrderList(user.getUsername());
 
         for (int i = 0; i < list.size(); i++) {
 

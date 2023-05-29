@@ -189,11 +189,48 @@
         }
 
         .calender .grade .info{
-            width: 670px;
+            width: 1240px;
             height: 60px;
             float: left;
-            padding-left: 250px;
+            /* padding-left: 250px; */
             position: relative;
+        }
+
+        .calender .grade .info .datespan{
+            font-size: 16px;
+            margin-top: 15px;
+        }
+
+        .calender .grade .info input{
+            height: 35px;
+            text-align: center;
+            margin-left: 15px;
+            margin-right: 15px;
+            margin-top: 10px;
+        }
+
+        .calender .grade .info .btn_date_1month{
+            width: 95px;
+            font-size: 15px;
+            background-color: #666;
+            color: #fff;
+            border: 0;
+        }
+
+        .calender .grade .info .btn_date{
+            width : 85px;
+            background-color: #0e0e0e;
+            color: #fff;
+            font-size: 15px;
+            /* margin-left: 20px; */
+        }
+
+        .calender .grade .info #date1, #date2{
+            width: 130px;
+            border: 1px solid #d9d9d9;
+            background-color: #fff;
+            font-size: 14px;
+            padding-right: 5px;
         }
 
         /* 주문테이블 창 */
@@ -252,6 +289,10 @@
             vertical-align: middle;
         }
 
+        tbody a {
+            text-decoration: none;
+        }
+
         table tbody tr td{
             height: 110px;
             text-align: center;
@@ -279,6 +320,7 @@
             font-weight: bold;
             float: left;
             padding-top: 27px;
+            color: #333;
         }
 
         table tbody tr td .details{
@@ -337,7 +379,7 @@
 
             <ol id="semi-titlebox">
                 <li style="padding-top: 13px; padding-bottom: 20px;">
-                    <a href="#" class="semi-title">HOME</a>
+                    <a th:href="@{/customer/home.do}" class="semi-title">HOME</a>
                     &nbsp;&nbsp;>&nbsp;&nbsp;
                     <a th:href="@{/customer/mypage.do}" class="semi-title">MY PAGE</a>
                     &nbsp;&nbsp;>&nbsp;&nbsp;
@@ -397,8 +439,13 @@
 
         <!-- 날짜 조회 창 -->
         <div class="calender d-flex justify-content-center">
-            <div class="grade ">
-                <div class="info ">
+            <div class="grade">
+                <div class="info d-flex justify-content-center">
+                    <input class="btn_date_1month" type="button" value="최근1개월">
+                    <input type="date" id="date1" onchange="orderdate()" >
+                    <span class="datespan">~</span>
+                    <input type="date"  id="date2" onchange="orderdate()" >
+                    <input class="btn_date" type="button" value="조 회">
                 </div>
             </div>
         </div>
@@ -425,17 +472,21 @@
                     <tr th:each="obj:${list}">
                         <td th:text="${#dates.format(obj.regdate, 'yyyy.MM.dd')}" class="date"></td>
                         <td th:text="${obj.pono}" class="order_number"></td>
-                        <td class="product">
-                            <div class="img">
-                                <img th:src="@{/customer/seimage(itemno=${obj.itemno})}" style="width: 90px; height: 120px;">
-                            </div>
-                            <div class="text">
-                                <div class="title" th:text="${obj.name}"></div><br/>
-                                <div class="details">
-                                    <div class="detail" th:text="|옵션 : ${obj.storename}, |"></div>
-                                    <div class="detail" th:text="|${obj.participant}인 공구|"></div>
+                        <td class="product" >
+                            <a th:href="@{/customer/item/selectone.do?(itemno=${obj.itemno})}">
+                                <div class="img">
+                                    <img th:src="@{/customer/seimage(itemno=${obj.itemno})}" style="width: 90px; height: 120px;">
                                 </div>
-                            </div>
+                            </a>
+                            <a th:href="@{/customer/item/selectone.do?(itemno=${obj.itemno})}">
+                                <div class="text">
+                                    <div class="title" th:text="${obj.name}"></div><br/>
+                                    <div class="details">
+                                        <div class="detail" th:text="|옵션 : ${obj.storename}, |"></div>
+                                        <div class="detail" th:text="|${obj.participant}인 공구|"></div>
+                                    </div>
+                                </div>
+                            </a>
                         </td>
                         <td th:text="|${#numbers.formatInteger(obj.commaprice , 3 , 'COMMA')}원|" class="price"></td>
                         <td class="status" th:text="${obj.statechk}"></td>
@@ -462,10 +513,34 @@
 
 
 
+    
     <!-- script-->
     <script th:inline="javascript" type="text/javascript">
 
-  
+        // var date = new Date();
+        // var yyyy = date.getFullYear();
+        // var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
+        // var dd = date.getDate() > 9 ? date.getDate : '0' + date.getDate();
+
+        // $("input[type=date]").val(yyyy+"-"+mm+"-"+dd);
+
+        var now = new Date();
+
+        document.getElementById("date1").valueAsDate = new Date(now.setMonth(now.getMonth() - 1 ));
+        document.getElementById("date2").valueAsDate = new Date();
+
+
+        // function orderdate(){
+        //     var date1 = document.getElementById("date1").value;
+        //     var date2 = document.getElementById("date2").value;
+
+        //     console.log(date1);
+        //     console.log(date2);
+
+        // }
+
+       
+ 
         
     </script>
     

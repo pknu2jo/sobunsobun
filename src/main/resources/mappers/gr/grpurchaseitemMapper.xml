@@ -24,6 +24,11 @@
         SELECT gv.*, ROW_NUMBER() OVER (ORDER BY regdate desc) rown FROM GRPURCHASEVIEW gv WHERE gv.memid=#{memId}
         ) gv WHERE rown  <![CDATA[ >= ]]> #{start}  AND rown  <![CDATA[ <= ]]> #{end} ORDER BY regdate desc
     </select>
+
+    <!-- 기한내 구매목록 불러오기 -->
+    <select id="searchMyOrderList" parameterType="string" resultType="com.example.entity.gr.grpurchaseview">
+        SELECT * FROM GRPURCHASEVIEW WHERE (regdate BETWEEN #{date1} AND #{date2}) AND memId = #{id}
+    </select>
         
     
 </mapper>

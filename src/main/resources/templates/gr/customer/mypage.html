@@ -405,10 +405,10 @@
                         <li>
                             <a href="#">
                                 <div class="img">
-                                    <img th:src="@{/customer/seimage(itemno=${manyMap.ITEMNO})}" style="width: 193px; height: 250px;" >
+                                    <a th:href="@{/customer/item/selectone.do?(itemno=${manyMap.ITEMNO})}"><img th:src="@{/customer/seimage(itemno=${manyMap.ITEMNO})}" style="width: 193px; height: 250px;" ></a>
                                 </div>
                                 <div class="text">
-                                    <div class="title" th:text="${manyMap.NAME}" th:href="@{/customer/"></div><div></div>
+                                    <a th:href="@{/customer/item/selectone.do?(itemno=${manyMap.ITEMNO})}"><div class="title" th:text="${manyMap.NAME}"></div></a><div></div>
                                     <div class="price1" id="price" th:text="|${manyMap.PRICE} 원|"  style="pointer-events: none;"></div>
                                 </div>
                             </a>
