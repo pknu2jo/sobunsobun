@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.controller.ikh;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -68,15 +68,15 @@ public class HomeController {
     final OrderViewRepository ovRepository;
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // html 불러오기
-    @GetMapping(value = "/home.do")
-    public String homeGET(){
-        try {
-            return "/ikh/home";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/home.do";
-        }        
-    }
+    // @GetMapping(value = "/home.do")
+    // public String homeGET(){
+    //     try {
+    //         return "/ikh/home";
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return "redirect:/home.do";
+    //     }        
+    // }
 
     /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
     // 전체 통계
