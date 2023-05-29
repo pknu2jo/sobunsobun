@@ -935,5 +935,152 @@ tbody::-webkit-scrollbar-track {
 #select:hover {
 	border: 1px solid #aaa;
 }
-  
 
+
+/* -------------------------------------------- */
+/* 리뷰 모달 */
+.popup {
+	position: relative;
+	text-align: center;
+
+	background: rgba(100, 100, 100, 0.6);
+	position: fixed;
+	display: none;
+	z-index: 9999;
+	height: 1000px;
+	width: 100%;
+	left: 0;
+	top: 0;	
+}
+
+.popup .wrapper {
+	max-width: 400px; 
+	width: 100%; 
+	height: 600px;
+	position: fixed;
+	transform: translate(-50%, -50%);
+	left: 50%;
+	top: 50%;
+	background: #ffffff;
+	padding: 0px;
+	box-shadow: 2px 2px 10px 0px rgba(#000000, 0.4);
+}
+
+.popup button {
+	/* background: #9ad3de; */
+	width: 45%;
+	border: 0;
+	/* border-radius: 4px; */
+	padding: 15px 30px;
+	font-size: 18px;
+	color: #ffffff;
+	cursor: pointer;
+}
+
+.popup #closePopup {
+	border: 1px solid #eee;
+}
+.popup #enterReview {
+	background: #6d9275;
+	color: whitesmoke;
+}
+
+.popup button:focus {
+	outline: none;
+}
+  
+.popup button:hover {
+	background: lighten(#9ad3de, 10%);
+}
+
+.popup h2 {
+	background-color: #6d9275;
+}
+
+.popup__img img {
+	border: 0.5px solid #ccc;
+	border-radius: 50%;
+	/* width: 100px; */
+	height: 100px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.popup__rating {
+	margin-bottom: 20px;
+}
+
+
+.popup__rating fieldset{
+    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+    border: 0; /* 필드셋 테두리 제거 */
+}
+
+.popup__rating input[type=radio]{
+    display: none; /* 라디오박스 감춤 */
+}
+
+.popup__rating label{
+    font-size: 3em; /* 이모지 크기 */
+    color: transparent; /* 기존 이모지 컬러 제거 */
+    text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
+}
+
+.popup__rating label:hover {
+	text-shadow: 0 0 0 rgb(248, 239, 106); /* 마우스 호버 */
+}
+
+.popup__rating label:hover ~ label{
+    text-shadow: 0 0 0 rgb(248, 239, 106); /* 마우스 호버 뒤에오는 이모지들 */
+}
+
+.popup__rating fieldset{
+    display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/
+    direction: rtl; /* 이모지 순서 반전 */
+    border: 0; /* 필드셋 테두리 제거 */
+}
+
+.popup__rating input[type=radio]:checked ~ label{
+    text-shadow: 0 0 0 rgb(248, 239, 106); /* 마우스 클릭 체크 */
+}
+
+.popup__comment textarea {
+	width: 90%;
+    height: 10em;
+    border: none;
+    resize: none;
+	background-color: #ebebe8;
+	border-radius: 10px;
+	padding: 10px;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+.popup__comment textarea:focus {
+	outline-color: #6d9275;
+}
+
+.popup__reviewimg {
+    text-align: left;
+	margin-left: 5%;
+}
+
+.popup__reviewimage img {
+	width: 70px;
+	height: 70px;
+	padding: 20px;
+	cursor: pointer;
+	border: 0.5px solid #eee;
+	border-radius: 10px;
+	margin-top: 0;
+}
+
+
+.popup__reviewimage1 #img1, .popup__reviewimage2 #img2 {
+	width: 70px;
+	height: 70px;
+	/* border: 1px solid red; */
+	margin-bottom: 16px;
+	padding: 0;
+	display: none;
+}

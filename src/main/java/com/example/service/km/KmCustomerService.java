@@ -14,6 +14,7 @@ import com.example.dto.PurchaseStatus;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
+import com.example.entity.km.KmCheckReviewView;
 
 
 
@@ -91,8 +92,8 @@ public interface KmCustomerService {
 // 리뷰 등록
     
     // 리뷰 등록 전 구매한 상품이 맞는지 확인하기
-    public List<BigDecimal> selectCheckOrder(String itemno, String memid);
+    public List<BigDecimal> selectCheckOrder(long itemno, String memid);
 
     // 리뷰 작성 여부 확인하기 (위에서 purchaseNo 받아옴)
-    public long countCheckReview(String memid, long purchaseno);
+    public KmCheckReviewView checkReview(String memid, BigDecimal purchaseno);
 }

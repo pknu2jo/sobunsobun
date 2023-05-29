@@ -25,12 +25,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.dto.Customer;
 import com.example.dto.CustomerUser;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
+import com.example.entity.ReviewEntity;
 import com.example.service.km.KmCustomerService;
 
 import lombok.RequiredArgsConstructor;
@@ -103,7 +105,7 @@ public class KmCustomerContorller {
 
             // log.info("보관소 정보 storage => {}", storage.toString());
             // log.info("purchaseList => {}", purchaseList);
-            // log.info("itemView  => {}", item);
+            log.info("itemView 확인  => {}", item);
 
             return "/km/customer/selectitem";
         } catch (Exception e) {
@@ -268,6 +270,25 @@ public class KmCustomerContorller {
             e.printStackTrace();
             return "redirect:/customer/home.do";
         }
+    }
+
+    @PostMapping(value = "/enterreview.do")
+    public String enterReviewPOST(@ModelAttribute ReviewEntity review, 
+            @RequestParam(name="file1", required = false) MultipartFile file1,
+            @RequestParam(name="file2", required = false) MultipartFile file2 ){
+        try {
+            // 화면에서 review(rating, comment), reviewImage (0, 1, 2장) 받아오기
+
+            log.info("enterReview Review 확인 => {}", review);
+
+            log.info("enterReview Review image1 확인 => {}", file1.toString());
+            log.info("enterReview Review image2 확인 => {}", file2.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/customer/home.do";
+        }
+        return null;
     }
 
     @GetMapping(value = "/kmtest.do")

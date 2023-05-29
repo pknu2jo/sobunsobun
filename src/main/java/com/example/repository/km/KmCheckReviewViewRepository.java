@@ -5,13 +5,13 @@ import java.math.BigDecimal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.entity.km.KmReviewAndOrderView;
+import com.example.entity.km.KmCheckReviewView;
 
 @Repository
-public interface KmReviewAndOrderViewRepository  
-        extends JpaRepository<KmReviewAndOrderView, BigDecimal>{
+public interface KmCheckReviewViewRepository  
+        extends JpaRepository<KmCheckReviewView, String>{
     
 
     // 리뷰 작성 여부 확인하기 (위에서 purchaseNo 받아옴)
-    long countByMemidAndPurchaseno(String memid, long purchaseno);
+    KmCheckReviewView findByMemidAndPurchaseno(String memid, BigDecimal purchaseno);
 }

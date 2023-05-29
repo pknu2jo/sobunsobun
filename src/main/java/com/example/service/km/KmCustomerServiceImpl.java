@@ -14,9 +14,10 @@ import com.example.dto.PurchaseStatus;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
+import com.example.entity.km.KmCheckReviewView;
 import com.example.mapper.km.KmCustomerMapper;
+import com.example.repository.km.KmCheckReviewViewRepository;
 import com.example.repository.km.KmPurchaseStatusRepository;
-import com.example.repository.km.KmReviewAndOrderViewRepository;
 import com.example.repository.km.kmItemImageRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class KmCustomerServiceImpl implements KmCustomerService {
     final KmCustomerMapper cMapper;
     final kmItemImageRepository imageRepository;
     final KmPurchaseStatusRepository psRepository;
-    final KmReviewAndOrderViewRepository roRepository;
+    final KmCheckReviewViewRepository roRepository;
 
 
 // 물품 상세 조회 페이지
@@ -240,7 +241,7 @@ public class KmCustomerServiceImpl implements KmCustomerService {
 // 리뷰 등록
     
     // 리뷰 등록 전 구매한 상품이 맞는지 확인하기
-    public List<BigDecimal> selectCheckOrder(String itemno, String memid) {
+    public List<BigDecimal> selectCheckOrder(long itemno, String memid) {
         try {
             return psRepository.selectCheckOrder(itemno, memid);
         } catch (Exception e) {
@@ -250,13 +251,13 @@ public class KmCustomerServiceImpl implements KmCustomerService {
     }
 
     // 리뷰 작성 여부 확인하기 (위에서 purchaseNo 받아옴)
-    public long countCheckReview(String memid, long purchaseno) {
+    public KmCheckReviewView checkReview(String memid, BigDecimal purchaseno) {
         try {
             // 작성 했으면 1, 아직 작성 안했으면 0 출력됨
-            return roRepository.countByMemidAndPurchaseno(memid, purchaseno);
+            return roRepository.findByMemidAndPurchaseno(memid, purchaseno);
         } catch (Exception e) {
             e.printStackTrace();
-            return -1;
+            return null;
         }
     }
     

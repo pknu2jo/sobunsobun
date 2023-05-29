@@ -17,10 +17,19 @@ import lombok.Data;
 @Data
 @Immutable // 뷰일경우 추가 => 조회만 가능한 엔티티
 @Entity
-@Table(name = "KMREVIEWANDORDERVIEW")
-public class KmReviewAndOrderView {
+@Table(name = "kmcheckreviewview")
+public class KmCheckReviewView {
+
+    @Column(name = "purchaseno")
+    private BigDecimal purchaseno;
 
     @Id
+    @Column(name = "orderno")
+    private String orderno;
+
+    @Column(name = "memid")
+    private String memid;
+
     @Column(name = "reviewno")
     private BigDecimal reviewno;
 
@@ -32,28 +41,9 @@ public class KmReviewAndOrderView {
     private String comment;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    @Column(name = "reviewdate")
-    private Date reviewdate;
+    @Column(name = "regdate")
+    private Date regdate;
     
     @Column(name = "itemno")
     private BigDecimal itemno;
-
-    @Column(name = "orderno")
-    private String orderno;
-
-    @Column(name = "memid")
-    private String memid;
-
-    @Column(name = "purchaseno")
-    private BigDecimal purchaseno;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    @Column(name = "orderdate")
-    private Date orderdate;
-
-    @Column(name = "totalprice")
-    private BigDecimal totalprice;
-
-    @Column(name = "orderstate")
-    private BigDecimal orderstate;
 }

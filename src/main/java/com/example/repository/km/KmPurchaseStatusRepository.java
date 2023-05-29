@@ -18,9 +18,10 @@ public interface KmPurchaseStatusRepository extends JpaRepository<PurchaseStatus
     " SELECT * FROM (SELECT *, ROW_NUMBER() OVER " +
     " (PARTITION BY memid, purchaseNo ORDER BY NO desc) recent " +
     " FROM PURCHASESTATUS p WHERE itemno = :itemno ORDER BY memid DESC) " +
-    " ) WHERE recent=1 AND state=1 AND memid = :memid ", nativeQuery = true)
+    " ) WHERE recent=1 AND state=1 AND memid = :memid ORDER BY purchaseno ASC"
+    , nativeQuery = true)
     public List<BigDecimal> selectCheckOrder(
-                                    @Param("itemno") String itemno,
+                                    @Param("itemno") long itemno,
                                     @Param("memid") String memid
                                 );
 

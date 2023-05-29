@@ -40,6 +40,56 @@
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;">
 
+        <!-- 리뷰 모달 ~ -->
+        <form th:action="@{/customer/enterreview.do}" method="post" id="form1" enctype="multipart/form-data">
+            <div class="popup" id="myPopup" aria-hidden="true" onClick="if(event.target == this){closePopup('#myPopup');}">
+                <div class="wrapper" aria-labelledby="popupTitle" aria-describedby="popupText" aria-modal="true">
+                    <h2 id="popupTitle" >리뷰 작성</h2>
+                    <div class="popup__img">
+                        <img th:src="@{/customer/image(no=${imgList[0]})}" >
+                    </div>
+                    <div class="popup__itemname">
+                        <p th:text="${item.ITEMNAME}"></p>
+                    </div>
+                    <div class="popup__rating">
+                        <fieldset>
+                            <input type="radio" name="rating" value="5" id="rate1"><label for="rate1">★</label>
+                            <input type="radio" name="rating" value="4" id="rate2"><label for="rate2">★</label>
+                            <input type="radio" name="rating" value="3" id="rate3"><label for="rate3">★</label>
+                            <input type="radio" name="rating" value="2" id="rate4"><label for="rate4">★</label>
+                            <input type="radio" name="rating" value="1" id="rate5"><label for="rate5">★</label>
+                        </fieldset>
+                    </div>
+                    <hr>
+                    <div class="popup__comment">
+                        <textarea name="comment" id="" cols="50" rows="10"></textarea>
+                    </div>
+                    
+                    <div class="popup__reviewimg">
+                        <div class="popup__reviewimage" style="display: inline-block;">
+                            <!-- <a href="https://www.flaticon.com/kr/free-icons/img" title="img 아이콘">Img 아이콘  제작자: POD Gladiator - Flaticon</a> -->
+                            <img class="mb-3" th:src="@{/images/km/reviewImage.png}" 
+                                id="img" onclick="clickImage()">
+                            <input type="file" name="file" id="file" class="form-control" 
+                                    onchange="imageChange(this)" style="display:none"> 
+                        </div>
+                        <div class="popup__reviewimage1" style="display: inline-block;">
+                            <input type="file" name="file1" id="file1" onchange="imageChange(this)" style="display:none">
+                            <img id="img1">
+                        </div>
+                        <div class="popup__reviewimage2" style="display: inline-block;"> 
+                            <input type="file" name="file2" id="file2" onchange="imageChange(this)" style="display:none">
+                            <img id="img2">
+                        </div>
+                    </div>
+  
+                    <button type="button" id="closePopup" onClick="closePopup('#myPopup');" aria-label="Close popup">Close</button>
+                    <button type="button" id="enterReview" onClick="writeReview()">등록하기</button>
+                </div>
+            </div>
+        </form>
+        <!-- ~ 리뷰 모달 -->
+
         <div class="super_container" style="margin-top: -100px;">
             <div class="container single_product_container">
                 <div class="row">
@@ -221,7 +271,7 @@
                                         <br>
                                         <!-- 상품 평점의 평균 -->
 
-                                        <button type="button" onclick="check">리뷰 등록하기</button>
+                                        <button type="button" onclick="CheckReview()">리뷰 등록하기</button>
 
                                         <div class="user_review_container d-flex flex-column flex-sm-row">
                                             <div class="user">
@@ -298,6 +348,8 @@
     <!-- footer -->
     <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
 
+
+    
 
 
 
@@ -481,20 +533,8 @@
                 input2.name = "purchaseNo";
                 input2.value = purchaseNo;
 
-                // const input3 = document.createElement("input");
-                // input3.type = "hidden";
-                // input3.name = "pricePerOne";
-                // input3.value = pricePerOne;
-
-                // const input4 = document.createElement("input");
-                // input4.type = "hidden";
-                // input4.name = "itemNo";
-                // input4.value = itemNO;
-
                 form.appendChild(input1);
                 form.appendChild(input2);
-                // form.appendChild(input3);
-                // form.appendChild(input4);
 
                 document.body.appendChild(form);
 
@@ -502,6 +542,104 @@
             } else {
                 return;
             }
+        }
+
+        async function CheckReview() {
+            // 로그인 체크 먼저하기
+
+            if(user == null) {
+                if(confirm('로그인이 필요한 서비스입니다. 로그인하시겠습니까?')) {
+                    location.replace(/*[[@{/customer/login.do}]]*/"");
+                }
+                
+            } else {
+                const url = [[@{/api/customer/checkReview.json}]] + `?id=${user.username}` + `&itemno=` + itemNO;
+                console.log(url);
+                const headers = {"Content-Type":"application/json"};
+                const { data } = await axios.get(url, {headers:headers});
+
+                console.log("반환값 확인", data);
+
+
+                if (data.reviewCount == 0) {
+                    // reviewCount = 0이면 리뷰 작성 모달창 띄우기
+
+                    openPopup('#myPopup');
+
+                } else if (data.reviewCount == 1){
+                    // reviewCount = 1이면 작성 가능 리뷰 없음
+                    alert('작성 가능한 리뷰가 없습니다.');
+
+                }
+
+            }
+        }
+
+// ----------------------------------------------------------------------------------------------
+        // 리뷰 모달 띄우기
+        function openPopup(popup) {
+            /* Open popup and make accessible screen readers */
+            $(popup).show().attr("aria-hidden", "false");
+            /* Focus on element to guide screen readers to popup */
+            $("#closePopup").focus();
+        }
+
+        // 리뷰 모달 닫기
+        function closePopup(popup) {
+            /* Close popup and hide from screen readers */
+            $(popup).hide().attr("aria-hidden", "true");
+            /* Focus screen readers back to button */
+            $("#openMyPopup").focus();
+        }
+
+
+        const img1 = document.getElementById('img1');
+        const img2 = document.getElementById('img2');
+
+        // 리뷰 사진 누르기
+        function clickImage() {
+            // if (img1.src != "" && img2.src != "") {
+            //     alert('이미지는 최대 2장까지 첨부가능합니다.');
+            //     false;
+            // } else{
+            //     document.getElementById("file").click();
+            // }
+
+            if (img1.src != "" && img2.src != "") {
+                alert('이미지는 최대 2장까지 첨부가능합니다.');
+                false;
+            } else if(img1.src == "") {
+                document.getElementById("file1").click();
+            } else if (img1.src != "") {
+                document.getElementById("file2").click();
+            }
+        }
+
+        // 사진 선택하면 보이기
+        function imageChange(e) {
+            console.log(e.files);
+
+            if(e.files.length > 0) { // 파일을 첨부했을 때
+                    // 파일을 첨부하면 크롬에서 blob:http://127.0.0.1:8080/b8308e93-a1b3-4b.... 가상의 url을 만들어줌
+                    if(img1.src == "") {
+                        img1.src = URL.createObjectURL(e.files[0]); // 가상의 url 정보를 생성해서 추가함
+                        console.log( URL.createObjectURL(e.files[0]) );
+                        img1.style.display = 'inline-block';
+                    } else {
+                        img2.src = URL.createObjectURL(e.files[0]); // 가상의 url 정보를 생성해서 추가함
+                        console.log( URL.createObjectURL(e.files[0]) );
+                        img2.style.display = 'inline-block';
+                    }     
+            } else { // 파일 첨부를 취소했을 때
+                    img.src = "${pageContext.request.contextPath}/resources/images/day15_item/noimage.jpg";
+            }
+        }
+
+        function writeReview() {
+            if(confirm('리뷰 등록할까요?')) {
+                document.querySelector('#form1').submit();
+            }
+            
         }
 
         

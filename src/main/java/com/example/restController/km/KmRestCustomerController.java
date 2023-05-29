@@ -1,20 +1,25 @@
 package com.example.restController.km;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.CustomerUser;
+import com.example.dto.KmReviewCheck;
 import com.example.dto.Purchase;
 import com.example.dto.PurchaseOrder;
 import com.example.dto.PurchaseStatus;
+import com.example.entity.km.KmCheckReviewView;
 import com.example.service.km.KmCustomerService;
 
 import lombok.RequiredArgsConstructor;
@@ -91,8 +96,6 @@ public class KmRestCustomerController {
             } else { // 공구 참여
                 log.info("공구참여 ret 확인 => {} {}", ret2, ret3);
             }
-
-              
             
             // 공구의 참여 인원 다 찼는지 체크 해주기
             int remaingPerson = customerService.countRemainingPerson(purchaseNo);
@@ -146,5 +149,36 @@ public class KmRestCustomerController {
         }
         return retMap;
     }
-    
+
+    @GetMapping(value="/checkReview.json")
+    public Map<String, Object> checkReviewGET(@RequestParam(name = "id") String id, 
+                                                @RequestParam(name="itemno") long itemno) { 
+        Map<String, Object> retMap = new HashMap<>();
+        try {
+            log.info("체크체크check1 => {}", id);
+            log.info("체크체크check2 => {}", itemno);
+
+            // 리뷰 등록 전 구매한 상품이 맞는지 확인하기
+            List<BigDecimal> purchaseNoList = customerService.selectCheckOrder(itemno, id);
+            log.info("리뷰 확인하기 => {}", purchaseNoList);
+
+            retMap.put("reviewCount", 1);
+
+            // 리뷰 작성 여부 확인하기 (위에서 purchaseNo 받아옴)
+            for(BigDecimal purchaseNo : purchaseNoList) {
+                KmCheckReviewView obj = customerService.checkReview(id, purchaseNo);
+                if(obj.getReviewno() == null) {
+                    retMap.put("reviewCount", 0);
+                    break;
+                }
+            }
+            System.out.println("retMap => " + retMap.get("reviewCount"));
+
+            retMap.put("result", 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("result", -1);
+        }
+        return retMap;
+    }
 }
