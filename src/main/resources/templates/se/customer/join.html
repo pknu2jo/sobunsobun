@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>새로운 1인가구 공구문화 - 소분소분</title>
+    <link rel="icon" th:href="@{/images/se/sobun.ico}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- font-awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <th:block th:replace="~{/se/customer/header :: headerCSS}"></th:block>
+    <th:block th:replace="~{/km/customer/footer :: footerCSS}"></th:block>
+
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <!-- axios (https://cdnjs.com/libraries/axios) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <!-- header -->
+    <th:block th:replace="~{/se/customer/header :: headerHTML}"></th:block>
+    
+    <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
+    <div style="padding-bottom: 300px;">
+        <div class="container">
+            <form th:action="@{/customer/join.do}" method="post" id="joinForm"><br>
+                <input type="text" name="id" placeholder="아이디" onkeyup="IdCheck(this)" autofocus><br>
+                <label id="idcheck">아이디 중복확인</label>
+                <input type="password" name="pw" placeholder="암호" value="se"><br>
+                <input type="password" name="pw2" placeholder="암호확인" value="se" onkeyup="PwCheck(this)"><br>
+                <label id="pwcheck">비밀번호 중복확인</label>
+                <input type="text" name="name" placeholder="이름" value="이름"><br>
+                <input type="tel" name="phone" placeholder="연락처" value="01053535353"><br>
+                <input type="email" name="email" placeholder="이메일" value="e@emial.com"><br>
+                <input type="text" name="nickname" placeholder="닉네임" value="닉네임"><br>
+                <input type="radio" name="gender" value="F" checked="checked">F &nbsp;
+                <input type="radio" name="gender" value="M" >M<br>
+
+                <!-- 주소 -->
+                <input type="button" onclick="sample6_execDaumPostcode()" value="내주소 찾기">
+                <input type="text" name="postcode" id="sample6_postcode" placeholder="우편번호" readonly>
+                <input type="text" name="address1" id="sample6_address" placeholder="주소" readonly>
+                <input type="text" name="address2" id="sample6_detailAddress" placeholder="상세주소">
+                <input type="text" name="address3" id="sample6_extraAddress" placeholder="추가정보">
+                <input type="hidden" name="latitude" id="latitude">
+                <input type="hidden" name="longitude" id="longitude">
+                <!-- 주소 -->
+
+                <button type="button" onclick="joinAction()">회원가입</button>
+            </form>
+        </div>
+        
+    </div>
+
+    <!-- footer -->
+    <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
+
+
+    
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
+    <!-- 다음우편주소 -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f37acd51f39500af41a1f590e928481e&libraries=services"></script> <!-- 카카오 REST API 키 // 사이트 도메인 주소 지정하기 -->
+    
+    <script th:inline="javascript" type="text/javascript">
+        // 아이디 중복 확인 -----------------------------------------------------------------------------------
+        async function IdCheck(e) {
+            // console.log(e.value);
+        if(e.value.length > 0){
+
+            const url = [[@{/api/idcheck.json}]] + `?id=${e.value}`;
+            const headers = {"Content-Type" : "application/json"};
+            const { data } = await axios.get(url, {headers});
+            // console.log(data.chk);
+
+            if(data.chk === 1){
+                document.getElementById("idcheck").innerText = "이미 사용 중인 아이디입니다";
+                document.getElementById("idcheck").style.color = 'red';
+            }
+            else if(data.chk === 0){
+                document.getElementById("idcheck").innerText = "사용할 수 있는 아이디입니다";
+                document.getElementById("idcheck").style.color = 'black';
+            }
+            else if(data.chk === -1){
+                document.getElementById("idcheck").innerText = "error";
+            }
+
+        } else {
+            document.getElementById("idcheck").innerText = "아이디를 입력하세요";
+        }
+
+        }
+        // 아이디 중복 확인
+
+        // 비밀번호 확인
+        const PwCheck = () => {
+            const pw = document.querySelector("input[name='pw']");
+            const pw2 = document.querySelector("input[name='pw2']");
+
+            if( pw.value !== pw2.value ){
+                document.getElementById("pwcheck").innerText = "일치하지 않는 암호입니다";
+                document.getElementById("pwcheck").style.color = 'red';
+            }
+            else {
+                document.getElementById("pwcheck").innerText = "암호가 일치합니다";
+                document.getElementById("pwcheck").style.color = 'black';
+            }
+        }
+
+        // 유효성 검사 -----------------------------------------------------------------------------------
+        const joinAction = () => {
+            
+            const id = document.querySelector("input[name='id']");
+            const pw = document.querySelector("input[name='pw']");
+            const pw2 = document.querySelector("input[name='pw2']");
+            const name = document.querySelector("input[name='name']");
+            const phone = document.querySelector("input[name='phone']");
+            const email = document.querySelector("input[name='email']");
+            const nickname = document.querySelector("input[name='nickname']");
+            const gender = document.querySelector("input[name='gender']:checked");
+            const latitude = document.querySelector("input[name='latitude']");
+            const longitude = document.querySelector("input[name='longitude']");
+            // console.log(gender); // 비어있으면 null // .value => 오류
+
+            var regIdPw = /^[a-zA-Z0-9]*$/;
+            if(id.value.length <= 0){
+                alert("아이디를 입력하세요");
+                id.focus();
+                return false;
+            }
+            if(!regIdPw.test(id.value)){
+                alert("아이디는 영문 대소문자와 숫자만 포함할 수 있습니다");
+                id.focus();
+                return false;
+            }
+            if( pw.value.length  <= 0 ){
+                alert("암호를 입력하세요");
+                pw.focus();
+                return false;
+            }
+            if( pw.value !== pw2.value ){
+                alert("암호가 일치하지 않습니다");
+                pw2.focus();
+                return false;
+            }
+            if( name.value.length  <= 0 ){
+                alert("이름를 입력하세요");
+                name.focus();
+                return false;
+            }
+            if( phone.value.length  <= 0 ){
+                alert("연락처를 입력하세요");
+                phone.focus();
+                return false;
+            }
+            if( email.value.length  <= 0 ){
+                alert("이메일을 입력하세요");
+                email.focus();
+                return false;
+            }
+            if( nickname.value.length  <= 0 ){
+                alert("닉네임을 입력하세요");
+                nickname.focus();
+                return false;
+            }
+            if( gender === null ){
+                alert("성별을 선택하세요");
+                return false;
+            }
+            if( latitude.value.length <= 0 || longitude.value.length <= 0 ){
+                alert("주소를 입력하세요");
+                return false;
+            }
+
+            document.querySelector('#joinForm').submit();
+        }
+        // 유효성 검사
+        
+        // 다음우편주소 -----------------------------------------------------------------------------------
+        var latitude = document.getElementById("latitude"); // 위도
+        var longitude = document.getElementById("longitude"); // 경도
+
+        var geocoder = new daum.maps.services.Geocoder();
+        function sample6_execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+                    
+                    // 주소 정보를 해당 필드에 넣는다.
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if(data.userSelectedType === 'R'){
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        // 정규식, 정규표현식 패턴을 찾아서
+                        // ex) 사용자가 입력한 이메일 주소가 정확한지 확인
+                        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if(data.buildingName !== '' && data.apartment === 'Y'){
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if(extraAddr !== ''){
+                            extraAddr = ' (' + extraAddr + ')';
+                        }
+                        // 조합된 참고항목을 해당 필드에 넣는다.
+                        document.getElementById("sample6_extraAddress").value = extraAddr;
+                    
+                    } else {
+                        document.getElementById("sample6_extraAddress").value = '';
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('sample6_postcode').value = data.zonecode;
+                    document.getElementById("sample6_address").value = addr;
+                    
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("sample6_detailAddress").focus();
+                    
+                    // 주소로 상세 정보를 검색
+                    geocoder.addressSearch(data.address, function(results, status) {
+                    
+                        // 정상적으로 검색이 완료됐으면
+                        if (status === daum.maps.services.Status.OK) {
+
+                            var result = results[0]; //첫번째 결과의 값을 활용
+
+                            var coords = new daum.maps.LatLng(result.y, result.x);
+        
+                            console.log("위도..?" + result.y);
+                            console.log("경도..?" + result.x);
+                            
+                            latitude.value = result.y;
+                            longitude.value = result.x;
+                            console.log(document.getElementById('sample6_postcode').value);
+                            
+                        }
+                    });
+                }
+            }).open();
+        }
+        // 다음우편주소
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>새로운 1인가구 공구문화 - 소분소분</title>
+    <link rel="icon" th:href="@{/images/se/sobun.ico}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- font-awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <th:block th:replace="~{/se/customer/header :: headerCSS}"></th:block>
+    <th:block th:replace="~{/km/customer/footer :: footerCSS}"></th:block>
+    <!-- 부트스트랩 js -->
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <!-- axios (https://cdnjs.com/libraries/axios) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+    <!-- header -->
+    <th:block th:replace="~{/se/customer/header :: headerHTML}"></th:block>
+    
+    <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
+    <div style="padding-bottom: 300px;">
+
+        <div class="container">
+
+            <!-- 비로그인 -->
+            <th:block th:if="${user} == null">
+
+                기한이 얼마 안 남은 공구 (5개) 
+                <hr>
+                <th:block th:each=" deadOne : ${deadList} ">
+                    <th:block th:text="${deadOne.price}"></th:block>
+                    <th:block th:text="|D-${deadOne.dday}|"></th:block>
+                    <img th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="width: 100px;">
+                </th:block>
+                <hr>
+                공구가 많이 열린 물품 (8개)
+                <hr>
+                <th:block th:each=" manyOne : ${manyList} ">
+                    <th:block th:text="${manyOne.price}"></th:block>
+                    <img th:src="@{/customer/seimage(itemno=${manyOne.itemno})}" style="width: 100px;">
+                </th:block>
+                <hr>
+
+            </th:block>
+
+
+            <!-- 로그인 -->
+            <th:block th:if="${user} != null">
+
+                내 주위 실시간 공구 (5개)
+                <hr>
+                <th:block th:each=" aroundOne : ${aroundList} ">
+                    <th:block th:text="${aroundOne.price}"></th:block>
+                    <img th:src="@{/customer/seimage(itemno=${aroundOne.itemno})}" style="width: 100px;">
+                </th:block>
+                기한이 얼마 안 남은 공구 (8개)
+                <hr>
+                <th:block th:each=" deadOne : ${deadList} ">
+                    <th:block th:text="${deadOne.price}"></th:block>
+                    <th:block th:text="|D-${deadOne.dday}|"></th:block>
+                    <img th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="width: 100px;">
+                </th:block>
+                <hr>
+                
+            </th:block>
+
+
+        </div>
+
+    </div>
+
+    <!-- footer -->
+    <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
+
+</body>
+</html>

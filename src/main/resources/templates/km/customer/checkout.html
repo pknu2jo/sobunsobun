@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>새로운 1인가구 공구문화 - 소분소분</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- font-awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- <link rel="stylesheet" th:href="@{/css/km/noneed_order/elegant-icons.css}" type="text/css">
+     <link rel="stylesheet" th:href="@{/css/km/noneed_order/magnific-popup.css}" type="text/css">
+     <link rel="stylesheet" th:href="@{/css/km/noneed_order/jquery-ui.min.css}" type="text/css">
+     <link rel="stylesheet" th:href="@{/css/km/noneed_order/owl.carousel.min.css}" type="text/css">
+     <link rel="stylesheet" th:href="@{/css/km/noneed_order/slicknav.min.css}" type="text/css"> -->
+
+    <link rel="stylesheet" th:href="@{/css/km/noneed_order/checkoutstyle.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/km/noneed_order/checkouttable.css}" type="text/css">
+
+    <th:block th:replace="~{/se/customer/header :: headerCSS}"></th:block>
+    <th:block th:replace="~{/km/customer/footer :: footerCSS}"></th:block>
+
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <!-- axios (https://cdnjs.com/libraries/axios) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
+        integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- 토스페이 cdn -->
+    <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+</head>
+<!-- 주문 페이지-->
+
+<body>
+    <!-- header -->
+    <th:block th:replace="~{/se/customer/header :: headerHTML}"></th:block>
+
+    <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
+    <div class="checkout spad" style="padding-bottom: 350px;">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h6 class="coupon__link">
+                        <!-- <i class="fa fa-tag"></i> <a th:href="@{/customer/item/selectone.do(no=${})}" style="text-decoration: none;">이전페이지 돌아가기</a> -->
+                    </h6>
+                </div>
+            </div>
+            <div class="checkout__form">
+                <div class="row" style="margin-right: 0;margin-left: 0;">
+
+                    <!-- 주문 정보 ~ -->
+                    <div class="col-lg-8 mb-4">
+                        <h5>주문정보</h5>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="checkout__form__input">
+                                    <div style="display: inline-block;">
+                                        <sapn>주문하시는 분 <label>*</label> </span>
+                                        <input type="text" id="buyer_name" th:value="${customer.name}">
+                                    </div>
+                                </div>
+
+                                <div class="checkout__form__input">
+                                    <p>휴대전화 <span>*</span></p>
+                                    <input type="text" id="phone1" th:value="${phoneAndEmail.phone1}"maxlength="3">
+                                    <input type="text" id="phone2" th:value="${phoneAndEmail.phone2}" maxlength="4">
+                                    <input type="text" id="phone3" th:value="${phoneAndEmail.phone3}" maxlength="4">
+                                </div>
+                                <div class="checkout__form__input">
+                                    <p>이메일 <span>*</span></p>
+                                    <input type="text" id="email1" th:value="${phoneAndEmail.email1}">
+                                    <span>@</span>
+                                    <input type="text" id="email2" th:value="${phoneAndEmail.email2}" readonly>
+                                    <select name="emailAddr" id="selectEmail" onChange="email_change(this.value);">
+                                        <option value="1">선택하세요</option>
+                                        <option value="naver.com">naver.com</option>
+                                        <option value="gmail.com">gmail.com</option>
+                                        <option value="daum.net">daum.net</option>
+                                        <option value="hanmail.net">hanmail.net</option>
+                                        <option value="nate.com">nate.com</option>
+                                        <option value="2">직접 입력</option>
+                                    </select>
+                                </div>
+                                <div class="checkout__form__input">
+                                    <p>참여인원 <span>*</span></p>
+                                    <input type="text" th:value="|${obj.participant}명|" readonly>
+                                </div>
+                                <div class="checkout__form__input">
+                                    <p>수령지점 <span>*</span></p>
+                                    <input type="text" th:value="${storage.name}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ~ 주문 정보 -->
+
+                    <!-- 최종 결제 금액 ~ -->
+                    <div class="col-lg-4" style="margin-top: 60px;">
+                        <div class="checkout__order">
+                            <h5>최종 결제 금액</h5>
+                            <div class="checkout__order__product">
+                                <ul>
+                                    <li>
+                                        <span class="top__text">카드 결제</span>
+                                        <!-- <span class="top__text__right">Total</span> -->
+                                    </li>
+                                    <li>상품 금액 <span th:text="${#numbers.formatInteger(obj.pricePerOne, 3, 'COMMA') + '원'}"></span></li>
+                                    <li>배송비<span th:text="${#numbers.formatInteger(2000 / obj.participant, 3, 'COMMA') + '원'}"></span></li>
+                                </ul>
+                            </div>
+                            <div class="checkout__order__total">
+                                <ul>
+                                    <li>Total <span id="total_price" th:text="${#numbers.formatInteger(obj.pricePerOne + 2000 / obj.participant, 3, 'COMMA') + '원'}"></span></li>
+                                </ul>
+                            </div>
+
+                            <!-- 결제하기 버튼 누르면 유효성 검사 먼저 실시 => function validation()
+                            유효성 검사 통과 하면 validation 함수에서 requestPay() 호출하기 -->
+                            <!-- <button type="button" onclick="requestPay()" class="site-btn">결제하기</button> -->
+                            <button type="button" onclick="validation()" class="site-btn">결제하기</button>
+                        </div>
+                    </div>
+                    <!-- ~ 최종 결제 금액 -->
+
+                    <!-- 결제 수단 ~ -->
+                    <!-- <div class="col-lg-8 table_container mb-4 mt3">
+                        <h5>결제수단</h5>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- ~ 결제 수단 -->
+
+                    <!-- 상품 정보 ~ -->
+                    <div class="col-lg-8 mt-3 table_container">
+                        <h5 style="margin-bottom: 0;">상품정보</h5>
+                        <div class="row" style="margin-top: -20px;">
+                            <div class="col-lg-12">
+                                <!-- 테이블 시작 ~ -->
+                                <div class="container">
+                                    <div class="row row--top-20">
+                                        <div class="col-md-12">
+                                            <div class="table-container">
+                                                <table class="table">
+                                                    <thead class="table__thead">
+                                                        <tr>
+                                                            <th class="table__th">상품정보</th>
+                                                            <th class="table__th">총판매가</th>
+                                                            <th class="table__th">1인당 판매가</th>
+                                                            <th class="table__th">배송비</th>
+                                                            <th class="table__th">합계</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="table__tbody">
+                                                        <tr class="table-row table-row--item">
+                                                            <td class="table-row__td">
+                                                                <div class="table-row__img">
+                                                                    <img th:src="${obj.imageUrl}" alt="">
+                                                                </div>
+                                                                <div class="table-row__info">
+                                                                    <p class="table-row__name"
+                                                                        th:text="${obj.itemName}"></p>
+                                                                </div>
+                                                            </td>
+                                                            <td data-column="Policy" class="table-row__td">
+                                                                <div class="">
+                                                                    <p class="table-row__policy"
+                                                                        th:text="${#numbers.formatInteger(obj.itemPrice, 3, 'COMMA') + '원'}">
+                                                                    </p>
+                                                                </div>
+                                                            </td>
+                                                            <td data-column="Policy" class="table-row__td">
+                                                                <p class="table-row__policy"
+                                                                    th:text="${#numbers.formatInteger(obj.pricePerOne, 3, 'COMMA') + '원'}">
+                                                                </p>
+                                                            </td>
+                                                            <td data-column="Destination" class="table-row__td" th:text="|2,000원 / ${obj.participant}명|">
+                                                                
+                                                            </td>
+                                                            <td data-column="Policy" class="table-row__td">
+                                                                <p class="table-row__policy">합계</p>
+                                                            </td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- ~ 테이블 시작 -->
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- ~ 상품 정보 -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
+
+
+
+
+    <!-- 
+        <script th:src="@{/js/km/noneed_order/jquery.magnific-popup.min.js}"></script> 
+        <script th:src="@{/js/km/noneed_order/jquery-ui.min.js}"></script> 
+        <script th:src="@{/js/km/noneed_order/mixitup.min.js}"></script> 
+        <script th:src="@{/js/km/noneed_order/jquery.countdown.min.js}"></script> 
+        <script th:src="@{/js/km/noneed_order/jquery.slicknav.js}"></script> 
+        <script th:src="@{/js/km/noneed_order/owl.carousel.min.js}"></script> 
+        <script th:src="@{/js/km/noneed_order/jquery.nicescroll.min.js}"></script> 
+        <script th:src="@{/js/km/noneed_order/main.js}"></script> 
+    -->
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <!-- 아임포트 라이브러리 -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+    <!-- axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+
+    <script th:inline="javascript" type="text/javascript">
+
+        const buyer_name = document.querySelector("#buyer_name");
+        const phone1 = document.querySelector("#phone1");
+        const phone2 = document.querySelector("#phone2");
+        const phone3 = document.querySelector("#phone3");
+        const email1 = document.querySelector("#email1");
+        var email2 = document.querySelector("#email2");
+        var address = "";
+        const address1 = /*[[${storage.address1}]]*/"";
+        const address2 = /*[[${storage.address2}]]*/"";
+        const address3 = /*[[${storage.address3}]]*/"";
+        const customer_id = /*[[${customer.id}]]*/"";
+        const purchaseNo = /*[[${obj.purchaseNo}]]*/"";
+        const participant = /*[[${obj.participant}]]*/"";
+        const storageNo = /*[[${obj.storageNo}]]*/"";
+        const itemNo = /*[[${obj.itemNo}]]*/"";
+
+
+
+        // 이메일 뒤쪽 부분
+        var selectEmail = document.querySelector("#selectEmail");
+        const selectEmailLength = selectEmail.options.length;
+
+        for(let i=0; i<selectEmailLength; i++) {
+            if(selectEmail.options[i].value == email2.value) {
+                selectEmail.options[i].selected = true;
+            }
+        }
+
+        function email_change(value) {
+            if(value === "2") { // 직접 입력 클릭 시
+                email2.value = ""; // 직접입력하는 칸 초기화
+                email2.readOnly = false;
+                email2.focus();
+            } else if(value === "1") { // 선택하세요 클릭 시
+                email2.value = ""; // 직접입력하는 칸 초기화
+                email2.readOnly = true;
+            } else {
+                email2.value = value; // 넘어온 콤보박스 값(세팅된 메일 주소)을 텍스트 필드에 넣기
+                email2.readOnly = true;
+            }
+        }
+
+        // 유효성 검사
+        function validation() {
+            if(buyer_name.value.length <= 0) {
+                alert("주문자 성명 항목은 필수 입력값입니다.");
+                buyer_name.focus();
+                return;
+            }
+            if(phone1.value.length != 3) {
+                alert('올바른 휴대전화번호를 입력 하세요.');
+                phone1.focus();
+                return;
+            }
+            if( !(phone2.value.length == 3 || phone2.value.length == 4) ) {
+                alert('올바른 휴대전화번호를 입력 하세요.');
+                phone2.focus();
+                return;
+            }
+            if(phone3.value.length != 4) {
+                alert('올바른 휴대전화번호를 입력 하세요.');
+                phone3.focus();
+                return;
+            }
+            if(email1.value.length <= 0) {
+                alert('올바른 이메일 형식이 아닙니다. 다시 입력해주세요.');
+                email1.focus();
+                return;
+            }
+            // 이메일 관련
+            if(email2.value.length <= 0) {
+                alert("메일 주소 확인");
+                email2.focus();
+                return;
+            }
+
+            requestPay();
+        }
+
+        
+           
+
+        // 결제 부분 (아임포트)
+        const IMP = window.IMP; // 생략 가능
+        IMP.init("imp07130721"); // 예: imp00000000a
+
+        var today = new Date();   
+        var hours = today.getHours(); // 시
+        var minutes = today.getMinutes();  // 분
+        var seconds = today.getSeconds();  // 초
+        var milliseconds = today.getMilliseconds();
+        var makeMerchantUid = hours +  minutes + seconds + milliseconds;
+
+        totalPrice = Math.floor(parseInt(/*[[${obj.pricePerOne}]]*/"") + parseFloat(2000 / /*[[${obj.participant}]]*/""));
+        // console.log(totalPrice);
+        // console.log("---------");
+        // console.log(id + makeMerchantUid);
+
+        if( address3 == null) {
+            if(address2 == null) {
+                address = address1;
+            } else {
+                address = address1 + address2;
+            }
+        } else {
+            if(address2 == null) {
+                address = address1 + address3;
+            } else {
+                address = address1 + address2 + address2;
+            }
+        }
+
+        function requestPay() {
+
+            IMP.request_pay({
+                pg: "html5_inicis",
+                pay_method: "card",
+                merchant_uid: customer_id + makeMerchantUid, // 주문번호 (고유해야함)나중에 IMP 자리에 고객 아이디 집어넣기
+                name: /*[[${obj.itemName}]]*/"",
+                // amount: totalPrice,                         // 숫자 타입
+                amount: 100,    
+                buyer_email: email1.value + "@" + email2.value, // 세션에 저장된 아이디로 컨트롤러에서 customer 가져오기
+                buyer_name: buyer_name.value, 
+                buyer_tel: phone1.value + "-" + phone2.value + "-" + phone3.value,
+                buyer_addr: address,
+                buyer_postcode: /*[[${storage.postcode}]]*/""
+            }, async function (rsp) { // callback
+                //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+                if(rsp.success) {
+                    console.log(rsp);
+                    // 담기는 값 확인
+                        // apply_num : "00442238"
+                        // bank_name :  null
+                        // buyer_addr : "부산시 남구 신선로 365"
+                        // buyer_email : "ming9396@naver.com"
+                        // buyer_name : "이경민"
+                        // buyer_postcode : "48905"
+                        // buyer_tel : "010-4665-4069"
+                        // card_name : "현대카드"
+                        // card_number : "489016*********2"
+                        // card_quota : 0
+                        // currency : "KRW"
+                        // custom_data : null
+                        // imp_uid : "imp_667092871400"
+                        // merchant_uid : "IMP194"
+                        // name : "액체형 세제 2.8L 6개"
+                        // paid_amount : 100
+                        // paid_at : 1684826114
+                        // pay_method : "card"
+                        // pg_provider : "html5_inicis"
+                        // pg_tid : "StdpayCARDINIpayTest20230523161514230573"
+                        // pg_type : "payment"
+                        // receipt_url : "https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid=StdpayCARDINIpayTest20230523161514230573&noMethod=1"
+                        // status : "paid"
+
+
+                    // Rest로 보내보자~~~
+                    // rest Post로 해서 처리해 (공구 추가하기 || 공구 현황 추가하기)
+                    // 처리해서 1이면 
+                    // 여기서 다시 어쩌고 페이지로 반환해 실패하면 ㄷ~ 해
+                    // 주문번호..?글킨해
+                    const url = /*[[@{/api/customer/order.json}]]*/"";
+                    const headers = {"Content-Type":"application/json"};
+                    const body = { participant : participant, storageNo:storageNo, 
+                                    itemNo:itemNo, totalPrice:totalPrice,
+                                    purchaseNo:purchaseNo, no: customer_id + makeMerchantUid,  
+                                    };
+                    const { data } = await axios.post(url, body, {headers:headers});
+                    console.log("반환되는 결과", data);
+
+                    
+                    if ( data.result == 200) {
+                        // 성공하면 결제 성공 페이지 띄워
+                        location.replace(/*[[@{/customer/ordersuccess.do}]]*/"");
+                    } else {
+                        // 실패하면 에러 페이지 띄워
+                        location.replace(/*[[@{/error}]]*/"");
+                    }
+                } else {
+                    console.log(rsp);
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

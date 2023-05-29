@@ -59,4 +59,8 @@ public class Item {
     @ToString.Exclude
     @OneToMany(mappedBy = "itemNo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     List<ItemImage> imageList = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "itemEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    List<ReviewEntity> reviewList = new ArrayList<>();
 }

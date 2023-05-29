@@ -10,7 +10,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString(exclude = {"pw"})
+@ToString(exclude = { "pw" })
 @NoArgsConstructor
 @AllArgsConstructor
 public class Customer {
@@ -33,7 +33,8 @@ public class Customer {
     // 블랙리스트체크(기본값 0, 블랙리스트가 되면 1)
     private long blockChk;
     // 탈퇴유뮤(기본값 0, 탈퇴하면 1)
-    private long quitChk;		  
-    
+    private long quitChk;
+
     private String newPw;
+    private int statechk;
 }
