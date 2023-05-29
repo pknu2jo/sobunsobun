@@ -68,18 +68,29 @@ public class MjItemImageController {
     /* =============================이미지등록================================= */ 
 
     @PostMapping(value = "/insertimage.do")
-    public String insertImagePOST(@ModelAttribute ItemImage obj, @RequestParam(name = "tmpFile") MultipartFile file,
-                                @RequestParam(name = "tmpFile[]") MultipartFile[] file1,
-                                @RequestParam(name = "item.no") BigDecimal itemno,
-                                @RequestParam(name = "image", required = false ) long image
-                                ){
+    public String insertImagePOST(@ModelAttribute ItemImage obj, @RequestParam(name = "tmpFile", required = false) MultipartFile file,
+                                @RequestParam(name = "tmpFile[]", required = false) MultipartFile[] files,
+                                @RequestParam(name = "item.no", required = false) BigDecimal itemno,
+                                @RequestParam(name = "image", required = false) long image
+                                ) throws IOException{
+            log.info("물품번호=>{}", itemno.toString());
+            log.info("이미지=>{}", image);
+            if(file != null){
+                log.info("file=>{}", file.getOriginalFilename());
+            }
+            if(files != null){
+                for(MultipartFile m : files){
+                    log.info("files=>{}", m.getOriginalFilename());
+                }
+            }
         try {
-            
             // 대표이미지 등록/수정
             if(image==0){
+                // 물품번호에 해당하는 이미지 중 "상세"가 포함되지않은 이미지 가져오기
                 ItemImage image1 = imageRepository.findByItemNo_noAndFilenameNotLikeOrderByNoAsc(itemno, "%상세%");
+                // 대표이미지가 있으면 새이미지로 수정
                 if(image1 != null){
-                    
+                    log.info("이미지 33 => {}" , image1.getFilename());
                     image1.setFilesize( BigDecimal.valueOf( file.getSize() ) );
                     image1.setFiledata( file.getInputStream().readAllBytes() );
                     image1.setFiletype( file.getContentType() );
@@ -89,7 +100,8 @@ public class MjItemImageController {
                     image1.setItemNo( obj1 );
                     imageRepository.save(image1);
                 }
-                else{
+                // 대표이미지가 없으면 새이미지 등록
+                else {
                     ItemImage image2 = new ItemImage();
                     image2.setFilesize( BigDecimal.valueOf( file.getSize()) );
                     image2.setFiledata( file.getInputStream().readAllBytes() );
@@ -100,34 +112,23 @@ public class MjItemImageController {
                     image2.setItemNo( obj1 );
                     imageRepository.save(image2);
                 }
-                
     
             }
             // 상세이미지 등록
             else if(image==1){
-                for(int i=0; i<file1.length; i++){
-                    
+                for(MultipartFile file1 : files){
+                    ItemImage images = new ItemImage();
+                    images.setFilesize( BigDecimal.valueOf(file1.getSize()) );
+                    images.setFiledata( file1.getInputStream().readAllBytes() );
+                    images.setFiletype( file1.getContentType() );
+                    images.setFilename( file1.getOriginalFilename() + "_상세");
+
+                    Item obj1 = new Item();
+                    obj1.setNo(itemno);
+                    images.setItemNo( obj1 );
+
+                    imageRepository.save(images);
                 }
-                obj.setFilesize( BigDecimal.valueOf(file.getSize()) );
-                obj.setFiledata( file.getInputStream().readAllBytes() );
-                obj.setFiletype( file.getContentType() );
-                obj.setFilename( file.getOriginalFilename() + "_상세");
-                Item obj1 = new Item();
-                obj1.setNo(itemno);
-                obj.setItemNo( obj1 );
-                log.info( "imageFile => {}", obj.toString() );
-                
-                imageRepository.save(obj);
-                // obj.setFilesize( BigDecimal.valueOf(file.getSize()) );
-                // obj.setFiledata( file.getInputStream().readAllBytes() );
-                // obj.setFiletype( file.getContentType() );
-                // obj.setFilename( file.getOriginalFilename() + "_상세");
-                // Item obj1 = new Item();
-                // obj1.setNo(itemno);
-                // obj.setItemNo( obj1 );
-                // log.info( "imageFile => {}", obj.toString() );
-    
-                // imageRepository.save(obj);
             }
 
             return "redirect:/seller/itemimage/selectlist.do?no=" + itemno;
@@ -135,7 +136,7 @@ public class MjItemImageController {
             e.printStackTrace();
             return "redirect:/seller/home.do";
         }
-    }
+    }   
 
     /* =============================이미지삭제================================= */ 
     @PostMapping(value = "/deleteimage.do")

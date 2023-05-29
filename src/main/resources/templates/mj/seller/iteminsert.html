@@ -187,8 +187,8 @@
                         <!-- <input type="text" th:value="${ret.no}" id="itemno"> -->
                         <button type="button" onclick="insertitem()">등록</button>
                         <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#insertitem" onclick="insertitem()">등록</button>
-                        <!-- Modal -->
-                    <!-- </form> -->
+                        <!-- </form> -->
+                    <!-- Modal -->
                     <div class="modal fade" id="insertitem" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
                         <div class="modal-content">
@@ -199,7 +199,7 @@
                                 물품이 등록되었습니다. 이미지를 등록하시겠습니까?
                             </div>
                             <div class="modal-footer">
-                            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">아니요</button>
+                            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" id="tomanagement">아니요</button>
                             <button type="submit" class="btn btn-primary" id="insertimage" onclick="insertimage()">네</button>
                             </div>
                         </div>
@@ -323,7 +323,11 @@
             document.getElementById('insertimage').addEventListener("click", clickFunction);
             function clickFunction() {
                 window.location.href = `/SOBUN/seller/itemimage/selectlist.do?no=` + data.itemno;
+            }
     
+            document.getElementById('tomanagement').addEventListener("click", clickFunction1);
+            function clickFunction1() {
+                window.location.href = `/SOBUN/seller/item/management.do`;
             }
         }
         
