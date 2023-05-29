@@ -206,7 +206,7 @@
             text-align: center;
             margin-left: 15px;
             margin-right: 15px;
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
         .calender .grade .info .btn_date_1month{
@@ -218,15 +218,15 @@
         }
 
         .calender .grade .info .btn_date{
-            width : 85px;
+            width : 100px;
             background-color: #0e0e0e;
             color: #fff;
             font-size: 15px;
             /* margin-left: 20px; */
         }
 
-        .calender .grade .info #date1, #date2{
-            width: 130px;
+        .calender .grade .info #fd, #sd{
+            width: 150px;
             border: 1px solid #d9d9d9;
             background-color: #fff;
             font-size: 14px;
@@ -441,10 +441,10 @@
         <div class="calender d-flex justify-content-center">
             <div class="grade">
                 <div class="info d-flex justify-content-center">
-                    <input class="btn_date_1month" type="button" value="최근1개월">
-                    <input type="date" id="date1" onchange="orderdate()" >
+                    <!-- <input class="btn_date_1month" type="button" value="최근1개월"> -->
+                    <input type="date" id="fd" name="firstdate" onchange="firstdatechange()" >
                     <span class="datespan">~</span>
-                    <input type="date"  id="date2" onchange="orderdate()" >
+                    <input type="date" id="sd" name="seconddate" onchange="seconddatechange()" >
                     <input class="btn_date" type="button" value="조 회">
                 </div>
             </div>
@@ -517,27 +517,27 @@
     <!-- script-->
     <script th:inline="javascript" type="text/javascript">
 
-        // var date = new Date();
-        // var yyyy = date.getFullYear();
-        // var mm = date.getMonth()+1 > 9 ? date.getMonth()+1 : '0' + date.getMonth()+1;
-        // var dd = date.getDate() > 9 ? date.getDate : '0' + date.getDate();
 
-        // $("input[type=date]").val(yyyy+"-"+mm+"-"+dd);
 
         var now = new Date();
 
-        document.getElementById("date1").valueAsDate = new Date(now.setMonth(now.getMonth() - 1 ));
-        document.getElementById("date2").valueAsDate = new Date();
+        document.getElementById("fd").valueAsDate = new Date(now.setMonth(now.getMonth() - 1 ));
+        document.getElementById("sd").valueAsDate = new Date();
 
 
-        // function orderdate(){
-        //     var date1 = document.getElementById("date1").value;
-        //     var date2 = document.getElementById("date2").value;
+        function firstdatechange(){
+            var date1 = document.getElementById("fd").value;
 
-        //     console.log(date1);
-        //     console.log(date2);
+            console.log(date1);
 
-        // }
+        }
+
+        function seconddatechange(){
+            var date2 = document.getElementById("sd").value;
+
+            console.log(date2);
+
+        }
 
        
  

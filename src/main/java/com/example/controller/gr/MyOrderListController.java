@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.entity.gr.grpurchaseview;
+import com.example.mapper.gr.GrPurchaseItemMapper;
 import com.example.repository.gr.grpurchaseviewRepository;
 import com.example.service.gr.GrPurchaseItemService;
 import com.example.service.se.SePurchaseItemService;
@@ -40,6 +41,7 @@ public class MyOrderListController {
 
     final grpurchaseviewRepository grRepository;
     final GrPurchaseItemService gpiService;
+    final GrPurchaseItemMapper gpiMapper;
 
     // 이미지 전송용
     @Autowired
@@ -48,50 +50,67 @@ public class MyOrderListController {
     String DEFAULTIMAGE;
     final SePurchaseItemService piService;
 
+    // @GetMapping(value = "/myorderlist.do")
+    // public String myorderlistGET(@AuthenticationPrincipal User user, Model model,
+    // @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+    // @RequestParam(name = "timelimit", defaultValue = "0", required = false) int
+    // timelimit,
+    // @RequestParam(name = "firstdate", defaultValue = "0", required = false)
+    // String firstdate,
+    // @RequestParam(name = "seconddate", defaultValue = "0", required = false)
+    // String seconddate) {
+
+    // if (page == 0) {
+    // return "redirect:/customer/myorderlist.do?page=1";
+    // }
+
+    // int start = (page) * 5 - 4;
+    // int end = (page) * 5;
+
+    // Map<String, Object> map = new HashMap<>();
+
+    // map.put("start", start);
+    // map.put("end", end);
+    // map.put("memId", user.getUsername());
+
+    // List<grpurchaseview> list = gpiService.selectMyOrderListPage(map);
+    // // log.info("rkfkarkfka => {}", list.toString());
+
+    // long cnt = gpiService.countMyOrderList(user.getUsername());
+
+    // for (int i = 0; i < list.size(); i++) {
+
+    // log.info("skdhkfk => {}",
+    // Long.parseLong(list.get(i).getPsstate().toPlainString()));
+    // log.info("skdhkfk1 => {}",
+    // Long.parseLong(list.get(i).getCancel().toPlainString()));
+
+    // list.get(i).setCommaprice(Long.parseLong(list.get(i).getTotalprice().toPlainString()));
+    // if (Long.parseLong(list.get(i).getPsstate().toPlainString()) == 0
+    // && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
+    // list.get(i).setStatechk("결제 완료");
+    // } else if (Long.parseLong(list.get(i).getPsstate().toPlainString()) == 1
+    // && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
+    // list.get(i).setStatechk("주문 진행 중");
+    // } else if (Long.parseLong(list.get(i).getPsstate().toPlainString()) == 0
+    // && Long.parseLong(list.get(i).getCancel().toPlainString()) == 1) {
+    // list.get(i).setStatechk("결제 취소");
+    // }
+
+    // }
+    // model.addAttribute("list", list);
+    // model.addAttribute("pages", (cnt - 1) / 5 + 1);
+    // // log.info("rkfka list => {}", list.toString());
+
+    // return "/gr/customer/myorderlist";
+    // }
+
     @GetMapping(value = "/myorderlist.do")
     public String myorderlistGET(@AuthenticationPrincipal User user, Model model,
             @RequestParam(name = "page", defaultValue = "0", required = false) int page,
-            @RequestParam(name = "timelimit", defaultValue = "0", required = false) int timelimit) {
-
-        if (page == 0 && timelimit == 0) {
-            return "redirect:/customer/myorderlist.do?page=1";
-        }
-
-        int start = (page) * 5 - 4;
-        int end = (page) * 5;
-
-        Map<String, Object> map = new HashMap<>();
-
-        map.put("start", start);
-        map.put("end", end);
-        map.put("memId", user.getUsername());
-
-        List<grpurchaseview> list = gpiService.selectMyOrderListPage(map);
-        // log.info("rkfkarkfka => {}", list.toString());
-
-        long cnt = gpiService.countMyOrderList(user.getUsername());
-
-        for (int i = 0; i < list.size(); i++) {
-
-            log.info("skdhkfk => {}", Long.parseLong(list.get(i).getPsstate().toPlainString()));
-            log.info("skdhkfk1 => {}", Long.parseLong(list.get(i).getCancel().toPlainString()));
-
-            list.get(i).setCommaprice(Long.parseLong(list.get(i).getTotalprice().toPlainString()));
-            if (Long.parseLong(list.get(i).getPsstate().toPlainString()) == 0
-                    && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
-                list.get(i).setStatechk("결제 완료");
-            } else if (Long.parseLong(list.get(i).getPsstate().toPlainString()) == 1
-                    && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
-                list.get(i).setStatechk("주문 진행 중");
-            } else if (Long.parseLong(list.get(i).getPsstate().toPlainString()) == 0
-                    && Long.parseLong(list.get(i).getCancel().toPlainString()) == 1) {
-                list.get(i).setStatechk("결제 취소");
-            }
-
-        }
-        model.addAttribute("list", list);
-        model.addAttribute("pages", (cnt - 1) / 5 + 1);
-        // log.info("rkfka list => {}", list.toString());
+            @RequestParam(name = "timelimit", defaultValue = "0", required = false) int timelimit,
+            @RequestParam(name = "firstdate", defaultValue = "0", required = false) String firstdate,
+            @RequestParam(name = "seconddate", defaultValue = "0", required = false) String seconddate) {
 
         return "/gr/customer/myorderlist";
     }

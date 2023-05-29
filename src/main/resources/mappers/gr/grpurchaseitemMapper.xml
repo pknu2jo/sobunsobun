@@ -26,8 +26,8 @@
     </select>
 
     <!-- 기한내 구매목록 불러오기 -->
-    <select id="searchMyOrderList" parameterType="string" resultType="com.example.entity.gr.grpurchaseview">
-        SELECT * FROM GRPURCHASEVIEW WHERE (regdate BETWEEN #{date1} AND #{date2}) AND memId = #{id}
+    <select id="searchMyOrderList" parameterType="map" resultType="com.example.entity.gr.grpurchaseview">
+        SELECT * FROM GRPURCHASEVIEW WHERE (regdate BETWEEN #{fd} AND #{sd}) AND memId = #{id}
     </select>
         
     
