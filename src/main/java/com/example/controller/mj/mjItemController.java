@@ -26,8 +26,11 @@ import com.example.entity.ItemImage;
 import com.example.entity.Lcategory;
 import com.example.entity.Mcategory;
 import com.example.entity.Scategory;
+import com.example.entity.SellerEntity;
 import com.example.entity.mj.ItemCategoryView;
 import com.example.mapper.mj.mjItemMapper;
+import com.example.repository.SellerRepository;
+import com.example.repository.jk.JkSellerRepository;
 import com.example.repository.mj.ItemCategoryViewRepository;
 import com.example.repository.mj.ItemRepository;
 import com.example.repository.mj.LcateRepository;
@@ -47,6 +50,7 @@ public class mjItemController {
     final LcateRepository lRepository;
     final McateRepository mRepository;
     final ScateRepository sRepository;
+    final JkSellerRepository sellerRepository;
     final mjItemMapper iMapper;
     final ItemCategoryViewRepository icvRepository;
     final HttpSession httpSession; //세션객체
@@ -169,10 +173,14 @@ public class mjItemController {
         @ModelAttribute Lcategory obj1,
         @RequestParam(name = "lcate", required = false) BigDecimal Lcode,
         @RequestParam(name = "mcate", required = false) BigDecimal Mcode,
-        @RequestParam(name = "scate", required = false) BigDecimal Scode ){
+        @RequestParam(name = "scate", required = false) BigDecimal Scode
+        // @AuthenticationPrincipal User user
+         ){
         try {
             // log.info("user => {}", user.getUsername());
+            // SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
 
+            // SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);
 
             Category cate = new Category();
             List<Lcategory> list1 = lRepository.findAll();
@@ -192,45 +200,45 @@ public class mjItemController {
             // List<Item> list = new ArrayList<>();
             // list = iRepository.findAllByRegNoOrderByNoDesc("1248600538");
             List<ItemCategoryView> list = new ArrayList<>();
-            list = icvRepository.findAllByRegNoOrderByNoDesc("1078198143");
+            list = icvRepository.findAllByRegNoOrderByNoDesc("1248600538");
             // if( Lcode == BigDecimal.valueOf(000) ){ // cate가 없으면?
             // }
 
             // 전체 물품리스트
             if(Lcode == null && Mcode == null & Scode == null){
-                list = icvRepository.findAllByRegNoOrderByNoDesc("1078198143");
+                list = icvRepository.findAllByRegNoOrderByNoDesc("1248600538");
             }
             // 대분류별 물품리스트
             else if( Lcode != null && Mcode == null & Scode == null ){
                 // 대분류 전체 클릭시
                 if(Lcode.equals(BigDecimal.valueOf(000))){
-                    list = icvRepository.findAllByRegNoOrderByNoDesc("1078198143");
+                    list = icvRepository.findAllByRegNoOrderByNoDesc("1248600538");
                 }
                 // 대분류 각 카테고리별 물품리스트
                 else{
-                    list = icvRepository.findAllByRegNoAndLcategoryCodeOrderByNoDesc("1078198143", Lcode);
+                    list = icvRepository.findAllByRegNoAndLcategoryCodeOrderByNoDesc("1248600538", Lcode);
                 }
             }
             // 중분류별 물품리스트
             else if( Lcode != null && Mcode != null & Scode == null ){
                 // 중분류 전체 클릭시
                 if(Mcode.equals(BigDecimal.valueOf(000))){
-                    list = icvRepository.findAllByRegNoAndLcategoryCodeOrderByNoDesc("1078198143", Lcode);
+                    list = icvRepository.findAllByRegNoAndLcategoryCodeOrderByNoDesc("1248600538", Lcode);
                 }
                 // 중분류 각 카테고리별 물품리스트
                 else {
-                    list = icvRepository.findAllByRegNoAndMcategoryCodeOrderByNoDesc("1078198143", Mcode);
+                    list = icvRepository.findAllByRegNoAndMcategoryCodeOrderByNoDesc("1248600538", Mcode);
                 }
             }
             // 소분류별 물품리스트
             else if(Lcode != null && Mcode != null && Scode != null){
                 // 소분류 전체 클릭시
                 if(Scode.equals(BigDecimal.valueOf(000))){
-                    list = icvRepository.findAllByRegNoAndMcategoryCodeOrderByNoDesc("1078198143", Mcode);
+                    list = icvRepository.findAllByRegNoAndMcategoryCodeOrderByNoDesc("1248600538", Mcode);
                 }
                 // 소분류 각 카테고리별 물품리스트
                 else{
-                    list = icvRepository.findAllByRegNoAndScategoryCodeOrderByNoDesc("1078198143", Scode);
+                    list = icvRepository.findAllByRegNoAndScategoryCodeOrderByNoDesc("1248600538", Scode);
                 }
             }
             model.addAttribute("list", list);

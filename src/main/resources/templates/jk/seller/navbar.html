@@ -14,9 +14,9 @@
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" herf="#!" onclick="pwCheck1()">
+                            <a class="nav-link" th:herf="@{/seller/updateinfo.do}" onclick="pwCheck1()">
                                 내정보 수정하기</a>
-                            <a class="nav-link" herf="#!" onclick="pwCheck2()">
+                            <a class="nav-link" th:herf="@{/seller/updatepw.do}" onclick="pwCheck2()">
                                 비밀번호 변경하기</a>
                         </nav>
                     </div>
@@ -31,8 +31,8 @@
                     <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="#!">주문</a>
-                            <a class="nav-link" href="#!">배송</a>
+                            <a class="nav-link" th:href="@{/seller/order/search.do}">주문</a>
+                            <a class="nav-link" th:href="@{/seller/delivery/search.do}">배송</a>
                         </nav>
                     </div>
 
@@ -46,8 +46,8 @@
                     <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="#!">등록</a>
-                            <a class="nav-link" href="#!">관리</a>
+                            <a class="nav-link" th:href="@{/seller/item/management.do}">등록</a>
+                            <a class="nav-link" th:href="@{/seller/item/search.do}">관리</a>
                         </nav>
                     </div>
 
