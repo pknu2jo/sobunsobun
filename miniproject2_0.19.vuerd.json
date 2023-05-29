@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 3000,
     "height": 3000,
-    "scrollTop": -336.0000222523951,
-    "scrollLeft": -145.6667170657015,
-    "zoomLevel": 0.8,
+    "scrollTop": -417.66667097144614,
+    "scrollLeft": -720,
+    "zoomLevel": 1,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -480,9 +480,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 272.2852,
-          "top": 552.5572,
-          "zIndex": 69,
+          "left": 261.8689,
+          "top": 491.099,
+          "zIndex": 6,
           "widthName": 60,
           "widthComment": 60,
           "color": "#31419A"
@@ -1433,9 +1433,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 314.3809,
-          "top": 186.9537,
-          "zIndex": 84,
+          "left": 245.631,
+          "top": 229.6619,
+          "zIndex": 4,
           "widthName": 64.14990234375,
           "widthComment": 67,
           "color": "rgb(27,109,175)"
@@ -2722,8 +2722,8 @@
           "columnIds": [
             "c6b4c944-69b1-4683-b1b2-4817419b1ed4"
           ],
-          "x": 790.05521953125,
-          "y": 669.0572,
+          "x": 779.6389195312499,
+          "y": 607.5989999999999,
           "direction": "right"
         },
         "end": {
@@ -2835,8 +2835,8 @@
           "columnIds": [
             "8ae8fde9-ec19-4384-876a-6af698d8db2e"
           ],
-          "x": 832.15091953125,
-          "y": 293.2037,
+          "x": 763.40101953125,
+          "y": 335.9119,
           "direction": "right"
         },
         "constraintName": "fk_물품_to_물품이미지",

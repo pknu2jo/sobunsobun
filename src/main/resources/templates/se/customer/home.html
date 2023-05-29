@@ -25,9 +25,50 @@
     <div style="padding-bottom: 300px;">
 
         <div class="container">
-            <th:block th:each=" map : ${manyList} ">
-                <p th:text="${map.PRICE}"></p>
+
+            <!-- 비로그인 -->
+            <th:block th:if="${user} == null">
+
+                기한이 얼마 안 남은 공구 (5개) 
+                <hr>
+                <th:block th:each=" deadOne : ${deadList} ">
+                    <th:block th:text="${deadOne.price}"></th:block>
+                    <th:block th:text="|D-${deadOne.dday}|"></th:block>
+                    <img th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="width: 100px;">
+                </th:block>
+                <hr>
+                공구가 많이 열린 물품 (8개)
+                <hr>
+                <th:block th:each=" manyOne : ${manyList} ">
+                    <th:block th:text="${manyOne.price}"></th:block>
+                    <img th:src="@{/customer/seimage(itemno=${manyOne.itemno})}" style="width: 100px;">
+                </th:block>
+                <hr>
+
             </th:block>
+
+
+            <!-- 로그인 -->
+            <th:block th:if="${user} != null">
+
+                내 주위 실시간 공구 (5개)
+                <hr>
+                <th:block th:each=" aroundOne : ${aroundList} ">
+                    <th:block th:text="${aroundOne.price}"></th:block>
+                    <img th:src="@{/customer/seimage(itemno=${aroundOne.itemno})}" style="width: 100px;">
+                </th:block>
+                기한이 얼마 안 남은 공구 (8개)
+                <hr>
+                <th:block th:each=" deadOne : ${deadList} ">
+                    <th:block th:text="${deadOne.price}"></th:block>
+                    <th:block th:text="|D-${deadOne.dday}|"></th:block>
+                    <img th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="width: 100px;">
+                </th:block>
+                <hr>
+                
+            </th:block>
+
+
         </div>
 
     </div>

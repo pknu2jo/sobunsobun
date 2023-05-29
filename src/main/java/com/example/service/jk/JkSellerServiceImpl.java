@@ -1,9 +1,14 @@
 package com.example.service.jk;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 
 import com.example.dto.Seller;
+import com.example.entity.SellerEntity;
 import com.example.mapper.jk.SellerMapper;
+import com.example.repository.jk.JkSellerRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -12,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class JkSellerServiceImpl implements JkSellerService {
 
     final SellerMapper sMapper;
+    final JkSellerRepository sRepository;
 
     @Override
     public int joinSeller(Seller obj) {
@@ -88,4 +94,26 @@ public class JkSellerServiceImpl implements JkSellerService {
 
         }
     }
+
+    @Override
+    public int countByNo(String id) {
+        try {
+            return sRepository.countByNo(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+
+        }
+    }
+
+    // @Override
+    // public SellerEntity findEmailByNo(String id) {
+    //     try {
+    //         return sRepository.findEmailByNo(id);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return null;
+
+    //     }
+    // }
 }

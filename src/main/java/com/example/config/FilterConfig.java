@@ -37,8 +37,7 @@ public class FilterConfig {
         FilterRegistrationBean<UrlFilter> filterReg = new FilterRegistrationBean<>();
         filterReg.setFilter(filter);
         
-        filterReg.addUrlPatterns("/api/student2/*"); // *은 전체 url을 뜻함
-        // filterReg.
+        filterReg.addUrlPatterns("/customer/*", "/customer/item/*"); // *은 전체 url을 뜻함
 
         return filterReg;
     }

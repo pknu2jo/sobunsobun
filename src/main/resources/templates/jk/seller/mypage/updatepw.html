@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>소분소분 - 판매자 페이지</title>
     <!-- 1. Bootstrap용 css CDN 추가 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
         integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
@@ -20,6 +20,7 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller_mypage.css}'>
 </head>
 
 <body class="sb-nav-fixed">
@@ -29,25 +30,33 @@
     <!-- 전체화면 영역 -->
     <div id="layoutTotal">
         <!-- navbar -->
-            <th:block th:replace="~{/jk/seller/navbar :: navbarHTML}"></th:block>
+        <th:block th:replace="~{/jk/seller/navbar :: navbarHTML}"></th:block>
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
-            <main>
+            <main style="padding-bottom: 4%; background-color: #ffffff;">
                 <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
-
-
-                    <h3>비밀번호수정(seller)</h3>
-                    <hr />
-                    <form id="form" th:action="@{/seller/updatepw.do}" th:object="${seller}" method="post">
-                        <input type="text" th:field="${seller.no}" hidden /><br />
-                        <input id="oldPw" type="password" th:field="${seller.pw}" placeholder="현재 비밀번호" /><br />
-                        <input id="newPw" type="password" th:field="${seller.newPw}" placeholder="새 비밀번호" /><br />
-                        <input id="newPwChk" type="password" th:field="${seller.newPwCheck}"
-                            placeholder="새 비밀번호 확인" /><br />
-                        <button type="button" onclick="updatePw()">수정하기</button>
-                    </form>
-
-
+                    <div class="container mt-5">
+                        <h1 class="mb-4"><strong>비밀번호 변경하기</strong></h1>
+                        <hr />
+                        <form id="form" th:action="@{/seller/updatepw.do}" th:object="${seller}" method="post">
+                            <input type="text" id="id" name="no" th:field="${seller.no}" hidden /><br />
+                            <br>
+                            <div class="mb-3 form-group">
+                                <label for="newPw" class="form-label">새 비밀번호</label>
+                                <input type="password" th:field="${seller.newPw}" class="form-control" id="newPw"
+                                    name="newPw">
+                            </div>
+                            <br>
+                            <div class="mb-3 form-group">
+                                <label for="newPwCheck" id="companyNewPwChk" class="form-label">새 비밀번호 확인</label>
+                                <input type="password" th:field="${seller.newPwCheck}" class="form-control"
+                                    id="newPwCheck" name="newPwCheck" onkeyup="pwCheck()">
+                            </div>
+                            <br>
+                            <hr>
+                            <a id="okbutton" class="btn btn-outline-dark disabled" onclick="updatePw()">수정하기</a>
+                        </form>
+                    </div>
                 </div>
             </main>
             <!-- footer -->
@@ -59,13 +68,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
         crossorigin="anonymous"></script>
-    <!-- Chart.js용 CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="js/chart-area-demo.js"></script>
-    <script src="js/chart-bar-demo.js"></script>
-    <script src="js/chart-pie-demo.js"></script>
-    <!-- Simple DataTable용 JS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
     <!-- jQuery 추가 -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
@@ -88,30 +90,15 @@
             }
         });
 
-
-        $(document).ready(function () {
-            new simpleDatatables.DataTable("#datatablesSimple", {
-                searchable: true,
-                fixedHeight: true,
-
-            })
-        });
-
         var alertMessage = /*[[${alertMessage}]]*/ "";
         if (alertMessage !== "") {
             alert(alertMessage);
         }
-        function updatePw() {
-            var oldPw = document.getElementById("oldPw");
-            var newPw = document.getElementById("newPw");
-            var newPwChk = document.getElementById("newPwChk");
-            var form = document.getElementById("form");
 
-            if (oldPw.value == "") { // 현재비번칸이 비었을 시
-                alert("현재 사용중인 비밀번호를 입력해주세요."); //alert창
-                oldPw.focus(); // 빈 입력창으로 커서 이동
-                return false; // 아래 코드부터 아무것도 전달 안함.
-            }
+        function updatePw() {
+            var newPw = document.getElementById("newPw");
+            var newPwChk = document.getElementById("newPwCheck");
+            var form = document.getElementById("form");
 
             if (newPw.value == "") { // 새 비밀번호칸
                 alert("사용하실 새로운 비밀번호를 입력해주세요.");
@@ -135,20 +122,54 @@
             };
 
             if (newPwChk.value !== newPw.value) {
-                alert("새로운 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
+                alert("새 비밀번호가 일치하지 않습니다. 다시 확인해주세요.");
                 newPwChk.focus();
                 return false;
             };
-
-
-
-            //입력 값 전송
             form.submit();
         }
 
-        function pwcheck() {
+        // 현재 비밀번호 유효성 검사
+        async function ajaxPwCheck() {
+            // @PostMapping 방식
+            const url = /*[[@{/api/sellerpwcheck.json}]]*/"";
+            const headers = { "Content-Type": "application/json" };
+            const body = { id: "no", pw: "pw" };
+            const { data } = await axios.get(url, body, { headers: headers });
+            console.log('반환되는 결과', data);
+            const pw = $("#pw");
 
+            if (pw.length === 0) {
+                alert("비밀번호가 일치하지 않습니다.")
+            } else if (data.chk === 1) {
+                alert("비밀번호가 성공적으로 변경되었습니다.")
+            } else {
+                alert("비밀번호를 다시 확인해주세요.")
+            }
         }
+        // 비밀번호 확인
+        const pwCheck = () => {
+            const pw = document.getElementById("newPw");
+            const pw1 = document.getElementById("newPwCheck");
+            
+            if (pw1.value.length < 8) {
+                document.getElementById("companyNewPwChk").innerText = "새 비밀번호 확인";
+                document.getElementById("companyNewPwChk").style.color = 'black';
+                document.getElementById("okbutton").className = "btn btn-outline-dark disabled";
+            }
+            else if (pw.value !== pw1.value) {
+                document.getElementById("companyNewPwChk").innerText = "암호가 일치하지 않습니다.";
+                document.getElementById("companyNewPwChk").style.color = 'red';
+                document.getElementById("okbutton").className = "btn btn-outline-dark disabled";
+            }
+            else if (pw.value == pw1.value) {
+                document.getElementById("companyNewPwChk").innerText = "암호가 일치합니다.";
+                document.getElementById("companyNewPwChk").style.color = 'blue';
+                document.getElementById("okbutton").className = "btn btn-dark";
+            }
+        }
+
+
     </script>
 </body>
 

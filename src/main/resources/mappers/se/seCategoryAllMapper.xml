@@ -14,5 +14,9 @@
     <select id="selectSCategory" resultType="com.example.dto.CategoryAll">
         SELECT code scode, name sname FROM SCATEGORY
     </select>
+
+    <select id="selectByScode" parameterType="long" resultType="com.example.dto.CategoryAll">
+        SELECT * FROM CATEGORYALLVIEW c WHERE SCODE = #{scode}
+    </select>
     
 </mapper>

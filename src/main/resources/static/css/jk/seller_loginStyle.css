@@ -1,0 +1,64 @@
+@import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
+/*------ 기본 스타일 ------*/
+
+* {
+    font-family: 'NanumSquare', sans-serif;
+}
+
+body {
+    background-color: #f8f9fa;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    /* height: 100%; */
+
+}
+
+body > div {
+    width: 560px;
+    margin: 0 auto;
+    padding: 45px;
+    padding-bottom: 25px;
+    border: 1px solid #e2e2e2;
+    background-color: rgb(255, 255, 255);
+    border-radius: 0.7rem;
+}
+
+.login-heading {
+    font-family: 'NanumSquare', sans-serif;
+    font-size: 20px;
+    margin-top: 15px;
+    text-align: center;
+    color: #0b3b63;
+}
+
+.btn-dark{
+    border-color: #ffffff;
+    background-color: #0b3b63;
+}
+
+.btn-dark:hover {
+    color: #fff;
+    background-color: #0b2e4d;
+    border-color: #ffffff;
+}
+
+/*------ 숫자 입력시 input창에 up, down버튼 숨기기 ------*/
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox  */
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+/*------------------------------------------------------*/
+
+.footer {
+    position: absolute;
+    bottom: 0;
+  }

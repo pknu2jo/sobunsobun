@@ -134,7 +134,7 @@ ol {
 	padding-bottom: 100px;
 }
 
-.text-white h1,
+/* .text-white h1,
 .text-white h2,
 .text-white h3,
 .text-white h4,
@@ -145,7 +145,7 @@ ol {
 .text-white li,
 .text-white a {
 	color: #fff;
-}
+} */
 
 /* buttons */
 
@@ -205,7 +205,8 @@ ol {
 
 .checkout__form .checkout__form__input input {
 	height: 50px;
-	width: 100%;
+	/* width: 100%; */
+	width: 100px;
 	border: 1px solid #e1e1e1;
 	border-radius: 2px;
 	margin-bottom: 15px;
@@ -335,7 +336,7 @@ ol {
 	font-weight: 900;
 }
 
-.checkout__order__widget {
+/* .checkout__order__widget {
 	padding-bottom: 10px;
 }
 
@@ -353,5 +354,5 @@ ol {
 .checkout__order__widget label input {
 	position: absolute;
 	visibility: hidden;
-}
+} */
 

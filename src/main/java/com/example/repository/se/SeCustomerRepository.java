@@ -16,6 +16,5 @@ public interface SeCustomerRepository extends JpaRepository<CustomerEntity, Stri
     
     // 비밀번호 찾기
     CustomerEntity findByEmailAndPhone(String email, String phone);
-
     
 }

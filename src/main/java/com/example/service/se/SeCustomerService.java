@@ -28,4 +28,8 @@ public interface SeCustomerService {
     // save()
     public CustomerEntity saveCustomer(CustomerEntity customerEntity);
 
+    // ----------------------------------------------------------------------------------------------------------
+    // findById()
+    public CustomerEntity findById(String id);
+
 }
