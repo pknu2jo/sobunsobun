@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="author" content="PJK">
+    <meta name="description" content="소분소분 - 판매자를 위한 마이페이지">
+    <title>소분소분 - 판매자용 페이지</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <!-- 1. Bootstrap용 css CDN 추가 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <!-- 2. Bootstrap용 Icon CDN / font-awesome 아이콘용 CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 3. font awesome용 css CDN  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Simple DataTable CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <!-- CSS -->
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/mj/seller.css}'>
+</head>
+
+<body class="sb-nav-fixed">
+    <!-- header -->
+    <th:block th:replace="~{/mj/seller/header :: headerHTML}"></th:block>
+    <!-- 전체화면 영역 -->
+    <div id="layoutTotal">
+        <!-- 전체화면 > 좌측 메뉴 영역(사이드바) -->
+        <th:block th:replace="~{/mj/seller/navbar :: navbarHTML}"></th:block>
+
+        <!-- 전체화면 > 우측 메인화면 영역 -->
+        <div id="layoutContent">
+            <main>
+                <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
+
+
+                    <h3>물품관리</h3>
+                    <form th:action="@{/seller/item/management.do}" method="get" th:object="${cate}">
+
+                        <!-- 대분류 -->
+                        <select class="form-select" aria-label="Default select example" id="LcateSelect"
+                            th:field="${cate.Lcode}" onchange="updateMcateSelect()">
+                            <option value="000">전체</option>
+                            <option th:each="obj : ${cate.Llist}" th:value="${obj.code.longValue()}"
+                                th:text="${obj.name}"></option>
+                        </select>
+
+                        <select class="form-select" aria-label="Default select example" id="McateSelect"
+                            th:field="${cate.Mcode}" onchange="updateScateSelect()">
+                            <option value="000">전체</option>
+                            <option th:each="obj1 : ${cate.Mlist}" th:value="${obj1.code.longValue()}"
+                                th:text="${obj1.name}"></option>
+                        </select>
+
+                        <select class="form-select" aria-label="Default select example" id="ScateSelect"
+                            th:field="${cate.Scode}" onchange="updateUrl()">
+                            <option value="000">전체</option>
+                            <option th:each="obj2 : ${cate.Slist}" th:value="${obj2.code.longValue()}"
+                                th:text="${obj2.name}"></option>
+                        </select>
+                    </form>
+                    <hr>
+                    <!------------------------------------------------------------------- -->
+
+                    <!-- <form th:action="@{/seller/item/deleteitem.do}" method="post">
+                        
+                        <input type="hidden" name="btn" id="btn"/>
+                        <a th:href="@{/seller/item/insert.do}"><button class="btn btn-primary">물품등록</button></a>
+                        <button class="btn btn-primary" value="일괄수정" onclick="updateItemAction()">수정</button>
+                        <button class="btn btn-primary" value="일괄삭제" onclick="deleteItemAction()">삭제</button>
+                    </form> -->
+                    <hr>
+                    <input type="hidden" name="btn" id="btn"/>
+                    <a th:href="@{/seller/item/insert.do}"><button class="btn btn-primary">물품등록</button></a>
+                    <button class="btn btn-primary" value="일괄수정" onclick="formAction1(1)">수정</button>
+                    <button class="btn btn-primary" value="일괄삭제" onclick="formAction1(2)">삭제</button>
+                    
+                    <form th:action="@{/seller/item/management.do}" method="post" id="form2">
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-table me-1"></i>
+                                        등록된 물품 내역
+                                    </div>
+                                    <div class="card-body">
+                                        <table id="datatablesSimple">
+                                            <thead style="text-align: center;">
+                                                <tr>
+                                                    <th>선택</th>
+                                                    <th>물품번호</th>
+                                                    <th>물품명</th>
+                                                    <th>가격</th>
+                                                    <th>수량</th>
+                                                    <th>소분류</th>
+                                                    <th>중분류</th>
+                                                    <th>대분류</th>
+                                                    <th>등록일</th>
+                                                    <th>이미지관리</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>선택</th>
+                                                    <th>물품번호</th>
+                                                    <th>물품명</th>
+                                                    <th>가격</th>
+                                                    <th>수량</th>
+                                                    <th>소분류</th>
+                                                    <th>중분류</th>
+                                                    <th>대분류</th>
+                                                    <th>등록일</th>
+                                                    <th>이미지관리</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
+                                                <tr th:each="obj : ${list}" style="text-align: center;">
+                                                    <td><input type="checkbox" name="chk[]" th:value="${obj.no.longValue()}"/></td>
+                                                    <td th:text="${obj.no.longValue()}" name="no">물품번호</td>
+                                                    <td th:text="${obj.name}"></td>
+                                                    <td th:text="${obj.price.longValue()}"></td>
+                                                    <td th:text="${obj.quantity.longValue()}"></td>
+                                                    <td th:text="${obj.sname}"></td>
+                                                    <td th:text="${obj.mname}"></td>
+                                                    <td th:text="${obj.lname}"></td>
+                                                    <td
+                                                        th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분 ss초')}">
+                                                    </td>
+                                                    <td><a class="btn btn-primary" th:href="@{/seller/itemimage/selectlist.do(no=${obj.no.longValue()})}">이미지 등록/수정</a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </form>
+
+
+                </div>
+            </main>
+            <!-- footer -->
+            <th:block th:replace="~{/mj/seller/footer :: footerHTML}"></th:block>
+        </div>
+    </div>
+
+
+    <!-- 6. Bootstrap용 js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
+
+    <!-- Chart.js용 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="js/chart-area-demo.js"></script>
+    <script src="js/chart-bar-demo.js"></script>
+    <script src="js/chart-pie-demo.js"></script>
+    <!-- Simple DataTable용 JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+
+    <!-- jQuery 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <!-- font awesome용 스크립트 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+        integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <script>
+        $(document).ready(function () {
+            const sidebarToggle = $('#sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.click(function () {
+                    console.log('buttonClick');
+                    event.preventDefault(); /* 아래쪽 요소로 이벤트가 전파되지 않도록 */
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
+            }
+        });
+        
+        
+        $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimple", {
+                searchable: true,
+                fixedHeight: true,
+                
+            })
+        });
+        </script>
+
+    <script th:inline="javascript">
+        function updateMcateSelect() {
+            const code = document.getElementById("LcateSelect").value;
+            console.log(code);
+            window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}`;
+        }
+
+        function updateScateSelect() {
+            const code = document.getElementById("LcateSelect").value;
+            const mcode = document.getElementById("McateSelect").value;
+            console.log(code);
+            console.log(mcode);
+            window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}`;
+        }
+        
+        function updateUrl() {
+            const code = document.getElementById("LcateSelect").value;
+            const mcode = document.getElementById("McateSelect").value;
+            const scode = document.getElementById("ScateSelect").value;
+            console.log(code);
+            console.log(mcode);
+            console.log(scode);
+            window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
+        }
+        </script>
+
+
+
+    <script th:inline="javascript" type="text/javascript">
+        const btn   = document.getElementById('btn');
+        const form2 = document.getElementById('form2');
+        
+        function formAction1(code){
+            if(code === 1){
+                btn.value='일괄수정';
+                
+                console.log(btn.value);
+                form2.action = /*[[@{/seller/item/updateitem.do}]]*/'';
+            }
+            else if(code === 2){
+                
+                btn.value='일괄삭제';
+                console.log(btn.value);
+                form2.action = /*[[@{/seller/item/deleteitem.do}]]*/'';
+            }
+            
+            form2.submit();
+        }
+    </script>
+
+    <!-- <script  th:inline="javascript" type="text/javascript">
+        const itemimage = document.getElementById('itemimage');
+        const itemno = document.getElementById('itemno');
+        function itemimage() {
+            console.log(itemno);
+            window.location.href = `/SOBUN/seller/itemimage/selectlist.do?no=${itemno}`;
+
+        }
+    </script> -->
+</body>
+
+</html>

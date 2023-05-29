@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -59,4 +60,7 @@ public class Item {
     @ToString.Exclude
     @OneToMany(mappedBy = "itemNo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     List<ItemImage> imageList = new ArrayList<>();
+
+    @Transient // 임시변수 == 컬럼이 생성되지 않는다. mybatis dto 개념과 같음
+    private String imageUrl;
 }

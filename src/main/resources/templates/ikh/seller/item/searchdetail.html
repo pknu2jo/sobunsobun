@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="author" content="PJK">
+    <meta name="description" content="소분소분 - 판매자를 위한 마이페이지">
+    <title>소분소분 - 판매자용 페이지</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <!-- 1. Bootstrap용 css CDN 추가 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <!-- 2. Bootstrap용 Icon CDN / font-awesome 아이콘용 CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 3. font awesome용 css CDN  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Simple DataTable CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <!-- CSS -->
+    <link rel='stylesheet' type='text/css' media='screen' th:href="@{/css/main.css}">
+</head>
+
+<body class="sb-nav-fixed">
+    <!-- 네비게이션 영역 -->
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand -->
+        <a class="navbar-brand ps-3" th:href="@{/seller/home.do}">
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tools"
+                viewBox="0 0 16 16">
+                <path
+                    d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0Zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708ZM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11Z" />
+            </svg> -->
+            <img src="../../images/logo1.png" style="width: 80px;"/>            
+            <strong>판매자 페이지</strong>
+        </a>
+
+        <!-- SideBar Toggle -->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" type="button">
+            <i class="bi bi-menu-up"></i>
+        </button>
+
+        <!-- serach bar ( 사이드바 토글버튼 우측 고정용 ) -->
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <!-- <input class="form-control" type="text" placeholder="검색어 입력 ..." aria-label="검색어 입력 ..."
+                    aria-describedby="btnSearch">
+                <button class="btn btn-primary" id="btnSearch" type="submit" type="submit"><i
+                        class="bi bi-search"></i></button> -->
+            </div>
+        </form>
+
+        <!-- Profile 영역 -->
+        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" id="profile" href="#" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="profile">
+                    <li><a class="dropdown-item" href="#!">계정 설정</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#!">로그아웃</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <!-- 전체화면 영역 -->
+    <div id="layoutTotal">
+        <!-- 전체화면 > 좌측 메뉴 영역(사이드바) -->
+        <div id="layoutLeftSide">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        
+                        <div class="sb-sidenav-menu-heading">마이페이지</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            내 업체 관리
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" th:href="@{/seller/updateinfo.do}">업체정보 수정하기</a>
+                                <a class="nav-link" th:href="@{/seller/updatefw.do}">비밀번호 변경</a>
+                                <a class="nav-link" th:href="@{/seller/unregister.do}">탈퇴하기</a>
+                            </nav>
+                        </div>
+
+                        <div class="sb-sidenav-menu-heading">주문배송 조회하기</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts2">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            주문 & 배송
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" th:href="@{/seller/order/search.do}">주문</a>
+                                <a class="nav-link" th:href="@{/seller/delivery/search.do}">배송</a>
+                            </nav>
+                        </div>
+
+                        <div class="sb-sidenav-menu-heading">물품관리페이지</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                            data-bs-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts3">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            물품
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" th:href="@{/seller/item/management.do}">관리</a>
+                                <a class="nav-link" th:href="@{/seller/item/search.do}">통계</a>
+                            </nav>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="sb-sidenav-footer">
+                    <div class="sample">환영합니다, ### 님!</div>
+                </div>
+            </nav>
+        </div>
+        <!-- 전체화면 > 우측 메인화면 영역 -->
+        <div id="layoutContent">
+            <main>                
+                <div style="padding-left: 15px; padding-top: 30px; padding-right: 15px;">
+                    <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->                        
+                        <label th:text="${itemname}"></label><br/>
+                        여성(hidden처리 해야함) : <input type="number"  th:value="${female}"/><br/>
+                        남성(hidden처리 해야함) : <input type="number"  th:value="${male}"/><br/><br/>
+    
+                        지역 총 숫자(hidden 처리 하기) : <input type="number"  th:value="${total}"/><br/>
+                        지역별 인원수(hidden처리 해야함) : <input type="number"  th:value="${array}"/><br/>                   
+                        <!-- map -->
+                        
+    
+                        <div class="row">
+                            <!-- 차트 영역(전체성비) -->
+                            <div class="col-lg-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-pie me-1"></i> <!-- 조그마한 깨진 파이 차트 아이콘-->
+                                        성비
+                                    </div>
+                                    <div class="card-body">
+                                        <div style="padding-top:15px;">뭔가가 들어갈 곳</div>
+                                            <canvas id="myPieChart" width="100%" height="50"></canvas>
+                                        <div class="d-flex justify-content-end">
+                                            전체 인원수 :&nbsp;<label th:text= "${total}"></label>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fa-solid fa-won-sign"></i> <!-- 조그마한 깨진 파이 차트 아이콘-->
+                                        매출
+                                    </div>
+                                    <div class="card-body">                                    
+                                        전체 매출 : <label th:text= "${all}"></label><br/>                                        
+                                        구매자 수 : <label th:text= "${total}"></label>
+                                        <canvas id="myBarChart1" width="100%" height="50"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <!-- 차트 영역(전체지역) -->
+                        <div class="row">
+                            <div class="col">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-area me-1"></i>
+                                        지역
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="myBarChart2" width="100%" height="30"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid py-5">
+                    <div class="d-flex justify-content-between align-items-center small">
+                        <div class="text-muted">Copyright &copy; PKNU 2023.</div>
+                        <div>
+                            <a href="#!">Privacy Policy</a> &middot; <a href="#!">Terms</a> &amp; <a
+                                href="#!">Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- 6. Bootstrap용 js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
+    <!-- Chart.js용 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <!-- <script src="../../js/chart-pie-demo.js"></script> -->
+    <!-- <script src="../../../static/js/chart-area-demo.js"></script> -->
+    <!-- <script src="../../../static/js/chart-bar-demo.js"></script> -->
+    
+    <!-- Simple DataTable용 JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+    <!-- jQuery 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <!-- font awesome용 스크립트 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+        integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->
+    <!-- 전체성비에 대한 파이차트 스크립트  -->    
+    <script th:inline="javascript" type="text/javascript">
+        var female = "[[${female}]]";
+        var male = "[[${male}]]";
+
+        var ctx = document.getElementById("myPieChart");
+        var myPieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ["남성", "여성"],
+                datasets: [{
+                data: [male, female],
+                backgroundColor: ['#007bff', '#dc3545'],
+                }],
+            },
+        });
+    </script>
+    <!--ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->
+    <!-- 매출에 대한 바차트 스크립트  -->
+    <script th:inline="javascript" type="text/javascript">      
+        // mlist 받기
+        var salesData = /*[[${mlist}]]*/ null;
+
+        // mlist에 있는 값 꺼내기
+        var labels = salesData.map(function(item) {
+            return item.monthly;
+        });
+
+        var amounts = salesData.map(function(item) {
+            return item.amount;
+        });
+
+        // Chart 생성
+        var ctx = document.getElementById('myBarChart1').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Monthly Sales',
+                    data: amounts,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });        
+    </script>
+    <script>
+        // 새로운 데이터 추가
+        var newMonthly = "2023-06";
+        var newAmount = 0;
+
+        salesData.push({ monthly: newMonthly, amount: newAmount });
+
+        // 바차트 갱신
+        labels.push(newMonthly);
+        amounts.push(newAmount);
+        myChart.update();
+    </script>        
+    </script>
+    <!--ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->
+    <!-- 전체지역에 대한 바차트 스크립트  -->
+    <script th:inline="javascript" type="text/javascript">       
+        var arrays = "[[${array}]]";
+        var max = "[[${max}]]";
+        
+        var ctx = document.getElementById("myBarChart2");
+        var myLineChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["중구","서구","동구","영도구","진구","동래구","남구","북구","해운대구","사하구","금정구","강서구","연제구","수영구","사상구"],
+            datasets: [{
+            label: "Headcount",
+            backgroundColor: "rgba(2,117,216,0.5)",
+            borderColor: "rgba(2,117,216,1)",
+            data: [arrays[1], arrays[3], arrays[5], arrays[7], arrays[9], arrays[11], arrays[13], arrays[15], arrays[17]
+                    , arrays[19], arrays[21], arrays[23], arrays[25], arrays[27], arrays[29]],
+            }],
+        },
+        options: {
+            scales: {
+            xAxes: [{
+                barPercentage: 0.5, // 막대 두께 비율
+                categoryPercentage: 0.9, // 그룹(카테고리) 너비 비율
+                time: {
+                unit: 'month'
+                },
+                gridLines: {
+                display: false
+                },
+                ticks: {
+                maxTicksLimit: 15
+                }
+            }],
+            yAxes: [{                
+                ticks: {
+                beginAtZero: true,
+                min: 0,
+                max: Number(max),
+                maxTicksLimit: Number(max)
+                },
+                gridLines: {
+                display: true
+                }
+            }],
+            },
+            legend: {
+            display: false
+            }
+        }
+        });
+    </script>
+    <!--ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ-->
+    <script>
+        $(document).ready(function () {
+            const sidebarToggle = $('#sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.click(function () {
+                    console.log('buttonClick');
+                    event.preventDefault(); /* 아래쪽 요소로 이벤트가 전파되지 않도록 */
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
+            }
+        });
+        $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimple", {
+                searchable: true,
+                fixedHeight: true,
+            })
+        });
+
+    </script>
+</body>
+
+</html>
