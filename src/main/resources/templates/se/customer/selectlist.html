@@ -15,6 +15,154 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <!-- axios (https://cdnjs.com/libraries/axios) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        /* BEST 물품 */
+        .bestTitle {
+            margin: 100px 20px 20px 5px;
+            font-size: 30px;
+            color: #204710;
+        }
+
+        .bestImg {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 150px;
+        }
+
+        .bestImg img {
+            width: 207px;
+            height: 245px;
+            margin: 2px;
+        }
+
+        .itemCover1 {
+            position: absolute;
+            width: 207px;
+            height: 245px;
+            top: 2px;
+            left: 2px;
+            visibility: collapse;
+            color: #fff;
+            transition: background 0.3s ease-in-out;
+        }
+        
+        .itemCover1:hover {
+            background-color: rgba(109, 146, 117, 0.85);
+        }
+
+        /* 정렬 */
+        .sort {
+            display: flex;
+            justify-content: end;
+            margin-bottom: 20px;
+        }
+
+        .sort a {
+            color: #204710;
+        }
+
+        .sort a:last-child {
+            margin-right: 20px;
+        }
+
+        .sort a:hover {
+            color: #6D9275;
+        }
+
+        /* 전체 물품 */
+        .totalItemOne a {
+            color: #204710;
+        }
+        .totalItemOne a:hover {
+            color: #6D9275;
+        }
+
+        .totalItemOne img {
+            width: 299px;
+            height: 350px;
+            margin: 10px;
+        }
+
+        .totalItemOne label {
+            margin-left: 15px;
+        }
+
+        .totalItemOne label:last-child {
+            margin-bottom: 40px;
+        }
+
+        /* 공구열림 확인 */
+        .purchaseChk {
+            position: relative;
+            display: none;
+        }
+        
+        .purchaseChk label {
+            position: absolute;
+            padding: 2px 10px 0px 4px;
+            width: 50px;
+            height: 60px;
+            top: 10px;
+            left: 15px;
+            background-color: #6D9275;
+            color: #fff;
+            font-size: 15px;
+            line-height: 1.25; /* 행간조절 */
+            box-shadow:  0 .125rem .25rem rgba(0, 0, 0, .075);
+        }
+
+        /* 페이지네이션 */
+        .pagination {
+            margin: 40px;
+            justify-content: center;
+        }
+        
+        .pagination a {
+            margin: 7px;
+            padding: 7px 15px 7px 15px;
+            color: #204710;
+        }
+
+        .pagination a:hover {
+            border: 1px solid #6D9275;
+            border-radius: 20px;
+        }
+
+        /* 소분류 목록 카테고리 */
+        .cateList {
+            /* margin-bottom: 100px; */
+            /* height: 50px; */
+            margin: 0px 100px 100px 100px;
+            height: 80px;
+        }
+        
+        .cateList label {
+            font-size: 25px;
+            color: #fff;
+        }
+
+        /* 검색 목록 배너 */
+        .searchCnt {
+            margin-top: 80px;
+            margin-bottom: 100px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .searchCnt div {
+            font-size: 20px;
+            border-bottom: 1px solid #204710;
+            /* color: #fff; */
+        }
+
+    </style>
 </head>
 
 <body>
@@ -22,81 +170,144 @@
     <th:block th:replace="~{/se/customer/header :: headerHTML}"></th:block>
     
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
-    <div style="padding-bottom: 300px;">
+    <div style="padding-bottom: 400px;">
         
         <div class="container">
 
             <!-- 검색어별 -->
             <th:block th:if="${menu == 1}">
-                <th:block th:text="| 검색 결과 ${list.size} 개|"></th:block>
-                <hr>
-                검색목록
-                <hr>
-                <a th:href="@{/customer/item/selectlist.do(search=${param.search}, orderby=price)}">저가순</a>
-                <a th:href="@{/customer/item/selectlist.do(search=${param.search}, orderby=purchasecnt)}">공구 많이 열린 순</a>
-                <th:block th:each=" searchOne, idx : ${list} ">
+                <div class="searchCnt">
+                    <div th:text="| ' ${param.search} ' 에 대한 ${searchcnt} 개의 검색 결과입니다&nbsp;|"></div>
+                </div>
+
+                <div class="sort">
+                    <a th:href="@{/customer/item/selectlist.do(search=${param.search}, orderby=price)}">저가순&nbsp;&nbsp;|&nbsp;&nbsp;</a>
+                    <a th:href="@{/customer/item/selectlist.do(search=${param.search}, orderby=purchasecnt)}">공구 많이 열린 순</a>
+                </div>
+
+                <div class="totalItems">
+                    <th:block th:each=" searchOne, idx : ${list} ">
+                        <div class="totalItemOne" style="position: relative; display: inline-block;">
+                            <a th:href="@{/customer/item/selectone.do(itemno=${searchOne.itemno})}">
+                                <div name="purchaseChk" class="purchaseChk">
+                                    <label>공구열림</label>
+                                </div>
+                                <img th:src="@{/customer/seimage(itemno=${searchOne.itemno})}" th:onload="chkPurchase([[${idx.index}]], [[${searchOne.itemno}]])"><br>
+                                <label th:text="${searchOne.name}"></label><br>
+                                <label th:text="${#numbers.formatInteger(searchOne.price, 3, 'COMMA') + '원'}"></label>
+                            </a>
+                        </div>
+                    </th:block>
+                </div>
+
+                <!-- <th:block th:each=" searchOne, idx : ${list} ">
                     <th:block th:text="${searchOne.itemno}"></th:block>
-                    <th:block th:text="${searchOne.price}"></th:block>
                     <label name="testchk"></label>
                 </th:block>
+                <th:block th:each="num : ${#numbers.sequence(1, pages)}">
+                    <a th:href="@{/customer/item/selectlist.do(search=${param.search}, orderby=${param.orderby}, page=${num})}" th:text="${num}"></a>
+                </th:block> -->
             </th:block>
 
 
 
             <!-- 소분류별 -->
             <th:block th:if="${menu == 2}">
-                소분류별
-                <hr>
-                BEST
-                <th:block th:each=" bestone : ${bestlist} ">
-                    <th:block th:text="${bestone.itemno}"></th:block>
-                    <th:block th:text="${bestone.price}"></th:block>
+                <div class="bestTitle">BEST</div>
+                <th:block th:each=" bestone, idx : ${bestlist} ">
+                    <a th:href="@{/customer/item/selectone.do(itemno=${bestone.itemno})}">
+                        <div class="bestImg" th:onmouseover="mouseOverAction([[${idx.index}]])" th:onmouseout="mouseOutAction([[${idx.index}]])">
+                            <div name="itemCover1" class="itemCover1 d-flex flex-column justify-content-center align-items-center">
+                                <div th:text="${bestone.itemno}"></div>
+                                <div th:text="${#numbers.formatInteger(bestone.price, 3, 'COMMA') + '원'}"></div>
+                            </div>
+                            <img th:src="@{/customer/seimage(itemno=${bestone.itemno})}">
+                        </div>
+                    </a>
                 </th:block>
 
-                <hr>
-                <th:block th:text="${cate.lname}"></th:block>
-                <th:block th:text="${cate.mname}"></th:block>
-                <th:block th:text="${cate.sname}"></th:block>
+                <div class="cateList d-flex justify-content-center align-items-center" th:style="'background-image:url('+ @{/images/se/scodeBanner.png} +');'">
+                    <label th:text="|${cate.lname}&nbsp;>&nbsp;|"></label>
+                    <label th:text="|${cate.mname}&nbsp;>&nbsp;|"></label>
+                    
+                    <a th:href="@{/customer/item/selectlist.do(scode=${cate.scode})}"><label th:text="${cate.sname}"></label></a>
+                </div>
+
                 
-                <hr>
-                소분류별 전체목록
-                <a th:href="@{/customer/item/selectlist.do(scode=${cate.scode}, orderby=price)}">저가순</a>
-                <a th:href="@{/customer/item/selectlist.do(scode=${cate.scode}, orderby=purchasecnt)}">공구 많이 열린 순</a>
-                <th:block th:each=" scodeOne, idx : ${list} ">
-                    <th:block th:text="${scodeOne.itemno}"></th:block>
-                    <th:block th:text="${scodeOne.price}"></th:block>
-                    <label name="testchk"></label>
-                </th:block>
+                <div class="sort">
+                    <a th:href="@{/customer/item/selectlist.do(scode=${cate.scode}, orderby=price)}">저가순&nbsp;&nbsp;|&nbsp;&nbsp;</a>
+                    <a th:href="@{/customer/item/selectlist.do(scode=${cate.scode}, orderby=purchasecnt)}">공구 많이 열린 순</a>
+                </div>
+
+                <div class="totalItems">
+                    <th:block th:each=" scodeOne, idx : ${list} ">
+                        <div class="totalItemOne" style="position: relative; display: inline-block;">
+                            <a th:href="@{/customer/item/selectone.do(itemno=${scodeOne.itemno})}">
+                                <div name="purchaseChk" class="purchaseChk">
+                                    <label>공구열림</label>
+                                </div>
+                                <img th:src="@{/customer/seimage(itemno=${scodeOne.itemno})}" th:onload="chkPurchase([[${idx.index}]], [[${scodeOne.itemno}]])"><br>
+                                <label th:text="${scodeOne.name}"></label><br>
+                                <label th:text="${#numbers.formatInteger(scodeOne.price, 3, 'COMMA') + '원'}"></label>
+                            </a>
+                        </div>
+                    </th:block>
+                    <!-- <th:block th:each="num : ${#numbers.sequence(1, pages)}">
+                        <a th:href="@{/customer/item/selectlist.do(scode=${cate.scode}, orderby=${param.orderby}, page=${num})}" th:text="${num}"></a>
+                    </th:block> -->
+                </div>
             </th:block>
 
 
 
             <!-- 전체목록 -->
             <th:block th:if="${menu == 3}">
-                <hr>
-                전체물품목록
-                <hr>
-                BEST
-                <hr>
-                <th:block th:each=" totalbestone : ${bestlist} ">
-                    <th:block th:text="${totalbestone.itemno}"></th:block>
-                    <!-- <th:block th:text="${totalbestone.price}"></th:block> -->
-                    <!-- <img th:src="@{/customer/seimage(itemno=${totalbestone.itemno})}" style="width: 100px;"> -->
+                <div class="bestTitle">BEST</div>
+                <th:block th:each=" totalbestone, idx : ${bestlist} ">
+                    <a th:href="@{/customer/item/selectone.do(itemno=${totalbestone.itemno})}">
+                        <div class="bestImg" th:onmouseover="mouseOverAction([[${idx.index}]])" th:onmouseout="mouseOutAction([[${idx.index}]])">
+                            <div name="itemCover1" class="itemCover1 d-flex flex-column justify-content-center align-items-center">
+                                <div th:text="${totalbestone.name}"></div>
+                                <div th:text="${#numbers.formatInteger(totalbestone.price, 3, 'COMMA') + '원'}"></div>
+                            </div>
+                            <img th:src="@{/customer/seimage(itemno=${totalbestone.itemno})}">
+                        </div>
+                    </a>
                 </th:block>
-                <hr>
-                <br><br><br>
-                전체목록
-                <a th:href="@{/customer/item/selectlist.do(orderby=price)}">저가순</a>
-                <a th:href="@{/customer/item/selectlist.do(orderby=purchasecnt)}">공구 많이 열린 순</a>
-                <hr>
-                <th:block th:each=" totalOne, idx : ${list} ">
-                    <th:block th:text="${totalOne.itemno}"></th:block>
-                    <img th:src="@{/customer/seimage(itemno=${totalOne.itemno})}" style="height: 500px;" th:onload="chkPurchase([[${idx.index}]], [[${totalOne.itemno}]])">
-                    <!-- <th:block th:text="${totalOne.price}"></th:block> -->
-                    <label name="testchk"></label>
-                </th:block>
+
+                <div class="sort">
+                    <a th:href="@{/customer/item/selectlist.do(orderby=price)}">저가순&nbsp;&nbsp;|&nbsp;&nbsp;</a>
+                    <a th:href="@{/customer/item/selectlist.do(orderby=purchasecnt)}">공구 많이 열린 순</a>
+                </div>
+
+                <div class="totalItems">
+                    <th:block th:each=" totalOne, idx : ${list} ">
+                        <div class="totalItemOne" style="position: relative; display: inline-block;">
+                            <a th:href="@{/customer/item/selectone.do(itemno=${totalOne.itemno})}">
+                                <div name="purchaseChk" class="purchaseChk">
+                                    <label>공구열림</label>
+                                </div>
+                                <img th:src="@{/customer/seimage(itemno=${totalOne.itemno})}" th:onload="chkPurchase([[${idx.index}]], [[${totalOne.itemno}]])"><br>
+                                <label th:text="${totalOne.name}"></label><br>
+                                <label th:text="${#numbers.formatInteger(totalOne.price, 3, 'COMMA') + '원'}"></label>
+                            </a>
+                        </div>
+                    </th:block>
+                </div>
+
+                <!-- <div class="pagination">
+                    <th:block th:each="num : ${#numbers.sequence(1, pages)}">
+                        <a name="check" th:href="@{/customer/item/selectlist.do(orderby=${param.orderby}, page=${num})}" th:text="${num}"></a>
+                    </th:block>
+                </div> -->
             </th:block>
 
+
+            <div class="pagination">
+                <th:block th:each="num : ${#numbers.sequence(1, pages)}">
+                        <a th:href="@{/customer/item/selectlist.do(orderby=${param.orderby}, search=${param.search}, scode=${param.scode}, page=${num})}" th:text="${num}"></a>
+                </th:block>
+            </div>
         </div>
 
     </div>
@@ -114,17 +325,25 @@
             const url = [[@{/api/purchasechk.json}]] + `?itemno=${itemno}`;
             const headers = {"Content-Type" : "application/json"};
             const { data } = await axios.get(url, {headers});
-            console.log(data.chk);
+            // console.log(data.chk);
 
             if( data.chk != 0){
-                document.getElementsByName('testchk')[idx].innerHTML = `공구열림`;
-                document.getElementsByName('testchk')[idx].style.color = 'red';
+                // document.getElementsByName('itemCover1')[idx].innerHTML = `공구열림`;
+                document.getElementsByName('purchaseChk')[idx].style.display = 'block';
             }
             
         }
+
+        const mouseOverAction = (idx) => {
+            const itemCover1 = document.getElementsByName('itemCover1')[idx];
+            itemCover1.style.visibility = 'visible';
+        }
+
+        const mouseOutAction = (idx) => {
+            const itemCover1 = document.getElementsByName('itemCover1')[idx];
+            itemCover1.style.visibility = 'collapse';
+        }
         
-
-
 
     </script>
     

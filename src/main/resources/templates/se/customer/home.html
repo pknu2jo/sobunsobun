@@ -61,7 +61,7 @@
         /* 스크롤해도 따라다니는 버튼 만들기 */
         #totalBtn {
             position:fixed; 
-            width:200px;
+            width:300px;
             display:inline-block;
             right:30px; /* 창에서 오른쪽 길이 */
             top:91%; /* 창에서 위에서 부터의 높이 */
@@ -73,7 +73,7 @@
         }
 
         .totalBtnText {
-            margin: 35px 10px 0 0;
+            margin: 10px 10px 0 0;
             opacity: 0;
             transition: all ease 0.3s;
         }
@@ -95,7 +95,7 @@
     <div style="padding-bottom: 400px;">
 
         <div class="container-fluid d-flex justify-content-center" >
-            <img src="http://via.placeholder.com/1300x560" alt=""> <!-- 배너이미지 -->
+            <img src="http://via.placeholder.com/1400x540" alt=""> <!-- 배너이미지 -->
         </div>
             
         <!-- 비로그인 -->
@@ -106,10 +106,10 @@
                     <div class="row mb-3">
                         <div class="col-auto">
                             <!-- 기한이 얼마 안 남은 공구 -->
-                            <img src="http://via.placeholder.com/800x450" alt="">
+                            <img th:src="@{/images/se/homeBanner.jpg}" style="width: 800px; height: 450px;">
                         </div>
                         <div class="col">
-                            <img th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="height: 100%; overflow-y: hidden;">
+                            <a th:href="@{/customer/item/selectone.do(itemno=${deadOne.itemno})}"><img th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="height: 100%; overflow-y: hidden;"></a>
                             <div class="dday1 shadow-sm" th:text="|D - ${deadOne.dday}|"></div>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                 <div class="row mb-5">
                     <th:block th:if="${idx.index != 0}" th:each=" deadOne, idx : ${deadList} ">
                         <div class="col card p-0 shadow-sm m-2">
-                            <img class="card-img-top" th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="width: 307px; height: 307px;">
+                            <a th:href="@{/customer/item/selectone.do(itemno=${deadOne.itemno})}"><img class="card-img-top" th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="width: 307px; height: 307px;"></a>
                             <div class="card-body p-3">
                                 <div class="card-text" th:text="${deadOne.name}"></div>
                                 <div class="card-text" th:text="${#numbers.formatInteger(deadOne.price, 3, 'COMMA') + '원'}"></div>
@@ -138,10 +138,12 @@
                 <br><br>
                 <th:block th:each=" manyOne, idx : ${manyList} ">
                     <div style="position: relative; display: inline-block;" th:onmouseover="mouseOverAction([[${idx.index}]])" th:onmouseout="mouseOutAction([[${idx.index}]])">
-                        <div name="itemCover1" class="itemCover1 d-flex flex-column justify-content-center align-items-center">
-                            <div th:text="${manyOne.name}"></div>
-                            <div th:text="${#numbers.formatInteger(manyOne.price, 3, 'COMMA') + '원'}"></div>
-                        </div>
+                        <a th:href="@{/customer/item/selectone.do(itemno=${manyOne.itemno})}">
+                            <div name="itemCover1" class="itemCover1 d-flex flex-column justify-content-center align-items-center">
+                                <div th:text="${manyOne.name}"></div>
+                                <div th:text="${#numbers.formatInteger(manyOne.price, 3, 'COMMA') + '원'}"></div>
+                            </div>
+                        </a>
             
                         <img th:src="@{/customer/seimage(itemno=${manyOne.itemno})}" style="width: 230px; height: 270px; margin: 10px; margin-bottom: 40px; "><br>
                     </div>
@@ -159,10 +161,10 @@
                     <div class="row mb-3">
                         <div class="col-auto">
                             <!-- 내 주위 실시간 공구 -->
-                            <img src="http://via.placeholder.com/800x450" alt="">
+                            <img th:src="@{/images/se/loginHomeBanner.jpg}" style="width: 800px; height: 450px;">
                         </div>
                         <div class="col">
-                            <img th:src="@{/customer/seimage(itemno=${aroundOne.itemno})}" style="height: 100%; overflow-y: hidden;">
+                            <a th:href="@{/customer/item/selectone.do(itemno=${aroundOne.itemno})}"><img th:src="@{/customer/seimage(itemno=${aroundOne.itemno})}" style="height: 100%; overflow-y: hidden;"></a>
                             <div class="dday1 shadow-sm" th:text="${aroundOne.name}"></div>
                         </div>
                     </div>
@@ -171,7 +173,7 @@
                 <div class="row mb-5">
                     <th:block th:if="${idx.index != 0}" th:each=" aroundOne, idx : ${aroundList} ">
                         <div class="col card p-0 shadow-sm m-2">
-                            <img class="card-img-top" th:src="@{/customer/seimage(itemno=${aroundOne.itemno})}" style="width: 307px; height: 307px;">
+                            <a th:href="@{/customer/item/selectone.do(itemno=${aroundOne.itemno})}"><img class="card-img-top" th:src="@{/customer/seimage(itemno=${aroundOne.itemno})}" style="width: 307px; height: 307px;"></a>
                             <div class="card-body p-3">
                                 <div class="card-text" th:text="${aroundOne.name}"></div>
                                 <div class="card-text" th:text="${#numbers.formatInteger(aroundOne.price, 3, 'COMMA') + '원'}"></div>
@@ -190,11 +192,13 @@
                 <br><br>
                 <th:block th:each=" deadOne, idx : ${deadList} ">
                     <div style="position: relative; display: inline-block;" th:onmouseover="mouseOverAction([[${idx.index}]])" th:onmouseout="mouseOutAction([[${idx.index}]])">
-                        <div name="itemCover1" class="itemCover1 d-flex flex-column justify-content-center align-items-center">
-                            <div th:text="${deadOne.name}"></div>
-                            <div th:text="${#numbers.formatInteger(deadOne.price, 3, 'COMMA') + '원'}"></div>
-                            <label class="shadow-sm" th:text="|D - ${deadOne.dday}|"></label>
-                        </div>
+                        <a th:href="@{/customer/item/selectone.do(itemno=${deadOne.itemno})}">
+                            <div name="itemCover1" class="itemCover1 d-flex flex-column justify-content-center align-items-center">
+                                <div th:text="${deadOne.name}"></div>
+                                <div th:text="${#numbers.formatInteger(deadOne.price, 3, 'COMMA') + '원'}"></div>
+                                <label class="shadow-sm" th:text="|D - ${deadOne.dday}|"></label>
+                            </div>
+                        </a>
                         <img th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="width: 230px; height: 270px; margin: 10px; margin-bottom: 40px; "><br>
                     </div>
                 </th:block>
@@ -206,7 +210,7 @@
         <a th:href="@{/customer/item/selectlist.do}">
             <div id="totalBtn" class="container homeMain d-flex flex-row-reverse align-items-center">
                 <img class="shadow-sm totalBtnImage" th:src="@{/images/se/roundlogo4.jpg}" style="width: 70px; height: 70px; border-radius: 35px;">
-                <div class="totalBtnText">전체물품</div>
+                <div class="totalBtnText">전체물품 확인하기</div>
             </div>
         </a>
 

@@ -37,9 +37,16 @@ public class SePurchaseItemController {
         @AuthenticationPrincipal User user,
         @RequestParam(name = "search", defaultValue = "", required = false) String search,
         @RequestParam(name = "scode", defaultValue = "0", required = false) long scode,
-        @RequestParam(name = "orderby", defaultValue = "regdate", required = false) String orderby
+        @RequestParam(name = "orderby", defaultValue = "regdate", required = false) String orderby,
+
+        @RequestParam(name = "page", defaultValue = "1", required = false) int page
     ) {
         try {
+
+            int start = (page*16) - 15;
+            int end = page*16;
+            long pages = 1;
+
             log.info("물품목록 param search, scode, orderby => {}, {}, {}", search, scode, orderby);
             List<SeSelectItemListView> list = new ArrayList<>();
             SeSelectItemListView obj = new SeSelectItemListView();
@@ -47,6 +54,8 @@ public class SePurchaseItemController {
             obj.setScode(scode);
             obj.setOrderby(orderby);
             obj.setSort("DESC");
+            obj.setStart(start);
+            obj.setEnd(end);
 
             if(orderby.equals("price")) {
                 obj.setSort("ASC"); // 정렬 기준이 price 일 때 ASC
@@ -54,21 +63,26 @@ public class SePurchaseItemController {
 
             // [menu=1 검색어]
             if(!search.equals("")) { // 검색어가 있을 때
-                log.info("검색 정렬 확인 => {}", obj.toString());
+                // log.info("검색 정렬 확인 => {}", obj.toString());
                 list = piService.selectSearchItem(obj);
                 // log.info("물품목록 검색 => {}", list.toString());
+                pages = piService.selectSearchItemCnt(obj);
+                // log.info("검색 페이지수 => {}", pages);
+                model.addAttribute("searchcnt", pages);
                 model.addAttribute("menu", 1);
             }
 
             // [menu=2 소분류]
             else if(search.equals("") && scode!=0) { // 검색어가 없고 소분류가 있을 때 => 1) 소분류 별 목록 / 2) Best 목록 / 3) 소분류에 해당하는 중분류 대분류
-                log.info("소분류 정렬 확인 => {}", obj.toString());
+                // log.info("소분류 정렬 확인 => {}", obj.toString());
                 list = piService.selectScodeItem(obj); // 1)
                 // log.info("물품목록 소분류 => {}", list.toString());
                 
                 List<SeSelectItemListView> bestlist = piService.selectScodeItemBest(scode); // 2)
                 model.addAttribute("bestlist", bestlist);
                 // log.info("물품목록 소분류 BEST => {}", bestlist.toString());
+                pages = piService.selectScodeItemCnt(obj);
+                // log.info("소분류 페이지수 => {}", pages);
                 
                 CategoryAll cate = cateService.selectByScode(scode); // 3)
                 model.addAttribute("cate", cate);
@@ -78,9 +92,11 @@ public class SePurchaseItemController {
 
             // [menu=3 전체목록]
             else if(search.equals("") && scode==0) { // 검색어가 없고 소분류도 없을 때 => 전체 물품 출력
-                log.info("전체 정렬 확인 => {}", obj.toString());
+                // log.info("전체 정렬 확인 => {}", obj.toString());
                 list = piService.selectSearchItem(obj);
                 // log.info("물품목록 전체 => {}", list.toString());
+                pages = piService.selectSearchItemCnt(obj);
+                // log.info("전체목록 페이지수 => {}", pages);
 
                 List<SeManyPurchaseItemView> bestlist = piService.selectManyPurchaseItem1(6);
                 model.addAttribute("bestlist", bestlist);
@@ -89,6 +105,7 @@ public class SePurchaseItemController {
             
 
 
+            model.addAttribute("pages", (pages-1)/16 + 1);
             model.addAttribute("list", list); 
             model.addAttribute("user", user);
             return "/se/customer/selectlist";

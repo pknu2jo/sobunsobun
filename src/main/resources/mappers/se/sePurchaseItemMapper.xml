@@ -23,11 +23,25 @@
     </select>
 
     <select id="selectSearchItem" parameterType="com.example.dto.SeSelectItemListView" resultType="com.example.dto.SeSelectItemListView">
-        SELECT * FROM SESELECTITEMLISTVIEW s WHERE name LIKE '%' || #{search} || '%' ORDER BY ${orderby} ${sort}
+        SELECT * FROM
+        (SELECT *, ROW_NUMBER() OVER(ORDER BY ${orderby} ${sort}) rown FROM (
+        SELECT * FROM SESELECTITEMLISTVIEW s WHERE name LIKE '%' || #{search} || '%'
+        )) WHERE rown <![CDATA[ >= ]]> #{start} AND rown <![CDATA[ <= ]]> #{end} ORDER BY ${orderby} ${sort}
+    </select>
+
+    <select id="selectSearchItemCnt" parameterType="com.example.dto.SeSelectItemListView" resultType="long">
+        SELECT COUNT(*) CNT FROM SESELECTITEMLISTVIEW s WHERE name LIKE '%' || #{search} || '%'
     </select>
 
     <select id="selectScodeItem" parameterType="com.example.dto.SeSelectItemListView" resultType="com.example.dto.SeSelectItemListView">
-        SELECT * FROM SESELECTITEMLISTVIEW s WHERE scode = #{scode} ORDER BY ${orderby} ${sort}
+        SELECT * FROM
+        (SELECT *, ROW_NUMBER() OVER(ORDER BY ${orderby} ${sort}) rown FROM (
+        SELECT * FROM SESELECTITEMLISTVIEW s WHERE scode = #{scode}
+        )) WHERE rown <![CDATA[ >= ]]> #{start} AND rown <![CDATA[ <= ]]> #{end} ORDER BY ${orderby} ${sort}
+    </select>
+
+    <select id="selectScodeItemCnt" parameterType="com.example.dto.SeSelectItemListView" resultType="long">
+        SELECT COUNT(*) CNT FROM SESELECTITEMLISTVIEW s WHERE scode = #{scode}
     </select>
 
     <select id="selectScodeItemBest" parameterType="long" resultType="com.example.dto.SeSelectItemListView">
