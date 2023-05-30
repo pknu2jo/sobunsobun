@@ -17,6 +17,7 @@ import com.example.entity.ItemImage;
 import com.example.entity.ReviewEntity;
 import com.example.entity.ReviewImageEntity;
 import com.example.entity.km.KmCheckReviewView;
+import com.example.entity.km.KmReviewNoProjection;
 
 
 
@@ -63,8 +64,14 @@ public interface KmCustomerService {
 
     // 리뷰 조회
         // 물품별 리뷰 전체 조회하기
-        // public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo, int page);
+        public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo, int page);
         public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo);
+
+        // 리뷰 번호에 대한 모든 이미지 가져오기
+        public List<KmReviewNoProjection> selectReviewImageNoList(BigDecimal reviewNo);
+
+        // 물품별 리뷰 총 개수
+        public long countByItemEntity_no(BigDecimal itemNo);
 
 // 결제 페이지 => /customer/item/order.do ------------------------------------------------------------------------------
 
@@ -102,11 +109,14 @@ public interface KmCustomerService {
     
 // 이미지 -----------------------------------------------------------------------------------------
 
-    // 이미지 번호에 대한 정보 다 가져오기
-    public ItemImage findById(BigDecimal no);
+    // 물품 이미지 번호에 대한 정보 가져오기
+    public ItemImage findItemImageById(BigDecimal no);
 
     // itemno에 해당하는 모든 이미지 가져오기
     public List<ItemImage> findByItemNo_noOrderByNoAsc(BigDecimal no);
+
+    // 리뷰 이미지 번호에 대한 정보 가져오기
+    public ReviewImageEntity findReviewImageById(BigDecimal reviewImageNo);
 
 
 // ----------------------------------------------------------------------------------------------------

@@ -1084,3 +1084,12 @@ tbody::-webkit-scrollbar-track {
 	padding: 0;
 	display: none;
 }
+
+
+
+/* 리뷰 이미지 */
+.reviewImg {
+	width: 100px;
+	height: 100px;
+	object-fit: cover;
+}

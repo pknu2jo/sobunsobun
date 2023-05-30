@@ -16,6 +16,9 @@ public interface KmReviewRepository extends JpaRepository<ReviewEntity, BigDecim
     public ReviewEntity findByPurchaseOrderEntity_no(String orderNo);
 
     // 물품별 리뷰 전체 조회하기
-    // public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo, Pageable Pageable);
+    public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo, Pageable Pageable);
     public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo);
+
+    // 물품별 리뷰 총 개수
+    public long countByItemEntity_no(BigDecimal itemNo);
 }

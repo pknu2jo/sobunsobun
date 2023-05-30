@@ -19,6 +19,7 @@ import com.example.entity.ItemImage;
 import com.example.entity.ReviewEntity;
 import com.example.entity.ReviewImageEntity;
 import com.example.entity.km.KmCheckReviewView;
+import com.example.entity.km.KmReviewNoProjection;
 import com.example.mapper.km.KmCustomerMapper;
 import com.example.repository.km.KmCheckReviewViewRepository;
 import com.example.repository.km.KmPurchaseStatusRepository;
@@ -33,7 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class KmCustomerServiceImpl implements KmCustomerService {
 
     final KmCustomerMapper cMapper;
-    final kmItemImageRepository imageRepository;
+    final kmItemImageRepository iiRepository;
     final KmPurchaseStatusRepository psRepository;
     final KmCheckReviewViewRepository roRepository;
     final KmReviewRepository rRepository;
@@ -210,11 +211,11 @@ public class KmCustomerServiceImpl implements KmCustomerService {
     }
 
 // 이미지
-    // 이미지 번호에 대한 정보 다 가져오기
+    // 물품 이미지 번호에 대한 정보 다 가져오기
     @Override
-    public ItemImage findById(BigDecimal no) {
+    public ItemImage findItemImageById(BigDecimal no) {
         try {
-            return imageRepository.findById(no).orElse(null);
+            return iiRepository.findById(no).orElse(null);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -225,12 +226,24 @@ public class KmCustomerServiceImpl implements KmCustomerService {
     @Override
     public List<ItemImage> findByItemNo_noOrderByNoAsc(BigDecimal no) {
         try {
-            return imageRepository.findByItemNo_noOrderByNoAsc(no);
+            return iiRepository.findByItemNo_noOrderByNoAsc(no);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+
+
+    // 리뷰 이미지 번호에 대한 정보 가져오기
+    @Override
+    public ReviewImageEntity findReviewImageById(BigDecimal reviewImageNo) {
+        try {
+            return riRepository.findById(reviewImageNo).orElse(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    };
 
 
 // ----------------------------------------------------------------------------------------------------
@@ -290,23 +303,21 @@ public class KmCustomerServiceImpl implements KmCustomerService {
     }
 
     // 물품에 해당하는 리뷰 전체 불러오기
-    // @Value("${review.pagetotal}") int PAGETOTAL;
-    // @Override
-    // public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo, int page) {
-    //     try {
-    //         PageRequest PageRequest = org.springframework.data.domain.PageRequest.of((page-1), PAGETOTAL);
+    @Value("${review.pagetotal}") int PAGETOTAL;
+    @Override
+    public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo, int page) {
+        try {
+            PageRequest PageRequest = org.springframework.data.domain.PageRequest.of((page-1), PAGETOTAL);
 
-    //         return rRepository.findByItemEntity_noOrderByNoDesc(itemNo, PageRequest);
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return null;
-    //     }
-    // }
-
+            return rRepository.findByItemEntity_noOrderByNoDesc(itemNo, PageRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     @Override
     public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo) {
         try {
-
             return rRepository.findByItemEntity_noOrderByNoDesc(itemNo);
         } catch (Exception e) {
             e.printStackTrace();
@@ -314,5 +325,23 @@ public class KmCustomerServiceImpl implements KmCustomerService {
         }
     }
 
-    
+    // 리뷰 번호에 해당하는 리뷰 이미지 번호 가져오기
+    public List<KmReviewNoProjection> selectReviewImageNoList(BigDecimal reviewNo) {
+        try {
+            return riRepository.findByReviewno_noOrderByNoAsc(reviewNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // 물품별 리뷰 총 개수
+    public long countByItemEntity_no(BigDecimal itemNo) {
+        try {
+            return rRepository.countByItemEntity_no(itemNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+        }
+    }
 }

@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -62,5 +63,11 @@ public class ReviewEntity {
     @JoinColumn(name = "ORDERNO", referencedColumnName = "NO")
     @ToString.Exclude
     private PurchaseOrderEntity purchaseOrderEntity;
+
+    // 임시 변수
+    @Transient
+    private String imgUrl1;
+    @Transient
+    private String imgUrl2;
     
 }
