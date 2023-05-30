@@ -70,7 +70,8 @@ public class MjItemImageController {
     public String insertImagePOST(@ModelAttribute ItemImage obj, @RequestParam(name = "tmpFile", required = false) MultipartFile file,
                                 @RequestParam(name = "tmpFile[]", required = false) MultipartFile[] files,
                                 @RequestParam(name = "item.no", required = false) BigDecimal itemno,
-                                @RequestParam(name = "image", required = false) long image
+                                @RequestParam(name = "image", required = false) long image,
+                                Model model
                                 ) throws IOException{
             log.info("물품번호=>{}", itemno.toString());
             log.info("이미지=>{}", image);
@@ -94,6 +95,7 @@ public class MjItemImageController {
                     image1.setFiledata( file.getInputStream().readAllBytes() );
                     image1.setFiletype( file.getContentType() );
                     image1.setFilename( file.getOriginalFilename() );
+                    model.addAttribute("image", image1.getFilename());
                     Item obj1 = new Item();
                     obj1.setNo(itemno);
                     image1.setItemNo( obj1 );
@@ -106,6 +108,7 @@ public class MjItemImageController {
                     image2.setFiledata( file.getInputStream().readAllBytes() );
                     image2.setFiletype( file.getContentType() );
                     image2.setFilename( file.getOriginalFilename() );
+                    model.addAttribute("image", image2.getFilename());
                     Item obj1 = new Item();
                     obj1.setNo(itemno);
                     image2.setItemNo( obj1 );
@@ -121,15 +124,15 @@ public class MjItemImageController {
                     images.setFiledata( file1.getInputStream().readAllBytes() );
                     images.setFiletype( file1.getContentType() );
                     images.setFilename( file1.getOriginalFilename() + "_상세");
-
+                    model.addAttribute("images", images.getFilename());
+                    
                     Item obj1 = new Item();
                     obj1.setNo(itemno);
                     images.setItemNo( obj1 );
-
+                    
                     imageRepository.save(images);
                 }
             }
-
             return "redirect:/seller/itemimage/selectlist.do?no=" + itemno;
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,6 +171,7 @@ public class MjItemImageController {
                 item.setImageUrl( request.getContextPath() + "/seller/itemimage/image?no=" + image.getNo().longValue() );
                 log.info("image {}", image.toString());
             }
+            // model.addAttribute("image", image.getFilename());
             model.addAttribute("item", item);
             
             // 전체이미지
@@ -176,6 +180,7 @@ public class MjItemImageController {
             if( !list.isEmpty() ){
                 log.info("imagelist => {}", list.toString());
             }
+            model.addAttribute("list", list);
 
             List<String[]> imageList = new ArrayList<>();
             for( ItemImage one : list){

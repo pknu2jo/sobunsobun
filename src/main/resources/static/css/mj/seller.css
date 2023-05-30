@@ -413,12 +413,8 @@ main h3 {
 
 /* 일괄수정, 일괄삭제, 물품등록 버튼 */
 .btn-find {
-    
+
     display: inline-block;
     width :84.25px;
 }
 
-.inline{
-    text-align: left;
-    display: inline-block;
-}

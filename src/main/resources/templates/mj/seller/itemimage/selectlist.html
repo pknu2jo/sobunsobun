@@ -50,17 +50,18 @@
                     <div>
                         <img th:src="${item.imageUrl}"  class="mainimage"> <br>
                     </div>
-
-                    <form th:action="@{/seller/itemimage/insertimage.do(image=0)}" method="post" enctype="multipart/form-data">
+                    
+                    <form th:action="@{/seller/itemimage/insertimage.do(image=0)}" method="post" enctype="multipart/form-data" id="form0">
                         <input type="hidden" name="item.no" th:value="${item.no}" /><br>
-                        <input type="file" name="tmpFile" accept="image/*"/><br>
-                        <input type="submit" value="이미지업로드" />
+                        <input type="file" name="tmpFile" accept="image/*" id="file" onchange="setFileName(event)"/><br>
+                        <input type="text" name="image" id="image" th:value="${image}" />
+                        <button type="button" onclick="uploadFileOne()" >이미지업로드</button>
                     </form>
                     <hr>
 <!-- ===================================================================================================================== -->
                     <h4>상세이미지</h4>
-                    <form th:action="@{/seller/itemimage/deleteimage.do}" method="post">
-                        <button class="btn btn-outline-danger" type="submit">선택삭제</button>
+                    <form th:action="@{/seller/itemimage/deleteimage.do}" method="post" id="form2">
+                        <button class="btn btn-outline-danger" type="button" onclick="deleteimages()">선택삭제</button>
                         <!-- <input type="submit" value="선택삭제"> -->
 
 
@@ -76,7 +77,7 @@
                             <tbody>
                                 <tr th:each="tmp : ${imageList}">
                                     <td><input type="hidden" name="item.no" th:value="${item.no}" /></td>
-                                    <td><input type="checkbox" name="imageno" th:value="${tmp[0]}" ></td>
+                                    <td><input type="checkbox" name="imageno" id="imageno" th:value="${tmp[0]}" onclick="getimageNo()"></td>
                                     <td><label>[[${tmp[0]}]]</label></td>
                                     <td><img th:src="${tmp[1]}" class="detailimage"></td>
                                 </tr>
@@ -85,11 +86,11 @@
 
                     </form>
 
-
-                    <form th:action="@{/seller/itemimage/insertimage.do(image=1)}" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="item.no" th:value="${item.no}" /><br>
-                        <input multiple="multiple" type="file" name="tmpFile[]" accept="image/*"/><br>
-                        <input type="submit" value="이미지업로드" />
+                    <form th:action="@{/seller/itemimage/insertimage.do(image=1)}" method="post" enctype="multipart/form-data" id="form1">
+                        <input type="hidden" id="item.no" name="item.no" th:value="${item.no}" /><br>
+                        <input multiple="multiple" type="file" name="tmpFile[]" accept="image/*" id="files" onchange="setFilesName(event)"/><br>
+                        <input type="text" name="images" id="images" th:value="${images}"/>
+                        <button type="button" onclick="uploadFiles()">이미지업로드</button>
                     </form>
 
                     <hr>
@@ -126,6 +127,7 @@
         integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -148,6 +150,95 @@
                 
             })
         });
+        </script>
+
+        <script th:inline="javascript"> 
+            function setFileName(event){
+                const fileName = event.target.files[0].name;
+                document.getElementById('image').value = fileName;
+                console.log(fileName);
+            }
+
+            function setFilesName(event){
+                const filesName = event.target.files[0].name;
+                document.getElementById('images').value = filesName;
+                console.log(filesName);
+            }
+
+            // 대표이미지 등록/수정 
+            async function uploadFileOne() {
+                const file = document.getElementById('file');
+                const image  = document.getElementById('image');
+                console.log(file.value);
+                
+                let url = /*[[@{/api/seller/insertimageone.json}]]*/"";
+                url += "?image=" + image.value;
+                console.log(url);
+                const headers = {"Content-Type":"application/json"};
+                console.log(headers);
+                const { data } = await axios.get(url,{ headers:headers });
+                
+                console.log(data.message);
+                console.log(data.result);   
+                if(data.result === 1){
+                    document.getElementById('form0').submit();
+                }
+                else if( data.result === 0){
+                    alert("이미지를 선택해주세요.");
+                }
+            }
+
+            async function uploadFiles() {
+                const images = document.getElementById('images');
+                let url = /*[[@{/api/seller/insertimages.json}]]*/"";
+                url += "?images=" + images.value;
+                console.log(url);
+                const headers = {"Content-Type":"application/json"};
+                console.log(headers);
+                const { data } = await axios.get(url,{ headers:headers });
+                
+                console.log(data.message);
+                console.log(data.result);   
+                if(data.result === 1){
+                    document.getElementById('form1').submit();
+                }
+                else if( data.result === 0){
+                    alert("이미지를 선택해주세요.");
+                }
+            }
+
+            // 이미지 삭제버튼 유효성검사
+            function getimageNo () {
+                const checkboxes = document.querySelectorAll('input[name="imageno"]:checked');
+                const imagenoArray = Array.from(checkboxes).map(checkbox => checkbox.value);
+                console.log(imagenoArray);
+                return imagenoArray;
+            }
+
+
+            async function deleteimages(){
+                const imageno = getimageNo();
+                if (imageno.length === 0) {
+                    alert("삭제할 이미지를 선택해주세요.");
+                    return;
+                }
+
+                let url = /*[[@{/api/seller/deleteimages.json}]]*/"";
+                url += "?imageno=" + imageno;
+                const headers = {"Content-Type":"application/json"};
+                try {
+                    const response = await axios.get(url, { headers:headers });
+                    const data = response.data;
+                    if(data.result === 1){
+                        document.getElementById('form2').submit();
+                    } else {
+                        alert("삭제할 이미지를 선택해주세요.");
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert("삭제할 이미지를 선택해주세요.");
+                }
+            }
         </script>
 
     

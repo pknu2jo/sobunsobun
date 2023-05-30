@@ -51,6 +51,7 @@
                                 th:text="${obj.name}"></option>
                         </select>
 
+                        <!-- 중분류 -->
                         <select class="form-select" aria-label="Default select example" id="McateSelect"
                             th:field="${cate.Mcode}" onchange="updateScateSelect()">
                             <option value="000">전체</option>
@@ -58,6 +59,7 @@
                                 th:text="${obj1.name}"></option>
                         </select>
 
+                        <!-- 소분류 -->
                         <select class="form-select" aria-label="Default select example" id="ScateSelect"
                             th:field="${cate.Scode}" onchange="updateUrl()">
                             <option value="000">전체</option>
@@ -77,11 +79,11 @@
                     </form> -->
                     <hr>
                     <input type="hidden" name="btn" id="btn"/>
-                    
-                        <a th:href="@{/seller/item/insert.do}" class="btn-find"><button class="btn btn-primary btn-find">물품등록</button></a>
-                        <button class="btn btn-primary btn-find" value="일괄수정" onclick="formAction1(1)">수정</button>
-                        <button class="btn btn-primary btn-find" value="일괄삭제" onclick="formAction1(2)">삭제</button>
-s                    
+                    <a th:href="@{/seller/item/insert.do}" class="btn-find"><button class="btn btn-outline-primary btn-find">물품등록</button></a>
+                    <button class="btn btn-outline-primary btn-find" value="일괄수정" onclick="formAction1(1)">수정</button>
+                    <button class="btn btn-outline-primary btn-find" value="일괄삭제" onclick="formAction1(2)">삭제</button>
+            
+                        
                     <form th:action="@{/seller/item/management.do}" method="post" id="form2">
 
                         <div class="row">
@@ -201,12 +203,14 @@ s
         </script>
 
     <script th:inline="javascript">
+        // 대분류 
         function updateMcateSelect() {
             const code = document.getElementById("LcateSelect").value;
             console.log(code);
             window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}`;
         }
 
+        // 중분류
         function updateScateSelect() {
             const code = document.getElementById("LcateSelect").value;
             const mcode = document.getElementById("McateSelect").value;
@@ -215,6 +219,7 @@ s
             window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}`;
         }
         
+        // 소분류
         function updateUrl() {
             const code = document.getElementById("LcateSelect").value;
             const mcode = document.getElementById("McateSelect").value;

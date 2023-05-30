@@ -173,20 +173,19 @@ public class mjItemController {
         @ModelAttribute Lcategory obj1,
         @RequestParam(name = "lcate", required = false) BigDecimal Lcode,
         @RequestParam(name = "mcate", required = false) BigDecimal Mcode,
-        @RequestParam(name = "scate", required = false) BigDecimal Scode
-        // @AuthenticationPrincipal User user
+        @RequestParam(name = "scate", required = false) BigDecimal Scode,
+        @AuthenticationPrincipal User user
          ){
         try {
             // log.info("user => {}", user.getUsername());
-            // SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
 
             // SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);
+            // log.info("seller => {}", seller.toString());
 
             Category cate = new Category();
             List<Lcategory> list1 = lRepository.findAll();
             cate.setLlist(list1);  // 대분류 코드, 네임
             cate.setLcode(Lcode);  // 대분류 코드
-            
             List<Mcategory> mlist = mRepository.findByLcategoryCode_code(Lcode);
             cate.setMlist(mlist);  // 중분류 코드, 네임
             cate.setMcode(Mcode);  // 중분류 코드

@@ -165,11 +165,11 @@
                             </select><br>
                         </div>
                         <!-- 소분류코드 파라미터전달받기 hidden-->
-                        <input type="hidden" name="scategoryCode" th:value = ${param.scate} />
+                        <input type="hidden" name="scategoryCode" id="scode" th:value = ${param.scate} />
                         
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">물품명</span>
-                            <input type="text" name="name" class="form-control" id="name" aria-label="Itemname" aria-describedby="basic-addon1">
+                            <input type="text" name="name" class="form-control" id="name" aria-label="Itemname" aria-describedby="basic-addon1" onkeyup="insertname()">
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">가격</span>
@@ -185,7 +185,6 @@
                         </div>
                         <!-- ==================================== -->
                         <!-- <input type="text" th:value="${ret.no}" id="itemno"> -->
-                        <button type="button" onclick="insertitem()">등록</button>
                         <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#insertitem" onclick="insertitem()">등록</button>
                         <!-- </form> -->
                     <!-- Modal -->
@@ -268,7 +267,7 @@
                 
             })
         });
-        </script>
+    </script>
 
 <script th:inline="javascript">
     function updateMcateSelect() {
@@ -295,45 +294,55 @@
         window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
     }
     
-    </script>
+</script>
 
 
-    <script th:inline="javascript">
-        async function insertitem() {
+<script th:inline="javascript">
+    // function insertname() {
+    //     if()
+    // }
+
+    async function insertitem() {
+        
+        const scategory = document.getElementById("scategory");
+        const mcategory = document.getElementById("mcategory");
+        const lcategory = document.getElementById("lcategory");
+        const name = document.getElementById("name");
+        const scode = document.getElementById("scode");
+        console.log(name);
+        const price = document.getElementById("price");
+        const quantity = document.getElementById("quantity");
+        const regNo = document.getElementById("regNo");
+
+        if (scode.value === "" || scode.value === 000) {
             
-            const name = document.getElementById("name");
-            console.log(name);
-            const price = document.getElementById("price");
-            const quantity = document.getElementById("quantity");
-            const regNo = document.getElementById("regNo");
-            const scategory = document.getElementById("scategory");
-            const mcategory = document.getElementById("mcategory");
-            const lcategory = document.getElementById("lcategory");
-            
-            const url = /*[[@{/api/seller/insertitem.json}]]*/"";
-            console.log(url);
-            const headers = {"Content-Type":"application/json"};
-            const body = {name : name.value, price : price.value, quantity : quantity.value, regNo : regNo.value, scategoryCode : {code : scategory.value}};
-            const { data } = await axios.post(url, body, { headers:headers });
-            
-            console.log(data.result);
-            console.log(data.itemno);
-            // if(data.result != null){}
-            // 모달창에서 네 클릭시 새로등록한 물품번호를 받아 /seller/itemimage/selectlist.do?no=159 로 이동
-            document.getElementById('insertimage').addEventListener("click", clickFunction);
-            function clickFunction() {
-                window.location.href = `/SOBUN/seller/itemimage/selectlist.do?no=` + data.itemno;
-            }
-    
-            document.getElementById('tomanagement').addEventListener("click", clickFunction1);
-            function clickFunction1() {
-                window.location.href = `/SOBUN/seller/item/management.do`;
-            }
+            name.innerText = "소분류 카테고리를 선택해주세요.";
+            return false;
         }
+
+
+
+        const url = /*[[@{/api/seller/insertitem.json}]]*/"";
+        console.log(url);
+        const headers = {"Content-Type":"application/json"};
+        const body = {name : name.value, price : price.value, quantity : quantity.value, regNo : regNo.value, scategoryCode : {code : scategory.value}};
+        const { data } = await axios.post(url, body, { headers:headers });
         
-        
-        
-        </script>
+        console.log(data.result);
+        console.log(data.itemno);
+        // if(data.result != null){}
+        // 모달창에서 네 클릭시 새로등록한 물품번호를 받아 /seller/itemimage/selectlist.do?no=159 로 이동
+        document.getElementById('insertimage').addEventListener("click", clickFunction);
+        function clickFunction() {
+            window.location.href = `/SOBUN/seller/itemimage/selectlist.do?no=` + data.itemno;
+        }
+
+        document.getElementById('tomanagement').addEventListener("click", clickFunction1);
+        function clickFunction1() {
+            window.location.href = `/SOBUN/seller/item/management.do`;
+        }
+    }
+</script>
         
 
     <!-- <script>
