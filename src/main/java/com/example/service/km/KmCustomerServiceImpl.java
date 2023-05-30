@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.example.dto.Customer;
@@ -17,7 +19,6 @@ import com.example.entity.ItemImage;
 import com.example.entity.ReviewEntity;
 import com.example.entity.ReviewImageEntity;
 import com.example.entity.km.KmCheckReviewView;
-import com.example.entity.km.KmReviewNoProjection;
 import com.example.mapper.km.KmCustomerMapper;
 import com.example.repository.km.KmCheckReviewViewRepository;
 import com.example.repository.km.KmPurchaseStatusRepository;
@@ -232,17 +233,6 @@ public class KmCustomerServiceImpl implements KmCustomerService {
     }
 
 
-
-    // itemno에 해당하는 이미지 중 가장 오래된 이미지 가져오기
-    // public ItemImage findTop1ByItemNo_noOrderByNoAsc(BigDecimal no) {
-    //     try {
-    //         return imageRepository.findTop1ByItemNo_noOrderByNoAsc(no);
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return null;
-    //     }
-    // }
-
 // ----------------------------------------------------------------------------------------------------
 // 리뷰 등록
     
@@ -265,11 +255,12 @@ public class KmCustomerServiceImpl implements KmCustomerService {
             return null;
         }
     }
-
-    // 리뷰 전체에서 가장 최신 번호 가져오기
-    public KmReviewNoProjection findTop1ReviewNo() {
+    
+    // 가장 최신 리뷰 가져오기 (이미지 등록 위해)
+    @Override
+    public ReviewEntity findByPurchaseOrderEntity_no(String orderNo) {
         try {
-            return rRepository.findTop1ByOrderByNoDesc();
+            return rRepository.findByPurchaseOrderEntity_no(orderNo);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -297,5 +288,31 @@ public class KmCustomerServiceImpl implements KmCustomerService {
             return -1;
         }
     }
+
+    // 물품에 해당하는 리뷰 전체 불러오기
+    // @Value("${review.pagetotal}") int PAGETOTAL;
+    // @Override
+    // public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo, int page) {
+    //     try {
+    //         PageRequest PageRequest = org.springframework.data.domain.PageRequest.of((page-1), PAGETOTAL);
+
+    //         return rRepository.findByItemEntity_noOrderByNoDesc(itemNo, PageRequest);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return null;
+    //     }
+    // }
+
+    @Override
+    public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo) {
+        try {
+
+            return rRepository.findByItemEntity_noOrderByNoDesc(itemNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     
 }

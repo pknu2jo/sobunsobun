@@ -49,12 +49,13 @@ public class ReviewEntity {
     @Column(name = "REGDATE", updatable = false)
     private Date regdate;
     
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ITEMNO", referencedColumnName = "no")
     private Item itemEntity;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "reviewNo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "reviewno", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     List<ReviewImageEntity> imageList = new ArrayList<>();
 
     @OneToOne

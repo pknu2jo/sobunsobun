@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -65,6 +64,6 @@ public class Item {
     @OneToMany(mappedBy = "itemEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     List<ReviewEntity> reviewList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "itemEntity")
-    private PurchaseStatusEntity purchaseStatusEntity;
+    @OneToMany(mappedBy = "itemEntity")
+    private List<PurchaseStatusEntity> purchaseStatusEntity;
 }

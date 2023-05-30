@@ -40,55 +40,7 @@
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;">
 
-        <!-- 리뷰 모달 ~ -->
-        <form th:action="@{/customer/enterreview.do}" method="post" id="form1" enctype="multipart/form-data">
-            <div class="popup" id="myPopup" aria-hidden="true" onClick="if(event.target == this){closePopup('#myPopup');}">
-                <div class="wrapper" aria-labelledby="popupTitle" aria-describedby="popupText" aria-modal="true">
-                    <h2 id="popupTitle" >리뷰 작성</h2>
-                    <div class="popup__img">
-                        <img th:src="@{/customer/image(no=${imgList[0]})}" >
-                    </div>
-                    <div class="popup__itemname">
-                        <p th:text="${item.ITEMNAME}"></p>
-                    </div>
-                    <div class="popup__rating">
-                        <fieldset>
-                            <input type="radio" name="rating" value="5" id="rate1"><label for="rate1">★</label>
-                            <input type="radio" name="rating" value="4" id="rate2"><label for="rate2">★</label>
-                            <input type="radio" name="rating" value="3" id="rate3"><label for="rate3">★</label>
-                            <input type="radio" name="rating" value="2" id="rate4"><label for="rate4">★</label>
-                            <input type="radio" name="rating" value="1" id="rate5"><label for="rate5">★</label>
-                        </fieldset>
-                    </div>
-                    <hr>
-                    <div class="popup__comment">
-                        <textarea name="comment" id="comment" cols="50" rows="10"></textarea>
-                    </div>
-                    
-                    <div class="popup__reviewimg">
-                        <div class="popup__reviewimage" style="display: inline-block;">
-                            <!-- <a href="https://www.flaticon.com/kr/free-icons/img" title="img 아이콘">Img 아이콘  제작자: POD Gladiator - Flaticon</a> -->
-                            <img class="mb-3" th:src="@{/images/km/reviewImage.png}" 
-                                id="img" onclick="clickImage()">
-                            <input type="file" name="file" id="file" class="form-control" 
-                                    onchange="imageChange(this)" style="display:none"> 
-                        </div>
-                        <div class="popup__reviewimage1" style="display: inline-block;">
-                            <input type="file" name="file1" id="file1" onchange="imageChange(this)" style="display:none">
-                            <img id="img1">
-                        </div>
-                        <div class="popup__reviewimage2" style="display: inline-block;"> 
-                            <input type="file" name="file2" id="file2" onchange="imageChange(this)" style="display:none">
-                            <img id="img2">
-                        </div>
-                    </div>
-  
-                    <button type="button" id="closePopup" onClick="closePopup('#myPopup');" aria-label="Close popup">Close</button>
-                    <button type="button" id="enterReview" onClick="writeReview()">등록하기</button>
-                </div>
-            </div>
-        </form>
-        <!-- ~ 리뷰 모달 -->
+       
 
         <div class="super_container" style="margin-top: -100px;">
             <div class="container single_product_container">
@@ -226,7 +178,7 @@
 
             </div>
 
-            <!-- 물품 상세 영역 ~  -->
+            <!-- 물품 상세 + 리뷰 영역 ~  -->
             <div class="tabs_section_container">
                 <div class="container">
                     <div class="row">
@@ -272,6 +224,9 @@
                                         <!-- 상품 평점의 평균 -->
 
                                         <button type="button" onclick="CheckReview()">리뷰 등록하기</button>
+
+                                        <div id="reviews-container"></div>
+                                        <div id="pagination-container"></div>
 
                                         <div class="user_review_container d-flex flex-column flex-sm-row">
                                             <div class="user">
@@ -345,13 +300,62 @@
     </div>
 
 
+
+    <!-- 리뷰 모달 ~ -->
+        <!-- <form th:a="@{/customer/enterreview.do}" method="post" id="form1" enctype="multipart/form-data"> -->
+    <div class="popup" id="myPopup" aria-hidden="true" onClick="if(event.target == this){closePopup('#myPopup');}">
+        <div class="wrapper" aria-labelledby="popupTitle" aria-describedby="popupText" aria-modal="true">
+            <h2 id="popupTitle" >리뷰 작성</h2>
+            <div class="popup__img">
+                <img th:src="@{/customer/image(no=${imgList[0]})}" >
+            </div>
+            <div class="popup__itemname">
+                <p th:text="${item.ITEMNAME}"></p>
+            </div>
+            <div class="popup__rating">
+                <fieldset>
+                    <input type="radio" name="rating" value="5" id="rate1"><label for="rate1">★</label>
+                    <input type="radio" name="rating" value="4" id="rate2"><label for="rate2">★</label>
+                    <input type="radio" name="rating" value="3" id="rate3"><label for="rate3">★</label>
+                    <input type="radio" name="rating" value="2" id="rate4"><label for="rate4">★</label>
+                    <input type="radio" name="rating" value="1" id="rate5"><label for="rate5">★</label>
+                </fieldset>
+            </div>
+            <hr>
+            <div class="popup__comment">
+                <textarea name="comment" id="comment" cols="50" rows="10"></textarea>
+            </div>
+            
+            <div class="popup__reviewimg">
+                <div class="popup__reviewimage" style="display: inline-block;">
+                    <!-- <a href="https://www.flaticon.com/kr/free-icons/img" title="img 아이콘">Img 아이콘  제작자: POD Gladiator - Flaticon</a> -->
+                    <img class="mb-3" th:src="@{/images/km/reviewImage.png}" 
+                        id="img" onclick="clickImage()">
+                    <input type="file" name="file" id="file" class="form-control" 
+                            onchange="imageChange(this)" style="display:none" accept="image/*"> 
+                </div>
+                <div class="popup__reviewimage1" style="display: inline-block;">
+                    <input type="file" name="file1" id="file1" 
+                        onchange="imageChange(this)" style="display:none" accept="image/*">
+                    <img id="img1">
+                </div>
+                <div class="popup__reviewimage2" style="display: inline-block;"> 
+                    <input type="file" name="file2" id="file2" 
+                        onchange="imageChange(this)" style="display:none"  accept="image/*">
+                    <img id="img2">
+                </div>
+            </div>
+
+            <button type="button" id="closePopup" onClick="closePopup('#myPopup');" aria-label="Close popup">Close</button>
+            <button type="button" id="enterReview" onClick="writeReview()">등록하기</button>
+        </div>
+    </div>
+        <!-- </form> -->
+    <!-- ~ 리뷰 모달 -->
+
+
     <!-- footer -->
     <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
-
-
-    
-
-
 
 
     <!-- script-->
@@ -404,7 +408,6 @@
 
         // 하나씩 꺼내기
         if (list != null) {
-
             for (let i = 0; i < list.length; i++) {
 
                 let tmp = list[i];
@@ -417,7 +420,6 @@
 
                 console.log(tmp.deadline);
                 console.log(totalPrice);
-                // console.log(price1);
 
                 tbody.innerHTML +=
                         `<tr>` +
@@ -544,6 +546,11 @@
             }
         }
 
+        var orderNo = 0; 
+        // CheckReveiw() 함수에서 orderNo 알아오고 
+        // writeReview() 함수에서 Reviw 작성을 위해 orderNo를 건네줘야함
+
+        // 리뷰 작성 시 조건 확인하기
         async function CheckReview() {
             // 로그인 체크 먼저하기
 
@@ -560,10 +567,9 @@
 
                 console.log("반환값 확인", data);
 
-
                 if (data.reviewCount == 0) {
                     // reviewCount = 0이면 리뷰 작성 모달창 띄우기
-
+                    orderNo = data.orderNo;
                     openPopup('#myPopup');
 
                 } else if (data.reviewCount == 1){
@@ -634,11 +640,8 @@
                     img.src = "${pageContext.request.contextPath}/resources/images/day15_item/noimage.jpg";
             }
         }
-
         
-
-        
-
+        // 리뷰 작성하기
         async function writeReview() {
 
             const ratingElement = document.querySelector('input[name="rating"]:checked');
@@ -656,23 +659,9 @@
             } else if(comment.length < 10) {
                 alert('10자 이상 작성 부탁드려요~~');
                 false;
-            } else if(confirm('리뷰 등록할까요?')) {
-                
-            // controller로 보낼 때
-                // const form1 = document.querySelector('#form1');
-                // const input = document.createElement("input");
-
-                // input.type = "hidden";
-                // input.name = "itemno";
-                // input.value = itemNO;
-
-                // form1.appendChild(input);
-                // form1.submit();
-
-                
-               
+            } else if(confirm('리뷰 등록할까요?')) {             
             
-            // rest로 보낼 때
+                // rest로 보내기
                 const url = /*[[@{/api/customer/enterreview.json}]]*/"";
                 const headers = {"Content-Type":"multipart/form-data"};
                 // const headers = {"Content-Type":"application/json"};
@@ -680,6 +669,8 @@
                 const formData = new FormData();
                 formData.append("rating", rating);
                 formData.append("comment", comment);
+                formData.append("orderNo", orderNo);
+                formData.append("itemNo", itemNO);
 
                 if(file1 !== null) {
                     formData.append("file1", file1);
@@ -690,10 +681,35 @@
 
                 const { data } = await axios.post(url, formData, {headers:headers});
                 console.log("반환되는 결과", data);
+
+                if(data.result == 200) {
+                    alert("리뷰 등록이 완료되었습니다.");
+                    location.replace([[@{/customer/item/selectone.do}]] + "?itemno=" + [[${item.ITEMNO}]]);
+                } else {
+                    alert("뭔가 잘못됨");
+                }
             }
-            
         }
 
+
+
+        
+        // 물품번호에 해당하는 모든 리뷰 가져오기
+        async function reviewSection() {
+                       
+            const url = [[@{/api/customer/findreview.json}]] + `?itemno=` + itemNO;
+            console.log(url);
+            const headers = {"Content-Type":"application/json"};
+            const { data } = await axios.get(url, {headers:headers});
+
+            console.log("반환값 확인", data);
+            // const reviews = data.reivews;
+
+            const reviews = data.reviews; // 서버에서 받아온 리뷰 데이터            
+        }
+
+        // 초기 페이지 로드 시 리뷰 데이터 가져오기
+        reviewSection();
         
     </script>
 
