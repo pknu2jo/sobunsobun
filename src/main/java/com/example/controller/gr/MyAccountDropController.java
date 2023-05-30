@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.dto.Customer;
 import com.example.dto.CustomerAddress;
 import com.example.mapper.gr.GrCustomerMapper;
+import com.example.service.gr.GrCustomerService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MyAccountDropController {
 
     final GrCustomerMapper cMapper;
+    final GrCustomerService cService;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
     @GetMapping(value = "/myaccountdropchk.do")
@@ -47,7 +49,8 @@ public class MyAccountDropController {
         model.addAttribute("user", user);
         try {
 
-            Customer c = cMapper.selectCustomerOne1(user.getUsername());
+            // Customer c = cMapper.selectCustomerOne1(user.getUsername());
+            Customer c = cService.selectCustomerOne1(user.getUsername());
 
             if (bcpe.matches(customer.getPw(), c.getPw())) {
                 return "redirect:/customer/myaccountdrop.do";
@@ -63,7 +66,8 @@ public class MyAccountDropController {
     @GetMapping(value = "/myaccountdrop.do")
     public String myaccountdropGET(@AuthenticationPrincipal User user,
             Model model) {
-        int ret = cMapper.countPurchase(user.getUsername());
+        // int ret = cMapper.countPurchase(user.getUsername());
+        int ret = cService.countPurchase(user.getUsername());
         model.addAttribute("ret", ret);
         model.addAttribute("user", user);
         return "/gr/customer/myaccountdrop";

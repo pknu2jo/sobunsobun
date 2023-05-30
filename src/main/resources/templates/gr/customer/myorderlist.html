@@ -354,6 +354,16 @@
             color: #000;
         }
 
+        #previousButton, #nextButton{
+            font-size: 14px;
+            border: 0;
+            color: #333;
+
+        }
+
+        .pageul * {
+            display: inline-block;
+        }
 
 
 
@@ -443,11 +453,11 @@
             <div class="calender d-flex justify-content-center">
                 <div class="grade">
                     <div class="info d-flex justify-content-center">
-                        <input class="btn_date_1month" type="button" value="최근 1개월">
+                        <input class="btn_date_1month" type="button" value="최근 1개월" onclick="onemonth()">
                         <input type="date" id="fd" min="" max="" name="firstdate" th:field="${gc.firstdate}" onchange="firstdatechange()" >
                         <span class="datespan">~</span>
                         <input type="date" id="sd" min="" max="" name="seconddate" th:field="${gc.seconddate}" onchange="seconddatechange()" >
-                        <input class="btn_date" type="submit" value="조 회">
+                        <input class="btn_date" id="btn_date" type="submit" value="조 회">
                     </div>
                 </div>
             </div>
@@ -501,9 +511,51 @@
         </div>
         <!-- 페이지 -->
         <div class="pagearea d-flex justify-content-center" >
+            <!-- <button id="previousButton" onclick="goToPreviousPage()" disabled><</button>
             <th:block th:each="num : ${#numbers.sequence(1, pages)}" >
                 <a class="num" th:href="@{/customer/myorderlist.do(page=${num}, firstdate=${firstdate}, seconddate=${seconddate})}" th:text="${num}"></a>
             </th:block>
+            <button id="nextButton" onclick="goToNextPage()" disabled>></button> -->
+
+            <!-- <th:block th:with="currentSet=${(#numbers.integerDivide(#numbers.subtract(currentPage, 1), 5)) + 1}">
+                <th:block th:if="${currentSet > 1}">
+                    <a class="num" th:href="@{/customer/myorderlist.do(page=${(currentSet - 1) * 5}, firstdate=${firstdate}, seconddate=${seconddate})}">
+                        이전
+                    </a>
+                </th:block>
+                <th:block th:each="num : ${#numbers.sequence(startPage, endPage)}">
+                    <a class="num" th:href="@{/customer/myorderlist.do(page=${num}, firstdate=${firstdate}, seconddate=${seconddate})}"
+                    th:class="${num == currentPage ? 'active' : ''}" th:text="${num}"></a>
+                </th:block>
+                <th:block th:if="${endPage < pages}">
+                    <a class="num" th:href="@{/customer/myorderlist.do(page=${endPage + 1}, firstdate=${firstdate}, seconddate=${seconddate})}">
+                        다음
+                    </a>
+                </th:block> -->
+
+                <ul class="pageul">
+                    <li th:if="${currentPage > 1}">
+                        <a th:href="@{/customer/myorderlist.do(page=1, firstdate=${firstdate}, seconddate=${seconddate})}">&laquo;</a>
+                    </li>
+                    <li th:if="${currentPage > 1}">
+                        <a th:href="@{/customer/myorderlist.do(page=${currentPage - 1}, firstdate=${firstdate}, seconddate=${seconddate})}">&lt;</a>
+                    </li>
+                    <li th:each="num : ${#numbers.sequence(startPage, endPage)}" th:class="${num == currentPage ? 'active' : ''}">
+                        <a th:href="@{/customer/myorderlist.do(page=${num}, firstdate=${firstdate}, seconddate=${seconddate})}"
+                           th:text="${num}"></a>
+                    </li>
+                    <li th:if="${currentPage < pages}">
+                        <a th:href="@{/customer/myorderlist.do(page=${currentPage + 1}, firstdate=${firstdate}, seconddate=${seconddate})}">&gt;</a>
+                    </li>
+                    <li th:if="${currentPage < pages}">
+                        <a th:href="@{/customer/myorderlist.do(page=${pages}, firstdate=${firstdate}, seconddate=${seconddate})}">&raquo;</a>
+                    </li>
+                </ul>
+
+            </th:block>
+
+
+
         </div>
         </form>
 
@@ -540,7 +592,30 @@
             document.getElementById("fd").max = endDate;
         }
 
+        function onemonth(){
         
+            var today = new Date();
+            var today1 = new Date();
+            today1.setMonth(today1.getMonth() -1);
+
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0');
+            var mm1 = String(today1.getMonth() + 1).padStart(2,'0');
+            var yyyy = today.getFullYear();
+            var formmattedDate = yyyy + '-' + mm + '-' + dd;
+            var formmattedDate1 = yyyy + '-' + mm1 + '-' + dd;
+
+            document.getElementById("fd").value = formmattedDate1;
+            document.getElementById("sd").value = formmattedDate;
+
+            document.getElementById("btn_date").click(); // 버튼의 id를 사용하여 자동으로 클릭
+        }
+
+        // -------------------------------------------------------------------------------
+
+        
+
+                
     </script>
     
 </body>

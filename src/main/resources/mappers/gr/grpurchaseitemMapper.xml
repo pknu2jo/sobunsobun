@@ -8,11 +8,6 @@
         SELECT * FROM (SELECT *, ROW_NUMBER() OVER(ORDER BY PURCHASECNT DESC) ROWNNUM FROM SEMANYPURCHASEITEMVIEW s) WHERE ROWNNUM <![CDATA[ <= ]]> 5 ORDER BY ROWNUM ASC
     </select>
 
-    <!-- 물품 대표이미지 가져오기
-    <select id="selectItemImageOne" resultType="ItemImage">
-        SELECT NVL(min(no), 0) FROM ItemImage WHERE itemNo=#{itemno}
-    </select> -->
-
     <!-- 전체 개수 가져오기 (페이지네이션용)-->
     <select id="countMyOrderList" parameterType="string" resultType="long">
         SELECT COUNT(*) cnt FROM GRPURCHASEVIEW WHERE memId = #{id}
