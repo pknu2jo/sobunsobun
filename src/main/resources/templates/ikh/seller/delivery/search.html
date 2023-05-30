@@ -153,21 +153,21 @@
                                     </div>
                             </div>
 
-                            <form th:action="@{/seller/delivery/search.do}" method="get">
+                            <form th:action="@{/seller/delivery/search.do}" method="get" th:object="${dvs}">
                                 <div class="row" style ="border: 2px solid rgb(229, 229, 229); background-color: rgb(243,245,247);">
                                     <div style="display: inline-block;">
                                         검색어<hr/>
-                                        물품코드 <input type="number" name="itemcode" placeholder="물품코드 입력" />
-                                        물품이름 <input type="text" name="itemname" placeholder="물품이름 입력" />
-                                        주소 <input type="text" name="address" placeholder="주소 입력" />
-                                        공구주문번호 <input type="number" name="purchaseno" placeholder="공구주문번호 입력" />
+                                        물품코드 <input type="number" th:field="${dvs.itemcode}" name="itemcode" placeholder="물품코드 입력" />
+                                        물품이름 <input type="text" th:field="${dvs.itemname}" name="itemname" placeholder="물품이름 입력" />
+                                        주소 <input type="text" th:field="${dvs.address}" name="address" placeholder="주소 입력" />
+                                        공구주문번호 <input type="number" th:field="${dvs.purchaseno}" name="purchaseno" placeholder="공구주문번호 입력" />
                                     </div>
                                 </div>
 
                                 <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">                                                                        
                                     배송상태<hr/>
                                     <div style="display: inline-block;">
-                                        <input type="radio" th:each="obj : ${statuslist}" name="status" th:text="${obj.status}" th:value="${obj.no}"/>
+                                        <input type="radio" th:each="obj : ${statuslist}" th:field="${dvs.status}" name="status" th:text="${obj.status}" th:value="${obj.no}"/>
                                     </div>
                                 </div>
 
@@ -197,9 +197,9 @@
                                     <h6 style="display: inline;">기간</h6>
                                     <div style="display: inline-block;">
                                     <!-- script -->
-                                    <input type="date" id="fd" th:min="${sdate}" name="firstdate" th:onchange="firstdatechange()"/>
+                                    <input type="date" id="fd" th:min="${sdate}" th:field="${dvs.firstdate}" name="firstdate" th:onchange="firstdatechange()"/>
                                     &nbsp;~&nbsp;
-                                    <input type="date" id="sd" min="" th:max="${today}" name="seconddate" th:onchange="seconddatechange()"/>                                   
+                                    <input type="date" id="sd" min="" th:max="${today}" th:field="${dvs.seconddate}" name="seconddate" th:onchange="seconddatechange()"/>                                   
                                     </div>
                                 </div>                                
 
@@ -310,8 +310,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <form>
-                        <button type="button" value="" id="btndv" class="btn btn-outline-primary" onclick="dvvalue()">변경저장</button>
+                    <form th:action="@{/seller/delivery/search.do}" method="post">
+                        <input type="hidden" name="btndv" value="" id="btndv"/>
+                        <input type="hidden" name="dvstatus" value="" id="dvstatus"/>
+                        <input type="submit" value="상태변경" class="btn btn-outline-primary" onclick="dvvalue()" />
                     </form>
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
                 </div>
@@ -371,58 +373,63 @@
         var equals = 'btn btn-outline-primary active';        
         
         if(bt0 == equals) {
-            console.log(0);
-            console.log(btndv);
+            console.log("0번 " + btndv);
+            document.getElementById('dvstatus').setAttribute('value', 0);
+            console.log(document.getElementById('dvstatus').value);           
         }
         else if(bt1 == equals) {
-            console.log(1);
-            console.log(btndv);
+            console.log("1번 " + btndv);
+            document.getElementById('dvstatus').setAttribute('value', 1);
+            console.log(document.getElementById('dvstatus').value);
         }
         else if(bt2 == equals) {
-            console.log(2);
-            console.log(btndv);
+            console.log("2번 " + btndv);
+            document.getElementById('dvstatus').setAttribute('value', 2);
+            console.log(document.getElementById('dvstatus').value);
         }
         else if(bt3 == equals) {
-            console.log(3);
-            console.log(btndv);
+            console.log("3번 " + btndv);
+            document.getElementById('dvstatus').setAttribute('value', 3);
+            console.log(document.getElementById('dvstatus').value);
         }
     }
 
     // 배송상태설정 변경
     function dvclick(index, enid) {
-        var dv = document.getElementById('dvact' + index).value;
+        var dv = document.getElementById('dvact' + index).value;        
         console.log("상태 : " + dv); 
         console.log("enid : " + enid);
+        console.log(typeof enid);
 
         // 상태에 맞는 토글 설정
         if(dv == 0){
             document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary active');
             document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btndv').setAttribute('value', enid);
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary');            
+            document.getElementById('btndv').setAttribute('value', enid);            
             // name 추가해주기
         }
         else if(dv == 1){
             document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary active');
             document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btndv').setAttribute('value', enid);
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary');            
+            document.getElementById('btndv').setAttribute('value', enid);            
         }
         else if(dv == 2){
             document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary active');
             document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btndv').setAttribute('value', enid);
+            document.getElementById('btndv').setAttribute('value', enid);            
         }
         else if(dv == 3){
             document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary');
             document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary active');                
-            document.getElementById('btndv').setAttribute('value', enid);
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary active');
+            document.getElementById('btndv').setAttribute('value', enid);            
         }
     }    
         

@@ -33,13 +33,16 @@ public class OrderView {
 
     @Column(name = "ADDRESS")
     private String address;
-
-    @Id
+    
     @Column(name = "MEMID")
     private String memid;
 
     @Column(name = "STATE")
     private BigDecimal state;
+
+    @Id
+    @Column(name = "ENID")
+    private BigDecimal enid;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @Column(name = "REGDATE")
