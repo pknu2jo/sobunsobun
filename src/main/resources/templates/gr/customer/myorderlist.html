@@ -210,11 +210,12 @@
         }
 
         .calender .grade .info .btn_date_1month{
-            width: 95px;
+            width: 110px;
             font-size: 15px;
             background-color: #666;
             color: #fff;
             border: 0;
+            margin-right: 20px;
         }
 
         .calender .grade .info .btn_date{
@@ -222,7 +223,7 @@
             background-color: #0e0e0e;
             color: #fff;
             font-size: 15px;
-            /* margin-left: 20px; */
+            margin-left: 0;
         }
 
         .calender .grade .info #fd, #sd{
@@ -438,17 +439,19 @@
         </div>
 
         <!-- 날짜 조회 창 -->
-        <div class="calender d-flex justify-content-center">
-            <div class="grade">
-                <div class="info d-flex justify-content-center">
-                    <!-- <input class="btn_date_1month" type="button" value="최근1개월"> -->
-                    <input type="date" id="fd" name="firstdate" onchange="firstdatechange()" >
-                    <span class="datespan">~</span>
-                    <input type="date" id="sd" name="seconddate" onchange="seconddatechange()" >
-                    <input class="btn_date" type="button" value="조 회">
+        <form th:action="@{/customer/myorderlist.do}" method="get" th:object="${gc}">
+            <div class="calender d-flex justify-content-center">
+                <div class="grade">
+                    <div class="info d-flex justify-content-center">
+                        <input class="btn_date_1month" type="button" value="최근 1개월">
+                        <input type="date" id="fd" min="" max="" name="firstdate" th:field="${gc.firstdate}" onchange="firstdatechange()" >
+                        <span class="datespan">~</span>
+                        <input type="date" id="sd" min="" max="" name="seconddate" th:field="${gc.seconddate}" onchange="seconddatechange()" >
+                        <input class="btn_date" type="submit" value="조 회">
+                    </div>
                 </div>
             </div>
-        </div>
+        
 
         <!-- 주문내역 조회 창 -->
         <div class="divList d-flex justify-content-center">
@@ -496,12 +499,13 @@
 
             
         </div>
-
+        <!-- 페이지 -->
         <div class="pagearea d-flex justify-content-center" >
-            <th:block th:each="num : ${#numbers.sequence(1,pages)}" >
-                <a class="num" th:href="@{/customer/myorderlist.do(page=${num})}" th:text="${num}"></a>
+            <th:block th:each="num : ${#numbers.sequence(1, pages)}" >
+                <a class="num" th:href="@{/customer/myorderlist.do(page=${num}, firstdate=${firstdate}, seconddate=${seconddate})}" th:text="${num}"></a>
             </th:block>
         </div>
+        </form>
 
 
         
@@ -517,30 +521,25 @@
     <!-- script-->
     <script th:inline="javascript" type="text/javascript">
 
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+        var formmattedDate = yyyy + '-' + mm + '-' + dd;
 
-
-        var now = new Date();
-
-        document.getElementById("fd").valueAsDate = new Date(now.setMonth(now.getMonth() - 1 ));
-        document.getElementById("sd").valueAsDate = new Date();
-
+        document.getElementById('sd').max = formmattedDate;
+        document.getElementById('fd').max = formmattedDate;
 
         function firstdatechange(){
-            var date1 = document.getElementById("fd").value;
-
-            console.log(date1);
-
+            var startDate = document.getElementById("fd").value;
+            document.getElementById("sd").min = startDate;
         }
 
         function seconddatechange(){
-            var date2 = document.getElementById("sd").value;
-
-            console.log(date2);
-
+            var endDate = document.getElementById("sd").value;
+            document.getElementById("fd").max = endDate;
         }
 
-       
- 
         
     </script>
     

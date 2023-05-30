@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
+import com.example.dto.GrDate;
 import com.example.dto.ItemImage;
 import com.example.entity.gr.grpurchaseview;
 
@@ -23,7 +25,17 @@ public interface GrPurchaseItemMapper {
     // 페이지네이션
     public List<grpurchaseview> selectMyOrderListPage(Map<String, Object> map);
 
+    // 기한내 구매목록 개수 불러오기
+    public long countMyOrderListDate(GrDate grDate);
+
     // 기한내 구매목록 불러오기
-    public List<grpurchaseview> searchMyOrderList(Map<String, Object> map);
+    public List<grpurchaseview> searchMyOrderList(GrDate grdate);
+
+    // test
+    @Select({ " SELECT * FROM grpurchaseview WHERE memId=#{memId} ORDER BY regdate desc" })
+    public List<grpurchaseview> selectById(String id);
+
+    // test -> 날짜 조회 (페이지네이션 x)
+    public List<grpurchaseview> MyOrderList(GrDate grDate);
 
 }

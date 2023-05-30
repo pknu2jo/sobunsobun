@@ -3,8 +3,8 @@
     "version": "2.2.11",
     "width": 3000,
     "height": 3000,
-    "scrollTop": -297,
-    "scrollLeft": -1082,
+    "scrollTop": -319,
+    "scrollLeft": -1248,
     "zoomLevel": 0.8,
     "show": {
       "tableComment": true,
@@ -281,7 +281,7 @@
           "active": false,
           "left": 2231.6965,
           "top": 809.2258,
-          "zIndex": 15,
+          "zIndex": 13,
           "widthName": 60,
           "widthComment": 60,
           "color": "#ECD824"
@@ -765,29 +765,6 @@
             "id": "50c5a3de-09f7-4e8c-abd3-7673f4727563"
           },
           {
-            "name": "regdate",
-            "comment": "등록일자",
-            "dataType": "TIMESTAMP",
-            "default": "CURRENT_TIMESTAMP",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 60,
-              "widthComment": 60,
-              "widthDataType": 71.93212890625,
-              "widthDefault": 134.31689453125
-            },
-            "id": "3205228b-5fed-45f8-81fe-aedfbc529724"
-          },
-          {
             "name": "itemno",
             "comment": "물품번호(시퀀스)",
             "dataType": "NUMBER",
@@ -809,13 +786,36 @@
               "widthDefault": 118.63818359375
             },
             "id": "61093ed4-2155-4fb2-b7bc-2ca9d7ddbfbc"
+          },
+          {
+            "name": "regdate",
+            "comment": "등록일자",
+            "dataType": "TIMESTAMP",
+            "default": "CURRENT_TIMESTAMP",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 60,
+              "widthComment": 60,
+              "widthDataType": 71.93212890625,
+              "widthDefault": 134.31689453125
+            },
+            "id": "3205228b-5fed-45f8-81fe-aedfbc529724"
           }
         ],
         "ui": {
           "active": false,
           "left": 1809.574,
           "top": 271.0638,
-          "zIndex": 35,
+          "zIndex": 19,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FFC107"
@@ -1079,7 +1079,7 @@
           "active": false,
           "left": 895.6544,
           "top": 238.7284,
-          "zIndex": 30,
+          "zIndex": 17,
           "widthName": 60,
           "widthComment": 60,
           "color": "rgb(88,184,231)"
@@ -1257,7 +1257,7 @@
           "active": false,
           "left": 855.424,
           "top": 551.4595,
-          "zIndex": 11,
+          "zIndex": 10,
           "widthName": 89.24853515625,
           "widthComment": 60,
           "color": "#E96161"
@@ -1435,7 +1435,7 @@
           "active": false,
           "left": 245.631,
           "top": 229.6619,
-          "zIndex": 13,
+          "zIndex": 11,
           "widthName": 64.14990234375,
           "widthComment": 67,
           "color": "rgb(27,109,175)"
@@ -1768,7 +1768,7 @@
           "active": false,
           "left": 2173.8873,
           "top": 1249.7453,
-          "zIndex": 14,
+          "zIndex": 12,
           "widthName": 107.02197265625,
           "widthComment": 60,
           "color": "#F3F099"
@@ -2697,7 +2697,7 @@
           "active": false,
           "left": 1479.9724,
           "top": 1139.6109,
-          "zIndex": 18,
+          "zIndex": 14,
           "widthName": 88.5947265625,
           "widthComment": 60,
           "color": "#F7C7FF"
@@ -2852,7 +2852,7 @@
           "active": false,
           "left": 1569.8606,
           "top": 775.8052,
-          "zIndex": 22,
+          "zIndex": 15,
           "widthName": 60,
           "widthComment": 60,
           "color": "#A0FFA4"
@@ -3030,7 +3030,7 @@
           "active": false,
           "left": 1563.5,
           "top": 498,
-          "zIndex": 23,
+          "zIndex": 16,
           "widthName": 75.9248046875,
           "widthComment": 71.5703125,
           "color": "#A8E07A"
