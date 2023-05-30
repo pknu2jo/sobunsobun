@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -49,17 +50,24 @@ public class ReviewEntity {
     @Column(name = "REGDATE", updatable = false)
     private Date regdate;
     
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "ITEMNO", referencedColumnName = "no")
     private Item itemEntity;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "reviewNo", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "reviewno", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     List<ReviewImageEntity> imageList = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "ORDERNO", referencedColumnName = "NO")
     @ToString.Exclude
     private PurchaseOrderEntity purchaseOrderEntity;
+
+    // 임시 변수
+    @Transient
+    private String imgUrl1;
+    @Transient
+    private String imgUrl2;
     
 }
