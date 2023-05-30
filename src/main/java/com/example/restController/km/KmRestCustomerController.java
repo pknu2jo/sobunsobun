@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.dto.CustomerUser;
-import com.example.dto.KmReviewCheck;
 import com.example.dto.Purchase;
 import com.example.dto.PurchaseOrder;
 import com.example.dto.PurchaseStatus;
+import com.example.entity.Item;
+import com.example.entity.PurchaseOrderEntity;
+import com.example.entity.ReviewEntity;
+import com.example.entity.ReviewImageEntity;
 import com.example.entity.km.KmCheckReviewView;
 import com.example.service.km.KmCustomerService;
 
@@ -151,6 +154,7 @@ public class KmRestCustomerController {
         return retMap;
     }
 
+    // 리뷰 등록 전 해야할 일
     @GetMapping(value="/checkReview.json")
     public Map<String, Object> checkReviewGET(@RequestParam(name = "id") String id, 
                                                 @RequestParam(name="itemno") long itemno) { 
@@ -168,8 +172,10 @@ public class KmRestCustomerController {
             // 리뷰 작성 여부 확인하기 (위에서 purchaseNo 받아옴)
             for(BigDecimal purchaseNo : purchaseNoList) {
                 KmCheckReviewView obj = customerService.checkReview(id, purchaseNo);
+                log.info("KmCheckReviewView => {}", obj.toString());
                 if(obj.getReviewno() == null) {
                     retMap.put("reviewCount", 0);
+                    retMap.put("orderNo", obj.getOrderno());
                     break;
                 }
             }
@@ -183,31 +189,80 @@ public class KmRestCustomerController {
         return retMap;
     }
 
-
     // 리뷰 & 리뷰 이미지 등록하기
     @PostMapping(value="/enterreview.json")
     public Map<String, Object> enterReviewPOST (
                         @RequestParam("rating") BigDecimal rating,
                         @RequestParam("comment") String comment,
+                        @RequestParam("orderNo") String orderNo,
+                        @RequestParam("itemNo") BigDecimal itemNo,
                         @RequestParam(name="file1", required = false) MultipartFile file1,
                         @RequestParam(name="file2", required = false) MultipartFile file2
                         ) {
 
         Map<String, Object> retMap = new HashMap<>();
+        int ret = 0; int ret1 = 0; int ret2 = 0;
 
         try {
-            System.out.println("----------------------------------");
             log.info("enter review Rating => {}", rating);
             log.info("enter review Comment => {}", comment);
+
+            // Review save
+            ReviewEntity review = new ReviewEntity();
+            // review.setNo(reviewNo);
+            review.setComment(comment);
+            review.setRating(rating);
+                PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
+                purchaseOrder.setNo(orderNo);
+            review.setPurchaseOrderEntity(purchaseOrder);
+                Item item = new Item();
+                item.setNo(itemNo);
+            review.setItemEntity(item);
+            ret = customerService.saveReview(review);
+
+
+            ReviewEntity review1 = customerService.findByPurchaseOrderEntity_no(orderNo);
+            log.info("review1 을 확인 => {} ", review1.toString());
+
+            // ReviewImage save
             if (file1 != null){
                 log.info("enter review Files => {}", file1.toString());
+
+                ReviewImageEntity reviewImg1 = new ReviewImageEntity();
+                reviewImg1.setReviewno( review1 );
+                reviewImg1.setFilesize( BigDecimal.valueOf(file1.getSize()) );
+                reviewImg1.setFiledata( file1.getInputStream().readAllBytes() );
+                reviewImg1.setFiletype( file1.getContentType() );
+                reviewImg1.setFilename( file1.getOriginalFilename() );
+
+                ret1 = customerService.saveReviewImage(reviewImg1);
             }
             if(file2 != null) {
                 log.info("enter review Files => {}", file2.toString());
-            } else {
-                System.out.println("file2는 noImage");
+
+                ReviewImageEntity reviewImg2 = new ReviewImageEntity();
+                reviewImg2.setReviewno( review1 );
+                reviewImg2.setFilesize( BigDecimal.valueOf(file2.getSize()) );
+                reviewImg2.setFiledata( file2.getInputStream().readAllBytes() );
+                reviewImg2.setFiletype( file2.getContentType() );
+                reviewImg2.setFilename( file2.getOriginalFilename() );
+
+                ret2 = customerService.saveReviewImage(reviewImg2);
             }
-            System.out.println("----------------------------------");
+
+            if(file1 == null && ret == 1) {
+                // 리뷰 글만 등록함(사진 아무것도 첨부 안함)
+                retMap.put("result", 200);
+                retMap.put("content", "Review");
+            } else if(file1!=null && file2==null && ret==1 && ret1==1) {
+                // 리뷰글 등록 + 사진 1개 첨부
+                retMap.put("result", 200);
+                retMap.put("content", "Review + Image1");
+            } else if(file2 != null && ret==1 && ret1==1 && ret2==1) {
+                // 리뷰 + 이미지 2개 모두 첨부
+                retMap.put("result", 200);
+                retMap.put("content", "Review + Image1 + Image2");
+            }
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -216,5 +271,35 @@ public class KmRestCustomerController {
         return retMap;
     }
 
+    // // 리뷰 전체 목록 조회하기
+    // @GetMapping(value="findreview.json")
+    // public Map<String, Object> findReviewGET(@RequestParam(name = "itemno") BigDecimal itemno) {
+    //     Map<String, Object> retMap = new HashMap<>();
 
+    //     try {
+    //         List<ReviewEntity> obj = customerService.findByItemEntity_noOrderByNoDesc(itemno);
+            
+    //         // obj를 바로 map에 담아서 보내려고 하니까 그 안에 있는 Entity(item, order, image)때문에 오류 생김
+    //         List<ReviewEntity> reviews = new ArrayList<>();
+
+            
+    //         for(ReviewEntity ret : obj) {
+    //             ReviewEntity review = new ReviewEntity();
+    //             review.setNo(ret.getNo());
+    //             review.setComment(ret.getComment());
+    //             review.setRating(ret.getRating());
+    //             review.setRegdate(ret.getRegdate());
+    //             // review.setImageList(ret.getImageList());
+    //             reviews.add(review);
+    //         }
+            
+    //         log.info("rest reviews 확인하기 => {}", reviews.toString());
+
+    //         retMap.put("reviews", reviews);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         retMap.put("result", -1);
+    //     } 
+    //     return retMap;
+    // }
 }

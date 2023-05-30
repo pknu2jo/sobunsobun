@@ -11,9 +11,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.catalina.util.CustomObjectInputStream;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.dto.Customer;
 import com.example.dto.CustomerUser;
@@ -49,21 +48,27 @@ public class KmCustomerContorller {
 
     final KmCustomerService customerService;
     final HttpSession httpSession; // 정보 전달용 session 객체 생성
+    @Value("${review.pagetotal}") int PAGETOTAL;
 
     // ------------------------------------------------------------------------------
     // 물품 상세 조회
     @GetMapping(value = "/item/selectone.do")
     public String selectitemGET(@RequestParam(name = "itemno") BigDecimal no,
+                                @RequestParam(name="tab", defaultValue = "detail") String tab,
+                                @RequestParam(name="orderby", defaultValue = "", required = false) String orderby,
+                                @RequestParam(name="page", defaultValue = "0", required = false) int page,
                                 @AuthenticationPrincipal CustomerUser user,
+                                HttpServletRequest request,
                                 Model model ) {
-        // @RequestParam(name = "no") long no 로 itemno 받기
-
-        // long no = 11; // 물품 번호 (공구 열린거)
-        // long no = 13; // 물품 번호 (공구 안열린거)
-
-        log.info("물품 상세 조회 GET");
+        log.info("물품 상세 조회 GET 진입");
 
         try {
+
+            // review 영역의 pagination 처리
+            if(page == 0) {
+                System.out.println("안되네....어쩌지");
+                return "redirect:/customer/item/selectone.do?itemno=" + no + "&tab=review&page=1";
+            }
 
             long itemno = Long.valueOf(no.toPlainString());
 
@@ -100,6 +105,34 @@ public class KmCustomerContorller {
             // Storage(no=4, name=부산중구점, phone=051-600-4000, phostcode=null, address1=부산광역시 중구 중구로 120, address2=(대청동1가, 중구청), 
             //          address3=null, latitude=35.1062826, longitude=129.032355, adminId=admin, regdate=Thu May 18 07:03:58 KST 2023)
 
+
+            if (tab.equals("review")) {
+                // 리뷰 탭을 보여줄 로직
+
+                // 리뷰 전체 목록 가져오기
+                // List<ReviewEntity> reviewList = customerService.findByItemEntity_noOrderByNoDesc(no, page);
+                List<ReviewEntity> reviewList = customerService.findByItemEntity_noOrderByNoDesc(no);
+                long total = customerService.countByItemEntity_no(no);
+                log.info("total count review => {} ", total);
+
+                log.info("review List 조회1 => {}", reviewList.toString());
+
+                for(ReviewEntity review : reviewList) {
+                    List<KmReviewNoProjection> reviewImgNoList = customerService.selectReviewImageNoList(review.getNo());
+
+                    if(!reviewImgNoList.isEmpty()) {
+                        review.setImgUrl1(request.getContextPath() + "/customer/kmreviewimage?no=" + reviewImgNoList.get(0).getNo());
+                        if(reviewImgNoList.size() == 2) {
+                            review.setImgUrl2(request.getContextPath() + "/customer/kmreviewimage?no=" + reviewImgNoList.get(1).getNo());
+                        }
+                    }
+                }
+                model.addAttribute("reviewList", reviewList);
+                model.addAttribute("pages", (total-1)/PAGETOTAL + 1);
+
+            }
+            
+
             model.addAttribute("purchaseList", purchaseList);
             model.addAttribute("item", item);
             model.addAttribute("imgList", imgList);
@@ -117,6 +150,78 @@ public class KmCustomerContorller {
         }
 
     }
+
+    // // 물품 상세 조회
+    // @GetMapping(value = "/item/selectone.do")
+    // public String selectitemGET(@RequestParam(name = "itemno") BigDecimal no,
+    //                             @AuthenticationPrincipal CustomerUser user,
+    //                             Model model ) {
+    //     // @RequestParam(name = "no") long no 로 itemno 받기
+
+    //     // long no = 11; // 물품 번호 (공구 열린거)
+    //     // long no = 13; // 물품 번호 (공구 안열린거)
+
+    //     log.info("물품 상세 조회 GET");
+
+    //     try {
+
+    //         long itemno = Long.valueOf(no.toPlainString());
+
+    //         log.info("user 정보 보기 => {}", user);
+
+    //         // 물품 정보 가져오기
+    //         Map<String, Object> item = customerService.selectOneItem(itemno);
+    //         // itemView => {SELLERNAME=LG생활건강, ITEMPRICE=8.97E+4, SCATEGORYNAME=세탁세제, ITEMNO=11,
+    //         //              SCATEGORYCODE=132, MCATEGORYNAME=세제/청소/주방세제, LCATEGORYNAME=생활용품, ITEMNAME=액체형세제 2.8L 6개}
+
+    //         // 상품 번호에 해당하는 이미지 번호
+    //         List<Long> imgList = customerService.selectItemImageNoList(itemno);
+
+    //         // 상품에 대한 열린 공구 가져오기 -> 남은 인원
+    //         List<kmPurchaseView> purchaseList = customerService.selectPurchaseList(itemno);
+    //         for (Iterator<kmPurchaseView> it = purchaseList.iterator(); it.hasNext();) {
+    //             kmPurchaseView obj = it.next();
+
+    //             long remainingPerson = customerService.countRemainingPerson(obj.getPurchaseNo());
+    //             obj.setRemainingPerson(remainingPerson);
+
+    //             if (obj.getRemainingPerson() <= 0L) {
+    //                 it.remove();
+    //             }
+    //         }
+
+    //         // 열린 공구들에 참가 중인 고객의 id list 가져오기
+    //         for (kmPurchaseView obj : purchaseList) {
+    //             obj.setMemIdList( customerService.selectIdList( obj.getPurchaseNo() ) );
+    //         }
+
+    //         // 보관소 지점 가져오기
+    //         List<Storage> storage = customerService.selectStorageList();
+    //         // Storage(no=4, name=부산중구점, phone=051-600-4000, phostcode=null, address1=부산광역시 중구 중구로 120, address2=(대청동1가, 중구청), 
+    //         //          address3=null, latitude=35.1062826, longitude=129.032355, adminId=admin, regdate=Thu May 18 07:03:58 KST 2023)
+
+
+    //         // 리뷰 전체 목록 가져오기
+    //         List<ReviewEntity> reviewList = customerService.findByItemEntity_noOrderByNoDesc(no);
+    //         log.info("review List 조회1 => {}", reviewList.toString());
+
+    //         model.addAttribute("purchaseList", purchaseList);
+    //         model.addAttribute("item", item);
+    //         model.addAttribute("imgList", imgList);
+    //         model.addAttribute("storage", storage);
+    //         model.addAttribute("user", user);
+
+    //         // log.info("보관소 정보 storage => {}", storage.toString());
+    //         // log.info("purchaseList => {}", purchaseList);
+    //         log.info("itemView 확인  => {}", item);
+
+    //         return "/km/customer/selectitem";
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return "redirect:/customer/home.do";
+    //     }
+
+    // }
 
     @PostMapping(value = "/item/selectone1.do")
     public String selectitemPOST(@ModelAttribute kmPurchaseView obj, Model model) {
@@ -230,17 +335,18 @@ public class KmCustomerContorller {
         }
     }
 
-    // 이미지
+
     final ResourceLoader resourceLoader; // resources 폴더의 파일을 읽기 위한 객체 생성
     @Value("${default.image}")
     String DEFAULTIMAGE;
 
+    // 물품 이미지
     @GetMapping(value = "/image")
     public ResponseEntity<byte[]> image(@RequestParam(name = "no", defaultValue = "0") BigDecimal no)
             throws IOException {
 
         try {
-            ItemImage obj = customerService.findById(no);
+            ItemImage obj = customerService.findItemImageById(no);
             HttpHeaders headers = new HttpHeaders();
 
             if (obj != null) {
@@ -258,7 +364,32 @@ public class KmCustomerContorller {
             e.printStackTrace();
             return null;
         }
-        
+    }
+
+    // 리뷰 이미지
+    @GetMapping(value = "/kmreviewimage")
+    public ResponseEntity<byte[]> reviewImage(@RequestParam(name = "no", defaultValue = "0") BigDecimal no)
+            throws IOException {
+
+        try {
+            ReviewImageEntity obj = customerService.findReviewImageById(no);
+            HttpHeaders headers = new HttpHeaders();
+
+            if (obj != null) {
+                if (obj.getFilesize().longValue() > 0L) {
+                    headers.setContentType(MediaType.parseMediaType(obj.getFiletype()));
+
+                    return new ResponseEntity<>(obj.getFiledata(), headers, HttpStatus.OK);
+                }
+            }
+
+            InputStream is = resourceLoader.getResource(DEFAULTIMAGE).getInputStream();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            return new ResponseEntity<>(is.readAllBytes(), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
@@ -266,7 +397,6 @@ public class KmCustomerContorller {
     public String orderSuccessGET(Model model,
                     @AuthenticationPrincipal CustomerUser user) {
         try {
-            
             model.addAttribute("user", user);
             return "/km/customer/ordersuccess";
         } catch (Exception e) {
@@ -275,75 +405,7 @@ public class KmCustomerContorller {
         }
     }
 
-    @PostMapping(value = "/enterreview.do")
-    public String enterReviewPOST(@ModelAttribute ReviewEntity review, 
-            @RequestParam(name="file1", required = false) MultipartFile file1,
-            @RequestParam(name="file2", required = false) MultipartFile file2,
-            @RequestParam(name="itemno") long itemno,
-            Model model ){
-        try {
-            // 화면에서 review(rating, comment), reviewImage (0, 1, 2장) 받아오기
-
-            log.info("enterReview Review 확인 => {}", review);
-            // log.info("enterReview Review image1 확인 => {}", file1.getSize());
-            // log.info("enterReview Review image2 확인 => {}", file2.getSize());
-
-            BigDecimal reviewNo = (customerService.findTop1ReviewNo().getNo()).add(BigDecimal.ONE);
-
-            // 리뷰 등록하기
-            ReviewEntity obj1 = new ReviewEntity();
-            obj1.setNo(reviewNo);
-            obj1.setComment(review.getComment());
-            obj1.setRating(review.getRating());
-            // int ret1 = customerService.saveReview(obj1);
-
-            int ret2 = 0;
-            int ret3 = 0;
-            if(file1.getSize() > 0) {
-                ReviewImageEntity reviewImg1 = new ReviewImageEntity();
-                reviewImg1.setReviewNo(obj1);
-                reviewImg1.setFilesize( BigDecimal.valueOf(file1.getSize()) );
-                reviewImg1.setFiledata( file1.getInputStream().readAllBytes() );
-                reviewImg1.setFiletype( file1.getContentType() );
-                reviewImg1.setFilename( file1.getOriginalFilename() );
-                // ret2 = customerService.saveReviewImage(reviewImg1);
-            }
-
-            if(file2.getSize() > 0) {
-                ReviewImageEntity reviewImg2 = new ReviewImageEntity();
-                reviewImg2.setReviewNo(obj1);
-                reviewImg2.setFilesize( BigDecimal.valueOf(file2.getSize()) );
-                reviewImg2.setFiledata( file2.getInputStream().readAllBytes() );
-                reviewImg2.setFiletype( file2.getContentType() );
-                reviewImg2.setFilename( file2.getOriginalFilename() );
-                // ret3 = customerService.saveReviewImage(reviewImg2);
-            }       
-            
-            // if (file2.getSize() > 0) {
-            //     if(ret1 == 1 && ret2 == 1 && ret3 ==1) {
-            //       model.addAttribute("message", "리뷰 등록에 성공하셨습니다."); 
-            //       model.addAttribute("url", "/selectone.do?itemno="+itemno);
-            //     } 
-            // } else if (file1.getSize() > 0) {
-            //     if(ret1 == 1 && ret2 == 1) {
-            //         // 등록 완료 
-            //     }
-            // } else {
-            //     if(ret1 == 1) {
-            //         // 등록 완료 
-            //     }
-            // }
-
-            model.addAttribute("message", "리뷰 등록에 성공하셨습니다."); 
-            model.addAttribute("url", "/SOBUN/customer/item/selectone.do?itemno="+itemno);
-            return "/km/customer/kmAlert";
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/customer/home.do";
-        }
-    }
-
+   
     @GetMapping(value = "/kmtest.do")
     public String testGET(Model model) {
         log.info("푸터 인클루드 테스트");

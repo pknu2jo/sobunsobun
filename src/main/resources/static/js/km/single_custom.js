@@ -261,29 +261,30 @@ jQuery(document).ready(function($)
 
 	*/
 
-	function initTabs()
-	{
-		if($('.tabs').length)
-		{
-			var tabs = $('.tabs li');
-			var tabContainers = $('.tab_container');
+	// function initTabs()
+	// {
+	// 	if($('.tabs').length)
+	// 	{
+	// 		var tabs = $('.tabs li');
+	// 		var tabContainers = $('.tab_container');
 
-			tabs.each(function()
-			{
-				var tab = $(this);
-				var tab_id = tab.data('active-tab');
+	// 		tabs.each(function()
+	// 		{
+	// 			var tab = $(this);
+	// 			var tab_id = tab.data('active-tab');
 
-				tab.on('click', function()
-				{
-					if(!tab.hasClass('active'))
-					{
-						tabs.removeClass('active');
-						tabContainers.removeClass('active');
-						tab.addClass('active');
-						$('#' + tab_id).addClass('active');
-					}
-				});
-			});
-		}
-	}
+	// 			tab.on('click', function()
+	// 			{
+	// 				if(!tab.hasClass('active'))
+	// 				{
+	// 					tabs.removeClass('active');
+	// 					tabContainers.removeClass('active');
+	// 					tab.addClass('active');
+	// 					$('#' + tab_id).addClass('active');
+
+	// 				}
+	// 			});
+	// 		});
+	// 	}
+	// }
 });

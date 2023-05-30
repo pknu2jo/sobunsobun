@@ -48,7 +48,7 @@ public class PurchaseStatusEntity {
 	@JoinColumn(name = "PURCHASENO", referencedColumnName = "NO")
     private PurchaseEntity purchaseEntity;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "ITEMNO", referencedColumnName = "NO")
     @ToString.Exclude
     private Item itemEntity;
