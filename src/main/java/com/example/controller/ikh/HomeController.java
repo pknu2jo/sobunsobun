@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.dto.ikh.DeliverySearch;
 import com.example.entity.DeliveryEntity;
 import com.example.entity.SellerEntity;
+import com.example.entity.ikh.CompleteOrderMemberView;
+import com.example.entity.ikh.CompleteOrderView;
 import com.example.entity.ikh.DeliveryView;
 import com.example.entity.ikh.OrderView;
 import com.example.entity.ikh.SalesViewProjection;
@@ -30,6 +32,8 @@ import com.example.repository.LcategoryRepository;
 import com.example.repository.McategoryRepository;
 import com.example.repository.ScategoryRepository;
 import com.example.repository.SellerRepository;
+import com.example.repository.ikh.CompleteOrderMemberViewRepository;
+import com.example.repository.ikh.CompleteOrderViewRepository;
 import com.example.repository.ikh.DeliveryViewRepository;
 import com.example.repository.ikh.OrderViewRepository;
 import com.example.repository.ikh.SalesViewRepository;
@@ -69,6 +73,8 @@ public class HomeController {
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // 주문
     final OrderViewRepository ovRepository;
+    final CompleteOrderViewRepository covRepository;
+    final CompleteOrderMemberViewRepository comvRepository;
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // html 불러오기
     // @GetMapping(value = "/home.do")
@@ -200,7 +206,8 @@ public class HomeController {
      /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
     // 주문
     @GetMapping(value="/order/search.do")
-    public String ordersearchGET(Model model) {
+    public String ordersearchGET(Model model,
+            @RequestParam(name="pnonumber", defaultValue = "") BigDecimal pnonumber) {
         try {
             List<OrderView> alist = ovRepository.findByNo("1078198143");
             model.addAttribute("alist", alist);
@@ -212,7 +219,14 @@ public class HomeController {
             model.addAttribute("tlist", tlist);
             List<OrderView> thlist = ovRepository.findByNoAndState("1078198143", BigDecimal.valueOf(3));
             model.addAttribute("thlist", thlist);
-            
+
+            List<CompleteOrderView> covlist = covRepository.findByNo("1078198143");
+            model.addAttribute("covlist", covlist);
+            // List<CompleteOrderMemberView> comvlist = comvRepository.findByNo("1078198143");
+            List<CompleteOrderMemberView> comvlist = comvRepository.findByNoAndPno("1078198143", pnonumber);
+            log.info("comvlist {}", comvlist);
+            model.addAttribute("comvlist", comvlist);
+
             return "/ikh/seller/order/search";
         } catch (Exception e) {
             e.printStackTrace();
