@@ -59,10 +59,6 @@
 		</div>
 	</div>
 
-
-
-
-
 	<!-- sweetalert2 -->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<!-- jQuery 추가 -->
@@ -71,19 +67,32 @@
 	<!-- axios -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
 
-	<script>
+	<script th:inline="javascript">
 		async function loginAction() {
-			const id = document.getElementById("id");
-			const pw = document.getElementById("pw");
+			const sellerId = document.getElementById("id");
+			const sellerPw = document.getElementById("pw");
 
-			if (id.value.length <= 0) {
+			// @PostMapping 방식
+			const url = /*[[@{/api/sellerloginchk.json}]]*/"";
+			const body = { no: sellerId.value, pw: sellerPw.value };
+			const headers = { "Content-Type": "application/json" };
+			const { data } = await axios.post(url, body, { headers: headers });
+			console.log('반환되는 결과', data);
+
+			if (sellerId.value.length <= 0) {
 				alert("사업자번호를 입력해주세요.");
-				id.focus();
+				sellerId.focus();
 				return false; // 함수종료, 전송하지 않음
 			}
-			if (pw.value.length <= 0) {
+			if (sellerPw.value.length <= 0) {
 				alert("비밀번호를 입력해주세요.");
-				pw.focus();
+				sellerPw.focus();
+				return false; // 함수종료, 전송하지 않음
+			}
+			if (data.chk != 1) {
+				alert("아이디 혹은 비밀번호가 일치하지 않습니다.")
+				sellerPw.value = null;
+				sellerPw.focus();
 				return false; // 함수종료, 전송하지 않음
 			}
 			document.getElementById("login_form").submit();

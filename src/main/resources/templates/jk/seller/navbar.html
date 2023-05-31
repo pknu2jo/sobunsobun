@@ -18,6 +18,8 @@
                                 내 정보 수정하기</a>
                             <a class="nav-link" herf="#!" onclick="pwCheck2()">
                                 비밀번호 변경하기</a>
+                            <a class="nav-link" herf="#!" onclick="pwCheck3()">
+                                탈퇴하기</a>
                         </nav>
                     </div>
 
@@ -55,7 +57,8 @@
             </div>
             <div class="sb-sidenav-footer">
                 <p th:text="'환영합니다,'" style="font-size: small;"></p>
-                <p th:text=" '[ '+ ${companyName} + ' ]' + ' 님!'" style="font-size: small; margin-bottom: 0; color: aliceblue;"></p>
+                <p th:text=" '[ '+ ${companyName} + ' ]' + ' 님!'"
+                    style="font-size: small; margin-bottom: 0; color: aliceblue;"></p>
             </div>
         </nav>
     </div>
@@ -67,13 +70,13 @@
         async function pwCheck1() {
             let url = /*[[@{/api/sellerpwcheck.json}]]*/"";
             url += `?redirect=updateinfo`;
-
             const headers = { "Content-Type": "application/json" };
             const { data } = await axios.get(url, { headers: headers });
             console.log('반환되는 결과', data);
 
             window.location.href = /*[[@{/seller/pwinfocheck.do?redirect=updateinfo.do}]]*/ + "";
         }
+        
         async function pwCheck2() {
             let url = /*[[@{/api/sellerpwcheck.json}]]*/"";
             url += `?redirect=updatepw`;
@@ -82,6 +85,16 @@
             console.log('반환되는 결과', data);
 
             window.location.href = /*[[@{/seller/pwinfocheck.do?redirect=updatepw.do}]]*/ + "";
+        }
+
+        async function pwCheck3() {
+            let url = /*[[@{/api/sellerpwcheck.json}]]*/"";
+            url += `?redirect=updatepw`;
+            const headers = { "Content-Type": "application/json" };
+            const { data } = await axios.get(url, { headers: headers });
+            console.log('반환되는 결과', data);
+
+            window.location.href = /*[[@{/seller/pwinfocheck.do?redirect=unregister.do}]]*/ + "";
         }
 
     </script>

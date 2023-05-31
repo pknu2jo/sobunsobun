@@ -84,10 +84,11 @@
                             <div class="mb-3 form-group">
                                 <label for="companyEmail" id="lbl_CompanyEmail" class="form-label">현재 등록된 이메일</label>
                                 <input type="email" th:field="${seller.email}" class="form-control" id="email"
-                                    name="email" placeholder="업체 이메일을 입력하세요" style="background-color: #e9ecef;"readonly>
+                                    name="email" placeholder="업체 이메일을 입력하세요" style="background-color: #e9ecef;"
+                                    readonly>
                             </div>
                             <div class="mb-3 form-group">
-                                <label for="new_Email" id="lbl_NewEmail"class="form-label">새 이메일</label>
+                                <label for="new_Email" id="lbl_NewEmail" class="form-label">새 이메일</label>
                                 <div class="form-floating mb-2">
                                     <div class="input-group">
                                         <input type="email" id="new_Email" name="new_Email" class="form-control"
@@ -97,11 +98,12 @@
                                     </div>
                                 </div>
                                 <div class="form-floating mb-2">
-                                    <input type="text" id="verificationCode" name="verificationCode" class="form-control"
-                                        hidden />
-                                    <label for="verificationCode" id="lbl_verificationCode" class="form-label" hidden>이메일 인증 코드</label>
+                                    <input type="text" id="verificationCode" name="verificationCode"
+                                        class="form-control" hidden />
+                                    <label for="verificationCode" id="lbl_verificationCode" class="form-label"
+                                        hidden>이메일 인증 코드</label>
                                 </div>
-            
+
                                 <div class="container text-center d-grid gap-2" style="padding: 0;">
                                     <input type="button" id="verButton" class="btn btn-dark mb-3" value="인증 확인"
                                         onclick="emailCodeCheck()" hidden>
@@ -109,7 +111,8 @@
                             </div>
                             <br>
                             <hr>
-                            <button type="button" id="smtButton"class="btn btn-dark" onclick="updateAction()">수정하기</button>
+                            <button type="button" id="smtButton" class="btn btn-dark"
+                                onclick="updateAction()">수정하기</button>
                         </form>
                     </div>
                 </div>
@@ -250,7 +253,7 @@
         var timerInterval;
 
         async function enableEmailVerification() {
-            
+
             if (document.getElementById("new_Email").value == "") { // 이메일값이 없을때 전송이 안되도록.
                 alert("이메일을 입력해주세요.")
                 return false;
@@ -276,7 +279,7 @@
         }
 
         function startTimer() {
-            var duration = 180; // 타이머는 3분
+            var duration = 120; // 타이머는 기본2분
             var timer = duration, minutes, seconds;
             timerInterval = setInterval(function () {
                 minutes = parseInt(timer / 60, 10);
@@ -290,8 +293,10 @@
                 if (--timer < 0) { // 타이머 시간 종료시
                     clearInterval(timerInterval); // 다시 처음상태로 되돌아감.
                     document.getElementById("emailVerificationBtn").disabled = false;
-                    document.getElementById("verificationCode").disabled = true;
-                    document.getElementById("lbl_verificationCode").textContent = "이메일 인증 코드";
+                    document.getElementById("verificationCode").hidden = true; // 인증코드 입력칸 비활성화
+                    document.getElementById("verificationCode").value = null;
+                    document.getElementById("verButton").hidden = true; // 인증버튼 비활성화
+                    document.getElementById("lbl_verificationCode").hidden = true; // 인증입력칸 라벨 비활성화
                     document.getElementById("new_Email").readOnly = false;
                     verificationCodeEnabled = false;
                 }
@@ -315,11 +320,11 @@
                 return false;
             } else if (data.chk === 1) {
                 alert("인증이 완료되었습니다.")
-                checkCode = 1;                
+                checkCode = 1;
                 clearInterval(timerInterval);
                 document.getElementById("verificationCode").disabled = true;
                 document.getElementById("lbl_verificationCode").textContent = "인증이 완료되었습니다.";
-                document.getElementById("lbl_verificationCode").style.color = 'blue';
+                document.getElementById("lbl_verificationCode").style.color = '#5e89ef';
                 document.getElementById("verButton").hidden = true; // 인증버튼 숨기기
                 document.getElementById("smtButton").disabled = false; // 수정버튼 입력칸 활성화
                 document.getElementById("verificationCode").hidden = true; // 인증코드 입력칸 숨기기
