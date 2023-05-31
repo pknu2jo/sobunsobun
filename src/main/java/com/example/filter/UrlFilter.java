@@ -46,6 +46,8 @@ public class UrlFilter extends OncePerRequestFilter {
                     log.info("UrlFilter 동작 => {}", contextPath+path+"?"+query);
                     httpSession.setAttribute("url", path + "?" + query);
                 }
+                log.info("urlFilter 확인 => {}", httpSession.getAttribute("url"));
+                log.info("request 확인하기 => {}", request.getMethod());
             }
 
             filterChain.doFilter(request, response); // controller 정상 진입

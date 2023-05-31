@@ -2,22 +2,19 @@ package com.example.controller.jk;
 
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.dto.Seller;
 import com.example.entity.SellerEntity;
@@ -26,8 +23,6 @@ import com.example.service.jk.JkSellerService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping(value = "/seller")
@@ -46,7 +41,7 @@ public class JkSellerController {
     // http://127.0.0.1:5959/SOBUN/seller/home.do
     @GetMapping(value = "/home.do")
     public String homeGET(@AuthenticationPrincipal User user, Model model) {
-        // log.info("판매자 Home 정보 받아오기  => {}", user);
+        // log.info("판매자 Home 정보 받아오기 => {}", user);
 
         if (!user.getUsername().equals("_")) {
             SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
@@ -96,7 +91,7 @@ public class JkSellerController {
             return "jk/seller/login";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/home.do";
+            return "jk/seller/login";
         }
     }
 
@@ -129,7 +124,8 @@ public class JkSellerController {
      * ----------------------------- 마이페이지(Jpa) ----------------------------------
      */
 
-    // -------------------------마이페이지 본인인증 (비밀번호)-------------------------- //
+    // --------------------마이페이지 본인인증 (비밀번호)------------------- //
+
     // http://127.0.0.1:5959/SOBUN/seller/pwcheck.do
     // (아이디, 비밀번호 필요)
     @GetMapping(value = "/pwinfocheck.do")
@@ -206,18 +202,17 @@ public class JkSellerController {
     @PostMapping(value = "/updatepw.do")
     public String updatepwPOST(@ModelAttribute SellerEntity seller) {
         try {
-            log.info("idInfo => {}", seller);
+            log.info("Seller UpdatePw Who => {}", seller);
             // 세션 ID 이용하여 기존암호 받아오기
             SellerEntity sellerOld = sRepository.findById(seller.getNo()).orElse(null);
-            log.info("Info => {}", seller);
-                // 기존암호가 일치한다면 새암호 & 새암호 확인 대조
-                /* -- newPw와 newPwCheck 사이의 유효성검사 필요! (JS) -- */
-                // 새 암호값으로 업데이트
-                sellerOld.setPw(bcpe.encode(seller.getNewPw()));
-                log.info(" updating Info => {}", sellerOld);
-                // 저장
-                sRepository.save(sellerOld);
-                return "redirect:/seller/home.do";
+            // 기존암호가 일치한다면 새암호 & 새암호 확인 대조
+            /* -- newPw와 newPwCheck 사이의 유효성검사 필요! (JS) -- */
+            // 새 암호값으로 업데이트
+            sellerOld.setPw(bcpe.encode(seller.getNewPw()));
+            // log.info(" Seller UpdatePw Who => {}", sellerOld);
+            // 저장
+            sRepository.save(sellerOld);
+            return "redirect:/seller/home.do";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/seller/updatepw.do";
@@ -225,25 +220,41 @@ public class JkSellerController {
     }
 
     // --------------------------탈퇴---------------------------- //
+    // 탈퇴 기능은 원래 관리자에서 구현해야함. (쿠팡윙도 같은 방식을 차용.)
+    // 하지만 관리자 페이지의 부재로 인해 직접 탈퇴하는 방법으로 바꿔야 할듯 함.
 
-    // // http://127.0.0.1:5959/SOBUN/seller/unregister.do
-    // // 3. 탈퇴
-    // @GetMapping(value = "/unregister.do")
-    // public ModelAndView unregisterGET(@AuthenticationPrincipal User user) { //
-    // Security로 정보 받아옴.
-    // SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
-    // return new ModelAndView("jk/seller/mypage/unregister", "seller", seller);
-    // }
+    // http://127.0.0.1:5959/SOBUN/seller/unregister.do
+    // 3. 탈퇴
+    @GetMapping(value = "/unregister.do")
+    public ModelAndView unregisterGET(@AuthenticationPrincipal User user, Model model) { //
+        // Security로 정보 받아옴.
+        SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
+        model.addAttribute("companyName", seller.getName().toString());
+        model.addAttribute("user", user);
 
-    // // @PostMapping(value = "/unregister.do")
-    // // public String unRegisterPOST(@ModelAttribute Seller seller) {
-    // // log.info("Seller unRegister => {}", seller.toString());
-    // // sRepository.deleteById(seller.getNo());
-    // // if(seller.getNo() == null){
-    // // return "return:/login.do"; // 성공시 로그인페이지로.
-    // // }
+        return new ModelAndView("jk/seller/mypage/unregister", "seller", seller);
+    }
 
-    // // }
+    @PostMapping(value = "/unregister.do")
+    public String unRegisterPOST(@AuthenticationPrincipal User user,
+            @ModelAttribute SellerEntity seller) {
+        log.info("Seller UnRegister Who => {}", seller.toString());
+        // 회원탈퇴 전 비밀번호확인 -> 정말로 탈퇴하시겠습니까? Y/N 표시
+        // 외부키 (물품)이 걸려있는 상태라면 alert 메시지 출력
+        // "물품이 등록된 상태에서는 탈퇴를 진행할 수 없습니다. \n물품이 모두 삭제되었는지 확인 후 탈퇴를 진행해주세요."
+        try {
+            sRepository.deleteById(seller.getNo());
+            if (seller.getNo() == null) { // 탈퇴 성공시에 로그인 페이지로.
+                return "return:/seller/login.do";
+            } else { // 실패시 다시 원위치로
+                return "return:/seller/unregister.do ";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "return:/seller/home.do";
+        }
+
+    }
 
     // // @PostMapping(value="/unregister.do")
     // // public String deletePOST(@AuthenticationPrincipal User user) {

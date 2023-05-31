@@ -14,6 +14,10 @@ import com.example.dto.PurchaseStatus;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
+import com.example.entity.ReviewEntity;
+import com.example.entity.ReviewImageEntity;
+import com.example.entity.km.KmCheckReviewView;
+import com.example.entity.km.KmReviewNoProjection;
 
 
 
@@ -21,26 +25,59 @@ import com.example.entity.ItemImage;
 @Service
 public interface KmCustomerService {
 
+// 물품 상세 조회 페이지----------------------------------------------------------------------------------------
 
-// 물품 상세 조회 페이지
+    // 물품 조회
+        // 상품 정보 가져오기
+        public Map<String, Object> selectOneItem(long no);
 
-    // 상품 정보 가져오기
-    public Map<String, Object> selectOneItem(long no);
+        // 상품 번호에 해당하는 이미지 번호 가져오기
+        public List<Long> selectItemImageNoList(long itemno);
+        
+        // 상품에 대한 열린 공구 가져오기 => 남은인원
+        public int countRemainingPerson(long purchaseno);
 
-    // 상품 번호에 해당하는 이미지 번호 가져오기
-    public List<Long> selectItemImageNoList(long itemno);
-    
-    // 상품에 대한 열린 공구 가져오기 => 남은인원
-    public int countRemainingPerson(long purchaseno);
+        // 상품에 대한 열린 공구 가져오기 => 공구번호, 참여인원, 마감기한, 보관소 코드, 보관소이름
+        public List<kmPurchaseView> selectPurchaseList(long itemno);
 
-    // 상품에 대한 열린 공구 가져오기 => 공구번호, 참여인원, 마감기한, 보관소 코드, 보관소이름
-    public List<kmPurchaseView> selectPurchaseList(long itemno);
+        // 모든 보관소 정보 가져오기
+        public List<Storage> selectStorageList();
 
-    // 모든 보관소 정보 가져오기
-    public List<Storage> selectStorageList();
+    // 리뷰 등록
+        // 리뷰 등록 전 구매한 상품이 맞는지 확인하기
+        public List<BigDecimal> selectCheckOrder(long itemno, String memid);
 
-// ----------------------------------------------------------------------------------------------------
-// 결제 페이지 => /customer/item/order.do 
+        // 리뷰 작성 여부 확인하기 (위에서 purchaseNo 받아옴)
+        public KmCheckReviewView checkReview(String memid, BigDecimal purchaseno);
+
+        // 리뷰 전체에서 가장 최신 번호 가져오기
+        // public KmReviewNoProjection findTop1ReviewNo();
+
+        // 가장 최신 리뷰 가져오기 (이미지 등록 위해)
+        public ReviewEntity findByPurchaseOrderEntity_no(String orderNo);
+
+        // 리뷰 저장하기
+        public int saveReview(ReviewEntity obj);
+
+        // 리뷰 이미지 저장하기
+        public int saveReviewImage(ReviewImageEntity obj);
+
+    // 리뷰 조회
+        // 물품별 리뷰 전체 조회하기 => 최신순(no desc)
+        public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo, int page);
+        // public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo);
+
+        // 물품별 리뷰 전체 조회하기 => 평점순(rating desc, no desc)
+        public List<ReviewEntity> findByItemEntity_noOrderByRatingDescNoDesc(BigDecimal itemNo,int page);
+        // public List<ReviewEntity> findByItemEntity_noOrderByRatingDescNoDesc(BigDecimal itemNo);
+
+        // 리뷰 번호에 대한 모든 이미지 가져오기
+        public List<KmReviewNoProjection> selectReviewImageNoList(BigDecimal reviewNo);
+
+        // 물품별 리뷰 총 개수
+        public long countByItemEntity_no(BigDecimal itemNo);
+
+// 결제 페이지 => /customer/item/order.do ------------------------------------------------------------------------------
 
     // 공구 정보 한개 가져오기
     public kmPurchaseView selectOnePurchase(long purchaseNo);
@@ -51,8 +88,7 @@ public interface KmCustomerService {
     // 고객 정보 가져오기(id, name, phone, email) 
     public Customer selectOneCustomer(String id);
 
-// ----------------------------------------------------------------------------------------------------
-// 결제 페이지 => /api/customer/order.json 
+// 결제 페이지 => /api/customer/order.json -----------------------------------------------------------------------------------
 
     // SEQ_PURCHASE_NO.NEXTVAL 가져오기
     public long selectSeqPurchaseNo();
@@ -75,15 +111,18 @@ public interface KmCustomerService {
     // item 수량 -1 해주기
     public int updateItemQuantity(long itemNo);
     
+// 이미지 -----------------------------------------------------------------------------------------
 
-// 이미지
-    // 이미지 번호에 대한 정보 다 가져오기
-    public ItemImage findById(BigDecimal no);
+    // 물품 이미지 번호에 대한 정보 가져오기
+    public ItemImage findItemImageById(BigDecimal no);
 
     // itemno에 해당하는 모든 이미지 가져오기
     public List<ItemImage> findByItemNo_noOrderByNoAsc(BigDecimal no);
 
-    // itemno에 해당하는 이미지 중 가장 오래된 이미지 가져오기
-    // public ItemImage findTop1ByItemNo_noOrderByNoAsc(BigDecimal no);
+    // 리뷰 이미지 번호에 대한 정보 가져오기
+    public ReviewImageEntity findReviewImageById(BigDecimal reviewImageNo);
+
+
+// ----------------------------------------------------------------------------------------------------
 
 }

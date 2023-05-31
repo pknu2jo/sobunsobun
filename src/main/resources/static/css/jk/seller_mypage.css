@@ -43,3 +43,9 @@ input[type='number'] {
 .form-control {
     border-color: #ccc;
 }
+
+/* 새 이메일 인증라벨 (숫자가 가려서 배경색을 제거함.) */
+.form-floating:not(.form-control:disabled)::before{
+    background-color: #ffffff00;
+
+}

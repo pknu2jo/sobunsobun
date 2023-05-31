@@ -398,6 +398,8 @@ ul {
     --bs-pagination-disabled-border-color: #dee2e6;
 }
 
+
+
 .datatable-pagination a {
     color: var(--bs-pagination-color);
     display: block;
@@ -454,4 +456,8 @@ ul {
 .footer {
     position: absolute;
     bottom: 0;
+}
+
+#sidebarToggle {
+    color: #052c65; 
 }

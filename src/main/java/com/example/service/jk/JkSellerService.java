@@ -1,13 +1,9 @@
 package com.example.service.jk;
 
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import com.example.dto.Seller;
-import com.example.entity.SellerEntity;
 
 @Service
 public interface JkSellerService {
