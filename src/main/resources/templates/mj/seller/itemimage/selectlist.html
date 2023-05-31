@@ -23,15 +23,16 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/mj/seller.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
 </head>
 
 <body class="sb-nav-fixed">
     <!-- header -->
-    <th:block th:replace="~{/mj/seller/header :: headerHTML}"></th:block>
+    <th:block th:replace="~{/jk/seller/header :: headerHTML}"></th:block>
     <!-- 전체화면 영역 -->
     <div id="layoutTotal">
         <!-- 전체화면 > 좌측 메뉴 영역(사이드바) -->
-        <th:block th:replace="~{/mj/seller/navbar :: navbarHTML}"></th:block>
+        <th:block th:replace="~{/jk/seller/navbar :: navbarHTML}"></th:block>
 
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
@@ -54,7 +55,7 @@
                     <form th:action="@{/seller/itemimage/insertimage.do(image=0)}" method="post" enctype="multipart/form-data" id="form0">
                         <input type="hidden" name="item.no" th:value="${item.no}" /><br>
                         <input type="file" name="tmpFile" accept="image/*" id="file" onchange="setFileName(event)"/><br>
-                        <input type="text" name="image" id="image" th:value="${image}" />
+                        <input type="hidden" name="image" id="image" th:value="${image}" />
                         <button type="button" onclick="uploadFileOne()" >이미지업로드</button>
                     </form>
                     <hr>
@@ -89,7 +90,7 @@
                     <form th:action="@{/seller/itemimage/insertimage.do(image=1)}" method="post" enctype="multipart/form-data" id="form1">
                         <input type="hidden" id="item.no" name="item.no" th:value="${item.no}" /><br>
                         <input multiple="multiple" type="file" name="tmpFile[]" accept="image/*" id="files" onchange="setFilesName(event)"/><br>
-                        <input type="text" name="images" id="images" th:value="${images}"/>
+                        <input type="hidden" name="images" id="images" th:value="${images}"/>
                         <button type="button" onclick="uploadFiles()">이미지업로드</button>
                     </form>
 
@@ -97,11 +98,28 @@
                     <!-- 글번호: <label th:text="${board1.no}"></label><br>
                     글제목: <label th:text="${board1.title}"></label> -->
 
+                    <!-- 모달창 -->
+                    <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">이미지 삭제</h1>
+                            </div>
+                            <div class="modal-body">
+                                삭제할 이미지를 선택해주세요.
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <!-- 모달창 -->
 
                 </div>
             </main>
             <!-- footer -->
-            <th:block th:replace="~{/mj/seller/footer :: footerHTML}"></th:block>
+            <th:block th:replace="~{/jk/seller/footer :: footerHTML}"></th:block>
         </div>
     </div>
 
@@ -188,6 +206,7 @@
                 }
             }
 
+            /* 상세이미지 n개 등록 */
             async function uploadFiles() {
                 const images = document.getElementById('images');
                 let url = /*[[@{/api/seller/insertimages.json}]]*/"";
@@ -203,7 +222,7 @@
                     document.getElementById('form1').submit();
                 }
                 else if( data.result === 0){
-                    alert("이미지를 선택해주세요.");
+                    alert("이미지를 1개 이상 선택해주세요.");
                 }
             }
 
@@ -215,11 +234,12 @@
                 return imagenoArray;
             }
 
-
+            //이미지 선택삭제
             async function deleteimages(){
                 const imageno = getimageNo();
                 if (imageno.length === 0) {
-                    alert("삭제할 이미지를 선택해주세요.");
+                    $('#modal').modal('show');
+                    // alert("삭제할 이미지를 선택해주세요.");
                     return;
                 }
 
@@ -232,11 +252,13 @@
                     if(data.result === 1){
                         document.getElementById('form2').submit();
                     } else {
-                        alert("삭제할 이미지를 선택해주세요.");
+                        $('#modal').modal('show');
+                        // alert("삭제할 이미지를 선택해주세요.");
                     }
                 } catch (error) {
                     console.error(error);
-                    alert("삭제할 이미지를 선택해주세요.");
+                    $('#modal').modal('show');
+                    // alert("삭제할 이미지를 선택해주세요.");
                 }
             }
         </script>

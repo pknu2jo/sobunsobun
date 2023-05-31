@@ -77,11 +77,13 @@
                         <button class="btn btn-primary" value="일괄수정" onclick="updateItemAction()">수정</button>
                         <button class="btn btn-primary" value="일괄삭제" onclick="deleteItemAction()">삭제</button>
                     </form> -->
-                    <hr>
                     <input type="hidden" name="btn" id="btn"/>
-                    <a th:href="@{/seller/item/insert.do}" class="btn-find"><button class="btn btn-outline-primary btn-find">물품등록</button></a>
-                    <button class="btn btn-outline-primary btn-find" value="일괄수정" onclick="formAction1(1)">수정</button>
-                    <button class="btn btn-outline-primary btn-find" value="일괄삭제" onclick="formAction1(2)">삭제</button>
+                    <div style="padding-bottom: 10px;">
+                        <a th:href="@{/seller/item/insert.do}" class="btn-find"><button class="btn btn-outline-primary btn-find">물품등록</button></a>
+                        <button class="btn btn-outline-primary btn-find" value="일괄수정" onclick="formAction1(1)">수정</button>
+                        <button class="btn btn-outline-primary btn-find" value="일괄삭제" onclick="formAction1(2)">삭제</button>
+
+                    </div>
             
                         
                     <form th:action="@{/seller/item/management.do}" method="post" id="form2">
@@ -125,7 +127,7 @@
                                             </tfoot>
                                             <tbody>
                                                 <tr th:each="obj : ${list}" style="text-align: center;">
-                                                    <td><input type="checkbox" name="chk[]" th:value="${obj.no.longValue()}"/></td>
+                                                    <td><input type="checkbox" name="itemno" th:value="${obj.no.longValue()}"/></td>
                                                     <td th:text="${obj.no.longValue()}" name="no">물품번호</td>
                                                     <td th:text="${obj.name}"></td>
                                                     <td th:text="${obj.price.longValue()}"></td>
@@ -234,6 +236,63 @@
 
 
     <script th:inline="javascript" type="text/javascript">
+        function getNo () {
+            const checkboxes = document.querySelectorAll('input[name="itemno"]:checked');
+            const itemnoArray = Array.from(checkboxes).map(checkbox => checkbox.value);
+            console.log(itemnoArray);
+            return itemnoArray;
+        }
+
+
+        const btn   = document.getElementById('btn');
+        const form2 = document.getElementById('form2');
+        
+        async function formAction1(code){
+            if(code === 1){
+                btn.value='일괄수정';
+                
+                console.log(btn.value);
+                form2.action = /*[[@{/seller/item/updateitem.do}]]*/'';
+            }
+            else if(code === 2){
+                btn.value='일괄삭제';
+                console.log(btn.value);
+
+                const itemno = getNo();
+                if (itemno.length === 0) {
+                    // $('#modal').modal('show');
+                    alert("삭제할 물품을 선택해주세요.");
+                    return;
+                }
+                // else{
+                //     form2.action = /*[[@{/seller/item/deleteitem.do}]]*/'';
+
+                // }
+
+                let url = /*[[@{/api/seller/deleteitems.json}]]*/"";
+                url += "?itemno=" + itemno;
+                const headers = {"Content-Type":"application/json"};
+                try {
+                    const response = await axios.get(url, { headers:headers });
+                    const data = response.data;
+                    if(data.result === 1){
+                        form2.action = /*[[@{/seller/item/deleteitem.do}]]*/'';
+                        form2.submit();
+                    } else {
+                        // $('#modal').modal('show');
+                        alert("삭제할 물품을 선택해주세요.");
+                    }
+                } catch (error) {
+                    console.error(error);
+                    // $('#modal').modal('show');
+                    alert("삭제할 물품을 선택해주세요.");
+                }
+            }
+            
+            form2.submit();
+        }
+    </script>
+    <!-- <script th:inline="javascript" type="text/javascript">
         const btn   = document.getElementById('btn');
         const form2 = document.getElementById('form2');
         
@@ -253,7 +312,7 @@
             
             form2.submit();
         }
-    </script>
+    </script> -->
 
     <!-- <script  th:inline="javascript" type="text/javascript">
         const itemimage = document.getElementById('itemimage');

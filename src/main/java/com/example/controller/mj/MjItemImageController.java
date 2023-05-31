@@ -14,6 +14,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +27,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.entity.Item;
 import com.example.entity.ItemImage;
+import com.example.entity.SellerEntity;
 import com.example.mapper.mj.mjItemImageMapper;
+import com.example.repository.jk.JkSellerRepository;
 import com.example.repository.mj.ItemImageRepository;
 import com.example.repository.mj.ItemRepository;
 
@@ -41,6 +45,7 @@ public class MjItemImageController {
     final ItemRepository iRepository;
     final ItemImageRepository imageRepository;
     final mjItemImageMapper imageMapper;
+    final JkSellerRepository sellerRepository;
 
     final ResourceLoader resourceLoader; //resources폴더의 파일을 읽기 위한 객체 생성
     @Value("${default.image}") String DEFAULTIMAGE;
@@ -158,8 +163,17 @@ public class MjItemImageController {
 
     /* =============================등록된이미지(대표, 상세) 조회================================= */ 
     @GetMapping(value = "/selectlist.do")
-    public String updateimageGET(Model model, HttpServletRequest request, @RequestParam(name = "no")long no){
+    public String updateimageGET(Model model, 
+                                HttpServletRequest request, 
+                                @RequestParam(name = "no")long no,
+                                @AuthenticationPrincipal User user){
         try {
+            SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);
+            log.info("seller => {}", seller.toString());
+            model.addAttribute("companyName", seller.getName().toString());
+            model.addAttribute("user", user);
+
+
             Item item = iRepository.findById(BigDecimal.valueOf(no)).orElse(null);
             
             // 대표이미지

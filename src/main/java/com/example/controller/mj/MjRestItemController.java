@@ -33,28 +33,55 @@ public class MjRestItemController {
     @PostMapping(value = "/insertitem.json")
     public Map<String, Object> insertItemPOST(@RequestBody Item item, Model model){
         Map<String, Object> retMap = new HashMap<>();
-        log.info("item=>{}", item.toString());
-        Item ret = iRepository.save(item);
-        
-        retMap.put("itemno", ret.getNo());
-        retMap.put("result", ret);
-        model.addAttribute("ret", ret);
+        try {
+            log.info("item=>{}", item.toString());
+            Item ret = iRepository.save(item);
+            
+            retMap.put("itemno", ret.getNo());
+            retMap.put("result1", ret);
+            retMap.put("result", 1);
+            retMap.put("message", "물품이 등록되었습니다.");
+            model.addAttribute("ret", ret);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("result", -1);
+            retMap.put("message", "물품이 등록되지 않았습니다.");
+        }
         return retMap;
     }
 
+    // // 물품 등록
+    // @PostMapping(value = "/insertitem.json")
+    // public Map<String, Object> insertItemPOST(@RequestBody Item item, Model model){
+    //     Map<String, Object> retMap = new HashMap<>();
+    //     log.info("item=>{}", item.toString());
+    //     Item ret = iRepository.save(item);
+        
+    //     retMap.put("itemno", ret.getNo());
+    //     retMap.put("result", ret);
+    //     model.addAttribute("ret", ret);
+    //     return retMap;
+    // }
+    
+    // 물품등록시 소분류코드가 선택된 후 물품명 입력가능
     @GetMapping(value = "scodechk.json")
-    public Map<String, Object> scodechkGET(@RequestParam(name = "scode")String scode){
+    public Map<String, Object> scodechkGET(@RequestParam(name = "scode", required = false)String scode){
         Map<String, Object> retMap = new HashMap<>();
         
         try {
-            log.info("scode=>{}", scode);                        
-            if(scode == "" || scode.equals("000")){
+            log.info("scode=>{}", scode);  
+            if( scode == null ){
                 retMap.put("result", 0);
                 retMap.put("message", "소분류 카테고리를 선택해주세요.");
-            }else {
+            } else if(scode =="" || scode.equals("000")){
+                retMap.put("result", 0);
+                retMap.put("message", "소분류 카테고리를 선택해주세요.");
+            } else {
                 retMap.put("result", 1);
                 retMap.put("message", "소분류 카테고리가 선택되었습니다.");
             }
+            
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,6 +91,31 @@ public class MjRestItemController {
         return retMap;  
     }
 
+    // 물품 선택삭제
+    @GetMapping(value="/deleteitems.json")
+    public Map<String, Object> deleteitemsGET(@RequestParam(name = "itemno")long[] no){
+        Map<String, Object> retMap = new HashMap<>();
+
+        try {
+            if(no==null || no.length == 0){
+                retMap.put("result", 0);
+                retMap.put("message", "삭제할 물품이 선택되지 않았습니다.");
+            }
+            else{
+                retMap.put("result", 1);
+                retMap.put("message", "삭제할 물품이 선택되었습니다.");
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("result", -1);
+            retMap.put("error", e.getMessage());
+        }
+        return retMap;  
+        
+    }
+
+/*======================================↓↓ 물품이미지 rest ↓↓=========================================== */
     // 물품 대표이미지 1개 등록
     @GetMapping(value = "/insertimageone.json")
     public Map<String, Object> insertimageoneGET(@RequestParam(name = "image") String image){
