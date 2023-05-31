@@ -255,16 +255,5 @@ public class JkSellerController {
         }
 
     }
-
-    // // @PostMapping(value="/unregister.do")
-    // // public String deletePOST(@AuthenticationPrincipal User user) {
-    // // try {
-    // // sRepository.deleteById(user.getUsername());
-    // // return "redirect:/member1/selectlist.do";
-    // // }catch(Exception e){
-    // // e.printStackTrace();
-    // // return "redirect:/home.do";
-    // // } // securitycontext folder
-    // // }
     /* ------------------------------------------------------------------------ */
 }
