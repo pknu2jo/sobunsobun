@@ -180,7 +180,102 @@
 
         }
 
+        /* 찜한 상품 목록 */
 
+        .likeitem_titlebox{
+            width: 1270px;
+        }
+        
+        .likeitem_titlebox .likeitem_title h3{
+            font-size: 26px;
+            color: #000;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            display: inline-block;
+        }
+
+        .mypage_likeitemitems .mypage_likeitem{
+            width: 1300px;
+            padding-top: 45px;
+        }
+
+        .mypage_likeitemitems .mypage_likeitem ul{
+            width: 1190px;
+            padding: 0;
+        }
+
+        .mypage_likeitemitems .mypage_likeitem li{
+            display: inline-block;
+            padding-left: 14px;
+            padding-right: 14px;
+            padding-bottom: 10px;
+        }
+
+        .mypage_likeitemitems .mypage_likeitem .img{
+            width: 265px;
+            height: 300px;
+        }
+
+        .mypage_likeitemitems .mypage_likeitem .text{
+            padding: 0 4px 0 12px;
+            padding-top: 22px;
+            padding-bottom: 19px;
+            height: 140px;
+        }
+
+        .mypage_likeitemitems .mypage_likeitem .text .itemname{
+            height: 20PX;
+            font-size: 18px;
+            line-height: 20px;
+            margin:  0 0 12px 0 !important;
+            width: auto;
+            min-height: auto;
+            max-height: initial;
+            text-decoration: none;
+            color: #000;
+            overflow: hidden;
+            margin-top:14px;
+        }     
+        
+        .mypage_likeitemitems .mypage_likeitem .text .price{
+            position: relative;
+            line-height: normal;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            align-items: baseline;
+            text-decoration: none;
+            color: #000;
+            font-weight: bold;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .mypage_likeitemitems .mypage_likeitem .text .heart{
+            padding-top: 8px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+            vertical-align: middle;
+            padding-top: 8px;
+        }
+
+        hr{
+            margin-top: 1px;
+            margin-bottom: 1px;
+        }
+
+        .pageul * {
+            display: inline-block;
+        }
+
+        .pagearea a{
+            text-decoration: none;
+            font-size: 16px;
+            padding: 5px 12px;
+            color: gray;
+            
+        }
 
 
 
@@ -264,9 +359,58 @@
             </div>
         </div>
 
+        <div class="liktitem_box d-flex justify-content-center">
+            <div class="likeitem_titlebox d-flex justify-content-center">
+                <div class="likeitem_title ">
+                    <h3>PRODUCT(</h3><h3 th:text="${ret}"></h3><h3>)</h3>
+                </div>
+            </div>
+        </div>
 
+        <div class="mypage_likeitemitems d-flex justify-content-center">
+
+            <div class="mypage_likeitem d-flex justify-content-center">
+                <ul>
+                    <th:block th:each="list : ${list}">
+                        <li>
+                            <div class="img">
+                                <a th:href="@{/customer/item/selectone.do?(itemno=${list.itemno})}"><img th:src="@{/customer/seimage(itemno=${list.itemno})}" style="width: 265PX; height: 300PX;" ></a>
+                            </div>
+                            <div class="text">
+                                <a class="itemname" th:href="@{/customer/item/selectone.do?(itemno=${list.itemno})}"><div class="title" th:text="${list.name}"></div></a><div></div>
+                                <div class="price" id="price" th:text="|${#numbers.formatInteger(list.price , 3 , 'COMMA')}원|"  style="pointer-events: none;"></div>
+                                <hr />
+                                <a class="heart">♡</a>
+                            </div>
+                        </li>
+                    </th:block>
+                </ul>
+
+            </div>
+
+        </div>
         
-
+        <div class="pagearea d-flex justify-content-center">
+            <ul class="pageul">
+                <li th:if="${currentPage > 1}">
+                    <a th:href="@{/customer/mylikeitem.do(page=1)}">&laquo;</a>
+                </li>
+                <li th:class="${currentPage == 1} ? 'disabled'">
+                    <a th:if="${currentPage > 1}" th:href="@{/customer/mylikeitem.do(page=${currentPage - 1})}" aria-label="Previous">&lt;</a>
+                </li>
+                <th:block th:each="num : ${#numbers.sequence(startPage, endPage)}">
+                    <li th:class="${num == currentPage} ? 'active'">
+                        <a th:href="@{/customer/mylikeitem.do(page=${num})}" th:text="${num}"></a>
+                    </li>
+                </th:block>
+                <li th:class="${currentPage == totalPages} ? 'disabled'">
+                    <a th:if="${currentPage < totalPages}" th:href="@{/customer/mylikeitem.do(page=${currentPage + 1})}" aria-label="Next">&gt;</a>
+                </li>
+                <li th:if="${currentPage < totalPages}">
+                    <a th:href="@{/customer/mylikeitem.do(page=${totalPages})}">&raquo;</a>
+                </li>
+            </ul>
+        </div>
     </div>
 
     <!-- footer -->

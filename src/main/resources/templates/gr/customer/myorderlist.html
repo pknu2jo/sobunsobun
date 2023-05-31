@@ -511,27 +511,6 @@
         </div>
         <!-- 페이지 -->
         <div class="pagearea d-flex justify-content-center" >
-            <!-- <button id="previousButton" onclick="goToPreviousPage()" disabled><</button>
-            <th:block th:each="num : ${#numbers.sequence(1, pages)}" >
-                <a class="num" th:href="@{/customer/myorderlist.do(page=${num}, firstdate=${firstdate}, seconddate=${seconddate})}" th:text="${num}"></a>
-            </th:block>
-            <button id="nextButton" onclick="goToNextPage()" disabled>></button> -->
-
-            <!-- <th:block th:with="currentSet=${(#numbers.integerDivide(#numbers.subtract(currentPage, 1), 5)) + 1}">
-                <th:block th:if="${currentSet > 1}">
-                    <a class="num" th:href="@{/customer/myorderlist.do(page=${(currentSet - 1) * 5}, firstdate=${firstdate}, seconddate=${seconddate})}">
-                        이전
-                    </a>
-                </th:block>
-                <th:block th:each="num : ${#numbers.sequence(startPage, endPage)}">
-                    <a class="num" th:href="@{/customer/myorderlist.do(page=${num}, firstdate=${firstdate}, seconddate=${seconddate})}"
-                    th:class="${num == currentPage ? 'active' : ''}" th:text="${num}"></a>
-                </th:block>
-                <th:block th:if="${endPage < pages}">
-                    <a class="num" th:href="@{/customer/myorderlist.do(page=${endPage + 1}, firstdate=${firstdate}, seconddate=${seconddate})}">
-                        다음
-                    </a>
-                </th:block> -->
 
                 <ul class="pageul">
                     <li th:if="${currentPage > 1}">
@@ -552,7 +531,7 @@
                     </li>
                 </ul>
 
-            </th:block>
+            <!-- </th:block> -->
 
 
 
@@ -592,26 +571,56 @@
             document.getElementById("fd").max = endDate;
         }
 
-        function onemonth(){
+        // function onemonth(){
         
+        //     var today = new Date();
+        //     var today1 = new Date();
+        //     today1.setMonth(today1.getMonth() -1);
+        //     today1.setDate(today1.getDate() - 1);
+
+        //     var dd = String(today.getDate()).padStart(2, '0');
+        //     var dd1 = String(today1.getDate()).padStart(2, '0');
+        //     var mm = String(today.getMonth() + 1).padStart(2, '0');
+        //     var mm1 = String(today1.getMonth() + 1).padStart(2,'0');
+        //     var yyyy = today.getFullYear();
+        //     var formmattedDate = yyyy + '-' + mm + '-' + dd;
+        //     var formmattedDate1 = yyyy + '-' + mm1 + '-' + dd1;
+
+        //     document.getElementById("fd").value = formmattedDate1;
+        //     document.getElementById("sd").value = formmattedDate;
+        //     document.getElementById("btn_date").click(); // 버튼의 id를 사용하여 자동으로 클릭
+        // }
+
+        function onemonth() {
             var today = new Date();
-            var today1 = new Date();
-            today1.setMonth(today1.getMonth() -1);
+            var today1 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0');
-            var mm1 = String(today1.getMonth() + 1).padStart(2,'0');
-            var yyyy = today.getFullYear();
-            var formmattedDate = yyyy + '-' + mm + '-' + dd;
-            var formmattedDate1 = yyyy + '-' + mm1 + '-' + dd;
+            today1.setMonth(today1.getMonth() - 1);
 
-            document.getElementById("fd").value = formmattedDate1;
-            document.getElementById("sd").value = formmattedDate;
+            var dd = String(today1.getDate()).padStart(2, '0');
+            var mm = String(today1.getMonth() + 1).padStart(2, '0');
+            var yyyy = today1.getFullYear();
+            var formattedDate = yyyy + '-' + mm + '-' + dd;
+            console.log(formattedDate);
 
-            document.getElementById("btn_date").click(); // 버튼의 id를 사용하여 자동으로 클릭
+            // 31일 없는 달과 2월 처리
+            var lastDayOfMonth = 31;
+
+            if ([4, 6, 9, 11].includes(today1.getMonth() + 1)) {
+                lastDayOfMonth = 30;
+            } else if (today1.getMonth() + 1 === 2) {
+                var isLeapYear = (yyyy % 4 === 0 && yyyy % 100 !== 0) || (yyyy % 400 === 0);
+                lastDayOfMonth = isLeapYear ? 29 : 28;
+            }
+
+            var formattedDate1 = yyyy + '-' + mm + '-' + lastDayOfMonth;
+
+            console.log(formattedDate1);
+
+            document.getElementById("fd").value = formattedDate;
+            document.getElementById("sd").value = formattedDate1;
+            document.getElementById("btn_date").click();
         }
-
-        // -------------------------------------------------------------------------------
 
         
 

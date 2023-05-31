@@ -60,7 +60,7 @@ public class MyOrderListController {
             gc.setFirstdate(firstdate);
             gc.setSeconddate(seconddate);
 
-            int pageSize = 5;
+            int pageSize = 5; // 한페이지에 나오는 아이템갯수
             int start1 = (page - 1) * pageSize;
             int end1 = page * pageSize;
 
