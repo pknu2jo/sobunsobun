@@ -43,11 +43,12 @@ public class SePurchaseItemController {
     ) {
         try {
 
-            int start = (page*16) - 15;
-            int end = page*16;
-            long pages = 1;
+            int pageSize = 16; // 한 페이지에 나오는 물품 개수
+            int start = (page*pageSize) - (pageSize-1); // 한 페이지에 나올 물품의 시작번호 (매퍼용)
+            int end = page*pageSize; // 한 페이지에 나올 물품의 끝번호 (매퍼용)
+            long pages = 1L; // 총 페이지 수를 저장할 변수 (화면용)
 
-            log.info("물품목록 param search, scode, orderby => {}, {}, {}", search, scode, orderby);
+            // log.info("물품목록 param search, scode, orderby => {}, {}, {}", search, scode, orderby);
             List<SeSelectItemListView> list = new ArrayList<>();
             SeSelectItemListView obj = new SeSelectItemListView();
             obj.setSearch(search);
@@ -102,10 +103,28 @@ public class SePurchaseItemController {
                 model.addAttribute("bestlist", bestlist);
                 model.addAttribute("menu", 3);
             }
+
+            log.info("이게 왜 안돼... => {}", pages);
+            // 페이지네이션
+            int currentSet = (int) Math.ceil((double) page / 5); // 현재 페이지의 페이지 세트 번호 (1~5페이지 => 1세트, 6~10페이지 => 2세트)
+            int startPage = (currentSet - 1) * 5 + 1; // 현재 페이지 세트의 시작 페이지 번호(1세트는 1페이지, 2세트는 6페이지)
+            int endPage = Math.min(startPage + 4, (int)((pages-1)/pageSize + 1)); // 현재 페이지 세트의 끝 페이지 번호(1세트는 5페이지, 2세트는 10페이지)
+            // Math.min(값1, 값2) => 두 개의 값 중 더 작은 값을 반환
+            // 마지막 페이지 번호를 총 페이지 수로 세팅
+            // 예를 들어
+            // 총 페이지 수가 23개 일 때, 현재 페이지가 22번 이면 currentSet 은 5
+            // 5세트의 시작 페이지 번호는 (5 - 1) * 5 + 1 => 21
+            // 5세트의 끝 페이지 번호는 21 + 4 => 25 이지만 총 페이지 수(23)보다 크기 때문에
+            // Math.min 으로 총 페이지 수(23) 을 끝 페이지 번호로 세팅
+
+            log.info("이게 왜 안돼... => {}, {}, {}, {}", pages, currentSet, startPage, endPage);
             
-
-
-            model.addAttribute("pages", (pages-1)/16 + 1);
+            model.addAttribute("pages", (pages-1)/pageSize + 1); // 총 페이지 수
+            model.addAttribute("currentPage", page); // 현재 페이지
+            model.addAttribute("startPage", startPage);
+            model.addAttribute("endPage", endPage);
+            // 페이지네이션
+            
             model.addAttribute("list", list); 
             model.addAttribute("user", user);
             return "/se/customer/selectlist";

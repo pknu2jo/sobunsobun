@@ -107,7 +107,7 @@
             width: 50px;
             height: 60px;
             top: 10px;
-            left: 15px;
+            left: 10px;
             background-color: #6D9275;
             color: #fff;
             font-size: 15px;
@@ -199,14 +199,6 @@
                         </div>
                     </th:block>
                 </div>
-
-                <!-- <th:block th:each=" searchOne, idx : ${list} ">
-                    <th:block th:text="${searchOne.itemno}"></th:block>
-                    <label name="testchk"></label>
-                </th:block>
-                <th:block th:each="num : ${#numbers.sequence(1, pages)}">
-                    <a th:href="@{/customer/item/selectlist.do(search=${param.search}, orderby=${param.orderby}, page=${num})}" th:text="${num}"></a>
-                </th:block> -->
             </th:block>
 
 
@@ -252,9 +244,6 @@
                             </a>
                         </div>
                     </th:block>
-                    <!-- <th:block th:each="num : ${#numbers.sequence(1, pages)}">
-                        <a th:href="@{/customer/item/selectlist.do(scode=${cate.scode}, orderby=${param.orderby}, page=${num})}" th:text="${num}"></a>
-                    </th:block> -->
                 </div>
             </th:block>
 
@@ -294,20 +283,45 @@
                         </div>
                     </th:block>
                 </div>
-
-                <!-- <div class="pagination">
-                    <th:block th:each="num : ${#numbers.sequence(1, pages)}">
-                        <a name="check" th:href="@{/customer/item/selectlist.do(orderby=${param.orderby}, page=${num})}" th:text="${num}"></a>
-                    </th:block>
-                </div> -->
             </th:block>
 
 
+            <!-- 페이지네이션 -->
             <div class="pagination">
-                <th:block th:each="num : ${#numbers.sequence(1, pages)}">
-                        <a th:href="@{/customer/item/selectlist.do(orderby=${param.orderby}, search=${param.search}, scode=${param.scode}, page=${num})}" th:text="${num}"></a>
+                <!-- 현재 페이지 수가 1 보다 클 때 << < 버튼 생성 -->
+                <th:block th:if="${currentPage > 1}">
+                    <!-- 맨 처음 페이지로 -->
+                    <a th:href="@{/customer/item/selectlist.do(orderby=${param.orderby}, search=${param.search}, scode=${param.scode}, page=1)}">
+                        <i class="fa-solid fa-angles-left fa-2xs" style="color: #204710;"></i>
+                    </a>
+                </th:block>
+                <th:block th:if="${currentPage > 1}">
+                    <!-- 현재 페이지 -1 -->
+                    <a th:href="@{/customer/item/selectlist.do(orderby=${param.orderby}, search=${param.search}, scode=${param.scode}, page=${currentPage - 1})}">
+                        <i class="fa-solid fa-chevron-left fa-2xs" style="color: #204710;"></i>
+                    </a>
+                </th:block>
+
+                <!-- 페이지 번호를 반복문을 돌려서 세팅 -->
+                <th:block th:each="num : ${#numbers.sequence(startPage, endPage)}">
+                    <a th:href="@{/customer/item/selectlist.do(orderby=${param.orderby}, search=${param.search}, scode=${param.scode}, page=${num})}" th:text="${num}"></a>
+                </th:block>
+
+                <!-- 현재 페이지가 총 페이지 수보다 작을 때 > >> 버튼 생성 -->
+                <th:block th:if="${currentPage < pages}">
+                    <!-- 현재페이지 +1 -->
+                    <a th:href="@{/customer/item/selectlist.do(orderby=${param.orderby}, search=${param.search}, scode=${param.scode}, page=${currentPage + 1})}">
+                        <i class="fa-solid fa-angle-right fa-2xs" style="color: #204710;"></i>
+                    </a>
+                </th:block>
+                <th:block th:if="${currentPage < pages}">
+                    <!-- 마지막 페이지로 -->
+                    <a th:href="@{/customer/item/selectlist.do(orderby=${param.orderby}, search=${param.search}, scode=${param.scode}, page=${pages})}">
+                        <i class="fa-solid fa-angles-right fa-2xs" style="color: #204710;"></i>
+                    </a>
                 </th:block>
             </div>
+
         </div>
 
     </div>
