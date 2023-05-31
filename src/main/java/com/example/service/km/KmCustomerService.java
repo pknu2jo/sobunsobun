@@ -63,9 +63,13 @@ public interface KmCustomerService {
         public int saveReviewImage(ReviewImageEntity obj);
 
     // 리뷰 조회
-        // 물품별 리뷰 전체 조회하기
+        // 물품별 리뷰 전체 조회하기 => 최신순(no desc)
         public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo, int page);
-        public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo);
+        // public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo);
+
+        // 물품별 리뷰 전체 조회하기 => 평점순(rating desc, no desc)
+        public List<ReviewEntity> findByItemEntity_noOrderByRatingDescNoDesc(BigDecimal itemNo,int page);
+        // public List<ReviewEntity> findByItemEntity_noOrderByRatingDescNoDesc(BigDecimal itemNo);
 
         // 리뷰 번호에 대한 모든 이미지 가져오기
         public List<KmReviewNoProjection> selectReviewImageNoList(BigDecimal reviewNo);
