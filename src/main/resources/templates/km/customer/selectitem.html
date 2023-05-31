@@ -235,38 +235,45 @@
                                         <hr>
                                         <br>
 
-                                        <div id="reviews-container">
+                                        <th:block th:if="${reviewList != null}">
+                                            <div id="reviews-container">
 
-                                            <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab=review, orderby=,page=1)}">최신순</a>
-                                            <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab=review, orderby=rating,page=1)}">평점순</a>
+                                                <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab=review, orderby=,page=1)}">최신순</a>
+                                                <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab=review, orderby=rating,page=1)}">평점순</a>
 
-                                            <div th:text="|리뷰 전체 리스트 확인 : ${reviewList}|"></div>
-                                            <div th:text="|페이지 총 개수 : ${pages}|"></div><hr>
+                                                <div th:text="|리뷰 전체 리스트 확인 : ${reviewList}|"></div>
+                                                <div th:text="|페이지 총 개수 : ${pages}|"></div><hr>
 
-                                            <th:block th:each="obj : ${reviewList}">
-                                                <span th:if="${obj.imgUrl1 != null}">
-                                                    <img class="reviewImg" th:src="${obj.imgUrl1}">
-                                                </span>
-                                                <span th:if="${obj.imgUrl2 != null}">
-                                                    <img class="reviewImg" th:src="${obj.imgUrl2}">
-                                                </span>
+                                                <div th:each="obj : ${reviewList}">
+                                                    <span th:if="${obj.imgUrl1 != null}">
+                                                        <img class="reviewImg" th:src="${obj.imgUrl1}">
+                                                    </span>
+                                                    <span th:if="${obj.imgUrl2 != null}">
+                                                        <img class="reviewImg" th:src="${obj.imgUrl2}">
+                                                    </span>
 
-                                                <div th:text="|리뷰 번호 : ${obj.no}|"></div>
-                                                <div th:text="|리뷰 평점 : ${obj.rating}|"></div>
-                                                <div th:text="${obj.comment}"></div>
-                                                <div th:text="${obj.purchaseOrderEntity.customerEntity.id}"></div>
+                                                    <div th:text="|리뷰 번호 : ${obj.no}|"></div>
+                                                    <div th:text="|리뷰 평점 : ${obj.rating}|"></div>
+                                                    <div th:text="${obj.comment}"></div>
+                                                    <div th:text="${obj.purchaseOrderEntity.customerEntity.id}"></div>
+                                                    
+                                                    <hr>
+                                                </div>
                                                 
-                                                <hr>
-                                            </th:block>
+                                            </div>
                                             
-                                        </div>
-                                        <!-- <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=1)}">가나다</a> -->
-                                        <!-- <div id="pagination-container">
-                                            <th:block th:each="num : ${#numbers.sequence(1, pages)}">
-                                                <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=${num})}"
+                                            <div id="pagination-container">
+                                                
+                                                <span th:each="num : ${#numbers.sequence(1, pages)}">
+                                                    <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=${num})}"
                                                     th:text="${num}"></a>
-                                            </th:block>
-                                        </div> -->
+                                                </span>
+                                                <!-- <th:block th:each="num : ${#numbers.sequence(1, pages)}">
+                                                    <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=${num})}"
+                                                        th:text="${num}"></a>
+                                                </th:block> -->
+                                            </div>
+                                        </th:block>
 
 
 
@@ -849,7 +856,8 @@
 
                         if(tabCheck === null || tabCheck[0] === "detail") {
                             // 리뷰 영역 보이기
-                            location.href="/SOBUN/customer/item/selectone.do?itemno=" + [[${item.ITEMNO}]] + '&tab=review&page=1';
+                            location.href="/SOBUN/customer/item/selectone.do?itemno=" + [[${item.ITEMNO}]] + '&tab=review&orderby&page=1';
+                            // /customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=${num})
                         } else if(tabCheck[0] === "review") {
                             // 상세 영역 보이기
                             location.href="/SOBUN/customer/item/selectone.do?itemno=" + [[${item.ITEMNO}]] + '&tab=detail';
