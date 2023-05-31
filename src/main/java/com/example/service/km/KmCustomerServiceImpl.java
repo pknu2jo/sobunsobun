@@ -302,7 +302,7 @@ public class KmCustomerServiceImpl implements KmCustomerService {
         }
     }
 
-    // 물품에 해당하는 리뷰 전체 불러오기
+    // 물품에 해당하는 리뷰 전체 불러오기 => 최신순(no desc)
     @Value("${review.pagetotal}") int PAGETOTAL;
     @Override
     public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo, int page) {
@@ -315,15 +315,40 @@ public class KmCustomerServiceImpl implements KmCustomerService {
             return null;
         }
     }
+    // @Override
+    // public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo) {
+    //     try {
+    //         return rRepository.findByItemEntity_noOrderByNoDesc(itemNo);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return null;
+    //     }
+    // }
+   
+
+    // 물품에 해당하는 리뷰 전체 불러오기 => 평점순(rating desc, no desc)
     @Override
-    public List<ReviewEntity> findByItemEntity_noOrderByNoDesc(BigDecimal itemNo) {
+    public List<ReviewEntity> findByItemEntity_noOrderByRatingDescNoDesc(BigDecimal itemNo, int page) {
         try {
-            return rRepository.findByItemEntity_noOrderByNoDesc(itemNo);
+            PageRequest PageRequest = org.springframework.data.domain.PageRequest.of((page-1), PAGETOTAL);
+
+            return rRepository.findByItemEntity_noOrderByRatingDescNoDesc(itemNo, PageRequest);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+    // @Override
+    // public List<ReviewEntity> findByItemEntity_noOrderByRatingDescNoDesc(BigDecimal itemNo) {
+    //     try {
+    //         return rRepository.findByItemEntity_noOrderByRatingDescNoDesc(itemNo);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return null;
+    //     }
+    // }
+
+
 
     // 리뷰 번호에 해당하는 리뷰 이미지 번호 가져오기
     public List<KmReviewNoProjection> selectReviewImageNoList(BigDecimal reviewNo) {

@@ -65,10 +65,10 @@ public class KmCustomerContorller {
         try {
 
             // review 영역의 pagination 처리
-            if(page == 0) {
-                System.out.println("안되네....어쩌지");
-                return "redirect:/customer/item/selectone.do?itemno=" + no + "&tab=review&page=1";
-            }
+            // if(page == 0) {
+            //     System.out.println("안되네....어쩌지");
+            //     return "redirect:/customer/item/selectone.do?itemno=" + no + "&tab=review&page=1";
+            // }
 
             long itemno = Long.valueOf(no.toPlainString());
 
@@ -106,16 +106,22 @@ public class KmCustomerContorller {
             //          address3=null, latitude=35.1062826, longitude=129.032355, adminId=admin, regdate=Thu May 18 07:03:58 KST 2023)
 
 
+            long total = customerService.countByItemEntity_no(no);
+
             if (tab.equals("review")) {
                 // 리뷰 탭을 보여줄 로직
 
                 // 리뷰 전체 목록 가져오기
                 // List<ReviewEntity> reviewList = customerService.findByItemEntity_noOrderByNoDesc(no, page);
-                List<ReviewEntity> reviewList = customerService.findByItemEntity_noOrderByNoDesc(no);
-                long total = customerService.countByItemEntity_no(no);
+                List<ReviewEntity> reviewList = customerService.findByItemEntity_noOrderByNoDesc(no, page);
                 log.info("total count review => {} ", total);
 
                 log.info("review List 조회1 => {}", reviewList.toString());
+
+                if(orderby.equals("rating")) {
+                    reviewList = customerService.findByItemEntity_noOrderByRatingDescNoDesc(no, page);
+                    log.info("왜 이게 안되냐고 => {}", reviewList.toString());
+                }
 
                 for(ReviewEntity review : reviewList) {
                     List<KmReviewNoProjection> reviewImgNoList = customerService.selectReviewImageNoList(review.getNo());
@@ -129,8 +135,9 @@ public class KmCustomerContorller {
                 }
                 model.addAttribute("reviewList", reviewList);
                 model.addAttribute("pages", (total-1)/PAGETOTAL + 1);
-
             }
+    
+
             
 
             model.addAttribute("purchaseList", purchaseList);
@@ -151,19 +158,24 @@ public class KmCustomerContorller {
 
     }
 
-    // // 물품 상세 조회
+    // 물품 상세 조회
     // @GetMapping(value = "/item/selectone.do")
     // public String selectitemGET(@RequestParam(name = "itemno") BigDecimal no,
+    //                             @RequestParam(name="tab", defaultValue = "detail") String tab,
+    //                             @RequestParam(name="orderby", defaultValue = "", required = false) String orderby,
+    //                             @RequestParam(name="page", defaultValue = "0", required = false) int page,
     //                             @AuthenticationPrincipal CustomerUser user,
+    //                             HttpServletRequest request,
     //                             Model model ) {
-    //     // @RequestParam(name = "no") long no 로 itemno 받기
-
-    //     // long no = 11; // 물품 번호 (공구 열린거)
-    //     // long no = 13; // 물품 번호 (공구 안열린거)
-
-    //     log.info("물품 상세 조회 GET");
+    //     log.info("물품 상세 조회 GET 진입");
 
     //     try {
+
+    //         // review 영역의 pagination 처리
+    //         // if(page == 0) {
+    //         //     System.out.println("안되네....어쩌지");
+    //         //     return "redirect:/customer/item/selectone.do?itemno=" + no + "&tab=review&page=1";
+    //         // }
 
     //         long itemno = Long.valueOf(no.toPlainString());
 
@@ -201,9 +213,37 @@ public class KmCustomerContorller {
     //         //          address3=null, latitude=35.1062826, longitude=129.032355, adminId=admin, regdate=Thu May 18 07:03:58 KST 2023)
 
 
-    //         // 리뷰 전체 목록 가져오기
-    //         List<ReviewEntity> reviewList = customerService.findByItemEntity_noOrderByNoDesc(no);
-    //         log.info("review List 조회1 => {}", reviewList.toString());
+    //         if (tab.equals("review")) {
+    //             // 리뷰 탭을 보여줄 로직
+
+    //             // 리뷰 전체 목록 가져오기
+    //             // List<ReviewEntity> reviewList = customerService.findByItemEntity_noOrderByNoDesc(no, page);
+    //             List<ReviewEntity> reviewList = customerService.findByItemEntity_noOrderByNoDesc(no, page);
+    //             long total = customerService.countByItemEntity_no(no);
+    //             log.info("total count review => {} ", total);
+
+    //             log.info("review List 조회1 => {}", reviewList.toString());
+
+    //             if(orderby.equals("rating")) {
+    //                 reviewList = customerService.findByItemEntity_noOrderByRatingDescNoDesc(no, page);
+    //                 log.info("왜 이게 안되냐고 => {}", reviewList.toString());
+    //             }
+
+    //             for(ReviewEntity review : reviewList) {
+    //                 List<KmReviewNoProjection> reviewImgNoList = customerService.selectReviewImageNoList(review.getNo());
+
+    //                 if(!reviewImgNoList.isEmpty()) {
+    //                     review.setImgUrl1(request.getContextPath() + "/customer/kmreviewimage?no=" + reviewImgNoList.get(0).getNo());
+    //                     if(reviewImgNoList.size() == 2) {
+    //                         review.setImgUrl2(request.getContextPath() + "/customer/kmreviewimage?no=" + reviewImgNoList.get(1).getNo());
+    //                     }
+    //                 }
+    //             }
+    //             model.addAttribute("reviewList", reviewList);
+    //             model.addAttribute("pages", (total-1)/PAGETOTAL + 1);
+
+    //         }
+            
 
     //         model.addAttribute("purchaseList", purchaseList);
     //         model.addAttribute("item", item);
