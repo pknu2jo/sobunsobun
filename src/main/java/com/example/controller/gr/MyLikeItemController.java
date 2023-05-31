@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.entity.JjimEntity;
 import com.example.entity.gr.grlikeitemview;
 import com.example.mapper.gr.GrCustomerMapper;
 import com.example.mapper.gr.GrPurchaseItemMapper;
+import com.example.repository.gr.grjjimRepository;
 import com.example.repository.gr.grlikeitemviewRepository;
 import com.example.service.se.SePurchaseItemService;
 
@@ -31,12 +33,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value = "/customer")
 @RequiredArgsConstructor
 
-public class MyJjimController {
+public class MyLikeItemController {
 
     @Autowired
     ResourceLoader resourceLoader; // resources폴더의 파일을 읽기 위한 객체 생성
 
     final grlikeitemviewRepository grlRepository;
+    final grjjimRepository grjRepository;
 
     // 이미지 전송용
     @Value("${default.image}")
@@ -52,6 +55,7 @@ public class MyJjimController {
         if (page == 0) {
             return "redirect:/customer/mylikeitem.do?page=1";
         }
+
         long ret = grlRepository.countByMemid(user.getUsername());
         int totalPages = (int) Math.ceil((double) ret / pageSize);
         // model.addAttribute("pages", (ret - 1) / 8 + 1);
@@ -67,8 +71,15 @@ public class MyJjimController {
 
         log.info("찜한 상품=> {}", list.toString());
 
+        String formattedRet;
+        if (ret < 10) {
+            formattedRet = "0" + ret;
+        } else {
+            formattedRet = String.valueOf(ret);
+        }
+
         model.addAttribute("list", list);
-        model.addAttribute("ret", ret);
+        model.addAttribute("ret", formattedRet);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", page);
         model.addAttribute("startPage", startPage);

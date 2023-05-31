@@ -3,7 +3,6 @@ package com.example.restController.gr;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.Customer;
 import com.example.dto.CustomerAddress;
-import com.example.mapper.gr.GrCustomerMapper;
+import com.example.service.gr.GrCustomerService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class RestMyAccountDrop {
 
-    final GrCustomerMapper cMapper;
+    final GrCustomerService cService;
 
     @PostMapping(value = "/myaccountdrop.json")
     public Map<String, Integer> myaccountdropPOST(@RequestBody Customer customer) {
@@ -34,9 +33,9 @@ public class RestMyAccountDrop {
         try {
             // Customer customer = new Customer();
             // customer.setId(id);
-            int ret = cMapper.myaccountdrop(customer);
-            CustomerAddress c = cMapper.selectOneCustomerAddress(customer.getId());
-            cMapper.deletemyaddress(c);
+            int ret = cService.myaccountdrop(customer);
+            CustomerAddress c = cService.selectOneCustomerAddress(customer.getId());
+            cService.deletemyaddress(c);
             retMap.put("result", ret);
 
         } catch (Exception e) {

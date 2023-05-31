@@ -17,4 +17,8 @@ public interface grlikeitemviewRepository extends JpaRepository<grlikeitemview, 
 
     // 찜한 상품 목록 수
     int countByMemid(String id);
+
+    // 아이디와 아이템번호가 같을 경우 카운트
+    // 있으면 1, 없으면 0
+    int getCountByMemidAndItemno(String id, long itemno);
 }
