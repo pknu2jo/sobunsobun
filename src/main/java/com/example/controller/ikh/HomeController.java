@@ -222,10 +222,6 @@ public class HomeController {
 
             List<CompleteOrderView> covlist = covRepository.findByNo("1078198143");
             model.addAttribute("covlist", covlist);
-            // List<CompleteOrderMemberView> comvlist = comvRepository.findByNo("1078198143");
-            List<CompleteOrderMemberView> comvlist = comvRepository.findByNoAndPno("1078198143", pnonumber);
-            log.info("comvlist {}", comvlist);
-            model.addAttribute("comvlist", comvlist);
 
             return "/ikh/seller/order/search";
         } catch (Exception e) {

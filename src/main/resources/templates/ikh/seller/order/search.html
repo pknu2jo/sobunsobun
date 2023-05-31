@@ -496,14 +496,10 @@
                             <th>닉네임</th>
                             <th>공구참여시간</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="obj : ${comvlist}">     
-                            <td th:text="${obj.memid}"></td>
-                            <td th:text="${obj.nickname}"></td>
-                            <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>
-                        </tr>
-                    </tbody>
+                    </thead>                    
+                    <tbody id="participantTable">
+                      
+                    </tbody>                
                 </table>
             </div>
             <div class="modal-footer">
@@ -518,6 +514,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
         crossorigin="anonymous"></script>
+    <!-- axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
     <!-- Chart.js용 CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>    
     <!-- Simple DataTable용 JS CDN -->
@@ -547,27 +545,9 @@
             const headers = {"Content-Type":"application/json"};
             console.log(headers);
             const { data } = await axios.get(url,{ headers:headers });
-            console.log(data);
+            console.log(data);            
         }
-
-        // async function uploadFiles() {
-        //         const images = document.getElementById('images');
-        //         let url = /*[[@{/api/seller/insertimages.json}]]*/"";
-        //         url += "?images=" + images.value;
-        //         console.log(url);
-        //         const headers = {"Content-Type":"application/json"};
-        //         console.log(headers);
-        //         const { data } = await axios.get(url,{ headers:headers });
-                
-        //         console.log(data.message);
-        //         console.log(data.result);   
-        //         if(data.result === 1){
-        //             document.getElementById('form1').submit();
-        //         }
-        //         else if( data.result === 0){
-        //             alert("이미지를 1개 이상 선택해주세요.");
-        //         }
-        //     }
+        
         // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
         function all0(){
             document.getElementById('all').style.display = 'block'
