@@ -209,7 +209,6 @@ public class KmRestCustomerController {
 
             // Review save
             ReviewEntity review = new ReviewEntity();
-            // review.setNo(reviewNo);
             review.setComment(comment);
             review.setRating(rating);
                 PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();
