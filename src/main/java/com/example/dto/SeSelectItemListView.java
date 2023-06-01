@@ -27,5 +27,7 @@ public class SeSelectItemListView {
     private String search; // 검색어
     private String orderby; // 정렬기준 컬럼
     private String sort; // 정렬방식 DESC ASC
+    private int start; // 페이지네이션용
+    private int end; // 페이지네이션용
     
 }

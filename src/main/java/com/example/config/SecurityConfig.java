@@ -90,7 +90,7 @@ public class SecurityConfig {
         http.authorizeRequests()
                 .antMatchers("/customer/join.do", "/customer/home.do", "/customer/login.do", "/customer/findid.do","/customer/findidok.do",
                           "/customer/findpw.do", "/customer/findpwok.do", "/customer/seimage","/customer/kakaojoin.do",
-                          "/customer/kakaojoinaction.do", "/customer/item/selectlist.do",
+                          "/customer/kakaojoinaction.do", "/customer/item/selectlist.do", "/customer/notitest.do",
                           "/customer/kmtest.do", "/customer/image", "/customer/item/selectone.do", "/customer/kmreviewimage")
                 .permitAll()
                 .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do", "/seller/home.do",
