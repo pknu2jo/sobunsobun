@@ -50,7 +50,7 @@ public interface KmCustomerService {
         public int insertJjim(JjimEntity jjim);
 
         // 찜 해제(삭제)
-        public int deleteJjim(JjimEntity jjim);
+        public int deleteJjim(String memid, BigDecimal itemno);
 
     // 리뷰 등록
         // 리뷰 등록 전 구매한 상품이 맞는지 확인하기

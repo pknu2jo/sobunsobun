@@ -117,7 +117,7 @@ public class KmCustomerServiceImpl implements KmCustomerService {
      // 찜 등록
      public int insertJjim(JjimEntity jjim) {
         try {
-            
+            jRepository.save(jjim);
             return 1;
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,9 +126,9 @@ public class KmCustomerServiceImpl implements KmCustomerService {
      }
 
      // 찜 해제(삭제)
-     public int deleteJjim(JjimEntity jjim) {
+     public int deleteJjim(String memid, BigDecimal itemno) {
         try {
-            
+            jRepository.deleteByCustomerEntity_idAndItemEntity_no(memid, itemno);
             return 1;
         } catch (Exception e) {
             e.printStackTrace();

@@ -40,11 +40,6 @@
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;">
 
-        <!-- 추후에 지워야함-->
-        <div class="container" th:text="${jjim}">
-
-        </div>
-
         <div class="super_container" style="margin-top: -100px;">
             <div class="container single_product_container">
                 <div class="row">
@@ -82,21 +77,24 @@
                     </div>
                     <!-- ~ 물품 간단 사진 영역 -->
 
+
                     <!-- 물품 설명 영역 ~ -->
                     <div class="col-lg-6">
                         <div class="product_details">
                             <div class="product_details_title">
                                 <p th:text="${item.SELLERNAME}"></p>
-                                <h2 th:text="${item.ITEMNAME}"></h2>
-                                <button type="button" class="heartBtn" th:onclick="jjim([[${item.ITEMNO}]])">
-                                    <!-- 찜 안한 상태 => fa-regular-->
-                                    <i class="fa-regular fa-heart heartIcon"></i>
-                                    <!-- 찜 한 상태 => fa-solid -->
-                                    <i class="fa-solid fa-heart heartIcon"></i>
-                                </button><br>
+                                <h2 class="mb-2" th:text="${item.ITEMNAME}"></h2>
+                                
                                 <div class="product_price"
                                     th:text="${#numbers.formatInteger(item.ITEMPRICE, 3, 'COMMA') + '원'}">
                                 </div>
+
+                                <button type="button" class="heartBtn" th:onclick="jjim([[${item.ITEMNO}]])" style="float: right;">
+                                    <!-- 찜 안한 상태, 로그인 안한 상태 => fa-regular-->
+                                    <i class="fa-regular fa-heart heartIcon" id="blankHeart" style="display: none;"></i>
+                                    <!-- 찜 한 상태 => fa-solid -->
+                                    <i class="fa-solid fa-heart heartIcon" id="fillHeart" style="display: none;"></i>
+                                </button>
                             </div>
                             <!-- 열린 공구 영역 ~ -->
                             <div class="tablediv">
@@ -398,6 +396,18 @@
     <script th:src="@{/js/km/single_custom.js}"></script>
 
     <script th:inline="javascript" type="text/javascript">
+        
+        // const fillHeart = document.querySelector("#fillHeart");
+        // const blankHeart = document.querySelector("#blankHeart");
+
+        var jjim1 = /*[[${jjim}]]*/"";
+        if(jjim1 == 1) {
+            // 찜 된 상태
+            fillHeart.style.display = "block";
+        } else if(jjim1 == 0) {
+            // 찜 안된 상태
+            blankHeart.style.display = "block";
+        }
 
         var username = "";
         var user = /*[[${user}]]*/"";
@@ -419,19 +429,33 @@
                 }
 
             } else { 
-                var jjim = /*[[${jjim}]]*/"";
+                let jjim = /*[[${jjim}]]*/"";
 
                 if(jjim == 1) {
                     console.log(jjim + " 찜 된 상태");
+                    
                 } else if( jjim == 0) {
                     console.log(jjim + " 찜 안된 상태");
+                    
                 }
 
                 const url = /*[[@{/api/customer/jjim.km}]]*/"";
                 const headers = {"Content-Type":"application/json"};
-                const body = {customerEntity:{id : username}, itemEntity : {no:itemno}, state:jjim};
+                const body = {customerEntity:{id : username}, itemEntity : {no:itemno}};
                 const { data } = await axios.post(url, body, {headers:headers});
                 console.log("반환되는 결과", data);
+
+                if(data.result == 1 && data.jjimState == 1) {
+                    // 하트 채우기 (찜 된 상태)
+                    console.log("가나다라맞바사", data);
+                    fillHeart.style.display = "block";
+                    blankHeart.style.display = "none";
+                } else if(data.result == 1 && data.jjimState == 0) {
+                    // 하트 비우기 (찜 안된 상태)
+                    console.log("아자차카타파하", data);
+                    blankHeart.style.display = "block";
+                    fillHeart.style.display = "none";
+                }
 
             }
 
