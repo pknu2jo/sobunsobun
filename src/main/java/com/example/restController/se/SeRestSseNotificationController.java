@@ -1,6 +1,8 @@
 package com.example.restController.se;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.MediaType;
@@ -9,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+import com.example.entity.JjimEntity;
+import com.example.repository.se.SeJjimRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class SeRestSseNotificationController {
 
+    final SeJjimRepository jjimRepository;
+
     private static final Map<String, SseEmitter> clients = new HashMap<>();
+
 
     // 로그인하면 clients 변수에 저장(알림구독)
     @GetMapping(value="/sse/notify/subscribe")
@@ -62,9 +70,17 @@ public class SeRestSseNotificationController {
 
     // 찜한 물품의 공구가 열렸을 때
     @GetMapping(value="/sse/jjim/publish")
-    public void jjimPublish( @RequestParam(name = "message") String message ) {
+    public void jjimPublish( @RequestParam(name = "message") String message,
+     @RequestParam(name = "itemno") BigDecimal itemno ) {
 
         // 1) DB 에서 공구 열린 물품을 찜하고 있는 사람을 모두 찾아서 알림 테이블에 insert 실행하기
+        List<JjimEntity> list = jjimRepository.findByItemEntity_no(BigDecimal.valueOf(13L));
+        for(JjimEntity one : list) {
+            String dbId = one.getCustomerEntity().getId();
+            for(String id : clients.keySet()) {
+                // if(id.equals(list))
+            }
+        }
 
         // 2) 1)에 해당하는 사람 중에 clients 에 저장된 사람한테 알림기능 보내기
         
