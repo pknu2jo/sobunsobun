@@ -277,7 +277,9 @@
             
         }
 
-
+        .text button.active{
+            background-color: red;
+        }
 
 
 
@@ -380,7 +382,8 @@
                                 <a class="itemname" th:href="@{/customer/item/selectone.do?(itemno=${list.itemno})}"><div class="title" th:text="${list.name}"></div></a><div></div>
                                 <div class="price" id="price" th:text="|${#numbers.formatInteger(list.price , 3 , 'COMMA')}원|"  style="pointer-events: none;"></div>
                                 <hr />
-                                <a class="heart">♡</a>
+                                <button type="button" class="active" th:onclick="chkheart([[${list.itemno}]])">♡</button>
+            
                             </div>
                         </li>
                     </th:block>
@@ -419,6 +422,24 @@
 
 
     <!-- script-->
+    <script th:inline="javascript" type="text/javascript">
+        const username = /*[[${user.username}]]*/"";
+        console.log('반환되는 결과', username);
+
+
+        async function chkheart(itemno){
+
+            const url = /*[[@{/api/customer/mylikeitem.json}]]*/"";
+            const headers = {"Content-Type":"application/json"};
+            const body = {id:username, itemno:itemno};
+            // const { data } = await axios.delete(url, { headers:headers,data:body  });
+            const { data } = await axios.post(url, body, { headers:headers  });
+            console.log('반환되는 결과', data);
+
+            console.log(data.result);
+
+        }
+    </script>
  
     
 </body>

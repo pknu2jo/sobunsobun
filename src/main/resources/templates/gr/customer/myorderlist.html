@@ -463,79 +463,79 @@
             </div>
         
 
-        <!-- 주문내역 조회 창 -->
-        <div class="divList d-flex justify-content-center">
-            <table class="cols" id="ordertable">
-                <!-- <colgroup>
-                    <col style="width: 135px;">
+            <!-- 주문내역 조회 창 -->
+            <div class="divList d-flex justify-content-center">
+                <table class="cols" id="ordertable">
+                    <!-- <colgroup>
+                        <col style="width: 135px;">
 
-                </colgroup> -->
+                    </colgroup> -->
 
-                <thead>
-                    <tr>
-                        <th>주문일</th>
-                        <th class="second">공구주문번호</th>
-                        <th class="third">상품정보</th>
-                        <th class="forth">상품금액</th>
-                        <th class="fifth">진행상황</th>
-                    </tr>
-                </thead>
-                
-                <tbody>
-                    <tr th:each="obj:${list}">
-                        <td th:text="${#dates.format(obj.regdate, 'yyyy.MM.dd')}" class="date"></td>
-                        <td th:text="${obj.pono}" class="order_number"></td>
-                        <td class="product" >
-                            <a th:href="@{/customer/item/selectone.do?(itemno=${obj.itemno})}">
-                                <div class="img">
-                                    <img th:src="@{/customer/seimage(itemno=${obj.itemno})}" style="width: 90px; height: 120px;">
-                                </div>
-                            </a>
-                            <a th:href="@{/customer/item/selectone.do?(itemno=${obj.itemno})}">
-                                <div class="text">
-                                    <div class="title" th:text="${obj.name}"></div><br/>
-                                    <div class="details">
-                                        <div class="detail" th:text="|옵션 : ${obj.storename}, |"></div>
-                                        <div class="detail" th:text="|${obj.participant}인 공구|"></div>
+                    <thead>
+                        <tr>
+                            <th>주문일</th>
+                            <th class="second">공구주문번호</th>
+                            <th class="third">상품정보</th>
+                            <th class="forth">상품금액</th>
+                            <th class="fifth">진행상황</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        <tr th:each="obj:${list}">
+                            <td th:text="${#dates.format(obj.regdate, 'yyyy.MM.dd')}" class="date"></td>
+                            <td th:text="${obj.pono}" class="order_number"></td>
+                            <td class="product" >
+                                <a th:href="@{/customer/item/selectone.do?(itemno=${obj.itemno})}">
+                                    <div class="img">
+                                        <img th:src="@{/customer/seimage(itemno=${obj.itemno})}" style="width: 90px; height: 120px;">
                                     </div>
-                                </div>
-                            </a>
-                        </td>
-                        <td th:text="|${#numbers.formatInteger(obj.commaprice , 3 , 'COMMA')}원|" class="price"></td>
-                        <td class="status" th:text="${obj.statechk}"></td>
-                    </tr>
-                </tbody>
-            </table>
+                                </a>
+                                <a th:href="@{/customer/item/selectone.do?(itemno=${obj.itemno})}">
+                                    <div class="text">
+                                        <div class="title" th:text="${obj.name}"></div><br/>
+                                        <div class="details">
+                                            <div class="detail" th:text="|옵션 : ${obj.storename}, |"></div>
+                                            <div class="detail" th:text="|${obj.participant}인 공구|"></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                            <td th:text="|${#numbers.formatInteger(obj.commaprice , 3 , 'COMMA')}원|" class="price"></td>
+                            <td class="status" th:text="${obj.statechk}"></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-            
-        </div>
-        <!-- 페이지 -->
-        <div class="pagearea d-flex justify-content-center" >
+                
+            </div>
+            <!-- 페이지 -->
+            <div class="pagearea d-flex justify-content-center" >
 
-                <ul class="pageul">
-                    <li th:if="${currentPage > 1}">
-                        <a th:href="@{/customer/myorderlist.do(page=1, firstdate=${firstdate}, seconddate=${seconddate})}">&laquo;</a>
-                    </li>
-                    <li th:if="${currentPage > 1}">
-                        <a th:href="@{/customer/myorderlist.do(page=${currentPage - 1}, firstdate=${firstdate}, seconddate=${seconddate})}">&lt;</a>
-                    </li>
-                    <li th:each="num : ${#numbers.sequence(startPage, endPage)}" th:class="${num == currentPage ? 'active' : ''}">
-                        <a th:href="@{/customer/myorderlist.do(page=${num}, firstdate=${firstdate}, seconddate=${seconddate})}"
-                           th:text="${num}"></a>
-                    </li>
-                    <li th:if="${currentPage < pages}">
-                        <a th:href="@{/customer/myorderlist.do(page=${currentPage + 1}, firstdate=${firstdate}, seconddate=${seconddate})}">&gt;</a>
-                    </li>
-                    <li th:if="${currentPage < pages}">
-                        <a th:href="@{/customer/myorderlist.do(page=${pages}, firstdate=${firstdate}, seconddate=${seconddate})}">&raquo;</a>
-                    </li>
-                </ul>
+                    <ul class="pageul">
+                        <li th:if="${currentPage > 1}">
+                            <a th:href="@{/customer/myorderlist.do(page=1, firstdate=${firstdate}, seconddate=${seconddate})}">&laquo;</a>
+                        </li>
+                        <li th:if="${currentPage > 1}">
+                            <a th:href="@{/customer/myorderlist.do(page=${currentPage - 1}, firstdate=${firstdate}, seconddate=${seconddate})}">&lt;</a>
+                        </li>
+                        <li th:each="num : ${#numbers.sequence(startPage, endPage)}" th:class="${num == currentPage ? 'active' : ''}">
+                            <a th:href="@{/customer/myorderlist.do(page=${num}, firstdate=${firstdate}, seconddate=${seconddate})}"
+                            th:text="${num}"></a>
+                        </li>
+                        <li th:if="${currentPage < pages}">
+                            <a th:href="@{/customer/myorderlist.do(page=${currentPage + 1}, firstdate=${firstdate}, seconddate=${seconddate})}">&gt;</a>
+                        </li>
+                        <li th:if="${currentPage < pages}">
+                            <a th:href="@{/customer/myorderlist.do(page=${pages}, firstdate=${firstdate}, seconddate=${seconddate})}">&raquo;</a>
+                        </li>
+                    </ul>
 
-            <!-- </th:block> -->
+                <!-- </th:block> -->
 
 
 
-        </div>
+            </div>
         </form>
 
 
@@ -571,51 +571,17 @@
             document.getElementById("fd").max = endDate;
         }
 
-        // function onemonth(){
-        
-        //     var today = new Date();
-        //     var today1 = new Date();
-        //     today1.setMonth(today1.getMonth() -1);
-        //     today1.setDate(today1.getDate() - 1);
-
-        //     var dd = String(today.getDate()).padStart(2, '0');
-        //     var dd1 = String(today1.getDate()).padStart(2, '0');
-        //     var mm = String(today.getMonth() + 1).padStart(2, '0');
-        //     var mm1 = String(today1.getMonth() + 1).padStart(2,'0');
-        //     var yyyy = today.getFullYear();
-        //     var formmattedDate = yyyy + '-' + mm + '-' + dd;
-        //     var formmattedDate1 = yyyy + '-' + mm1 + '-' + dd1;
-
-        //     document.getElementById("fd").value = formmattedDate1;
-        //     document.getElementById("sd").value = formmattedDate;
-        //     document.getElementById("btn_date").click(); // 버튼의 id를 사용하여 자동으로 클릭
-        // }
-
         function onemonth() {
             var today = new Date();
             var today1 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
-            today1.setMonth(today1.getMonth() - 1);
+            today1.setDate(today1.getDate() - 30);
 
             var dd = String(today1.getDate()).padStart(2, '0');
             var mm = String(today1.getMonth() + 1).padStart(2, '0');
             var yyyy = today1.getFullYear();
             var formattedDate = yyyy + '-' + mm + '-' + dd;
-            console.log(formattedDate);
 
-            // 31일 없는 달과 2월 처리
-            var lastDayOfMonth = 31;
-
-            if ([4, 6, 9, 11].includes(today1.getMonth() + 1)) {
-                lastDayOfMonth = 30;
-            } else if (today1.getMonth() + 1 === 2) {
-                var isLeapYear = (yyyy % 4 === 0 && yyyy % 100 !== 0) || (yyyy % 400 === 0);
-                lastDayOfMonth = isLeapYear ? 29 : 28;
-            }
-
-            var formattedDate1 = yyyy + '-' + mm + '-' + lastDayOfMonth;
-
-            console.log(formattedDate1);
+            var formattedDate1 = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0');
 
             document.getElementById("fd").value = formattedDate;
             document.getElementById("sd").value = formattedDate1;

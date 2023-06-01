@@ -29,11 +29,13 @@ public class JjimEntity {
     @Column(name = "REGDATE", updatable = false)
     private Date regdate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    // @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "MEMID", referencedColumnName = "id")
     private CustomerEntity customerEntity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    // @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "ITEMNO", referencedColumnName = "no")
     private Item itemEntity;
 

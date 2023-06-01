@@ -78,6 +78,7 @@ public class MyLikeItemController {
             formattedRet = String.valueOf(ret);
         }
 
+        model.addAttribute("user", user);
         model.addAttribute("list", list);
         model.addAttribute("ret", formattedRet);
         model.addAttribute("totalPages", totalPages);
