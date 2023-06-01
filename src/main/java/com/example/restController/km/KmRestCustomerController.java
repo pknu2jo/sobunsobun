@@ -161,20 +161,27 @@ public class KmRestCustomerController {
     public Map<String, Object> JjimPost(@RequestBody JjimEntity jjim) {
         Map<String, Object> retMap = new HashMap<>();
         try {
-            log.info("testtest => {}", jjim.toString()); // {memid=km2, itemno=13, jjim=0}
-            log.info("testtest1 itemno => {}", jjim.getItemEntity().getNo());
-            log.info("testtest1 itemno => {}", jjim.getCustomerEntity().getId());
-            log.info("testtest1 itemno => {}", jjim.getState());
+            log.info("testtest => {}", jjim.toString()); // {memid=km2, itemno=13}
+            // log.info("testtest1 itemno => {}", jjim.getItemEntity().getNo());
+            // log.info("testtest1 memid => {}", jjim.getCustomerEntity().getId());
 
-            if(jjim.getState()  == 0L) {
+            String memid = jjim.getCustomerEntity().getId();
+            BigDecimal itemno = jjim.getItemEntity().getNo();
+
+            int ret = customerService.checkJjim(memid, itemno);
+            log.info("ret check => {}", ret);
+
+            if(ret  == 0) {
                 // 찜 안된 상태 => insert 필요
                 System.out.println("abcdefg");
-
-            } else if (jjim.getState()  == 1L) {
+                retMap.put("result", customerService.insertJjim(jjim));
+                retMap.put("jjimState", 1);
+            } else if (ret  == 1) {
                 // 찜 된 상태 => delete 필요
                 System.out.println("1234567");
+                retMap.put("result", customerService.deleteJjim(memid, itemno));
+                retMap.put("jjimState", 0);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             retMap.put("result", -1);
@@ -188,12 +195,12 @@ public class KmRestCustomerController {
                                                 @RequestParam(name="itemno") long itemno) { 
         Map<String, Object> retMap = new HashMap<>();
         try {
-            log.info("체크체크check1 => {}", id);
-            log.info("체크체크check2 => {}", itemno);
+            // log.info("체크체크check1 => {}", id);
+            // log.info("체크체크check2 => {}", itemno);
 
             // 리뷰 등록 전 구매한 상품이 맞는지 확인하기
             List<BigDecimal> purchaseNoList = customerService.selectCheckOrder(itemno, id);
-            log.info("리뷰 확인하기 => {}", purchaseNoList);
+            // log.info("리뷰 확인하기 => {}", purchaseNoList);
 
             retMap.put("reviewCount", 1);
 
