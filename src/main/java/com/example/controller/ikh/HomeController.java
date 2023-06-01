@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.dto.ikh.DeliverySearch;
 import com.example.entity.DeliveryEntity;
 import com.example.entity.SellerEntity;
+import com.example.entity.ikh.CancelOrderView;
 import com.example.entity.ikh.CompleteOrderMemberView;
 import com.example.entity.ikh.CompleteOrderView;
 import com.example.entity.ikh.DeliveryView;
 import com.example.entity.ikh.OrderView;
+import com.example.entity.ikh.ProceedOrderFinalView;
 import com.example.entity.ikh.SalesViewProjection;
 import com.example.entity.ikh.StagenderView;
 import com.example.entity.ikh.TotaltableView;
@@ -32,10 +34,12 @@ import com.example.repository.LcategoryRepository;
 import com.example.repository.McategoryRepository;
 import com.example.repository.ScategoryRepository;
 import com.example.repository.SellerRepository;
+import com.example.repository.ikh.CancelOrderViewRepository;
 import com.example.repository.ikh.CompleteOrderMemberViewRepository;
 import com.example.repository.ikh.CompleteOrderViewRepository;
 import com.example.repository.ikh.DeliveryViewRepository;
 import com.example.repository.ikh.OrderViewRepository;
+import com.example.repository.ikh.ProceedOrderFinalViewRepository;
 import com.example.repository.ikh.SalesViewRepository;
 import com.example.repository.ikh.StagenderViewRepository;
 import com.example.repository.ikh.StalocationViewRepository;
@@ -74,7 +78,8 @@ public class HomeController {
     // 주문
     final OrderViewRepository ovRepository;
     final CompleteOrderViewRepository covRepository;
-    final CompleteOrderMemberViewRepository comvRepository;
+    final ProceedOrderFinalViewRepository porfvRepository;
+    final CancelOrderViewRepository cancelRepository;
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // html 불러오기
     // @GetMapping(value = "/home.do")
@@ -220,9 +225,24 @@ public class HomeController {
             List<OrderView> thlist = ovRepository.findByNoAndState("1078198143", BigDecimal.valueOf(3));
             model.addAttribute("thlist", thlist);
 
+            // 공구진행중 테이블
+            List<ProceedOrderFinalView> porfvlist = porfvRepository.findByNo("1078198143");            
+            model.addAttribute("porfvlist", porfvlist);
+
+            // 공구완료 테이블
             List<CompleteOrderView> covlist = covRepository.findByNo("1078198143");
             model.addAttribute("covlist", covlist);
 
+            // 공구취소 테이블
+            List<CancelOrderView> cancellist = cancelRepository.findByNo("1078198143");            
+            model.addAttribute("cancellist", cancellist);
+
+            List<Object> alllist = new ArrayList<>();
+            alllist.addAll(porfvlist);
+            alllist.addAll(covlist);
+            alllist.addAll(cancellist);            
+            model.addAttribute("alllist", alllist);
+            
             return "/ikh/seller/order/search";
         } catch (Exception e) {
             e.printStackTrace();

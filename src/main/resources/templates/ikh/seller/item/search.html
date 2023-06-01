@@ -355,10 +355,10 @@
     <script th:inline="javascript" type="text/javascript">       
         var arrays = "[[${array}]]";
         var max = "[[${max}]]";
-        
+
         var ctx = document.getElementById("myBarChart2");
         var myLineChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'horizontalBar',
         data: {
             labels: ["중구","서구","동구","영도구","진구","동래구","남구","북구","해운대구","사하구","금정구","강서구","연제구","수영구","사상구"],
             datasets: [{
@@ -371,7 +371,7 @@
         },
         options: {
             scales: {
-            xAxes: [{
+            yAxes: [{
                 barPercentage: 0.5, // 막대 두께 비율
                 categoryPercentage: 0.9, // 그룹(카테고리) 너비 비율
                 time: {
@@ -384,7 +384,7 @@
                 maxTicksLimit: 15
                 }
             }],
-            yAxes: [{                
+            xAxes: [{                
                 ticks: {
                 beginAtZero: true,
                 min: 0,
