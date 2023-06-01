@@ -43,7 +43,8 @@
                     <h3>물품관리</h3>
                     <form th:action="@{/seller/item/management.do}" method="get" th:object="${cate}">
 
-                        <!-- 대분류 -->
+
+                        대분류
                         <select class="form-select" aria-label="Default select example" id="LcateSelect"
                             th:field="${cate.Lcode}" onchange="updateMcateSelect()">
                             <option value="000">전체</option>
@@ -51,7 +52,7 @@
                                 th:text="${obj.name}"></option>
                         </select>
 
-                        <!-- 중분류 -->
+                        중분류
                         <select class="form-select" aria-label="Default select example" id="McateSelect"
                             th:field="${cate.Mcode}" onchange="updateScateSelect()">
                             <option value="000">전체</option>
@@ -59,7 +60,7 @@
                                 th:text="${obj1.name}"></option>
                         </select>
 
-                        <!-- 소분류 -->
+                        소분류
                         <select class="form-select" aria-label="Default select example" id="ScateSelect"
                             th:field="${cate.Scode}" onchange="updateUrl()">
                             <option value="000">전체</option>
@@ -79,9 +80,9 @@
                     </form> -->
                     <input type="hidden" name="btn" id="btn"/>
                     <div style="padding-bottom: 10px;">
-                        <a th:href="@{/seller/item/insert.do}" class="btn-find"><button class="btn btn-outline-primary btn-find">물품등록</button></a>
-                        <button class="btn btn-outline-primary btn-find" value="일괄수정" onclick="formAction1(1)">수정</button>
-                        <button class="btn btn-outline-primary btn-find" value="일괄삭제" onclick="formAction1(2)">삭제</button>
+                        <a th:href="@{/seller/item/insert.do}" class="btn-find"><button class="btn btn-outline-dark btn-find">물품등록</button></a>
+                        <button class="btn btn-outline-dark btn-find" value="일괄수정" onclick="formAction1(1)">수정</button>
+                        <button class="btn btn-outline-dark btn-find" value="일괄삭제" onclick="formAction1(2)">삭제</button>
 
                     </div>
             
@@ -108,10 +109,10 @@
                                                     <th>중분류</th>
                                                     <th>대분류</th>
                                                     <th>등록일</th>
-                                                    <th>이미지관리</th>
+                                                    <th>이미지</th>
                                                 </tr>
                                             </thead>
-                                            <tfoot>
+                                            <!-- <tfoot>
                                                 <tr>
                                                     <th>선택</th>
                                                     <th>물품번호</th>
@@ -122,9 +123,9 @@
                                                     <th>중분류</th>
                                                     <th>대분류</th>
                                                     <th>등록일</th>
-                                                    <th>이미지관리</th>
+                                                    <th>이미지</th>
                                                 </tr>
-                                            </tfoot>
+                                            </tfoot> -->
                                             <tbody>
                                                 <tr th:each="obj : ${list}" style="text-align: center;">
                                                     <td><input type="checkbox" name="itemno" th:value="${obj.no.longValue()}"/></td>
@@ -136,9 +137,9 @@
                                                     <td th:text="${obj.mname}"></td>
                                                     <td th:text="${obj.lname}"></td>
                                                     <td
-                                                        th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분 ss초')}">
+                                                        th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일')}">
                                                     </td>
-                                                    <td><a class="btn btn-primary" th:href="@{/seller/itemimage/selectlist.do(no=${obj.no.longValue()})}">이미지 등록/수정</a></td>
+                                                    <td><a class="btn btn-dark" th:href="@{/seller/itemimage/selectlist.do(no=${obj.no.longValue()})}">등록/수정</a></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -150,7 +151,22 @@
                         
                     </form>
 
-
+                    <!-- 모달 -->
+                    <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">물품삭제</h1>
+                            </div>
+                            <div class="modal-body">
+                                삭제할 물품을 선택해주세요.
+                            </div>
+                            <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
                 </div>
             </main>
             <!-- footer -->
@@ -260,8 +276,8 @@
 
                 const itemno = getNo();
                 if (itemno.length === 0) {
-                    // $('#modal').modal('show');
-                    alert("삭제할 물품을 선택해주세요.");
+                    $('#modal').modal('show');
+                    // alert("삭제할 물품을 선택해주세요.");
                     return;
                 }
                 // else{
@@ -279,13 +295,13 @@
                         form2.action = /*[[@{/seller/item/deleteitem.do}]]*/'';
                         form2.submit();
                     } else {
-                        // $('#modal').modal('show');
-                        alert("삭제할 물품을 선택해주세요.");
+                        $('#modal').modal('show');
+                        // alert("삭제할 물품을 선택해주세요.");
                     }
                 } catch (error) {
                     console.error(error);
-                    // $('#modal').modal('show');
-                    alert("삭제할 물품을 선택해주세요.");
+                    $('#modal').modal('show');
+                    // alert("삭제할 물품을 선택해주세요.");
                 }
             }
             

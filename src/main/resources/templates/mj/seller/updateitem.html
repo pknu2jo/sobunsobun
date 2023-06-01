@@ -23,89 +23,93 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/mj/seller.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
 </head>
 
 <body class="sb-nav-fixed">
     <!-- header -->
-    <th:block th:replace="~{/mj/seller/header :: headerHTML}"></th:block>
+    <th:block th:replace="~{/jk/seller/header :: headerHTML}"></th:block>
     <!-- 전체화면 영역 -->
     <div id="layoutTotal">
         <!-- 전체화면 > 좌측 메뉴 영역(사이드바) -->
-        <th:block th:replace="~{/mj/seller/navbar :: navbarHTML}"></th:block>
+        <th:block th:replace="~{/jk/seller/navbar :: navbarHTML}"></th:block>
 
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
             <main>
                 <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
+                    <div class="container mt-5">
 
-                    <h3>물품수정</h3>
-                    <a th:href="@{/seller/item/management.do}"><button class="btn btn-primary">물품리스트</button></a>
-                    <form th:action="@{/seller/item/updateitemaction.do}" method="post">
-                        <div class="row">
-                            <!-- <div class="col-auto" style="background-color: lime;">
-                                <p>물품번호</p>                                
+                        <h3>물품수정</h3>
+                        <a th:href="@{/seller/item/management.do}"><button class="btn btn-dark">물품리스트</button></a>
+                        <form th:action="@{/seller/item/updateitemaction.do}" method="post">
+                            <div class="row">
+                                <!-- <div class="col-auto" style="background-color: lime;">
+                                    <p>물품번호</p>                                
+                                </div>
+                                <div class="col-auto">
+                                    <p>물품명</p>
+                                </div>
+    
+                                <div class="col-4" style="background-color: black;">
+                                    <p>col-4</p>
+                                </div> -->
                             </div>
-                            <div class="col-auto">
-                                <p>물품명</p>
-                            </div>
-
-                            <div class="col-4" style="background-color: black;">
-                                <p>col-4</p>
-                            </div> -->
-                        </div>
-
-                        <table class="table caption-top" >
-                            <caption>물품명, 가격, 수량 수정가능</caption>
-                            <thead>
-                                <tr>
-                                    <th>물품번호</th>
-                                    <th>물품명</th>
-                                    <th>가격</th>
-                                    <th>수량</th>
-                                    <th>소분류</th>
-                                    <th>중분류</th>
-                                    <th>대분류</th>
-                                    <th>등록일</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="obj : ${list}">
-                                    
-                                    <td><input type="text" name="no[]" th:value="${obj.no.longValue()}" readonly/></td>
-                                    <td><input type="text" name="name[]" th:value="${obj.name}" /></td>
-                                    <td><input type="text" name="price[]" th:value="${obj.price.longValue()}" /></td>
-                                    <td><input type="text" name="quantity[]" th:value="${obj.quantity.longValue()}" /></td>
-                                    <td><input type="text" name="scategoryCode[]" th:value="${obj.scategoryCode.name}" readonly/></td>
-                                    <td><input type="text" name="mcategoryCode[]" th:value="${obj.scategoryCode.mcategoryCode.name}" readonly/></td>
-                                    <td><input type="text" name="lcategoryCode[]" th:value="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}" readonly/></td>
-                                    <td><input type="text" th:value="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분 ss초')}" readonly /></td>
-                        <!-- ====================== -->
-                                    <!-- <td th:text="${obj.no.longValue()}" id="itemno">물품번호</td>
-                                    <td th:text="${obj.name}"></td>
-                                    <td th:text="${obj.price.longValue()}"></td>
-                                    <td th:text="${obj.quantity.longValue()}"></td>
-                                    <td th:text="${obj.scategoryCode.name}"></td>
-                                    <td th:text="${obj.scategoryCode.mcategoryCode.name}"></td>
-                                    <td th:text="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}">
-                                    </td>
-                                    <td
-                                        th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분 ss초')}" readonly>
-                                    </td> -->
-
-                                    <!-- <td><input type="hidden" th:value="${obj.regNo}"></td>
-                                    <td><input type="hidden" th:value="${obj.scategoryCode.code}"></td> -->
-                                    <input type="hidden" th:value="${obj.regNo}">
-                                    <input type="hidden" th:value="${obj.scategoryCode.code}">
-                                </tr>
-                            </tbody>
-                        </table>
-                        <button class="btn btn-primary" id="updateitem">수정</button>
-                    </form>
+    
+                            <table class="table caption-top" >
+                                <caption>물품명, 가격, 수량 수정가능</caption>
+                                <thead>
+                                    <tr id="table-center">
+                                        <th>물품번호</th>
+                                        <th>물품명</th>
+                                        <th>가격</th>
+                                        <th>수량</th>
+                                        <th>소분류</th>
+                                        <th>중분류</th>
+                                        <th>대분류</th>
+                                        <th>등록일</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="obj : ${list}" >
+                                        
+                                        <td><input class="form-control readonly" type="text" name="no[]" th:value="${obj.no.longValue()}" onclick="readonly()" readonly/></td>
+                                        <td><input class="form-control" type="text" name="name[]" th:value="${obj.name}" /></td>
+                                        <td><input class="form-control" type="text" name="price[]" th:value="${obj.price.longValue()}" /></td>
+                                        <td><input class="form-control" type="text" name="quantity[]" th:value="${obj.quantity.longValue()}" /></td>
+                                        <td><input class="form-control readonly" type="text" name="scategoryCode[]" th:value="${obj.scategoryCode.name}" onclick="readonly()" readonly/></td>
+                                        <td><input class="form-control readonly" type="text" name="mcategoryCode[]" th:value="${obj.scategoryCode.mcategoryCode.name}" onclick="readonly()" readonly/></td>
+                                        <td><input class="form-control readonly" type="text" name="lcategoryCode[]" th:value="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}" onclick="readonly()" readonly/></td>
+                                        <td><input class="form-control readonly" type="text" th:value="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분 ss초')}" onclick="readonly()" readonly /></td>
+                                        
+                            <!-- ====================== -->
+                                        <!-- <td th:text="${obj.no.longValue()}" id="itemno">물품번호</td>
+                                        <td th:text="${obj.name}"></td>
+                                        <td th:text="${obj.price.longValue()}"></td>
+                                        <td th:text="${obj.quantity.longValue()}"></td>
+                                        <td th:text="${obj.scategoryCode.name}"></td>
+                                        <td th:text="${obj.scategoryCode.mcategoryCode.name}"></td>
+                                        <td th:text="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}">
+                                        </td>
+                                        <td
+                                            th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분 ss초')}" readonly>
+                                        </td> -->
+    
+                                        <!-- <td><input type="hidden" th:value="${obj.regNo}"></td>
+                                        <td><input type="hidden" th:value="${obj.scategoryCode.code}"></td> -->
+                                        <input type="hidden" th:value="${obj.regNo}">
+                                        <input type="hidden" th:value="${obj.scategoryCode.code}">
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <button class="btn btn-outline-dark" id="updateitem">수정</button>
+                        </form>
+                    </div>
 
                 </div>
             </main>
             <!-- footer -->
-            <th:block th:replace="~{/mj/seller/footer :: footerHTML}"></th:block>
+            <th:block th:replace="~{/jk/seller/footer :: footerHTML}"></th:block>
         </div>
     </div>
     
@@ -185,8 +189,13 @@
             window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
         }
 
+        function readonly() {
+            alert('물품번호, 카테고리, 등록일은 수정할 수 없습니다.');
+        }
+
         
     </script>
+
     <script>
         document.getElementById("updateitem").addEventListener("click", clickFunction);
 

@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entity.Item;
 import com.example.entity.ItemImage;
+import com.example.entity.SellerEntity;
+import com.example.repository.jk.JkSellerRepository;
 import com.example.repository.mj.ItemImageRepository;
 import com.example.repository.mj.ItemRepository;
 
@@ -28,12 +32,14 @@ public class MjRestItemController {
     
     final ItemRepository iRepository;
     final ItemImageRepository imageRepository;
+    final JkSellerRepository sellerRepository;
     
     // 물품 등록
     @PostMapping(value = "/insertitem.json")
     public Map<String, Object> insertItemPOST(@RequestBody Item item, Model model){
         Map<String, Object> retMap = new HashMap<>();
         try {
+
             log.info("item=>{}", item.toString());
             Item ret = iRepository.save(item);
             

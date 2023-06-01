@@ -89,7 +89,7 @@ public class mjItemController {
     @GetMapping(value = "/item/updateitem.do")
     public String updateItemGET(Model model){
         try {
-            List<BigDecimal> chk = (List<BigDecimal>) httpSession.getAttribute("chk[]");
+            List<BigDecimal> chk = (List<BigDecimal>) httpSession.getAttribute("itemno");
             List<Item> list =iRepository.findAllById(chk);
             model.addAttribute("list", list);
             return "/mj/seller/updateitem";
@@ -100,9 +100,9 @@ public class mjItemController {
     }
 
     @PostMapping(value = "/item/updateitem.do")
-    public String updateItemPOST(@RequestParam(name = "chk[]") List<BigDecimal> chk){
+    public String updateItemPOST(@RequestParam(name = "itemno") List<BigDecimal> chk){
         try {
-            httpSession.setAttribute("chk[]", chk);
+            httpSession.setAttribute("itemno", chk);
             return "redirect:/seller/item/updateitem.do";
         } catch (Exception e) {
             e.printStackTrace();
@@ -254,11 +254,17 @@ public class mjItemController {
 
     //127.0.0.1:5959/SOBUN/seller/item/insert.do
     @GetMapping(value = "/item/insert.do")
-    public String insertGET(Model model,
+    public String insertGET(Model model,  @AuthenticationPrincipal User user,
         @RequestParam(name = "lcate", defaultValue = "000", required = false) BigDecimal Lcode,
         @RequestParam(name = "mcate", defaultValue = "000", required = false) BigDecimal Mcode,
         @RequestParam(name = "scate", defaultValue = "000", required = false) BigDecimal Scode ) {
         try {
+            SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);
+            log.info("seller => {}", seller.toString());
+            model.addAttribute("companyName", seller.getName().toString());
+            model.addAttribute("user", user);
+
+            
             Category cate = new Category();
             List<Lcategory> list1 = lRepository.findAll();
             cate.setLlist(list1);  // 대분류 코드, 네임

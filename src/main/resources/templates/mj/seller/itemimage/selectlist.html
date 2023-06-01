@@ -41,7 +41,7 @@
 
 
                     <h3>이미지등록/수정</h3>
-                    <a th:href="@{/seller/item/management.do}"><button class="btn btn-primary">물품리스트</button></a><br>
+                    <a th:href="@{/seller/item/management.do}"><button class="btn btn-dark">물품리스트</button></a><br>
                     물품번호: <label th:text="${item.no}"></label><br>
                     물품명: <label th:text="${item.name}"></label>
                     <hr>
@@ -56,13 +56,13 @@
                         <input type="hidden" name="item.no" th:value="${item.no}" /><br>
                         <input type="file" name="tmpFile" accept="image/*" id="file" onchange="setFileName(event)"/><br>
                         <input type="hidden" name="image" id="image" th:value="${image}" />
-                        <button type="button" onclick="uploadFileOne()" >이미지업로드</button>
+                        <button class="btn btn-dark" type="button" onclick="uploadFileOne()" >이미지업로드</button>
                     </form>
                     <hr>
 <!-- ===================================================================================================================== -->
                     <h4>상세이미지</h4>
                     <form th:action="@{/seller/itemimage/deleteimage.do}" method="post" id="form2">
-                        <button class="btn btn-outline-danger" type="button" onclick="deleteimages()">선택삭제</button>
+                        <button class="btn btn-outline-dark" type="button" onclick="deleteimages()">선택삭제</button>
                         <!-- <input type="submit" value="선택삭제"> -->
 
 
@@ -91,7 +91,7 @@
                         <input type="hidden" id="item.no" name="item.no" th:value="${item.no}" /><br>
                         <input multiple="multiple" type="file" name="tmpFile[]" accept="image/*" id="files" onchange="setFilesName(event)"/><br>
                         <input type="hidden" name="images" id="images" th:value="${images}"/>
-                        <button type="button" onclick="uploadFiles()">이미지업로드</button>
+                        <button class="btn btn-dark" type="button" onclick="uploadFiles()">이미지업로드</button>
                     </form>
 
                     <hr>
