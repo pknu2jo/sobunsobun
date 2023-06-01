@@ -134,6 +134,9 @@ public class HomeController {
             long all = svRepository.sumByItemprice("1078198143");
             // 월 매출
             List<SalesViewProjection> mlist = svRepository.findMonthlySales("1078198143");
+            for( SalesViewProjection obj : mlist){
+                log.info("mlist : {}", obj.getMonthly() + ", " + obj.getAmount());
+            }
 
             model.addAttribute("all", all); // 전체매출
             model.addAttribute("mlist", mlist); // 월 매출
