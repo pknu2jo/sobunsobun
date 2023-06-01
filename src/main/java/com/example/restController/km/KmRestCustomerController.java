@@ -169,6 +169,7 @@ public class KmRestCustomerController {
             if(jjim.getState()  == 0L) {
                 // 찜 안된 상태 => insert 필요
                 System.out.println("abcdefg");
+                
 
             } else if (jjim.getState()  == 1L) {
                 // 찜 된 상태 => delete 필요
