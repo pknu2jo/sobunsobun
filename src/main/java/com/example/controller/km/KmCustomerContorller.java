@@ -83,6 +83,15 @@ public class KmCustomerContorller {
             List<Long> imgList = customerService.selectItemImageNoList(itemno);
             log.info("imgList 테스트 => {}", imgList);
 
+            // 찜 여부 가져오기
+            if( user != null) { // 로그인 안된 상태
+                // itemno, id에 해당하는 찜 여부 가져오기
+                int jjim = customerService.checkJjim(user.getUsername(), no);
+                model.addAttribute("jjim", jjim);
+            } else if(user == null) {
+                model.addAttribute("jjim", 0);
+            }
+
             // 상품에 대한 열린 공구 가져오기 -> 남은 인원
             List<kmPurchaseView> purchaseList = customerService.selectPurchaseList(itemno);
             for (Iterator<kmPurchaseView> it = purchaseList.iterator(); it.hasNext();) {
