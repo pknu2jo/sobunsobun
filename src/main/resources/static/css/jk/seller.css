@@ -22,11 +22,18 @@ a {
 
 body {
     background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#layoutContent {
+    flex-grow: 1;
 }
 
 footer {
     flex-shrink: 0;
-  }
+}
 
 .container-fluid {
     min-height: 100%;
@@ -459,5 +466,5 @@ ul {
 }
 
 #sidebarToggle {
-    color: #052c65; 
+    color: #052c65;
 }
