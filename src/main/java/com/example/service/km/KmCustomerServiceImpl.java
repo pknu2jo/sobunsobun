@@ -15,6 +15,7 @@ import com.example.dto.PurchaseStatus;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
+import com.example.entity.JjimEntity;
 import com.example.entity.ReviewEntity;
 import com.example.entity.ReviewImageEntity;
 import com.example.entity.km.KmCheckReviewView;
@@ -119,7 +120,7 @@ public class KmCustomerServiceImpl implements KmCustomerService {
      }
 
      // 찜 해제(삭제)
-     public deleteJjim(JjimEntity jjim) {
+     public void deleteJjim(JjimEntity jjim) {
         
      }
 
