@@ -1,6 +1,5 @@
 package com.example.service.km;
 
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +15,7 @@ import com.example.dto.PurchaseStatus;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
+import com.example.entity.JjimEntity;
 import com.example.entity.ReviewEntity;
 import com.example.entity.ReviewImageEntity;
 import com.example.entity.km.KmCheckReviewView;
@@ -23,6 +23,7 @@ import com.example.entity.km.KmOrderNoProjection;
 import com.example.entity.km.KmReviewNoProjection;
 import com.example.mapper.km.KmCustomerMapper;
 import com.example.repository.km.KmCheckReviewViewRepository;
+import com.example.repository.km.KmJjimRepository;
 import com.example.repository.km.KmPurchaseOrderRepository;
 import com.example.repository.km.KmPurchaseStatusRepository;
 import com.example.repository.km.KmReviewImageRepository;
@@ -42,6 +43,7 @@ public class KmCustomerServiceImpl implements KmCustomerService {
     final KmReviewRepository rRepository;
     final KmReviewImageRepository riRepository;
     final KmPurchaseOrderRepository poRepository;
+    final KmJjimRepository jRepository;
 
 // 물품 상세 조회 페이지
 
@@ -100,6 +102,27 @@ public class KmCustomerServiceImpl implements KmCustomerService {
             return null;
         }
     }
+
+    // 찜 여부 확인하기
+    public int checkJjim(String memid, BigDecimal itemno) {
+        try {
+            // 찜 여부 확인하기
+            return jRepository.countByCustomerEntity_idAndItemEntity_no(memid, itemno);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+     // 찜 등록
+     public void insertJjim(JjimEntity jjim) {
+
+     }
+
+     // 찜 해제(삭제)
+     public void deleteJjim(JjimEntity jjim) {
+        
+     }
 
 // 결제 페이지 => /customer/item/order.do 
     // 공구 정보 한개 가져오기
