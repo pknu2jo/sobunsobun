@@ -72,6 +72,7 @@ public class SeRestSseNotificationController {
 
     
     // 찜한 물품의 공구가 열렸을 때
+    // message
     @GetMapping(value="/sse/jjim/publish")
     public void jjimPublish( @RequestParam(name = "message") String message,
      @RequestParam(name = "itemno", required = false) BigDecimal itemno ) { // required = false 지우기

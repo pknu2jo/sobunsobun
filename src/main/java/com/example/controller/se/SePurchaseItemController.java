@@ -104,7 +104,6 @@ public class SePurchaseItemController {
                 model.addAttribute("menu", 3);
             }
 
-            log.info("이게 왜 안돼... => {}", pages);
             // 페이지네이션
             int currentSet = (int) Math.ceil((double) page / 5); // 현재 페이지의 페이지 세트 번호 (1~5페이지 => 1세트, 6~10페이지 => 2세트)
             int startPage = (currentSet - 1) * 5 + 1; // 현재 페이지 세트의 시작 페이지 번호(1세트는 1페이지, 2세트는 6페이지)
