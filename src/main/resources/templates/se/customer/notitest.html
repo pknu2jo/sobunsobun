@@ -11,16 +11,17 @@
     <button onclick="sendMessage()">send</button>
     
     <script>
-        const id = "마루";
-        const eventSource = new EventSource(`/SOBUN/api/sse/notify/subscribe?id=${id}`);
+        // const id = "마루";
+        // const eventSource = new EventSource(`/SOBUN/api/sse/notify/subscribe?id=${id}`);
 
         const sendMessage = () => {
-            fetch(`/SOBUN/api/sse/notify/publish?message=안뇽`) // 메시지 보내기
+            var message = '우히히';
+            fetch(`/SOBUN/api/sse/notify/publish?message=${message}`) // 메시지 보내기
         }
 
-        eventSource.onmessage = (e) => { // 메시지가 왔을 때
-            console.log('onmessage', e.data);
-        }
+        // eventSource.onmessage = (e) => { // 메시지가 왔을 때
+        //     console.log('onmessage', e.data);
+        // }
     </script>
 </body>
 </html>
