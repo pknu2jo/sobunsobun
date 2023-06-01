@@ -14,13 +14,12 @@ import com.example.dto.PurchaseStatus;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
+import com.example.entity.JjimEntity;
 import com.example.entity.ReviewEntity;
 import com.example.entity.ReviewImageEntity;
 import com.example.entity.km.KmCheckReviewView;
 import com.example.entity.km.KmOrderNoProjection;
 import com.example.entity.km.KmReviewNoProjection;
-
-
 
 
 @Service
@@ -43,6 +42,15 @@ public interface KmCustomerService {
 
         // 모든 보관소 정보 가져오기
         public List<Storage> selectStorageList();
+
+        // 찜 여부 확인하기
+        public int checkJjim(String memid, BigDecimal itemno);
+
+        // 찜 등록
+        public void insertJjim(JjimEntity jjim);
+
+        // 찜 해제(삭제)
+        public void deleteJjim(JjimEntity jjim);
 
     // 리뷰 등록
         // 리뷰 등록 전 구매한 상품이 맞는지 확인하기

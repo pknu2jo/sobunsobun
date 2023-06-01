@@ -40,7 +40,10 @@
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;">
 
+        <!-- 추후에 지워야함-->
+        <div class="container" th:text="${jjim}">
 
+        </div>
 
         <div class="super_container" style="margin-top: -100px;">
             <div class="container single_product_container">
@@ -85,7 +88,12 @@
                             <div class="product_details_title">
                                 <p th:text="${item.SELLERNAME}"></p>
                                 <h2 th:text="${item.ITEMNAME}"></h2>
-                                <button type="button"><img th:src="@{/images/heart.png}" width="100px"></button>
+                                <button type="button" class="heartBtn" th:onclick="jjim([[${item.ITEMNO}]])">
+                                    <!-- 찜 안한 상태 => fa-regular-->
+                                    <i class="fa-regular fa-heart heartIcon"></i>
+                                    <!-- 찜 한 상태 => fa-solid -->
+                                    <i class="fa-solid fa-heart heartIcon"></i>
+                                </button><br>
                                 <div class="product_price"
                                     th:text="${#numbers.formatInteger(item.ITEMPRICE, 3, 'COMMA') + '원'}">
                                 </div>
@@ -148,20 +156,6 @@
                                                             </select>
                                                         </div>
 
-                                                        <!-- <div class="modal-storage">
-                                                            <span>수령지점</span>
-                                                            <select id="select" th:field = ${storage.name} name="storageNo">
-                                                                <option selected>---[필수 입력]---</option>
-                                                                <option th:each="tmp:${storage.name}" th:value="${tmp}" th:text="${tmp}"></option>
-                                                            </select>
-                                                        </div> -->
-                                                        <!-- <div class="modal-storage">
-                                                            <span>수령지점</span>
-                                                            <select id="select" >
-                                                                
-                                                            </select>
-                                                        </div> -->
-
                                                         <div class="modal-totalcost">
                                                             <span>인당 물품가격</span>
                                                             <span id="totalcost"></span>
@@ -184,12 +178,12 @@
                             </div>
                         </div>
                     </div>
-                    <!-- ~ 물품 설명 영역 -->
+                    <!-- ~ 물품 간단 설명 영역 -->
                 </div>
 
             </div>
 
-            <!-- 물품 상세 + 리뷰 영역 ~  -->
+            <!-- 하단 영역 ~  -->
             <div class="tabs_section_container">
                 <div class="container">
                     <div class="row">
@@ -262,7 +256,7 @@
                                                     </div>
                                                     <!-- <span th:each="i : ${#numbers.sequence(1, obj.rating)}">&#x2b50;</span> -->
                                                     <span th:each="i : ${#numbers.sequence(1, obj.rating)}">
-                                                        <i class="fas fa-heart" style="color: violet;"></i>
+                                                        <i class="fas fa-star" style="color: rgb(238, 191, 130);"></i>
                                                     </span>
                                                     <div th:text="${obj.comment}"></div>
                                                     
@@ -308,67 +302,7 @@
                                                 </ul>
                                             </div>
                                         </th:block>
-
-
-
-                                        <!-- <div class="user_review_container d-flex flex-column flex-sm-row">
-                                            <div class="user">
-                                                <div class="user_pic"></div>
-                                                <div class="user_rating">
-                                                    <ul class="star_rating">
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="review">
-                                                <div class="review_date">27 Aug 2016</div>
-                                                <div class="user_name">Brandon William</div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                            </div>
-                                        </div> -->
                                     </div>
-
-
-                                    <!-- <div class="col-lg-12 add_review_col">
-
-                                        <div class="add_review">
-                                            <form id="review_form" action="post">
-                                                <div>
-                                                    <h1>Add Review</h1>
-                                                    <input id="review_name" class="form_input input_name" type="text"
-                                                        name="name" placeholder="Name*" required="required"
-                                                        data-error="Name is required.">
-                                                    <input id="review_email" class="form_input input_email" type="email"
-                                                        name="email" placeholder="Email*" required="required"
-                                                        data-error="Valid email is required.">
-                                                </div>
-                                                <div>
-                                                    <h1>Your Rating:</h1>
-                                                    <ul class="user_star_rating">
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                                                    </ul>
-                                                    <textarea id="review_message" class="input_review" name="message"
-                                                        placeholder="Your Review" rows="4" required
-                                                        data-error="Please, leave us a review."></textarea>
-                                                </div>
-                                                <div class="text-left text-sm-right">
-                                                    <button id="review_submit" type="submit"
-                                                        class="red_button review_submit_btn trans_300"
-                                                        value="Submit">submit</button>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                    </div> -->
 
                                 </div>
                             </div>
@@ -378,7 +312,7 @@
                 </div>
 
             </div>
-            <!-- ~ 물품 상세 영역 -->
+            <!-- ~ 하단 영역 -->
         </div>
     </div>
 
@@ -465,6 +399,47 @@
 
     <script th:inline="javascript" type="text/javascript">
 
+        var username = "";
+        var user = /*[[${user}]]*/"";
+
+        if (user != null) {
+            username = user.username;
+        }
+        console.log("username 확인 => {", username, "}")
+
+        // --------------------------------------------------------------------------------------------
+        
+
+        // 찜 기능 구현 => user null 인 상태면 로그인 먼저 시키기
+        async function jjim(itemno) {
+            
+            if (user == null) {
+                if (confirm('로그인이 필요한 서비스입니다. 로그인하시겠습니까?')) {
+                    location.replace(/*[[@{/customer/login.do}]]*/"");
+                }
+
+            } else { 
+                var jjim = /*[[${jjim}]]*/"";
+
+                if(jjim == 1) {
+                    console.log(jjim + " 찜 된 상태");
+                } else if( jjim == 0) {
+                    console.log(jjim + " 찜 안된 상태");
+                }
+
+                const url = /*[[@{/api/customer/jjim.km}]]*/"";
+                const headers = {"Content-Type":"application/json"};
+                const body = {customerEntity:{id : username}, itemEntity : {no:itemno}, state:jjim};
+                const { data } = await axios.post(url, body, {headers:headers});
+                console.log("반환되는 결과", data);
+
+            }
+
+            
+        }
+
+        // ------------------------------------------------------------------------------------------
+
         // 카운트다운 타이머
         function CountDownTimer(dt, id) {
             var end = new Date(dt);
@@ -499,12 +474,7 @@
         const list = /*[[${ purchaseList }]]*/"";
         const itemprice = /*[[${item.ITEMPRICE}]]*/"";
 
-        var username = "";
-        const user = /*[[${user}]]*/"";
-        if (user != null) {
-            username = user.username;
-        }
-        console.log("username 확인 => {", username, "}")
+        
 
         // 하나씩 꺼내기
         if (list != null) {
@@ -547,6 +517,8 @@
             };
         };
 
+        // ----------------------------------------------------------------------------------------
+
         // 공구개설 Modal -> participant 숫자 증감
         const plus = document.querySelector(".plus");
         const minus = document.querySelector(".minus");
@@ -582,26 +554,19 @@
 
         const itemNO = /*[[${item.ITEMNO}]]*/"";
 
-
+        // --------------------------------------------------------------------------------
 
         // 공구 개설 버튼
         function openPurchase() {
             // participante는 위의 addEventListener에서 처리함
 
-
             // 여기에다가 유효성 검사실시
             const select = document.querySelector('#select');
-            //    var options = select.options;
-            //    for(let i=0; i<options.length; i++) {
-            //     var optionValue = options[i].value;
-            //     console.log(optionValue);
-            //    } 
 
             if (select.options[select.selectedIndex].value == 0) {
                 alert('수령지점을 선택해주세요.');
                 return;
             }
-
 
             if (confirm('공구 개설하시겠습니까?')) {
 
@@ -609,10 +574,9 @@
             } else {
                 return;
             }
-
         }
 
-
+        // ---------------------------------------------------------------------------------------------
 
 
         // 공구 참여 버튼
@@ -645,6 +609,8 @@
                 return;
             }
         }
+
+        // --------------------------------------------------------------------------------------------
 
         var orderNo = 0;
         // CheckReveiw() 함수에서 orderNo 알아오고 
@@ -760,6 +726,7 @@
 
         // 리뷰 - 최신순, 평점순 클래스(active) 추가
         const orderby = [[${param.orderby}]];
+
         const orderbydate = document.getElementById("orderbydate");
         const orderbyrating = document.getElementById("orderbyrating");
         if(orderby == '') {
@@ -820,15 +787,9 @@
                 }
             }
         }
-    
-        
-        
 
         // 새로고침 시 스크롤 위치 기억 => 근데 location.href로는 안되는구나..
         history.scrollRestoration = "auto";
-
-        
-
 
         // 주소창의 tab의 value에 따라 tab_container active 처리
         const tabCheck = [[${param.tab}]];

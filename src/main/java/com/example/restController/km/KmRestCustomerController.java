@@ -20,6 +20,7 @@ import com.example.dto.Purchase;
 import com.example.dto.PurchaseOrder;
 import com.example.dto.PurchaseStatus;
 import com.example.entity.Item;
+import com.example.entity.JjimEntity;
 import com.example.entity.PurchaseOrderEntity;
 import com.example.entity.ReviewEntity;
 import com.example.entity.ReviewImageEntity;
@@ -146,6 +147,32 @@ public class KmRestCustomerController {
                         }
                     }
                 }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("result", -1);
+        }
+        return retMap;
+    }
+
+    // 찜 기능 구현
+    @PostMapping(value = "/jjim.km")
+    public Map<String, Object> JjimPost(@RequestBody JjimEntity jjim) {
+        Map<String, Object> retMap = new HashMap<>();
+        try {
+            log.info("testtest => {}", jjim.toString()); // {memid=km2, itemno=13, jjim=0}
+            log.info("testtest1 itemno => {}", jjim.getItemEntity().getNo());
+            log.info("testtest1 itemno => {}", jjim.getCustomerEntity().getId());
+            log.info("testtest1 itemno => {}", jjim.getState());
+
+            if(jjim.getState()  == 0L) {
+                // 찜 안된 상태 => insert 필요
+                System.out.println("abcdefg");
+
+            } else if (jjim.getState()  == 1L) {
+                // 찜 된 상태 => delete 필요
+                System.out.println("1234567");
             }
 
         } catch (Exception e) {
