@@ -97,14 +97,15 @@
                         <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록완료</h1>
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록완료</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="tomanagement1"></button>
                             </div>
                             <div class="modal-body">
                                 물품이 등록되었습니다. 이미지를 등록하시겠습니까?
                             </div>
                             <div class="modal-footer">
-                            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal" id="tomanagement">아니요</button>
-                            <button type="submit" class="btn btn-primary" id="insertimage" onclick="insertimage()">네</button>
+                            <button type="submit" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="tomanagement">아니요. 물품 추가등록할래요.... </button>
+                            <button type="submit" class="btn btn-dark" id="insertimage" onclick="insertimage()">네</button>
                             </div>
                         </div>
                         </div>
@@ -272,6 +273,11 @@
             document.getElementById('tomanagement').addEventListener("click", clickFunction1);
             function clickFunction1() {
                 window.location.href = `/SOBUN/seller/item/management.do`;
+            }
+
+            document.getElementById('tomanagement1').addEventListener("click", clickFunction2);
+            function clickFunction2() {
+                window.location.href = `/SOBUN/seller/item/insert.do`;
             }
         }
     }

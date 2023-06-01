@@ -19,9 +19,11 @@ import com.example.entity.ItemImage;
 import com.example.entity.ReviewEntity;
 import com.example.entity.ReviewImageEntity;
 import com.example.entity.km.KmCheckReviewView;
+import com.example.entity.km.KmOrderNoProjection;
 import com.example.entity.km.KmReviewNoProjection;
 import com.example.mapper.km.KmCustomerMapper;
 import com.example.repository.km.KmCheckReviewViewRepository;
+import com.example.repository.km.KmPurchaseOrderRepository;
 import com.example.repository.km.KmPurchaseStatusRepository;
 import com.example.repository.km.KmReviewImageRepository;
 import com.example.repository.km.KmReviewRepository;
@@ -39,6 +41,7 @@ public class KmCustomerServiceImpl implements KmCustomerService {
     final KmCheckReviewViewRepository roRepository;
     final KmReviewRepository rRepository;
     final KmReviewImageRepository riRepository;
+    final KmPurchaseOrderRepository poRepository;
 
 // 물품 상세 조회 페이지
 
@@ -263,6 +266,16 @@ public class KmCustomerServiceImpl implements KmCustomerService {
     public KmCheckReviewView checkReview(String memid, BigDecimal purchaseno) {
         try {
             return roRepository.findByMemidAndPurchaseno(memid, purchaseno);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // purchaseNo, memId에 해당하는 주문 번호 가져오기
+    public KmOrderNoProjection findByCustomerEntity_idAndPurchaseEntity_no(String memid, BigDecimal purchaseno) {
+        try {
+            return poRepository.findByCustomerEntity_idAndPurchaseEntity_no(memid, purchaseno);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

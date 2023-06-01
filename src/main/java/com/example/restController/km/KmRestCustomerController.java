@@ -24,6 +24,7 @@ import com.example.entity.PurchaseOrderEntity;
 import com.example.entity.ReviewEntity;
 import com.example.entity.ReviewImageEntity;
 import com.example.entity.km.KmCheckReviewView;
+import com.example.entity.km.KmOrderNoProjection;
 import com.example.service.km.KmCustomerService;
 
 import lombok.RequiredArgsConstructor;
@@ -172,11 +173,14 @@ public class KmRestCustomerController {
             // 리뷰 작성 여부 확인하기 (위에서 purchaseNo 받아옴)
             for(BigDecimal purchaseNo : purchaseNoList) {
                 KmCheckReviewView obj = customerService.checkReview(id, purchaseNo);
-                log.info("KmCheckReviewView => {}", obj.toString());
-                if(obj.getReviewno() == null) {
+                // log.info("KmCheckReviewView => {}", obj.toString());
+                if(obj == null) {
                     retMap.put("reviewCount", 0);
-                    retMap.put("orderNo", obj.getOrderno());
+                    KmOrderNoProjection orderNo =  customerService.findByCustomerEntity_idAndPurchaseEntity_no(id, purchaseNo);
+                    retMap.put("orderNo", orderNo.getNo());
                     break;
+                } else {
+
                 }
             }
             System.out.println("retMap => " + retMap.get("reviewCount"));
@@ -209,7 +213,6 @@ public class KmRestCustomerController {
 
             // Review save
             ReviewEntity review = new ReviewEntity();
-            // review.setNo(reviewNo);
             review.setComment(comment);
             review.setRating(rating);
                 PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();

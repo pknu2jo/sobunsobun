@@ -418,3 +418,22 @@ main h3 {
     width :84.25px;
 }
 
+
+#table-center > th {
+    text-align-last:center
+}
+
+.readonly {
+    background-color: #dee2e6;
+    font-style: oblique;
+}
+
+
+/* 페이지네이션부분 글자색깔 변경 */
+.datatable-pagination a {
+    color: var(--bs-pagination-color);
+}
+
+.datatable-pagination a {
+    --bs-pagination-color:#0f4a7b;
+}
