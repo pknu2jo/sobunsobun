@@ -11,6 +11,6 @@ public interface JkSellerRepository extends JpaRepository<SellerEntity, String> 
     // 아이디 중복확인
     int countByNo(String id);
 
-    // 아이디와 매칭되는 이메일 확인
+    // 아이디(사업자번호)별 정보조회
     SellerEntity findByNo (String no);
 }
