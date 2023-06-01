@@ -50,7 +50,7 @@ public class RestSellerController {
 
     @PostMapping(value = "/sellerloginchk.json")
     public Map<String, Object> login(@RequestBody SellerEntity seller) {
-        log.info("Login Chk => {}", seller.toString());
+        log.info("Login Chk => {}", seller.toString()); // Body로 잘 받아왔는지 Check
         Map<String, Object> retMap = new HashMap<>();
         try {
             if (checkLogin(seller.getNo(), seller.getPw()) == true) { // 로그인 성공시 (true)
@@ -65,7 +65,7 @@ public class RestSellerController {
         return retMap; // 저장된 Map 반환
     }
 
-    // DB에 아이디가 있는지를 판단하기 위해서 따로 메소드를 만들었음!
+    // DB에 아이디가 있는지를 판단하기 위해 따로 확인하는 메소드
     private boolean checkLogin(String no, String pw) {
         SellerEntity sellerDB = sSellerService.findByNo(no); // 아이디로 DB 내용조회 후
         if (bcpe.matches(pw, sellerDB.getPw())) { // 비밀번호를 대조함.
