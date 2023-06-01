@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.entity.CustomerEntity;
+import com.example.entity.Item;
 import com.example.entity.JjimEntity;
 import com.example.repository.gr.grjjimRepository;
 
@@ -31,6 +33,7 @@ public class RestMyLikeItem {
         try {
 
             JjimEntity jjimEntity = new JjimEntity();
+
             int ret = grRepository.countByCustomerEntity_idAndItemEntity_no(map.get("id").toString(),
                     BigDecimal.valueOf(Long.parseLong(map.get("itemno").toString())));
             log.info("가람 => {}", ret);
@@ -42,8 +45,20 @@ public class RestMyLikeItem {
 
             } else {
                 log.info("skdhkskdhk=>{}", jjimEntity.toString());
-                jjimEntity.getCustomerEntity().setId((map.get("id").toString()));
-                jjimEntity.getItemEntity().setNo(BigDecimal.valueOf(Long.parseLong(map.get("itemno").toString())));
+                CustomerEntity cEntity = new CustomerEntity();
+                cEntity.setId(map.get("id").toString());
+                jjimEntity.setCustomerEntity(cEntity);
+
+                // jjimEntity.getCustomerEntity().setId((map.get("id").toString()));
+                // log.info("skdhkskdhk=>{}", jjimEntity.getCustomerEntity().getId());
+
+                Item iEntity = new Item();
+                iEntity.setNo(BigDecimal.valueOf(Long.parseLong(map.get("itemno").toString())));
+
+                // jjimEntity.getItemEntity().setNo(BigDecimal.valueOf(Long.parseLong(map.get("itemno").toString())));
+                jjimEntity.setItemEntity(iEntity);
+
+                log.info("dkdkdk => {}", jjimEntity.toString());
                 grRepository.save(jjimEntity);
                 retMap.put("result", 1);
             }
