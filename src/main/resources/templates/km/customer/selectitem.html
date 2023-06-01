@@ -85,6 +85,7 @@
                             <div class="product_details_title">
                                 <p th:text="${item.SELLERNAME}"></p>
                                 <h2 th:text="${item.ITEMNAME}"></h2>
+                                <button type="button"><img th:src="@{/images/heart.png}" width="100px"></button>
                                 <div class="product_price"
                                     th:text="${#numbers.formatInteger(item.ITEMPRICE, 3, 'COMMA') + '원'}">
                                 </div>
@@ -240,7 +241,7 @@
                                             <div class="container" id="reviews-container">
                                                 <div class="orderby">
                                                     <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab=review, orderby=,page=1)}"
-                                                        id="orderbydate" class="active">최신순</a>
+                                                        id="orderbydate">최신순</a>
                                                     <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab=review, orderby=rating,page=1)}"
                                                         id="orderbyrating">평점순</a>
                                                 </div>
@@ -755,6 +756,20 @@
             img2.src = noimage;
             img2.style.display = "none";
             img2Btn.style.display = 'none';
+        }
+
+        // 리뷰 - 최신순, 평점순 클래스(active) 추가
+        const orderby = [[${param.orderby}]];
+        const orderbydate = document.getElementById("orderbydate");
+        const orderbyrating = document.getElementById("orderbyrating");
+        if(orderby == '') {
+            console.log("가나다");
+            orderbydate.classList.add('active');
+            orderbyrating.classList.remove('active');
+        } else if(orderby != null && orderby[0] == 'rating') {
+            console.log("라마바orderby");
+            orderbyrating.classList.add('active');
+            orderbydate.classList.remove('active');
         }
 
         // 리뷰 작성하기

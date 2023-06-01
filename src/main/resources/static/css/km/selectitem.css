@@ -1011,9 +1011,11 @@ tbody::-webkit-scrollbar-track {
 	font-weight: 600;
 }
 
-/* .orderby a.active {
-	background-color: red;
-} */
+.orderby a.active {
+	/* background-color: red; */
+	font-weight: 600;
+	border-bottom: 2px solid #6d9275;
+}
 
 /* 리뷰 조회 - 페이지네이션*/
 #pagination-container {
