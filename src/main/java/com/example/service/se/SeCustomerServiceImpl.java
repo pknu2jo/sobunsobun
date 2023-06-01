@@ -1,11 +1,18 @@
 package com.example.service.se;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
+import com.example.entity.CNotificationEntity;
 import com.example.entity.CustomerAddressEntity;
 import com.example.entity.CustomerEntity;
+import com.example.entity.se.SeJjimProjection;
+import com.example.repository.se.SeCNotificationRepository;
 import com.example.repository.se.SeCustomerAddressRepository;
 import com.example.repository.se.SeCustomerRepository;
+import com.example.repository.se.SeJjimRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +22,8 @@ public class SeCustomerServiceImpl implements SeCustomerService {
     
     final SeCustomerRepository cRepository;
     final SeCustomerAddressRepository caRepository;
+    final SeJjimRepository jjimRepository;
+    final SeCNotificationRepository notiRepository;
 
     // ----------------------------------------------------------------------------------------------------------
     // 회원가입
@@ -95,6 +104,36 @@ public class SeCustomerServiceImpl implements SeCustomerService {
             return null;
         }
     }
+
+    // ----------------------------------------------------------------------------------------------------------
+    // 해당 아이템을 찜하고 있는 회원아이디 전부 불러오기
+    @Override
+    public List<SeJjimProjection> findByItemEntity_no(BigDecimal itemno) {
+        try {
+            return jjimRepository.findByItemEntity_no(itemno);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------------------------
+    // 알림 추가
+    @Override
+    public int saveCNotification(CNotificationEntity obj) {
+        try {
+            CNotificationEntity ret = notiRepository.save(obj);
+            if(ret != null) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+    
     
 
 

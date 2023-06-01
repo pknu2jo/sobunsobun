@@ -7,10 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.entity.JjimEntity;
+import com.example.entity.se.SeJjimProjection;
 
 @Repository
 public interface SeJjimRepository extends JpaRepository<JjimEntity, BigDecimal> {
 
-    List<JjimEntity> findByItemEntity_no(BigDecimal no);
+    
+    List<SeJjimProjection> findByItemEntity_no(BigDecimal no);
     
 }

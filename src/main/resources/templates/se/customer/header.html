@@ -308,6 +308,7 @@
                     <div class="row d-flex justify-content-end">
                         <th:block th:if="${user} != null">
                             <div class="col-auto d-flex align-items-center">
+                                <th:block th:text="${user.username}"></th:block>
                                 <button type="button" class="logoutBtn" th:onclick="logoutAction([[${user.username}]])">로그아웃</button>
                             </div>
                             <div class="col-auto">
@@ -491,7 +492,6 @@
 
             eventSource.onmessage = (e) => { // 메시지가 왔을 때
                 console.log('onmessage', e.data);
-                // document.querySelector('.notiBtn').classList.add('notiAction');
                 document.querySelector('.notiAction1').style.display = 'block';
             }
 
