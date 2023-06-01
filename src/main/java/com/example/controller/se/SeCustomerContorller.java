@@ -344,7 +344,7 @@ public class SeCustomerContorller {
 
             if(user == null){ // 비로그인
                 // 공구가 많이 열린 물품 목록 => 비로그인 시에만 세팅
-                List<SeManyPurchaseItemView> manyList = piService.selectManyPurchaseItem1(8);
+                List<SeManyPurchaseItemView> manyList = piService.selectManyPurchaseItem1(10);
                 // log.info("공구가 많이 열린 물품 => {}", manyList.toString());
                 // for ( SeManyPurchaseItemView manyMap : manyList ) {
                     // System.out.println( ((BigDecimal) map.get("PRICE")).toPlainString() ); // 확인용
@@ -353,7 +353,7 @@ public class SeCustomerContorller {
                 model.addAttribute("manyList", manyList);
             }
             else { // 로그인
-                selectNo = 8;
+                selectNo = 10;
                 // 내 주위 실시간 공구 => 로그인 시에만 세팅
                 List<SeAroundPurchaseView> aroundList = piService.selectAroundPurchaseItem(user.getUsername());
                 // log.info("내 주위 실시간 공구 => {}", aroundList.toString());

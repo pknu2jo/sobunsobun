@@ -30,12 +30,17 @@ public interface SePurchaseItemService {
 
     // 물품목록 - 검색어
     public List<SeSelectItemListView> selectSearchItem(SeSelectItemListView obj);
+    // 물품목록 - 검색어 - 전체 개수 (페이지네이션용)
+    public long selectSearchItemCnt(SeSelectItemListView obj);
 
     // 물품목록 - 소분류
     public List<SeSelectItemListView> selectScodeItem(SeSelectItemListView obj);
 
     // 물품목록 - 소분류 BEST
     public List<SeSelectItemListView> selectScodeItemBest(long scode);
+
+    // 물품목록 - 소분류 - 전체 개수 (페이지네이션용)
+    public long selectScodeItemCnt(SeSelectItemListView obj);
 
     // 물품이 현재 공구 중인지 확인
     public long selectPurchaseChk(long itemno);
