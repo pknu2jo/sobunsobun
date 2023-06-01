@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.entity.CustomerEntity;
+import com.example.entity.Item;
 import com.example.entity.JjimEntity;
 import com.example.repository.gr.grjjimRepository;
 
@@ -29,12 +31,38 @@ public class RestMyLikeItem {
         Map<String, Integer> retMap = new HashMap<>();
 
         try {
-            log.info("아무거나 => {}", map);
-            // JjimEntity obj = grRepository.findByCustomerEntity_idAndItemEntity_no("gr9",
-            // BigDecimal.valueOf(9));
-            // log.info("아아 => {}", obj);
-            grRepository.deleteByCustomerEntity_idAndItemEntity_no("gr9", BigDecimal.valueOf(9));
-            retMap.put("result", 1);
+
+            JjimEntity jjimEntity = new JjimEntity();
+
+            int ret = grRepository.countByCustomerEntity_idAndItemEntity_no(map.get("id").toString(),
+                    BigDecimal.valueOf(Long.parseLong(map.get("itemno").toString())));
+            log.info("가람 => {}", ret);
+
+            if (ret == 1) {
+                grRepository.deleteByCustomerEntity_idAndItemEntity_no(map.get("id").toString(),
+                        BigDecimal.valueOf(Long.parseLong(map.get("itemno").toString())));
+                retMap.put("result", 1);
+
+            } else {
+                log.info("skdhkskdhk=>{}", jjimEntity.toString());
+                CustomerEntity cEntity = new CustomerEntity();
+                cEntity.setId(map.get("id").toString());
+                jjimEntity.setCustomerEntity(cEntity);
+
+                // jjimEntity.getCustomerEntity().setId((map.get("id").toString()));
+                // log.info("skdhkskdhk=>{}", jjimEntity.getCustomerEntity().getId());
+
+                Item iEntity = new Item();
+                iEntity.setNo(BigDecimal.valueOf(Long.parseLong(map.get("itemno").toString())));
+
+                // jjimEntity.getItemEntity().setNo(BigDecimal.valueOf(Long.parseLong(map.get("itemno").toString())));
+                jjimEntity.setItemEntity(iEntity);
+
+                log.info("dkdkdk => {}", jjimEntity.toString());
+                grRepository.save(jjimEntity);
+                retMap.put("result", 1);
+            }
+
         } catch (Exception e) {
             retMap.put("result", 0);
         }
@@ -43,3 +71,4 @@ public class RestMyLikeItem {
     }
 
 }
+//
