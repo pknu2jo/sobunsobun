@@ -486,14 +486,14 @@
 
         if(user){
             // alert(user.username);
-            const id = user.username;
-            const eventSource = new EventSource(`/SOBUN/api/sse/notify/subscribe?id=${id}`);
+            // const id = user.username;
+            // const eventSource = new EventSource(`/SOBUN/api/sse/notify/subscribe?id=${id}`);
 
-            eventSource.onmessage = (e) => { // 메시지가 왔을 때
-                console.log('onmessage', e.data);
-                // document.querySelector('.notiBtn').classList.add('notiAction');
-                document.querySelector('.notiAction1').style.display = 'block';
-            }
+            // eventSource.onmessage = (e) => { // 메시지가 왔을 때
+            //     console.log('onmessage', e.data);
+            //     // document.querySelector('.notiBtn').classList.add('notiAction');
+            //     document.querySelector('.notiAction1').style.display = 'block';
+            // }
 
         }
         // 알림기능
