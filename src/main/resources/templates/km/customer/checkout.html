@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>새로운 1인가구 공구문화 - 소분소분</title>
+    <link rel="icon" th:href="@{/images/se/sobun.ico}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <!-- font-awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -18,8 +19,8 @@
      <link rel="stylesheet" th:href="@{/css/km/noneed_order/owl.carousel.min.css}" type="text/css">
      <link rel="stylesheet" th:href="@{/css/km/noneed_order/slicknav.min.css}" type="text/css"> -->
 
-    <link rel="stylesheet" th:href="@{/css/km/noneed_order/checkoutstyle.css}" type="text/css">
-    <link rel="stylesheet" th:href="@{/css/km/noneed_order/checkouttable.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/km/checkoutstyle.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/km/checkouttable.css}" type="text/css">
 
     <th:block th:replace="~{/se/customer/header :: headerCSS}"></th:block>
     <th:block th:replace="~{/km/customer/footer :: footerCSS}"></th:block>
@@ -45,7 +46,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h6 class="coupon__link">
-                        <!-- <i class="fa fa-tag"></i> <a th:href="@{/customer/item/selectone.do(no=${})}" style="text-decoration: none;">이전페이지 돌아가기</a> -->
+                        <i class="fa fa-tag"></i>
+                        <a th:href="@{/customer/item/selectone.do(itemno=${obj.itemNo})}" style="text-decoration: none;">&nbsp;이전페이지 돌아가기</a>
                     </h6>
                 </div>
             </div>
@@ -59,23 +61,24 @@
                             <div class="col-lg-12">
                                 <div class="checkout__form__input">
                                     <div style="display: inline-block;">
-                                        <sapn>주문하시는 분 <label>*</label> </span>
-                                        <input type="text" id="buyer_name" th:value="${customer.name}">
+                                        <p>주문하시는 분 <label>*</label></p>
+                                        <input type="text" id="buyer_name" th:value="${customer.name}" style="width: 200px;">
                                     </div>
                                 </div>
 
                                 <div class="checkout__form__input">
                                     <p>휴대전화 <span>*</span></p>
-                                    <input type="text" id="phone1" th:value="${phoneAndEmail.phone1}"maxlength="3">
-                                    <input type="text" id="phone2" th:value="${phoneAndEmail.phone2}" maxlength="4">
+                                    <input type="text" id="phone1" th:value="${phoneAndEmail.phone1}"maxlength="3">&nbsp; -
+                                    <input type="text" id="phone2" th:value="${phoneAndEmail.phone2}" maxlength="4">&nbsp; -
                                     <input type="text" id="phone3" th:value="${phoneAndEmail.phone3}" maxlength="4">
                                 </div>
                                 <div class="checkout__form__input">
                                     <p>이메일 <span>*</span></p>
-                                    <input type="text" id="email1" th:value="${phoneAndEmail.email1}">
+                                    <input type="text" id="email1" th:value="${phoneAndEmail.email1}" style="width: 200px;">
                                     <span>@</span>
-                                    <input type="text" id="email2" th:value="${phoneAndEmail.email2}" readonly>
-                                    <select name="emailAddr" id="selectEmail" onChange="email_change(this.value);">
+                                    <input type="text" id="email2" th:value="${phoneAndEmail.email2}" style="width: 200px;" readonly>
+                                    <select name="emailAddr" id="selectEmail" onChange="email_change(this.value);"
+                                            th:style="'background-image: url(' + @{/images/km/downarrow.png} + ');'">
                                         <option value="1">선택하세요</option>
                                         <option value="naver.com">naver.com</option>
                                         <option value="gmail.com">gmail.com</option>
@@ -87,11 +90,11 @@
                                 </div>
                                 <div class="checkout__form__input">
                                     <p>참여인원 <span>*</span></p>
-                                    <input type="text" th:value="|${obj.participant}명|" readonly>
+                                    <input type="text" th:value="|${obj.participant}명|" style="width: 200px;" readonly>
                                 </div>
                                 <div class="checkout__form__input">
                                     <p>수령지점 <span>*</span></p>
-                                    <input type="text" th:value="${storage.name}" readonly>
+                                    <input type="text" th:value="${storage.name}" style="width: 200px;" readonly>
                                 </div>
                             </div>
                         </div>
@@ -406,7 +409,72 @@
                     
                     if ( data.result == 200) {
                         // 성공하면 결제 성공 페이지 띄워
-                        location.replace(/*[[@{/customer/ordersuccess.do}]]*/"");
+
+                        const currentDate = new Date();
+                        const year = currentDate.getFullYear();
+                        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+                        const day = currentDate.getDate().toString().padStart(2, '0');
+                        const StringDate = `${year}.${month}.${day}`;
+
+                        console.log("물품명 " + rsp.name);
+                        console.log("주문번호 " + customer_id + makeMerchantUid);
+                        console.log("결제금액 " + totalPrice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '원');
+                        console.log("수령장소 : " + /*[[${storage.name}]]*/"");
+                        console.log("주문일시 : " + StringDate);
+
+                        const form1 = document.createElement("form");
+                        form1.action = /*[[@{/customer/ordersuccess1.do}]]*/"";
+                        form1.style.display = "none";
+                        form1.method = "post";
+
+                        const input1 = document.createElement("input");
+                        input1.type = "hidden";
+                        input1.name = "_csrf";
+                        input1.value = /*[[${_csrf.token}]]*/"";
+
+                        const input2 = document.createElement("input");
+                        input2.type = "hidden";
+                        input2.name = "itemname";
+                        input2.value = rsp.name;
+
+                        const input3 = document.createElement("input");
+                        input3.type = "hidden";
+                        input3.name = "orderno";
+                        input3.value = customer_id + makeMerchantUid;
+
+                        const input4 = document.createElement("input");
+                        input4.type = "hidden";
+                        input4.name = "totalprice";
+                        input4.value = totalPrice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",") +'원';
+
+                        const input5 = document.createElement("input");
+                        input5.type = "hidden";
+                        input5.name = "storagename";
+                        input5.value = /*[[${storage.name}]]*/"";
+
+                        const input6 = document.createElement("input");
+                        input6.type = "hidden";
+                        input6.name = "orderdate";
+                        input6.value = StringDate;
+
+                        const input7 = document.createElement("input");
+                        input7.type = "hidden";
+                        input7.name = "purchaseno";
+                        input7.value = data.purchaseno;
+
+                        form1.appendChild(input1);
+                        form1.appendChild(input2);
+                        form1.appendChild(input3);
+                        form1.appendChild(input4);
+                        form1.appendChild(input5);
+                        form1.appendChild(input6);
+                        form1.appendChild(input7);
+
+                        document.body.appendChild(form1);
+
+                        form1.submit();
+
+                        // location.replace(/*[[@{/customer/ordersuccess.do}]]*/"");
                     } else {
                         // 실패하면 에러 페이지 띄워
                         location.replace(/*[[@{/error}]]*/"");
