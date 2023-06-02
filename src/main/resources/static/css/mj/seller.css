@@ -438,6 +438,11 @@ main h3 {
     --bs-pagination-color:#0f4a7b;
 }
 
+/* 테이블 상단 'n개씩 보기'셀렉박스 안보이게 */
+.datatable-dropdown > label {
+    display: none;
+}
+
 
 /* input[type="file" i] {
     appearance: none;

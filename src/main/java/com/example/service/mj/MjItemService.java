@@ -14,6 +14,9 @@ import com.example.entity.mj.ItemCategoryView;
 @Service
 public interface MjItemService {
     
+    /** 물품 등록 */
+    public Item saveItem(Item obj);
+
     /** 물품번호에 대한 물품 정보 가져오기 */
     public Item findByItemNo(BigDecimal no);
 

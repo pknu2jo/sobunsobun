@@ -15,6 +15,7 @@ import com.example.entity.Item;
 import com.example.repository.jk.JkSellerRepository;
 import com.example.repository.mj.ItemImageRepository;
 import com.example.repository.mj.ItemRepository;
+import com.example.service.mj.MjItemService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,8 @@ public class MjRestItemController {
     final ItemRepository iRepository;
     final ItemImageRepository imageRepository;
     final JkSellerRepository sellerRepository;
+
+    final MjItemService itemService;
     
     // 물품 등록
     @PostMapping(value = "/insertitem.json")
@@ -36,7 +39,7 @@ public class MjRestItemController {
         try {
 
             log.info("item=>{}", item.toString());
-            Item ret = iRepository.save(item);
+            Item ret = itemService.saveItem(item);
             
             retMap.put("itemno", ret.getNo());
             retMap.put("result1", ret);

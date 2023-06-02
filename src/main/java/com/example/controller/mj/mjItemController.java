@@ -84,9 +84,6 @@ public class mjItemController {
         }
     }
 
-    
-
-
 
     @SuppressWarnings("unchecked") // 경고 제외
     @GetMapping(value = "/item/updateitem.do")

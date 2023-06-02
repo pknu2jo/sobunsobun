@@ -22,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class MjItemServiceImpl implements MjItemService {
+    
     final ItemCategoryViewRepository icViewRepository;
     final ItemRepository iRepository;
     final LcateRepository lRepository;
@@ -29,6 +30,16 @@ public class MjItemServiceImpl implements MjItemService {
     final ScateRepository sRepository;
     final mjItemMapper iMapper;
 
+    /** 물품 등록 */
+    @Override
+    public Item saveItem(Item obj) {
+        try {
+            return iRepository.save(obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     // /** 물품 일괄수정 */
     // @Override
     // public List<Item> findByNo(BigDecimal no) {
@@ -167,6 +178,7 @@ public class MjItemServiceImpl implements MjItemService {
             return null;
         }
     }
+
 
     
 
