@@ -43,4 +43,8 @@ public class PurchaseOrderEntity {
 
     @OneToOne(mappedBy = "purchaseOrderEntity")
     private ReviewEntity reviewEntity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEMID", referencedColumnName = "ID")
+    private CustomerEntity customerEntity;
 }

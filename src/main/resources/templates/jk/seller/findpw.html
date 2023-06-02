@@ -73,7 +73,7 @@
     <!-- axios -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    
+
 
     <script th:inline="javascript">
 
@@ -130,13 +130,29 @@
         }
 
         async function findPwsubmit() {
-            if (document.getElementById("id").value == "") {
+            var sellerId = document.getElementById("id");
+            var sellerEmail = document.getElementById("email");
+
+            // @GetMapping 방식
+            // 기능함수 앞에 async 붙여야 함!
+            let url = /*[[@{/api/sellercheckemail.json}]]*/"";
+            url += `?id=${sellerId.value}&email=${sellerEmail.value}`
+
+            const headers = { "Content-Type": "application/json" };
+            const { data } = await axios.get(url, { headers: headers });
+            console.log('반환되는 결과', data);
+
+            if (sellerId.value == "") {
                 alert("사업자번호를 입력해주세요.");
                 return false;
             }
-            if (document.getElementById("email").value == "") {
+            if (sellerEmail.value == "") {
                 alert("이메일을 입력해주세요.");
                 return false;
+            }
+            if (data.chk != 1) {
+                alert("이메일 주소가 일치하지 않습니다.");
+                return false
             }
             else {
                 document.findpw.submit();

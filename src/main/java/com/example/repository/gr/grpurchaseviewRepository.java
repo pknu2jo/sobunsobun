@@ -13,4 +13,5 @@ public interface grpurchaseviewRepository extends JpaRepository<grpurchaseview, 
 
     // 내가 주문한 상품 목록
     List<grpurchaseview> findByMemid(String id);
+
 }

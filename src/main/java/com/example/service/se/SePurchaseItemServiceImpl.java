@@ -103,6 +103,17 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
        }
     }
 
+    // 물품목록 - 검색어 - 전체 개수 (페이지네이션용)
+    @Override
+    public long selectSearchItemCnt(SeSelectItemListView obj) {
+        try {
+        return piMapper.selectSearchItemCnt(obj);
+       } catch (Exception e) {
+            e.printStackTrace();
+            return 0L;
+       }
+    }
+
     // 물품목록 - 소분류
     @Override
     public List<SeSelectItemListView> selectScodeItem(SeSelectItemListView obj) {
@@ -125,6 +136,17 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
         }
     }
 
+    // 물품목록 - 소분류 - 전체 개수 (페이지네이션용)
+    @Override
+    public long selectScodeItemCnt(SeSelectItemListView obj) {
+        try {
+            return piMapper.selectScodeItemCnt(obj);
+        } catch (Exception e) {
+             e.printStackTrace();
+             return 0L;
+        }
+    }
+
     // 물품이 현재 공구 중인지 확인
     @Override
     public long selectPurchaseChk(long itemno) {
@@ -135,6 +157,9 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
              return 0L;
         }
     }
+
+
+
 
 
     

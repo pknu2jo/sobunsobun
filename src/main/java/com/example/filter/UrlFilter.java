@@ -31,7 +31,7 @@ public class UrlFilter extends OncePerRequestFilter {
             String path = request.getServletPath();         // path == /api/student2/update.json
             String query = request.getQueryString();        //  query  == id=a
 
-            log.info("왜 query 안찍혀.. {}, {}, {}", contextPath, path, query);
+            // log.info("왜 query 안찍혀.. {}, {}, {}", contextPath, path, query);
 
             // url에 login, logout이 포함되지 않는 경우에만 보관
             // 다른 경우가 또 뭐가있지..?
@@ -46,6 +46,8 @@ public class UrlFilter extends OncePerRequestFilter {
                     log.info("UrlFilter 동작 => {}", contextPath+path+"?"+query);
                     httpSession.setAttribute("url", path + "?" + query);
                 }
+                // log.info("urlFilter 확인 => {}", httpSession.getAttribute("url"));
+                // log.info("request 확인하기 => {}", request.getMethod());
             }
 
             filterChain.doFilter(request, response); // controller 정상 진입

@@ -28,6 +28,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         String backUrl = (String) httpSession.getAttribute("url");
 
         response.sendRedirect(request.getContextPath() + backUrl);
+        // response.sendRedirect(request.getContextPath() + "/customer/home.do");
     }
 
    

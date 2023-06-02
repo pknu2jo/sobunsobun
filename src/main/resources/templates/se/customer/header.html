@@ -64,26 +64,26 @@
         .logoutBtn {
             border: 0;
             background-color: transparent;
-            color: #dddddd;
+            color: #204710;
         }
 
         .logoutBtn:hover {
-            color: #fff;
+            color: #6d9275;
         }
 
         .myPage a {
             font-size: 15px;
-            color: #dddddd;
+            color: #204710;
         }
         .myPage a:hover{
-            color: #fff;
+            color: #6d9275;
         }
 
         /* a태그 hover 시 밑줄 효과 */
         .myPage a:after {
             display:block;
             content: '';
-            border-bottom: solid 1px #dddddd;  
+            border-bottom: solid 1px #6d9275;  
             transform: scaleX(0);  
             transition: transform 250ms ease-in-out;
         }
@@ -106,7 +106,7 @@
         }
 
         .hamburger div {
-            background-color: #dddddd;
+            background-color: #204710;
             position: relative;
             width: 40px;
             height: 1px;
@@ -242,6 +242,37 @@
             background: rgba(33, 122, 244, .1);  /*스크롤바 뒷 배경 색상*/
         }
 
+        /* 알림버튼 */
+        .notiBtn {
+            position: relative;
+            border: 0;
+            background-color: transparent;
+            padding: 0;
+            margin-left: 8px;
+        }
+
+        .notiAction {
+            width: 48px;
+            height: 48px;
+            background-color: rgba(105, 146, 120, 0.8);
+            border-radius: 24px;
+        }
+
+        .notiAction1 {
+            position: absolute;
+            width: 7px;
+            height: 7px;
+            border-radius: 3.5px;
+            left: 30px;
+            top: -2px;
+            background-color: #ff0000;
+            box-shadow:  0 .125rem .25rem rgba(0, 0, 0, .075);
+            display: none;
+        }
+
+        .notiBtn svg {
+        }
+
         </style>
     </th:block>
 </head>
@@ -249,7 +280,7 @@
 <th:block th:fragment="headerHTML">
     <div class="headerAll">
         <!-- 헤더 -->
-        <header class="container-fluid header1" th:style="'background-image:url('+ @{/images/se/header1image.png} +');'">
+        <header class="container-fluid header1" th:style="'background-image:url('+ @{/images/se/testheader6.png} +');'">
             <div class="row p-5">
                 <div class="col-4 navbar-toggler d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false">
                     <input onclick="cateAction()" id="toggle" type="checkbox" />
@@ -258,6 +289,9 @@
                     <div class="middle"></div>
                     <div class="bottom"></div>
                     </label>
+                    <th:block th:if="${user} != null">
+                        
+                    </th:block>
                 </div>
                 <div class="col-4">
                     <div class="row">
@@ -266,21 +300,26 @@
                         </a>
                     </div>
                     <div class="row mt-1">
-                        <span class="d-flex justify-content-center align-items-center" style="color: #6d9275;"><b>새로운 1인 가구 공구 문화</b></span>
+                        <span class="d-flex justify-content-center align-items-center" style="color: #204710;"><b>새로운 1인 가구 공구 문화</b></span>
                     </div>
                 </div>
                 
                 <div class="myPage col d-flex align-items-center flex-row-reverse">
                     <div class="row d-flex justify-content-end">
                         <th:block th:if="${user} != null">
-                            <div class="col-auto">
+                            <div class="col-auto d-flex align-items-center">
                                 <button type="button" class="logoutBtn" th:onclick="logoutAction([[${user.username}]])">로그아웃</button>
                             </div>
                             <div class="col-auto">
-                                <a th:href="@{/customer/mypage.do}">
+                                <a th:href="@{/customer/mypage.do}" style="display: inline-block;">
                                     마이페이지
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="fill: #dddddd;"><path d="M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"></path></svg>
+                                    <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="fill: #204710;"><path d="M10.561 8.073a6.005 6.005 0 0 1 3.432 5.142.75.75 0 1 1-1.498.07 4.5 4.5 0 0 0-8.99 0 .75.75 0 0 1-1.498-.07 6.004 6.004 0 0 1 3.431-5.142 3.999 3.999 0 1 1 5.123 0ZM10.5 5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"></path></svg> -->
                                 </a>
+                                <!-- 알림 -->
+                                <button type="button" class="notiBtn" id="notiBtn">
+                                    <div class="notiAction1"></div>
+                                    <svg class="mx-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="fill: #204710;"><path d="M8 16a2 2 0 0 0 1.985-1.75c.017-.137-.097-.25-.235-.25h-3.5c-.138 0-.252.113-.235.25A2 2 0 0 0 8 16ZM3 5a5 5 0 0 1 10 0v2.947c0 .05.015.098.042.139l1.703 2.555A1.519 1.519 0 0 1 13.482 13H2.518a1.516 1.516 0 0 1-1.263-2.36l1.703-2.554A.255.255 0 0 0 3 7.947Zm5-3.5A3.5 3.5 0 0 0 4.5 5v2.947c0 .346-.102.683-.294.97l-1.703 2.556a.017.017 0 0 0-.003.01l.001.006c0 .002.002.004.004.006l.006.004.007.001h10.964l.007-.001.006-.004.004-.006.001-.007a.017.017 0 0 0-.003-.01l-1.703-2.554a1.745 1.745 0 0 1-.294-.97V5A3.5 3.5 0 0 0 8 1.5Z"></path></svg>
+                                </button>
                             </div>
                         </th:block>
                         <th:block th:if="${user} == null">
@@ -289,7 +328,7 @@
                             </div>
                             <div class="col-auto">
                                 <a th:href="@{/customer/join.do}" style="display: inline-block;">회원가입</a>
-                                <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg enable-background="new 0 0 32 32" height="16px" id="Layer_1" version="1.1" viewBox="0 0 32 32" width="16px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="fill: #dddddd;"><g><polyline fill="none" points="   649,137.999 675,137.999 675,155.999 661,155.999  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><polyline fill="none" points="   653,155.999 649,155.999 649,141.999  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><polyline fill="none" points="   661,156 653,162 653,156  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/></g><path d="M29.7,2.767C29.593,2.317,29.189,2,28.728,2c-0.002,0-0.004,0-0.006,0c-5.267,0.033-18.075,0.916-23.246,8.38  c-2.686,3.878-2.917,8.913-0.687,14.965c0.017,0.047,0.052,0.079,0.075,0.122C4.067,27.44,3.758,28.753,3.75,28.79  c-0.116,0.54,0.229,1.072,0.769,1.188C4.589,29.993,4.659,30,4.729,30c0.461,0,0.876-0.321,0.977-0.79  c0.021-0.102,2.569-10.373,11.577-16.378c0.46-0.306,0.584-0.927,0.277-1.387s-0.927-0.585-1.387-0.277  c-5.108,3.405-8.254,8.008-10.104,11.656c-1.324-4.578-0.977-8.377,1.052-11.305c3.993-5.764,13.464-7.154,19.181-7.448  C25.072,5.872,23.728,9.174,23.728,15c0,3.12-0.885,5.522-2.629,7.14c-2.796,2.591-7.338,2.834-10.66,2.584  c-0.552-0.045-1.031,0.371-1.073,0.922c-0.042,0.55,0.371,1.03,0.921,1.072c0.665,0.051,1.375,0.082,2.113,0.082  c3.382,0,7.327-0.663,10.058-3.194c2.17-2.011,3.27-4.906,3.27-8.605c0-9.099,3.43-11.096,3.447-11.105  C29.591,3.687,29.809,3.219,29.7,2.767z"/></svg>
+                                <?xml version="1.0" ?><!DOCTYPE svg  PUBLIC '-//W3C//DTD SVG 1.1//EN'  'http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd'><svg enable-background="new 0 0 32 32" height="16px" id="Layer_1" version="1.1" viewBox="0 0 32 32" width="16px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="fill: #204710;"><g><polyline fill="none" points="   649,137.999 675,137.999 675,155.999 661,155.999  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><polyline fill="none" points="   653,155.999 649,155.999 649,141.999  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/><polyline fill="none" points="   661,156 653,162 653,156  " stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/></g><path d="M29.7,2.767C29.593,2.317,29.189,2,28.728,2c-0.002,0-0.004,0-0.006,0c-5.267,0.033-18.075,0.916-23.246,8.38  c-2.686,3.878-2.917,8.913-0.687,14.965c0.017,0.047,0.052,0.079,0.075,0.122C4.067,27.44,3.758,28.753,3.75,28.79  c-0.116,0.54,0.229,1.072,0.769,1.188C4.589,29.993,4.659,30,4.729,30c0.461,0,0.876-0.321,0.977-0.79  c0.021-0.102,2.569-10.373,11.577-16.378c0.46-0.306,0.584-0.927,0.277-1.387s-0.927-0.585-1.387-0.277  c-5.108,3.405-8.254,8.008-10.104,11.656c-1.324-4.578-0.977-8.377,1.052-11.305c3.993-5.764,13.464-7.154,19.181-7.448  C25.072,5.872,23.728,9.174,23.728,15c0,3.12-0.885,5.522-2.629,7.14c-2.796,2.591-7.338,2.834-10.66,2.584  c-0.552-0.045-1.031,0.371-1.073,0.922c-0.042,0.55,0.371,1.03,0.921,1.072c0.665,0.051,1.375,0.082,2.113,0.082  c3.382,0,7.327-0.663,10.058-3.194c2.17-2.011,3.27-4.906,3.27-8.605c0-9.099,3.43-11.096,3.447-11.105  C29.591,3.687,29.809,3.219,29.7,2.767z"/></svg>
                             </div>
                         </th:block>
                     </div>
@@ -441,6 +480,23 @@
             logoutform.submit();
         }
         
+
+        // 알림기능 ----------------------------------------------------------------------------------
+        var user = /*[[${user}]]*/"";
+
+        if(user){
+            // alert(user.username);
+            // const id = user.username;
+            // const eventSource = new EventSource(`/SOBUN/api/sse/notify/subscribe?id=${id}`);
+
+            // eventSource.onmessage = (e) => { // 메시지가 왔을 때
+            //     console.log('onmessage', e.data);
+            //     // document.querySelector('.notiBtn').classList.add('notiAction');
+            //     document.querySelector('.notiAction1').style.display = 'block';
+            // }
+
+        }
+        // 알림기능
     </script>
 
 </th:block>

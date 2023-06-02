@@ -22,146 +22,103 @@
     <!-- Simple DataTable CDN -->
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <!-- CSS -->
-    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/seller.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/mj/seller.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
+    
 </head>
 
 <body class="sb-nav-fixed">
-    <!-- 네비게이션 영역 -->
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-        <!-- Navbar Brand -->
-        <a class="navbar-brand ps-3" href="#">
-            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tools"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M1 0 0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.27 3.27a.997.997 0 0 0 1.414 0l1.586-1.586a.997.997 0 0 0 0-1.414l-3.27-3.27a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0Zm9.646 10.646a.5.5 0 0 1 .708 0l2.914 2.915a.5.5 0 0 1-.707.707l-2.915-2.914a.5.5 0 0 1 0-.708ZM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11Z" />
-                </svg> -->
-            <img src="../images/mj/logo1.png" style="width: 80px;" />
-            <strong>판매자 페이지</strong>
-        </a>
-
-        <!-- SideBar Toggle -->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" type="button">
-            <i class="bi bi-menu-up"></i>
-        </button>
-
-        <!-- serach bar ( 사이드바 토글버튼 우측 고정용 ) -->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-            <div class="input-group">
-                <!-- <input class="form-control" type="text" placeholder="검색어 입력 ..." aria-label="검색어 입력 ..."
-                        aria-describedby="btnSearch">
-                    <button class="btn btn-primary" id="btnSearch" type="submit" type="submit"><i
-                            class="bi bi-search"></i></button> -->
-            </div>
-        </form>
-
-        <!-- Profile 영역 -->
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-            <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" id="profile" href="#" role="button"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="profile">
-                    <li><a class="dropdown-item" href="#!">계정 설정</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
-                    <li><a class="dropdown-item" href="#!">로그아웃</a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
+    <!-- header -->
+    <th:block th:replace="~{/jk/seller/header :: headerHTML}"></th:block>
     <!-- 전체화면 영역 -->
     <div id="layoutTotal">
         <!-- 전체화면 > 좌측 메뉴 영역(사이드바) -->
-        <div id="layoutLeftSide">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class="sb-sidenav-menu">
-                    <div class="nav">
-                        
-                        <div class="sb-sidenav-menu-heading">마이페이지</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            내 업체 관리
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
-                            data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="#!">업체정보 수정하기</a>
-                                <a class="nav-link" href="#!">비밀번호 변경</a>
-                                <a class="nav-link" href="#!">탈퇴하기</a>
-                            </nav>
-                        </div>
+        <th:block th:replace="~{/jk/seller/navbar :: navbarHTML}"></th:block>
 
-                        <div class="sb-sidenav-menu-heading">주문배송 조회하기</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#collapseLayouts2" aria-expanded="false" aria-controls="collapseLayouts2">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            주문 & 배송
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts2" aria-labelledby="headingOne"
-                            data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="#!">주문</a>
-                                <a class="nav-link" href="#!">배송</a>
-                            </nav>
-                        </div>
-
-                        <div class="sb-sidenav-menu-heading">물품관리페이지</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                            data-bs-target="#collapseLayouts3" aria-expanded="false" aria-controls="collapseLayouts3">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            물품
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts3" aria-labelledby="headingOne"
-                            data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="@{/seller/item/management.do}">등록</a>
-                                <a class="nav-link" href="#!">관리</a>
-                            </nav>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="sb-sidenav-footer">
-                    <div class="sample">환영합니다, ### 님!</div>
-                </div>
-            </nav>
-        </div>
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
             <main>
-                <div class="container-fluid px-4" style="margin: 10px; padding-top: 20px;"> <!-- 옆쪽에 딱 붙음. -->
-
+                <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
 
                     <h3>물품등록</h3>
+                    <a th:href="@{/seller/item/management.do}"><button class="btn btn-primary">물품리스트</button></a>
                     <hr>
-                    <form th:action="@{/seller/item/insert.do}" method="post">
-                        물품명 : <input type="text" name="name"><br>
-                        가격 : <input type="text" name="price"><br>
-                        수량 : <input type="text" name="quantity"><br>
-                        사업자번호 : <input type="text" name="regNo"><br>
-                        대분류 
-                        소분류 : <input type="text" name="scategoryCode"><br>
-                        <input type="submit" value="등록"><br>
-                    </form>
+                    
+                    
+                        
+                    
+                    <!-- <form th:action="@{/seller/item/insert.do}" method="post"> -->
+                        
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">카테고리</span>
+                            <!-- 대분류 -->
+                            <select class="form-select" aria-label="Default select example" id="LcateSelect" th:field="${cate.Lcode}" onchange="updateMcateSelect()">
+                                <option value="000">대분류</option>
+                                <option th:each="obj : ${cate.Llist}" th:value="${obj.code.longValue()}" th:text="${obj.name}" id="lcategory"></option>
+                            </select>
+                            <!-- 중분류 -->
+                            <select class="form-select" aria-label="Default select example" id="McateSelect" th:field="${cate.Mcode}" onchange="updateScateSelect()">
+                                <option value="000">중분류</option>
+                                <option th:each="obj1 : ${cate.Mlist}" th:value="${obj1.code.longValue()}" th:text="${obj1.name}" id="mcategory"></option>
+                                <!-- <option value="">-- Select Middle Category --</option> -->
+                            </select>
+                            <!-- 소분류 -->
+                            <select class="form-select" aria-label="Default select example" name="scategoryCode" id="ScateSelect" th:field="${cate.Scode}" onchange="updateUrl()">
+                                <option value="000">소분류</option>
+                                <option th:each="obj2 : ${cate.Slist}" th:value="${obj2.code.longValue()}" th:text="${obj2.name}" id="scategory"></option>
+                                <!-- <option value="">-- Select Small Category --</option> -->
+                            </select><br>
+                        </div>
+                        <!-- 소분류코드 파라미터전달받기 hidden-->
+                        <input type="hidden" name="scategoryCode" id="scode" th:value = ${param.scate} />
+                        
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">물품명</span>
+                            <input type="text" name="name" class="form-control" id="name" aria-label="Itemname" aria-describedby="basic-addon1" onkeydown="insertname(this)">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">가격</span>
+                            <input type="number" name="price" class="form-control" id="price" aria-label="Itemname" aria-describedby="basic-addon1" onkeydown="insertname(this)">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">수량</span>
+                            <input type="number" name="quantity" class="form-control" id="quantity" aria-label="Itemname" aria-describedby="basic-addon1" onkeydown="insertname(this)">
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1">사업자번호</span>
+                            <input type="number" name="regNo" class="form-control" id="regNo" aria-label="Itemname" aria-describedby="basic-addon1" onkeydown="insertname(this)">
+                        </div>
+                        <!-- ==================================== -->
+                        <!-- <input type="text" th:value="${ret.no}" id="itemno"> -->
+                        <button type="button" class="btn btn-primary" id="insertbtn"  onclick="insertitem()">등록</button>
+                        <!-- </form> -->
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록완료</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="tomanagement1"></button>
+                            </div>
+                            <div class="modal-body">
+                                물품이 등록되었습니다. 이미지를 등록하시겠습니까?
+                            </div>
+                            <div class="modal-footer">
+                            <button type="submit" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="tomanagement">아니요. 물품 추가등록할래요.... </button>
+                            <button type="submit" class="btn btn-dark" id="insertimage" onclick="insertimage()">네</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    
+                    
 
 
                 </div>
             </main>
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid py-5">
-                    <div class="d-flex justify-content-between align-items-center small">
-                        <div class="text-muted">Copyright &copy; PKNU 2023.</div>
-                        <div>
-                            <a href="#!">Privacy Policy</a> &middot; <a href="#!">Terms</a> &amp; <a
-                                href="#!">Conditions</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            <!-- footer -->
+            <th:block th:replace="~{/jk/seller/footer :: footerHTML}"></th:block>
         </div>
     </div>
 
@@ -186,6 +143,7 @@
         integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -205,10 +163,143 @@
             new simpleDatatables.DataTable("#datatablesSimple", {
                 searchable: true,
                 fixedHeight: true,
-
+                
             })
         });
-    </script>
+        </script>
+
+<script th:inline="javascript">
+    let isScodeSelected = false;
+
+    function updateMcateSelect() {
+        const code = document.getElementById("LcateSelect").value;
+        console.log(code);
+        window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}`;
+    }
+
+    function updateScateSelect() {
+        const code = document.getElementById("LcateSelect").value;
+        const mcode = document.getElementById("McateSelect").value;
+        console.log(code);
+        console.log(mcode);
+        window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}`;
+    }
+
+    function updateUrl() {
+        const code = document.getElementById("LcateSelect").value;
+        const mcode = document.getElementById("McateSelect").value;
+        const scode = document.getElementById("ScateSelect").value;
+        console.log(code);
+        console.log(mcode);
+        console.log(scode);
+        window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
+        isScodeSelected = true; 
+    }
+    
+
+    async function insertname() {
+        const ScateSelect = document.getElementById("ScateSelect");
+        let url = /*[[@{/api/seller/scodechk.json}]]*/"";
+        console.log(url);
+        url += "?scode=" + ScateSelect.value;
+        const headers = {"Content-Type":"application/json"};
+        const { data } = await axios.get(url, { headers:headers });
+        console.log(data.result);
+        if(data.result === 0){
+            alert('카테고리를 선택해주세요.');
+        }else if(data.result === 1){
+            return false;
+        }
+
+    }
+
+    async function insertitem() {
+
+        const scategory = document.getElementById("scategory");
+        const mcategory = document.getElementById("mcategory");
+        const lcategory = document.getElementById("lcategory");
+        const name = document.getElementById("name");
+        const scode = document.getElementById("scode");
+        console.log(name);
+        const price = document.getElementById("price");
+        const quantity = document.getElementById("quantity");
+        const regNo = document.getElementById("regNo");
+
+        
+
+        if (name.value.trim() === "") {
+            alert("물품명을 입력해주세요.")
+            name.focus();
+
+            return false;
+        }
+        if (price.value.trim() === "") {
+            alert("가격을 입력해주세요.")
+            price.focus();
+
+            return false;
+        }
+        if (quantity.value.trim() === "") {
+            alert("수량을 입력해주세요.")
+            quantity.focus();
+
+            return false;
+        }
+        if (regNo.value.trim() === "") {
+            alert("사업자번호를 입력해주세요.")
+            regNo.focus();
+
+            return false;
+        }
+
+        const url = /*[[@{/api/seller/insertitem.json}]]*/"";
+        console.log(url);
+        const headers = {"Content-Type":"application/json"};
+        const body = {name : name.value, price : price.value, quantity : quantity.value, regNo : regNo.value, scategoryCode : {code : scategory.value}};
+        const { data } = await axios.post(url, body, { headers:headers });
+        
+        console.log(data.result1);
+        console.log(data.result);
+        console.log(data.itemno);
+        // if(data.result != null){}
+        if(data.result == 1){
+            $('#modal').modal('show');
+            // 모달창에서 네 클릭시 새로등록한 물품번호를 받아 /seller/itemimage/selectlist.do?no=159 로 이동
+            document.getElementById('insertimage').addEventListener("click", clickFunction);
+            function clickFunction() {
+                window.location.href = `/SOBUN/seller/itemimage/selectlist.do?no=` + data.itemno;
+            }
+    
+            document.getElementById('tomanagement').addEventListener("click", clickFunction1);
+            function clickFunction1() {
+                window.location.href = `/SOBUN/seller/item/management.do`;
+            }
+
+            document.getElementById('tomanagement1').addEventListener("click", clickFunction2);
+            function clickFunction2() {
+                window.location.href = `/SOBUN/seller/item/insert.do`;
+            }
+        }
+    }
+</script>
+        
+
+    <!-- <script>
+        document.getElementById("insertitem").addEventListener("click", clickFunction);
+
+        function clickFunction(){
+            if(!confirm('물품등록이 완료되었습니다. 이미지를 등록하시겠습니까?')){
+                    // 아니요(취소)
+                    window.location.href = `/SOBUN/seller/item/management.do`;
+                    
+                }
+                else{
+                    // 확인(이미지등록 페이지로 이동)
+                    alert('예.이미지등록');
+                    window.location.href = `/SOBUN/seller/item/updateimage.do`;
+                }
+        }
+    </script> -->
 
 </body>
 

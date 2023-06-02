@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,23 +38,23 @@ public class Item {
 
     @Column(name = "NAME")
     private String name;
-    
+
     @Column(name = "PRICE")
     private BigDecimal price;
-    
+
     @Column(name = "QUANTITY")
     private BigDecimal quantity;
-    
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @CreationTimestamp
     @Column(name = "REGDATE", updatable = false)
     private Date regdate;
-    
+
     @Column(name = "REGNO")
     private String regNo;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SCATEGORYCODE", referencedColumnName = "CODE")
+    @JoinColumn(name = "SCATEGORYCODE", referencedColumnName = "CODE")
     private Scategory scategoryCode;
 
     @ToString.Exclude
@@ -63,4 +64,12 @@ public class Item {
     @ToString.Exclude
     @OneToMany(mappedBy = "itemEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     List<ReviewEntity> reviewList = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "itemEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    List<JjimEntity> jjimList = new ArrayList<>();
+
+    @Transient // 임시변수 == 컬럼이 생성되지 않는다. mybatis dto 개념과 같음
+    private String imageUrl;
+
 }

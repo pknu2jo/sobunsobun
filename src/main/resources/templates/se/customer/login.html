@@ -16,6 +16,123 @@
     <!-- axios (https://cdnjs.com/libraries/axios) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <style>
+        /* 언니짱 */
+         ul{
+            list-style: none;
+         }
+
+         /* 마이페이지 글자 */
+         .myPageHeader{
+            padding-top: 20px;
+            text-align: center;
+         }
+         
+         .myPageHeader .title{
+            text-decoration: none;
+            font-weight: lighter;
+            color: black;
+            font-size: 40px;
+            text-align: center;
+         }
+
+         .myPageHeader .semi-title{
+            text-decoration: none;
+            color: black;
+         }
+
+         .myPageHeader .semi-title li{
+            text-align: center;
+         }
+
+         #semi-titlebox{
+            width: 100%;
+            text-align: center;
+         }
+
+
+         /* 마이페이지 메뉴 */
+         #semi-titlebox{
+            list-style: none;
+         }
+
+         #submenu {
+            margin-bottom: 60px;
+         }
+
+         #submenu .submenu-header{
+            width: 100%;
+            min-width: 1240px;
+            height: 45px;
+            background-color: #e9eeea;
+            border-top: 1px solid #D0DFD3;
+            border-bottom: 1px solid #D0DFD3;
+         }
+
+         #submenu .submenu-header ul{
+            /* width: 622px; */
+            margin-left: 0;
+            padding-left: 0;
+         }
+
+         #submenu .submenu-header ul li:first-child{
+            width: 210px;
+         }
+
+         #submenu .submenu-header ul li{
+            list-style-type: none;
+            width: 206px;
+            text-align: center;
+            float: left;
+            position: relative;
+            line-height: 45px;
+            display: list-item;
+         }
+
+         #submenu .submenu-header ul li.active{
+            background-color: #6D9275;
+         }
+
+         #submenu .submenu-header ul li.active a{
+            color: #fff;
+         }
+
+         #submenu .submenu-header ul li a{
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            vertical-align: middle; 
+            font-weight: normal;
+        }
+        /* 언니짱 */
+
+
+        .loginInput {
+            margin-bottom: 15px;
+            padding: 0 10px 0 10px;
+            width: 400px;
+            height: 35px;
+            outline: none;
+        }
+
+        .loginBtn {
+            background-color: #6D9275;
+            color: white;
+            border: none;
+        }
+
+        .kakaoLoginBtn {
+            margin: 5px 0 0 10px;
+        }
+
+        .endline {
+            margin-top: 60px;
+            width: 1500px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+    </style>
+
 </head>
 
 <body>
@@ -23,29 +140,50 @@
     <th:block th:replace="~{/se/customer/header :: headerHTML}"></th:block>
     
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
-    <div style="padding-bottom: 300px;">
+    <div style="padding-bottom: 400px;">
 
-        <div class="container text-center">
+        <div class="myPageHeader">
+            <a href="/SOBUN/customer/login.do" class="title">LOGIN</a><br/>
 
-            <h3>LOGIN</h3>
-            <div>로그인</div>
-
-            <div class="m-4 p-1" style="background-color: #ccc;">
-                <a th:href="@{/customer/login.do}">로그인</a>
-                <a th:href="@{/customer/findid.do}">아이디찾기</a>
-                <a th:href="@{/customer/findpw.do}">비밀번호찾기</a>
-                <a th:href="@{/customer/join.do}">회원가입</a>
-            </div>
-            
-            <form class="position-relative" th:action="@{/customer/loginaction.do}" method="post" id="loginFrom">
-                <input class="w-25" type="text" name="id" placeholder="아이디" autofocus><br>
-                <input class="w-25 m-1" type="password" name="pw" placeholder="암호"><br>
-                <input class="w-25" type="button" value="로그인" onclick="loginAction()">
-                <a class="position-absolute" id="kakao-login-btn" href="javascript:loginWithKakao()"><img th:src="@{/images/se/kakao_login_button.png}" alt="" style="width: 50px;"></a>                    </div>
-            </form>
+            <ol id="semi-titlebox">
+                <li style="padding-top: 13px; padding-bottom: 20px;">
+                    <a th:href="@{/customer/login.do}" class="semi-title">로그인</a>
+                    &nbsp;&nbsp;>&nbsp;&nbsp;
+                </li>
+            </ol>
         </div>
 
-        
+        <div id="submenu">
+            <div class="submenu-header d-flex justify-content-center">
+                <ul>
+                    <li class="active">
+                        <a th:href="@{/customer/login.do}">로그인</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/customer/findid.do}">아이디찾기</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/customer/findpw.do}">비밀번호찾기</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/customer/join.do}">회원가입</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+            
+        <div class="container text-center">
+            <form class="position-relative" th:action="@{/customer/loginaction.do}" method="post" id="loginFrom">
+                <input class="loginInput" type="text" name="id" placeholder="아이디" autofocus><br>
+                <input class="loginInput" type="password" name="pw" placeholder="암호"><br>
+                <input class="loginInput loginBtn" type="button" value="로그인" onclick="loginAction()">
+                <a class="position-absolute kakaoLoginBtn" id="kakao-login-btn" href="javascript:loginWithKakao()"><img th:src="@{/images/se/kakao_login_button.png}" alt="" style="width: 30px;"></a>                    </div>
+            </form>
+            <div class="d-flex justify-content-center">
+                <div class="endline"></div>
+            </div>
+        </div>
+
 
     </div>
 

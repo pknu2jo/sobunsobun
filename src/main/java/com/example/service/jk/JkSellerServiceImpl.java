@@ -1,12 +1,8 @@
 package com.example.service.jk;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.stereotype.Service;
 
 import com.example.dto.Seller;
-import com.example.entity.SellerEntity;
 import com.example.mapper.jk.SellerMapper;
 import com.example.repository.jk.JkSellerRepository;
 

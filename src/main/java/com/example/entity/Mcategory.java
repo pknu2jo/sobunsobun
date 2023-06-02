@@ -15,6 +15,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
+import lombok.ToString;
 @Data
 @Entity
 @Table(name = "MCATEGORY")
@@ -35,6 +36,7 @@ public class Mcategory {
 	private Lcategory lcategoryCode;
 	
 	// 등록일자
+	@ToString.Exclude
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
 	@CreationTimestamp
 	@Column(name="REGDATE", updatable=false)

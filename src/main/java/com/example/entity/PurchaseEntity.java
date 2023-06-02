@@ -70,5 +70,7 @@ public class PurchaseEntity {
     @OneToMany(mappedBy = "purchaseEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     List<PurchaseOrderEntity> purchaseOrderList = new ArrayList<>();
     
-
+    @ToString.Exclude
+    @OneToMany(mappedBy = "purchaseEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    List<PurchaseStatusEntity> purchaseStatusList = new ArrayList<>();
 }

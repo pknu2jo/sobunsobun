@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ public class RestSellerController {
     final JkSellerRepository sRepository;
     final JkMailController mailController;
     String tempCodeChk = null;
+    BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
     // ------------------------ 사업자번호(id) 중복체크 (GET)-------------------------- //
 
@@ -45,6 +47,37 @@ public class RestSellerController {
             retMap.put("chk", -1);
         }
         return retMap;
+    }
+
+    // ------------------------ 로그인 확인 (POST)-------------------------- //
+
+    @PostMapping(value = "/sellerloginchk.json")
+    public Map<String, Object> login(@RequestBody SellerEntity seller) {
+        log.info("Login Chk => {}", seller.toString());
+        Map<String, Object> retMap = new HashMap<>();
+        try {
+            if (checkCredentials(seller.getNo(), seller.getPw()) == true) { // 로그인 성공시
+                // 1 반환
+                retMap.put("chk", 1);
+            } else { // 로그인 실패 시
+                // 0 반환
+                retMap.put("chk", 0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("chk", -1);
+        }
+        return retMap;
+    }
+
+    // DB에 아이디가 있는지를 판단하기 위해서 따로 메소드를 만들었음.
+    private boolean checkCredentials(String no, String pw) {
+        SellerEntity sellerDB = sRepository.findById(no).orElse(null);
+        if (bcpe.matches(pw, sellerDB.getPw())) {
+            return true; // 
+        } else {
+            return false;
+        }
     }
 
     // ------------------------ 이메일 인증코드 발송 (POST)-------------------------- //
@@ -117,7 +150,7 @@ public class RestSellerController {
             // 세션 ID 이용하여 기존암호 받아오기
             SellerEntity sellerOld = sRepository.findById(seller.getNo()).orElse(null);
             log.info("json sellerOld => {}", sellerOld);
-            // 암호화용 객체
+            // 암호화용 객체 (기존 암호와 일치여부 확인)
             BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
             // 암호 대조(확인단계)
@@ -154,6 +187,28 @@ public class RestSellerController {
                 // 비밀번호 불일치시 다시 화면 리턴
                 retMap.put("chk", 0);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("chk", -1);
+        }
+        return retMap;
+    }
+
+    // ------------------------ 비밀번호 찾기 이메일 유효성 검사 (GET) --------------------------
+    // //
+    // 이메일을 조회만 할것이기 때문에 POST가 아닌 GET 메소드로 사용함!
+    @GetMapping(value = "/sellercheckemail.json")
+    public Map<String, Object> checkEmailGET(@RequestParam("id") String id, @RequestParam("email") String email) {
+        log.info("Check Seller Id & Email => {}", id + ", " + email);
+        Map<String, Object> retMap = new HashMap<>();
+        try {
+            SellerEntity ret = sRepository.findByNo(id);
+            if ((ret.getEmail()).equals(email)) {
+                retMap.put("chk", 1);
+            } else {
+                retMap.put("chk", 0);
+            }
+            // 아이디에 해당하는 이메일 갯수 카운트
         } catch (Exception e) {
             e.printStackTrace();
             retMap.put("chk", -1);
