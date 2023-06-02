@@ -150,7 +150,7 @@
                             <div class="card mb-4">
                                 <div class="card-body" style="font-weight: 600;">
                                     <p style="margin: 20px; font-weight: 600; font-size: 26px;">
-                                        <strong>이번 달에
+                                        <strong>
                                             가장 많이 팔린 상품들이에요!</strong>
                                     </p>
                                     <br>
@@ -161,7 +161,7 @@
                                                 <div class="card mb-4">
                                                     <div class="card-header" sty> <!-- header 부분 지우고 내용만 포함해도 됨. -->
                                                         <!-- <i class="fas fa-chart-area me-1"></i> -->
-                                                        이달의 HOT Item Top 3
+                                                        HOT Item Top 3
                                                     </div>
                                                     <div class="card-body">
                                                         <canvas id="myBarChart2" width="100%" height="30"></canvas>
@@ -180,8 +180,6 @@
             <!-- footer -->
             <th:block th:replace="~{/jk/seller/footer :: footerHTML}"></th:block>
         </div>
-
-
     </div>
 
     <!-- 6. Bootstrap용 js -->
@@ -195,9 +193,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
         integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <!-- Chart용 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+    <!-- Chart.js용 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 
     <script>
         // // 페이지 로드 시, 저장된 값 확인하여 가이드 숨기기
@@ -228,12 +225,6 @@
         //     localStorage.setItem('hideGuideUntil', midnightTime);
         // });
 
-        
-
-
-
-
-
         $(document).ready(function () {
             const sidebarToggle = $('#sidebarToggle');
             if (sidebarToggle) {
@@ -248,20 +239,33 @@
     </script>
 
     <script th:inline="javascript" type="text/javascript">
-        var arrays = "[[${array}]]";
-        var max = "[[${max}]]";
+        var list = /*[[${list}]]*/"";
+        
+        console.log(list);        
+
+        var xdata = [0,0,0];
+        var ydata = ['없음','없음','없음'];
+        
+        for(var i = 0; i < list.length; i++){            
+            ydata[i]= list[i].itemname;
+            if (list[i].itemname.length >= 7){
+                ydata[i] = list[i].itemname.slice(0, 4) + '..';                
+            }
+            xdata[i]=list[i].count;
+        }
+        console.log(ydata);
+        console.log(xdata);
 
         var ctx = document.getElementById("myBarChart2");
         var myLineChart = new Chart(ctx, {
             type: 'horizontalBar',
             data: {
-                labels: ["중구", "서구", "동구", "영도구", "진구", "동래구", "남구", "북구", "해운대구", "사하구", "금정구", "강서구", "연제구", "수영구", "사상구"],
+                labels: [ydata[0], ydata[1], ydata[2]],
                 datasets: [{
                     label: "Headcount",
                     backgroundColor: "rgba(2,117,216,0.5)",
                     borderColor: "rgba(2,117,216,1)",
-                    data: [arrays[1], arrays[3], arrays[5], arrays[7], arrays[9], arrays[11], arrays[13], arrays[15], arrays[17]
-                        , arrays[19], arrays[21], arrays[23], arrays[25], arrays[27], arrays[29]],
+                    data: [xdata[0], xdata[1], xdata[2]],
                 }],
             },
             options: {
@@ -276,15 +280,15 @@
                             display: false
                         },
                         ticks: {
-                            maxTicksLimit: 15
+                            maxTicksLimit: 3
                         }
                     }],
                     xAxes: [{
                         ticks: {
                             beginAtZero: true,
                             min: 0,
-                            max: Number(max),
-                            maxTicksLimit: Number(max)
+                            max: xdata[0],
+                            maxTicksLimit: xdata[0]
                         },
                         gridLines: {
                             display: true
@@ -296,6 +300,7 @@
                 }
             }
         });
+
     </script>
 </body>
 

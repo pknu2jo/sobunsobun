@@ -88,7 +88,6 @@ public class IkhItemController {
 
             // 상세정보로 가기 위한 리스트 추출
             List<TotaltableView> tlist = tvRepository.findByNo(seller.getNo());
-
             model.addAttribute("tlist", tlist);
             /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
