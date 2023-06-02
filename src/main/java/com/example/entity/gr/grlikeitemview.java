@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.data.annotation.Immutable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -42,4 +43,6 @@ public class grlikeitemview {
     @Column(name = "QUANTITY")
     private BigDecimal quantity;
 
+    @Transient // 임시변수 == 컬럼이 생성되지 않는다. Mybatis dto 개념
+    private long state; // 찜 상태 ( 찜 안되어있다? => 0, 찜 되어있다 => 1)
 }

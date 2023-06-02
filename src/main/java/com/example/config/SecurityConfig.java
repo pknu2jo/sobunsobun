@@ -96,7 +96,7 @@ public class SecurityConfig {
                                                 "/customer/notitest.do",
                                                 "/customer/kmtest.do", "/customer/image", "/customer/item/selectone.do",
                                                 "/customer/kmreviewimage",
-                                                "/admin/home.do")
+                                                "/admin/home.do", "/admin/login.do")
                                 .permitAll()
                                 .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do",
                                                 "/seller/home.do",

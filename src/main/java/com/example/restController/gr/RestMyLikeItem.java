@@ -42,25 +42,20 @@ public class RestMyLikeItem {
                 grRepository.deleteByCustomerEntity_idAndItemEntity_no(map.get("id").toString(),
                         BigDecimal.valueOf(Long.parseLong(map.get("itemno").toString())));
                 retMap.put("result", 1);
+                retMap.put("jjimstate", 1);
 
             } else {
-                log.info("skdhkskdhk=>{}", jjimEntity.toString());
                 CustomerEntity cEntity = new CustomerEntity();
                 cEntity.setId(map.get("id").toString());
                 jjimEntity.setCustomerEntity(cEntity);
 
-                // jjimEntity.getCustomerEntity().setId((map.get("id").toString()));
-                // log.info("skdhkskdhk=>{}", jjimEntity.getCustomerEntity().getId());
-
                 Item iEntity = new Item();
                 iEntity.setNo(BigDecimal.valueOf(Long.parseLong(map.get("itemno").toString())));
-
-                // jjimEntity.getItemEntity().setNo(BigDecimal.valueOf(Long.parseLong(map.get("itemno").toString())));
                 jjimEntity.setItemEntity(iEntity);
 
-                log.info("dkdkdk => {}", jjimEntity.toString());
                 grRepository.save(jjimEntity);
                 retMap.put("result", 1);
+                retMap.put("jjimstate", 0);
             }
 
         } catch (Exception e) {
@@ -71,4 +66,3 @@ public class RestMyLikeItem {
     }
 
 }
-//
