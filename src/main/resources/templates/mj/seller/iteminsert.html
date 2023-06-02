@@ -24,7 +24,7 @@
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/mj/seller.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
-    <link rel="icon" th:href="@{/images/jk/sobun_seller.ico}">
+    <link rel="icon" th:href="@{/images/jk/sobunseller.ico}">
 </head>
 
 <body class="sb-nav-fixed">
@@ -39,9 +39,11 @@
         <div id="layoutContent">
             <main>
                 <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
-
-                    <h3>물품등록</h3>
-                    <a th:href="@{/seller/item/management.do}"><button class="btn btn-primary">물품리스트</button></a>
+                    <div>
+                        
+                        <h3 style="float: left;">물품등록</h3>
+                        <a th:href="@{/seller/item/management.do}"><button class="btn btn-dark"  style="float: right; margin-top: 15px;">물품리스트</button></a>
+                    </div>
                     <hr>
                     <!-- <form th:action="@{/seller/item/insert.do}" method="post"> -->
                         
@@ -86,7 +88,7 @@
                         </div>
                         <!-- ==================================== -->
                         <!-- <input type="text" th:value="${ret.no}" id="itemno"> -->
-                        <button type="button" class="btn btn-primary" id="insertbtn"  onclick="insertitem()">등록</button>
+                        <button type="button" class="btn btn-dark" id="insertbtn"  onclick="insertitem()">등록</button>
                         <!-- </form> -->
                     <!-- Modal -->
                     <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">

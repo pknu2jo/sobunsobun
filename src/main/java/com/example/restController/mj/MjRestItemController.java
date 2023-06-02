@@ -119,6 +119,30 @@ public class MjRestItemController {
         
     }
 
+    // 물품 선택 수정
+    @GetMapping(value="/updateitems.json")
+    public Map<String, Object> updateitemsGET(@RequestParam(name = "itemno")long[] no){
+        Map<String, Object> retMap = new HashMap<>();
+
+        try {
+            if(no==null || no.length == 0){
+                retMap.put("result", 0);
+                retMap.put("message", "수정할 물품이 선택되지 않았습니다.");
+            }
+            else{
+                retMap.put("result", 1);
+                retMap.put("message", "수정할 물품이 선택되었습니다.");
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("result", -1);
+            retMap.put("error", e.getMessage());
+        }
+        return retMap;  
+        
+    }
+
 /*======================================↓↓ 물품이미지 rest ↓↓=========================================== */
     // 물품 대표이미지 1개 등록
     @GetMapping(value = "/insertimageone.json")
