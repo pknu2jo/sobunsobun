@@ -17,9 +17,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 import lombok.ToString;
@@ -59,18 +62,25 @@ public class PurchaseEntity {
     private Date receivedate;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
 	@JoinColumn(name = "DELIVERYNO", referencedColumnName = "NO")
     private DeliveryEntity deliveryEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
 	@JoinColumn(name = "STORAGENO", referencedColumnName = "NO")
     private StorageEntity storageEntity;
 
     @ToString.Exclude
+    @JsonIgnore
     @OneToMany(mappedBy = "purchaseEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     List<PurchaseOrderEntity> purchaseOrderList = new ArrayList<>();
     
     @ToString.Exclude
+    @JsonIgnore
     @OneToMany(mappedBy = "purchaseEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     List<PurchaseStatusEntity> purchaseStatusList = new ArrayList<>();
+
+    @Transient // 임시변수 == 컬럼이 생성되지 않는다. Mybatis dto 개념
+    private List<String> memIdList; // 찜 상태 ( 찜 안되어있다? => 0, 찜 되어있다 => 1)
 }

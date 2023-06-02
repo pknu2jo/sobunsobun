@@ -149,7 +149,7 @@
                                                         <div class="modal-storage">
                                                             <span>수령지점</span>
                                                             <select id="select" name="storageNo">
-                                                                <option value="0" selected>---[필수 입력]---</option>
+                                                                <option value="0" selected>---[필수 선택]---</option>
                                                                 <option th:each="tmp:${storage}" name="storageNo"
                                                                     th:value="${tmp.no}" th:text="${tmp.name}"></option>
                                                             </select>

@@ -26,7 +26,7 @@ public class KmAdminController {
     public String productGET(Model model) {
         try {
             List<StorageEntity> storageList =  adminService.findAllStorage();
-
+            model.addAttribute("storageList", storageList);
 
             return "/km/admin/product";
         } catch (Exception e) {
