@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.Customer;
 import com.example.dto.CustomerUser;
+import com.example.dto.KmOrderSuccess;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
@@ -76,6 +76,7 @@ public class KmCustomerContorller {
 
             // 물품 정보 가져오기
             Map<String, Object> item = customerService.selectOneItem(itemno);
+            // log.info("item check 확인 => {}", item.toString());
             // itemView => {SELLERNAME=LG생활건강, ITEMPRICE=8.97E+4, SCATEGORYNAME=세탁세제, ITEMNO=11,
             //              SCATEGORYCODE=132, MCATEGORYNAME=세제/청소/주방세제, LCATEGORYNAME=생활용품, ITEMNAME=액체형세제 2.8L 6개}
 
@@ -124,10 +125,10 @@ public class KmCustomerContorller {
                 // 리뷰 전체 목록 가져오기
                 // List<ReviewEntity> reviewList = customerService.findByItemEntity_noOrderByNoDesc(no, page);
                 List<ReviewEntity> reviewList = customerService.findByItemEntity_noOrderByNoDesc(no, page);
-                log.info("total count review => {} ", total);
+                // log.info("total count review => {} ", total);
 
                 if ( reviewList != null ) {
-                    log.info("review List 조회1 => {}", reviewList.toString());
+                    // log.info("review List 조회1 => {}", reviewList.toString());
 
                     for(ReviewEntity review : reviewList) {
                         List<KmReviewNoProjection> reviewImgNoList = customerService.selectReviewImageNoList(review.getNo());
@@ -356,12 +357,37 @@ public class KmCustomerContorller {
         }
     }
 
+    // ------------------------------------------------------
+
+    // 세션 저장용
+    @PostMapping(value = "/ordersuccess1.do")
+    public String orderSuccessPOST(@ModelAttribute KmOrderSuccess obj, Model model) {
+        try {
+            httpSession.setAttribute("kmOrderSuccess", obj);
+
+            // log.info("세션에 저장될 ordersuccess => {}", obj.toString());
+            // log.info("세션에 저장한 ordersuccess => {}", httpSession.getAttribute("kmOrderSuccess"));
+
+            return "redirect:/customer/ordersuccess.do";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "redirect:/customer/home.do";
+        }
+    }
 
     @GetMapping(value = "/ordersuccess.do")
     public String orderSuccessGET(Model model,
-                    @AuthenticationPrincipal CustomerUser user) {
+                    @AuthenticationPrincipal CustomerUser user,
+                    HttpServletRequest request) {
         try {
+            // 세션에서 가져오기
+            KmOrderSuccess obj = (KmOrderSuccess) httpSession.getAttribute("kmOrderSuccess");
+
+            // log.info("세션에서 가져오기 => {}", obj.toString());
+            // KmOrderSuccess(itemname=수건 10개, orderno=km060269, totalprice=30,699원, 
+                // storagename=부산강서구점, orderdate=2023.06.02, purchaseno=1073)
             model.addAttribute("user", user);
+            model.addAttribute("ordersuccess", obj);
             return "/km/customer/ordersuccess";
         } catch (Exception e) {
             e.printStackTrace();

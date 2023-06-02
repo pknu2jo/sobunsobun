@@ -215,6 +215,48 @@ ol {
 	color: #666666;
 }
 
+
+
+
+/* select 태그 스타일 */
+#selectEmail {
+	padding: 8px 16px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background-color: #fff;
+	font-size: 14px;
+	width: 200px;
+	height: 50px;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	/* background-image: url("path/to/arrow.png"); */
+	background-position: right center;
+	background-repeat: no-repeat;
+	background-size: 16px;
+	padding-right: 24px;
+	background-position: right 12px center;
+	filter: grayscale(50%);
+  }
+  
+  #selectEmail:focus {
+	outline: none;
+	border-color: #8fbe99;
+	box-shadow: 0 0 5px #8fbe99;
+  }
+  
+  #selectEmail option:checked {
+	background-color: #007bff;
+	color: #fff;
+  }
+  
+  #selectEmail option:hover {
+	background-color: #f2f2f2;
+  }
+
+
+
+
 .checkout__form .checkout__form__input input::-webkit-input-placeholder {
 	color: #666666;
 }
