@@ -148,7 +148,7 @@ public class KmRestCustomerController {
                     }
                 }
             }
-
+            retMap.put("purchaseno", purchaseNo);
         } catch (Exception e) {
             e.printStackTrace();
             retMap.put("result", -1);
