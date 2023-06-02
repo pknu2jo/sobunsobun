@@ -60,7 +60,7 @@ public class KmCustomerContorller {
                                 @AuthenticationPrincipal CustomerUser user,
                                 HttpServletRequest request,
                                 Model model ) {
-        log.info("물품 상세 조회 GET 진입");
+        // log.info("물품 상세 조회 GET 진입");
 
         try {
 
@@ -72,7 +72,7 @@ public class KmCustomerContorller {
 
             long itemno = Long.valueOf(no.toPlainString());
 
-            log.info("user 정보 보기 => {}", user);
+            // log.info("user 정보 보기 => {}", user);
 
             // 물품 정보 가져오기
             Map<String, Object> item = customerService.selectOneItem(itemno);
@@ -81,6 +81,16 @@ public class KmCustomerContorller {
 
             // 상품 번호에 해당하는 이미지 번호
             List<Long> imgList = customerService.selectItemImageNoList(itemno);
+            // log.info("imgList 테스트 => {}", imgList);
+
+            // 찜 여부 가져오기
+            if( user != null) { // 로그인 안된 상태
+                // itemno, id에 해당하는 찜 여부 가져오기
+                int jjim = customerService.checkJjim(user.getUsername(), no);
+                model.addAttribute("jjim", jjim);
+            } else if(user == null) {
+                model.addAttribute("jjim", 0);
+            }
 
             // 상품에 대한 열린 공구 가져오기 -> 남은 인원
             List<kmPurchaseView> purchaseList = customerService.selectPurchaseList(itemno);
@@ -116,25 +126,43 @@ public class KmCustomerContorller {
                 List<ReviewEntity> reviewList = customerService.findByItemEntity_noOrderByNoDesc(no, page);
                 log.info("total count review => {} ", total);
 
-                log.info("review List 조회1 => {}", reviewList.toString());
+                if ( reviewList != null ) {
+                    log.info("review List 조회1 => {}", reviewList.toString());
+
+                    for(ReviewEntity review : reviewList) {
+                        List<KmReviewNoProjection> reviewImgNoList = customerService.selectReviewImageNoList(review.getNo());
+    
+                        if(!reviewImgNoList.isEmpty()) {
+                            review.setImgUrl1(request.getContextPath() + "/customer/kmreviewimage?no=" + reviewImgNoList.get(0).getNo());
+                            if(reviewImgNoList.size() == 2) {
+                                review.setImgUrl2(request.getContextPath() + "/customer/kmreviewimage?no=" + reviewImgNoList.get(1).getNo());
+                            }
+                        }
+                    }
+                } else {
+                    log.info("review List nullnullnull");
+                }
 
                 if(orderby.equals("rating")) {
                     reviewList = customerService.findByItemEntity_noOrderByRatingDescNoDesc(no, page);
                     log.info("왜 이게 안되냐고 => {}", reviewList.toString());
                 }
+                
+                int pageSize = 2; // 한페이지에 나오는 아이템갯수
+                // int start1 = (page -1) * pageSize;
+                // int end1 = page * pageSize;
 
-                for(ReviewEntity review : reviewList) {
-                    List<KmReviewNoProjection> reviewImgNoList = customerService.selectReviewImageNoList(review.getNo());
+                int totalPages = (int) ((total-1) / PAGETOTAL) + 1;
+                int currentSet = (int) Math.ceil((double) page/5);
+                int startPage = (currentSet - 1) * 5 + 1;
+                int endPage = Math.min(startPage + 4, totalPages);
 
-                    if(!reviewImgNoList.isEmpty()) {
-                        review.setImgUrl1(request.getContextPath() + "/customer/kmreviewimage?no=" + reviewImgNoList.get(0).getNo());
-                        if(reviewImgNoList.size() == 2) {
-                            review.setImgUrl2(request.getContextPath() + "/customer/kmreviewimage?no=" + reviewImgNoList.get(1).getNo());
-                        }
-                    }
-                }
                 model.addAttribute("reviewList", reviewList);
-                model.addAttribute("pages", (total-1)/PAGETOTAL + 1);
+                model.addAttribute("pages", totalPages);
+                model.addAttribute("startPage", startPage);
+                model.addAttribute("endPage", endPage);
+                model.addAttribute("currentPage", page);
+
             }
     
 
@@ -148,7 +176,7 @@ public class KmCustomerContorller {
 
             // log.info("보관소 정보 storage => {}", storage.toString());
             // log.info("purchaseList => {}", purchaseList);
-            log.info("itemView 확인  => {}", item);
+            // log.info("itemView 확인  => {}", item);
 
             return "/km/customer/selectitem";
         } catch (Exception e) {
@@ -158,115 +186,11 @@ public class KmCustomerContorller {
 
     }
 
-    // 물품 상세 조회
-    // @GetMapping(value = "/item/selectone.do")
-    // public String selectitemGET(@RequestParam(name = "itemno") BigDecimal no,
-    //                             @RequestParam(name="tab", defaultValue = "detail") String tab,
-    //                             @RequestParam(name="orderby", defaultValue = "", required = false) String orderby,
-    //                             @RequestParam(name="page", defaultValue = "0", required = false) int page,
-    //                             @AuthenticationPrincipal CustomerUser user,
-    //                             HttpServletRequest request,
-    //                             Model model ) {
-    //     log.info("물품 상세 조회 GET 진입");
-
-    //     try {
-
-    //         // review 영역의 pagination 처리
-    //         // if(page == 0) {
-    //         //     System.out.println("안되네....어쩌지");
-    //         //     return "redirect:/customer/item/selectone.do?itemno=" + no + "&tab=review&page=1";
-    //         // }
-
-    //         long itemno = Long.valueOf(no.toPlainString());
-
-    //         log.info("user 정보 보기 => {}", user);
-
-    //         // 물품 정보 가져오기
-    //         Map<String, Object> item = customerService.selectOneItem(itemno);
-    //         // itemView => {SELLERNAME=LG생활건강, ITEMPRICE=8.97E+4, SCATEGORYNAME=세탁세제, ITEMNO=11,
-    //         //              SCATEGORYCODE=132, MCATEGORYNAME=세제/청소/주방세제, LCATEGORYNAME=생활용품, ITEMNAME=액체형세제 2.8L 6개}
-
-    //         // 상품 번호에 해당하는 이미지 번호
-    //         List<Long> imgList = customerService.selectItemImageNoList(itemno);
-
-    //         // 상품에 대한 열린 공구 가져오기 -> 남은 인원
-    //         List<kmPurchaseView> purchaseList = customerService.selectPurchaseList(itemno);
-    //         for (Iterator<kmPurchaseView> it = purchaseList.iterator(); it.hasNext();) {
-    //             kmPurchaseView obj = it.next();
-
-    //             long remainingPerson = customerService.countRemainingPerson(obj.getPurchaseNo());
-    //             obj.setRemainingPerson(remainingPerson);
-
-    //             if (obj.getRemainingPerson() <= 0L) {
-    //                 it.remove();
-    //             }
-    //         }
-
-    //         // 열린 공구들에 참가 중인 고객의 id list 가져오기
-    //         for (kmPurchaseView obj : purchaseList) {
-    //             obj.setMemIdList( customerService.selectIdList( obj.getPurchaseNo() ) );
-    //         }
-
-    //         // 보관소 지점 가져오기
-    //         List<Storage> storage = customerService.selectStorageList();
-    //         // Storage(no=4, name=부산중구점, phone=051-600-4000, phostcode=null, address1=부산광역시 중구 중구로 120, address2=(대청동1가, 중구청), 
-    //         //          address3=null, latitude=35.1062826, longitude=129.032355, adminId=admin, regdate=Thu May 18 07:03:58 KST 2023)
-
-
-    //         if (tab.equals("review")) {
-    //             // 리뷰 탭을 보여줄 로직
-
-    //             // 리뷰 전체 목록 가져오기
-    //             // List<ReviewEntity> reviewList = customerService.findByItemEntity_noOrderByNoDesc(no, page);
-    //             List<ReviewEntity> reviewList = customerService.findByItemEntity_noOrderByNoDesc(no, page);
-    //             long total = customerService.countByItemEntity_no(no);
-    //             log.info("total count review => {} ", total);
-
-    //             log.info("review List 조회1 => {}", reviewList.toString());
-
-    //             if(orderby.equals("rating")) {
-    //                 reviewList = customerService.findByItemEntity_noOrderByRatingDescNoDesc(no, page);
-    //                 log.info("왜 이게 안되냐고 => {}", reviewList.toString());
-    //             }
-
-    //             for(ReviewEntity review : reviewList) {
-    //                 List<KmReviewNoProjection> reviewImgNoList = customerService.selectReviewImageNoList(review.getNo());
-
-    //                 if(!reviewImgNoList.isEmpty()) {
-    //                     review.setImgUrl1(request.getContextPath() + "/customer/kmreviewimage?no=" + reviewImgNoList.get(0).getNo());
-    //                     if(reviewImgNoList.size() == 2) {
-    //                         review.setImgUrl2(request.getContextPath() + "/customer/kmreviewimage?no=" + reviewImgNoList.get(1).getNo());
-    //                     }
-    //                 }
-    //             }
-    //             model.addAttribute("reviewList", reviewList);
-    //             model.addAttribute("pages", (total-1)/PAGETOTAL + 1);
-
-    //         }
-            
-
-    //         model.addAttribute("purchaseList", purchaseList);
-    //         model.addAttribute("item", item);
-    //         model.addAttribute("imgList", imgList);
-    //         model.addAttribute("storage", storage);
-    //         model.addAttribute("user", user);
-
-    //         // log.info("보관소 정보 storage => {}", storage.toString());
-    //         // log.info("purchaseList => {}", purchaseList);
-    //         log.info("itemView 확인  => {}", item);
-
-    //         return "/km/customer/selectitem";
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return "redirect:/customer/home.do";
-    //     }
-
-    // }
-
+    // /item/order.do로 보내기 위한 과정
     @PostMapping(value = "/item/selectone1.do")
     public String selectitemPOST(@ModelAttribute kmPurchaseView obj, Model model) {
         try {
-            log.info("post view 확인1 => {}", obj.toString());
+            // log.info("post view 확인1 => {}", obj.toString());
             // 공구 참여 버튼 -> kmPurchaseView(no=0, purchaseNo=1007, participant=0,
             //                                  deadline=null, remainingPerson=0, itemNo=0, itemName=null,
             //                                  itemPrice=0, storageNo=0, storageName=null, pricePerOne=0, imageUrl=null)
@@ -317,7 +241,7 @@ public class KmCustomerContorller {
 
             // 보관소 정보 불러오기
             Storage storage = customerService.selectOneStorage(obj.getStorageNo());
-            log.info("order.do storage 확인 => {}", storage.toString());
+            // log.info("order.do storage 확인 => {}", storage.toString());
             // Storage(no=4, name=부산중구점, phone=051-600-4000, postcode=48926, address1=부산광역시 중구 중구로 120, address2=(대청동1가, 중구청), 
             //          address3=null, latitude=35.1062826, longitude=129.032355, adminId=admin, regdate=Thu May 18 07:03:58 KST 2023)
 
@@ -340,8 +264,8 @@ public class KmCustomerContorller {
 
             // user의 id로 정보 꺼내오기 (id, name, phone, email)
             Customer customer = customerService.selectOneCustomer(user.getId());
-            log.info("user 정보 확인 => {}", user.toString());
-            log.info("customer 확인 => {}", customer.toString());
+            // log.info("user 정보 확인 => {}", user.toString());
+            // log.info("customer 확인 => {}", customer.toString());
             
             // 연락처, 이메일 잘라서 보내기
             Map<String, String> phoneAndEmail = new HashMap<>();
@@ -359,7 +283,7 @@ public class KmCustomerContorller {
             for(int i=0; i < email.length; i++) {
                 phoneAndEmail.put("email" + (i+1), email[i]);
             }
-            log.info("phoneAndEmail => {}", phoneAndEmail); // {email2=naver.com, email1=a, phone3=5678, phone2=1234, phone1=010}
+            // log.info("phoneAndEmail => {}", phoneAndEmail); // {email2=naver.com, email1=a, phone3=5678, phone2=1234, phone1=010}
 
             // 화면에 데이터 전달하기
             model.addAttribute("obj", obj);

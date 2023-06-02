@@ -40,8 +40,6 @@
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;">
 
-
-
         <div class="super_container" style="margin-top: -100px;">
             <div class="container single_product_container">
                 <div class="row">
@@ -69,20 +67,34 @@
                     <!-- 물품 간단 사진 영역 ~ -->
                     <div class="col-lg-6">
                         <div class="single_product_image_background">
-                            <img th:src="@{/customer/image(no=${imgList[0]})}" alt="">
+                            <th:block th:if="${imgList.size() > 0}">
+                                <img th:src="@{/customer/image(no=${imgList[0]})}" alt="">
+                            </th:block>
+                            <th:block th:unless="${imgList.size() > 0}">
+                                <img th:src="@{/customer/image}" alt="">
+                            </th:block>
                         </div>
                     </div>
                     <!-- ~ 물품 간단 사진 영역 -->
+
 
                     <!-- 물품 설명 영역 ~ -->
                     <div class="col-lg-6">
                         <div class="product_details">
                             <div class="product_details_title">
                                 <p th:text="${item.SELLERNAME}"></p>
-                                <h2 th:text="${item.ITEMNAME}"></h2>
+                                <h2 class="mb-2" th:text="${item.ITEMNAME}"></h2>
+                                
                                 <div class="product_price"
                                     th:text="${#numbers.formatInteger(item.ITEMPRICE, 3, 'COMMA') + '원'}">
                                 </div>
+
+                                <button type="button" class="heartBtn" th:onclick="jjim([[${item.ITEMNO}]])" style="float: right;">
+                                    <!-- 찜 안한 상태, 로그인 안한 상태 => fa-regular-->
+                                    <i class="fa-regular fa-heart heartIcon" id="blankHeart" style="display: none;"></i>
+                                    <!-- 찜 한 상태 => fa-solid -->
+                                    <i class="fa-solid fa-heart heartIcon" id="fillHeart" style="display: none;"></i>
+                                </button>
                             </div>
                             <!-- 열린 공구 영역 ~ -->
                             <div class="tablediv">
@@ -142,20 +154,6 @@
                                                             </select>
                                                         </div>
 
-                                                        <!-- <div class="modal-storage">
-                                                            <span>수령지점</span>
-                                                            <select id="select" th:field = ${storage.name} name="storageNo">
-                                                                <option selected>---[필수 입력]---</option>
-                                                                <option th:each="tmp:${storage.name}" th:value="${tmp}" th:text="${tmp}"></option>
-                                                            </select>
-                                                        </div> -->
-                                                        <!-- <div class="modal-storage">
-                                                            <span>수령지점</span>
-                                                            <select id="select" >
-                                                                
-                                                            </select>
-                                                        </div> -->
-
                                                         <div class="modal-totalcost">
                                                             <span>인당 물품가격</span>
                                                             <span id="totalcost"></span>
@@ -178,12 +176,12 @@
                             </div>
                         </div>
                     </div>
-                    <!-- ~ 물품 설명 영역 -->
+                    <!-- ~ 물품 간단 설명 영역 -->
                 </div>
 
             </div>
 
-            <!-- 물품 상세 + 리뷰 영역 ~  -->
+            <!-- 하단 영역 ~  -->
             <div class="tabs_section_container">
                 <div class="container">
                     <div class="row">
@@ -203,13 +201,16 @@
                             <div id="tab_1" class="tab_container tab_detail">
                                 <div class="row">
                                     <div class="col-lg-12 desc_col">
-                                        <h4 class="tab_title">Description
-                                            <!-- <h4>Description</h4> -->
-                                        </h4>
+                                        <h4 class="tab_title">Description</h4>
                                     </div>
                                     <div class="col-lg-12 desc_col">
                                         <div class="tab_image">
-                                            <img th:src="@{/customer/image(no=${imgList[1]})}">
+                                            <th:block th:if="${imgList.size() > 0}">
+                                                <img th:src="@{/customer/image(no=${imgList[1]})}">
+                                            </th:block>
+                                            <th:block th:unless="${imgList.size() > 0}">
+                                                <img th:src="@{/customer/image}" alt="">
+                                            </th:block>
                                         </div>
                                     </div>
                                 </div>
@@ -221,113 +222,85 @@
                                 <div class="row">
 
                                     <div class="col-lg-12 reviews_col">
-                                        <h4 class="tab_title reviews_title">
-                                            Reviews
-                                        </h4>
-
-                                        <br>
-                                        <!-- 상품 평점의 평균 -->
-
                                         
-                                        <button type="button" onclick="CheckReview()">리뷰 등록하기</button>
-       
-                                        <br>
-                                        <hr>
-                                        <br>
+                                        <div class="container enterReview-container">
+                                            <h4 class="tab_title reviews_title">Reviews</h4>
+                                            <button type="button" onclick="CheckReview()">리뷰 등록하기</button>
+                                        </div>
 
-                                        <div id="reviews-container">
+                                        <th:block th:if="${reviewList != null}">
 
-                                            <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab=review, orderby=,page=1)}">최신순</a>
-                                            <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab=review, orderby=rating,page=1)}">평점순</a>
+                                            <div class="container" id="reviews-container">
+                                                <div class="orderby">
+                                                    <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab=review, orderby=,page=1)}"
+                                                        id="orderbydate">최신순</a>
+                                                    <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab=review, orderby=rating,page=1)}"
+                                                        id="orderbyrating">평점순</a>
+                                                </div>
+                                                <!-- <div th:text="|리뷰 전체 리스트 확인 : ${reviewList}|"></div>
+                                                <div th:text="|페이지 총 개수 : ${pages}|"></div><hr> -->
 
-                                            <div th:text="|리뷰 전체 리스트 확인 : ${reviewList}|"></div>
-                                            <div th:text="|페이지 총 개수 : ${pages}|"></div><hr>
-
-                                            <th:block th:each="obj : ${reviewList}">
-                                                <span th:if="${obj.imgUrl1 != null}">
-                                                    <img class="reviewImg" th:src="${obj.imgUrl1}">
-                                                </span>
-                                                <span th:if="${obj.imgUrl2 != null}">
-                                                    <img class="reviewImg" th:src="${obj.imgUrl2}">
-                                                </span>
-
-                                                <div th:text="|리뷰 번호 : ${obj.no}|"></div>
-                                                <div th:text="|리뷰 평점 : ${obj.rating}|"></div>
-                                                <div th:text="${obj.comment}"></div>
-                                                <div th:text="${obj.purchaseOrderEntity.customerEntity.id}"></div>
+                                                <div th:each="obj : ${reviewList}" class="review_inquire">
+                                                    <span th:text="|리뷰 번호 : ${obj.no}|"></span>&nbsp;&nbsp;
+                                                    <span th:text="|작성자 : ${obj.purchaseOrderEntity.customerEntity.id}|"></span>
+                                                    <span th:text="*{#strings.substring(obj.purchaseOrderEntity.customerEntity.id, 0, 2)} + '***'"></span>
+                                                    <div>
+                                                        <span th:if="${obj.imgUrl1 != null}">
+                                                            <img class="reviewImg" th:src="${obj.imgUrl1}">
+                                                        </span>
+                                                        <span th:if="${obj.imgUrl2 != null}">
+                                                            <img class="reviewImg" th:src="${obj.imgUrl2}">
+                                                        </span>
+                                                    </div>
+                                                    <!-- <span th:each="i : ${#numbers.sequence(1, obj.rating)}">&#x2b50;</span> -->
+                                                    <span th:each="i : ${#numbers.sequence(1, obj.rating)}">
+                                                        <i class="fas fa-star" style="color: rgb(238, 191, 130);"></i>
+                                                    </span>
+                                                    <div th:text="${obj.comment}"></div>
+                                                    
+                                                    <hr>
+                                                </div>
                                                 
-                                                <hr>
-                                            </th:block>
-                                            
-                                        </div>
-                                        <!-- <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=1)}">가나다</a> -->
-                                        <!-- <div id="pagination-container">
-                                            <th:block th:each="num : ${#numbers.sequence(1, pages)}">
-                                                <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=${num})}"
+                                            </div>
+                                            <!-- 페이지네이션 구현부분 -->
+                                            <!-- <div class="container" id="pagination-container">
+                                                <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=1)}">first</a>
+                                                <span th:each="num : ${#numbers.sequence(1, pages)}">
+                                                    <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=${num})}"
                                                     th:text="${num}"></a>
-                                            </th:block>
-                                        </div> -->
-
-
-
-                                        <!-- <div class="user_review_container d-flex flex-column flex-sm-row">
-                                            <div class="user">
-                                                <div class="user_pic"></div>
-                                                <div class="user_rating">
-                                                    <ul class="star_rating">
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                                                    </ul>
-                                                </div>
+                                                </span>
+                                                <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=${pages})}">last</a>
+                                            </div> -->
+                                            <div class="container" id="pagination-container">
+                                                <ul class="pageul">
+                                                    <li th:if="${currentPage > 1}">
+                                                        <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=1)}">
+                                                            <i class="fa-solid fa-angles-left fa-2xs"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li th:if="${currentPage > 1}">
+                                                        <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=${currentPage-1})}">
+                                                            <i class="fa-solid fa-angle-left fa-2xs"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li th:each="num : ${#numbers.sequence(startPage, endPage)}"
+                                                        th:class="${num == currentPage ? 'active' : ''}">
+                                                        <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=${num})}" th:text="${num}"></a>
+                                                    </li>
+                                                    <li th:if="${currentPage < pages}">
+                                                        <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=${currentPage+1})}">
+                                                            <i class="fa-solid fa-angle-right fa-2xs"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li th:if="${currentPage < pages}">
+                                                        <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=${pages})}">
+                                                            <i class="fa-solid fa-angles-right fa-2xs"></i>
+                                                        </a>
+                                                    </li>
+                                                </ul>
                                             </div>
-                                            <div class="review">
-                                                <div class="review_date">27 Aug 2016</div>
-                                                <div class="user_name">Brandon William</div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                    eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                            </div>
-                                        </div> -->
+                                        </th:block>
                                     </div>
-
-
-                                    <!-- <div class="col-lg-12 add_review_col">
-
-                                        <div class="add_review">
-                                            <form id="review_form" action="post">
-                                                <div>
-                                                    <h1>Add Review</h1>
-                                                    <input id="review_name" class="form_input input_name" type="text"
-                                                        name="name" placeholder="Name*" required="required"
-                                                        data-error="Name is required.">
-                                                    <input id="review_email" class="form_input input_email" type="email"
-                                                        name="email" placeholder="Email*" required="required"
-                                                        data-error="Valid email is required.">
-                                                </div>
-                                                <div>
-                                                    <h1>Your Rating:</h1>
-                                                    <ul class="user_star_rating">
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star" aria-hidden="true"></i></li>
-                                                        <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
-                                                    </ul>
-                                                    <textarea id="review_message" class="input_review" name="message"
-                                                        placeholder="Your Review" rows="4" required
-                                                        data-error="Please, leave us a review."></textarea>
-                                                </div>
-                                                <div class="text-left text-sm-right">
-                                                    <button id="review_submit" type="submit"
-                                                        class="red_button review_submit_btn trans_300"
-                                                        value="Submit">submit</button>
-                                                </div>
-                                            </form>
-                                        </div>
-
-                                    </div> -->
 
                                 </div>
                             </div>
@@ -337,7 +310,7 @@
                 </div>
 
             </div>
-            <!-- ~ 물품 상세 영역 -->
+            <!-- ~ 하단 영역 -->
         </div>
     </div>
 
@@ -347,9 +320,20 @@
     <!-- <form th:a="@{/customer/enterreview.do}" method="post" id="form1" enctype="multipart/form-data"> -->
     <div class="popup" id="myPopup" aria-hidden="true" onClick="if(event.target == this){closePopup('#myPopup');}">
         <div class="wrapper" aria-labelledby="popupTitle" aria-describedby="popupText" aria-modal="true">
-            <h2 id="popupTitle">리뷰 작성</h2>
+            <div class="popupTitle">
+                <div id="popupTitle">리뷰 작성</div>
+                <!-- <h2 id="popupTitle">리뷰 작성</h2> -->
+                <button type="button" onclick="closePopup('#myPopup')">
+                    <img th:src="@{/images/km/close.png}">
+                </button>
+            </div>
             <div class="popup__img">
-                <img th:src="@{/customer/image(no=${imgList[0]})}">
+                <th:block th:if="${imgList.size() > 0}">
+                    <img th:src="@{/customer/image(no=${imgList[0]})}">
+                </th:block>
+                <th:block th:unless="${imgList.size() > 0}">
+                    <img th:src="@{/customer/image}" alt="">
+                </th:block>
             </div>
             <div class="popup__itemname">
                 <p th:text="${item.ITEMNAME}"></p>
@@ -369,7 +353,7 @@
             </div>
 
             <div class="popup__reviewimg">
-                <div class="popup__reviewimage" style="display: inline-block;">
+                <div class="popup__reviewimage0" style="display: inline-block;">
                     <!-- <a href="https://www.flaticon.com/kr/free-icons/img" title="img 아이콘">Img 아이콘  제작자: POD Gladiator - Flaticon</a> -->
                     <img class="mb-3" th:src="@{/images/km/reviewImage.png}" id="img" onclick="clickImage()">
                     <input type="file" name="file" id="file" class="form-control" onchange="imageChange(this)"
@@ -378,12 +362,18 @@
                 <div class="popup__reviewimage1" style="display: inline-block;">
                     <input type="file" name="file1" id="file1" onchange="imageChange(this)" style="display:none"
                         accept="image/*">
-                    <img id="img1">
+                    <img id="img1" th:src="@{/images/noimage.jpg}">
+                    <button type="button" onclick="removeImage(1)" id="img1Btn">
+                        <img th:src="@{/images/km/close.png}" alt="" style="width: 20px;">
+                    </button>
                 </div>
                 <div class="popup__reviewimage2" style="display: inline-block;">
                     <input type="file" name="file2" id="file2" onchange="imageChange(this)" style="display:none"
                         accept="image/*">
-                    <img id="img2">
+                    <img id="img2" th:src="@{/images/noimage.jpg}">
+                    <button type="button" onclick="removeImage(2)" id="img2Btn">
+                        <img th:src="@{/images/km/close.png}" alt="" style="width: 20px;">
+                    </button>
                 </div>
             </div>
 
@@ -406,6 +396,73 @@
     <script th:src="@{/js/km/single_custom.js}"></script>
 
     <script th:inline="javascript" type="text/javascript">
+        
+        // const fillHeart = document.querySelector("#fillHeart");
+        // const blankHeart = document.querySelector("#blankHeart");
+
+        var jjim1 = /*[[${jjim}]]*/"";
+        if(jjim1 == 1) {
+            // 찜 된 상태
+            fillHeart.style.display = "block";
+        } else if(jjim1 == 0) {
+            // 찜 안된 상태
+            blankHeart.style.display = "block";
+        }
+
+        var username = "";
+        var user = /*[[${user}]]*/"";
+
+        if (user != null) {
+            username = user.username;
+        }
+        console.log("username 확인 => {", username, "}")
+
+        // --------------------------------------------------------------------------------------------
+        
+
+        // 찜 기능 구현 => user null 인 상태면 로그인 먼저 시키기
+        async function jjim(itemno) {
+            
+            if (user == null) {
+                if (confirm('로그인이 필요한 서비스입니다. 로그인하시겠습니까?')) {
+                    location.replace(/*[[@{/customer/login.do}]]*/"");
+                }
+
+            } else { 
+                let jjim = /*[[${jjim}]]*/"";
+
+                if(jjim == 1) {
+                    console.log(jjim + " 찜 된 상태");
+                    
+                } else if( jjim == 0) {
+                    console.log(jjim + " 찜 안된 상태");
+                    
+                }
+
+                const url = /*[[@{/api/customer/jjim.km}]]*/"";
+                const headers = {"Content-Type":"application/json"};
+                const body = {customerEntity:{id : username}, itemEntity : {no:itemno}};
+                const { data } = await axios.post(url, body, {headers:headers});
+                console.log("반환되는 결과", data);
+
+                if(data.result == 1 && data.jjimState == 1) {
+                    // 하트 채우기 (찜 된 상태)
+                    console.log("가나다라맞바사", data);
+                    fillHeart.style.display = "block";
+                    blankHeart.style.display = "none";
+                } else if(data.result == 1 && data.jjimState == 0) {
+                    // 하트 비우기 (찜 안된 상태)
+                    console.log("아자차카타파하", data);
+                    blankHeart.style.display = "block";
+                    fillHeart.style.display = "none";
+                }
+
+            }
+
+            
+        }
+
+        // ------------------------------------------------------------------------------------------
 
         // 카운트다운 타이머
         function CountDownTimer(dt, id) {
@@ -441,12 +498,7 @@
         const list = /*[[${ purchaseList }]]*/"";
         const itemprice = /*[[${item.ITEMPRICE}]]*/"";
 
-        var username = "";
-        const user = /*[[${user}]]*/"";
-        if (user != null) {
-            username = user.username;
-        }
-        console.log("username 확인 => {", username, "}")
+        
 
         // 하나씩 꺼내기
         if (list != null) {
@@ -489,6 +541,8 @@
             };
         };
 
+        // ----------------------------------------------------------------------------------------
+
         // 공구개설 Modal -> participant 숫자 증감
         const plus = document.querySelector(".plus");
         const minus = document.querySelector(".minus");
@@ -524,26 +578,19 @@
 
         const itemNO = /*[[${item.ITEMNO}]]*/"";
 
-
+        // --------------------------------------------------------------------------------
 
         // 공구 개설 버튼
         function openPurchase() {
             // participante는 위의 addEventListener에서 처리함
 
-
             // 여기에다가 유효성 검사실시
             const select = document.querySelector('#select');
-            //    var options = select.options;
-            //    for(let i=0; i<options.length; i++) {
-            //     var optionValue = options[i].value;
-            //     console.log(optionValue);
-            //    } 
 
             if (select.options[select.selectedIndex].value == 0) {
                 alert('수령지점을 선택해주세요.');
                 return;
             }
-
 
             if (confirm('공구 개설하시겠습니까?')) {
 
@@ -551,10 +598,9 @@
             } else {
                 return;
             }
-
         }
 
-
+        // ---------------------------------------------------------------------------------------------
 
 
         // 공구 참여 버튼
@@ -587,6 +633,8 @@
                 return;
             }
         }
+
+        // --------------------------------------------------------------------------------------------
 
         var orderNo = 0;
         // CheckReveiw() 함수에서 orderNo 알아오고 
@@ -626,61 +674,93 @@
         // ----------------------------------------------------------------------------------------------
         // 리뷰 모달 띄우기
         function openPopup(popup) {
-            /* Open popup and make accessible screen readers */
             $(popup).show().attr("aria-hidden", "false");
-            /* Focus on element to guide screen readers to popup */
             $("#closePopup").focus();
         }
 
         // 리뷰 모달 닫기
         function closePopup(popup) {
-            /* Close popup and hide from screen readers */
             $(popup).hide().attr("aria-hidden", "true");
-            /* Focus screen readers back to button */
             $("#openMyPopup").focus();
         }
 
 
-        const img1 = document.getElementById('img1');
-        const img2 = document.getElementById('img2');
+        var img1 = document.getElementById('img1');
+        var img2 = document.getElementById('img2');
+        const img1Btn = document.getElementById('img1Btn');
+        const img2Btn = document.getElementById('img2Btn');
+
+        const noimage = /*[[@{/images/noimage.jpg}]]*/"";
 
         // 리뷰 사진 누르기
         function clickImage() {
-            // if (img1.src != "" && img2.src != "") {
-            //     alert('이미지는 최대 2장까지 첨부가능합니다.');
-            //     false;
-            // } else{
-            //     document.getElementById("file").click();
-            // }
-
-            if (img1.src != "" && img2.src != "") {
+            // console.log(noimage); // /SOBUN/images/noimage.jpg
+            // console.log("image태그의 src => ", img1.src); // /
+    
+            if (!img1.src.includes("/SOBUN/images/noimage.jpg") && !img2.src.includes("/SOBUN/images/noimage.jpg")) {
                 alert('이미지는 최대 2장까지 첨부가능합니다.');
                 false;
-            } else if (img1.src == "") {
+            } else if (img1.src.includes("/SOBUN/images/noimage.jpg")) {
                 document.getElementById("file1").click();
-            } else if (img1.src != "") {
+            } else if (!img1.src.includes("/SOBUN/images/noimage.jpg") && img2.src.includes("/SOBUN/images/noimage.jpg")) {
                 document.getElementById("file2").click();
             }
         }
+        
+        // 배열로 만들기
 
         // 사진 선택하면 보이기
         function imageChange(e) {
             console.log(e.files);
-
-            if (e.files.length > 0) { // 파일을 첨부했을 때
-                // 파일을 첨부하면 크롬에서 blob:http://127.0.0.1:8080/b8308e93-a1b3-4b.... 가상의 url을 만들어줌
-                if (img1.src == "") {
-                    img1.src = URL.createObjectURL(e.files[0]); // 가상의 url 정보를 생성해서 추가함
-                    console.log(URL.createObjectURL(e.files[0]));
-                    img1.style.display = 'inline-block';
-                } else {
-                    img2.src = URL.createObjectURL(e.files[0]); // 가상의 url 정보를 생성해서 추가함
-                    console.log(URL.createObjectURL(e.files[0]));
-                    img2.style.display = 'inline-block';
-                }
-            } else { // 파일 첨부를 취소했을 때
-                img.src = "${pageContext.request.contextPath}/resources/images/day15_item/noimage.jpg";
+            // 파일을 첨부하면 크롬에서 blob:http://127.0.0.1:8080/b8308e93-a1b3-4b.... 가상의 url을 만들어줌
+            if (img1.src.includes("/SOBUN/images/noimage.jpg")) {
+                img1.src = URL.createObjectURL(e.files[0]); // 가상의 url 정보를 생성해서 추가함
+                img1.style.display = 'inline-block';
+                img1Btn.style.display = 'inline-block';
+                document.querySelector("#img").style.marginTop = "-48px";
+            } else {
+                img2.src = URL.createObjectURL(e.files[0]); // 가상의 url 정보를 생성해서 추가함
+                img2.style.display = 'inline-block';
+                img2Btn.style.display = 'inline-block';
             }
+        }
+
+        // 첨부한 리뷰 사진 지우기
+        function removeImage(imageNo) {
+            
+            if(imageNo == 1) {
+                if(img2.src.includes("/SOBUN/images/noimage.jpg")) {
+                    // img2가 없는 상태 => 사진 다 없애기
+                    img1.src = noimage;
+                    img1.style.display = "none";
+                    img1Btn.style.display = 'none';
+                    document.querySelector("#img").style.marginTop = "0";
+                } else {
+                    // img2가 있는 상태에서 1만 지우기
+                    img1.src = img2.src;
+                    console.log("1111111");
+                }
+            }
+
+            // image2의 src를 ""로 처리한다.
+            img2.src = noimage;
+            img2.style.display = "none";
+            img2Btn.style.display = 'none';
+        }
+
+        // 리뷰 - 최신순, 평점순 클래스(active) 추가
+        const orderby = [[${param.orderby}]];
+
+        const orderbydate = document.getElementById("orderbydate");
+        const orderbyrating = document.getElementById("orderbyrating");
+        if(orderby == '') {
+            console.log("가나다");
+            orderbydate.classList.add('active');
+            orderbyrating.classList.remove('active');
+        } else if(orderby != null && orderby[0] == 'rating') {
+            console.log("라마바orderby");
+            orderbyrating.classList.add('active');
+            orderbydate.classList.remove('active');
         }
 
         // 리뷰 작성하기
@@ -732,91 +812,6 @@
             }
         }
 
-
-
-        
-        // // 물품번호에 해당하는 모든 리뷰 가져오기
-        // async function reviewSection() {
-        //     const url = [[@{/api/customer/findreview.json}]] + `?itemno=` + itemNO;
-        //     console.log(url);
-        //     const headers = { "Content-Type": "application/json" };
-        //     const { data } = await axios.get(url, { headers: headers });
-
-        //     const reviews = data.reviews; // 서버에서 받아온 리뷰 데이터   
-
-        //     displayReviews(reviews); // 리뷰 데이터를 화면에 표시
-        // }
-
-        // // 리뷰 데이터를 화면에 표시하는 함수
-        // function displayReviews(reviews) {
-        //     if(Array.isArray(reviews)) {
-        //         const reviewsContainer = document.querySelector('#reviews-container');
-        //         reviewsContainer.innerHTML = ''; // 리뷰 컨테이너 초기화
-
-        //         // 리뷰를 순회하며 HTML로 변환하여 표시
-        //         reviews.forEach(review => {
-        //         const reviewElement = document.createElement('div');
-        //         reviewElement.classList.add('review');
-
-        //         // 리뷰 내용
-        //         const contentElement = document.createElement('p');
-        //         contentElement.textContent = review.comment;
-        //         reviewElement.appendChild(contentElement);
-
-        //         // 별점
-        //         const ratingElement = document.createElement('span');
-        //         ratingElement.textContent = `Rating: ${review.rating}`;
-        //         reviewElement.appendChild(ratingElement);
-
-        //         // 작성일
-        //         const regdateElement = document.createElement('span');
-        //         regdateElement.textContent = review.regdate;
-        //         reviewElement.appendChild(regdateElement);
-
-        //         const hrElement = document.createElement('hr');
-        //         reviewElement.appendChild(hrElement);
-
-        //         // 리뷰 컨테이너에 추가
-        //         reviewsContainer.appendChild(reviewElement);
-        //         });
-
-        //         // 페이지네이션 추가
-        //         addPagination(reviews);
-        //     } else {
-        //         console.log("리뷰 데이터가 유효하지 않습니다.");
-        //     }
-            
-        // }
-
-        // // 페이지네이션을 추가하는 함수
-        // function addPagination(reviews) {
-        //     const reviewsPerPage = 2; // 페이지당 표시할 리뷰 수
-        //     const totalPages = Math.ceil(reviews.length / reviewsPerPage);
-
-        //     const paginationContainer = document.querySelector('#pagination-container');
-        //     paginationContainer.innerHTML = ''; // 페이지네이션 컨테이너 초기화
-
-        //     for (let i = 1; i <= totalPages; i++) {
-        //         const pageLink = document.createElement('a');
-        //         pageLink.href = '#page=' + i;
-        //         pageLink.textContent = i;
-
-        //         // 페이지 링크를 클릭할 때 해당 페이지의 리뷰를 표시
-        //         pageLink.addEventListener('click', () => {
-        //             paginationContainer.innerHTML = ''; // 페이지네이션 컨테이너 초기화
-        //             const startIndex = (i - 1) * reviewsPerPage;
-        //             const endIndex = startIndex + reviewsPerPage;
-        //             const reviewsToShow = reviews.slice(startIndex, endIndex);
-        //             displayReviews(reviewsToShow);
-        //         });
-
-        //         paginationContainer.appendChild(pageLink);
-        //     }
-        // }
-
-        // // 초기 페이지 로드 시 리뷰 데이터 가져오기
-        // reviewSection();
-
         // 새로고침 시 스크롤 위치 기억 => 근데 location.href로는 안되는구나..
         history.scrollRestoration = "auto";
 
@@ -849,7 +844,8 @@
 
                         if(tabCheck === null || tabCheck[0] === "detail") {
                             // 리뷰 영역 보이기
-                            location.href="/SOBUN/customer/item/selectone.do?itemno=" + [[${item.ITEMNO}]] + '&tab=review&page=1';
+                            location.href="/SOBUN/customer/item/selectone.do?itemno=" + [[${item.ITEMNO}]] + '&tab=review&orderby&page=1';
+                            // /customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=${num})
                         } else if(tabCheck[0] === "review") {
                             // 상세 영역 보이기
                             location.href="/SOBUN/customer/item/selectone.do?itemno=" + [[${item.ITEMNO}]] + '&tab=detail';
@@ -857,13 +853,11 @@
                     }
                 });
             });
-            
         }
 
         
 
         initTabs();
-       
 
     </script>
 

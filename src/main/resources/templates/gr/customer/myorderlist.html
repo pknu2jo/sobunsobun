@@ -189,11 +189,49 @@
         }
 
         .calender .grade .info{
-            width: 670px;
+            width: 1240px;
             height: 60px;
             float: left;
-            padding-left: 250px;
+            /* padding-left: 250px; */
             position: relative;
+        }
+
+        .calender .grade .info .datespan{
+            font-size: 16px;
+            margin-top: 15px;
+        }
+
+        .calender .grade .info input{
+            height: 35px;
+            text-align: center;
+            margin-left: 15px;
+            margin-right: 15px;
+            margin-top: 12px;
+        }
+
+        .calender .grade .info .btn_date_1month{
+            width: 110px;
+            font-size: 15px;
+            background-color: #666;
+            color: #fff;
+            border: 0;
+            margin-right: 20px;
+        }
+
+        .calender .grade .info .btn_date{
+            width : 100px;
+            background-color: #0e0e0e;
+            color: #fff;
+            font-size: 15px;
+            margin-left: 0;
+        }
+
+        .calender .grade .info #fd, #sd{
+            width: 150px;
+            border: 1px solid #d9d9d9;
+            background-color: #fff;
+            font-size: 14px;
+            padding-right: 5px;
         }
 
         /* 주문테이블 창 */
@@ -252,6 +290,10 @@
             vertical-align: middle;
         }
 
+        tbody a {
+            text-decoration: none;
+        }
+
         table tbody tr td{
             height: 110px;
             text-align: center;
@@ -279,6 +321,7 @@
             font-weight: bold;
             float: left;
             padding-top: 27px;
+            color: #333;
         }
 
         table tbody tr td .details{
@@ -301,7 +344,7 @@
         }
 
         .pagearea a{
-            font-size: 20px;
+            font-size: 16px;
             text-decoration: none;
             padding: 5px 12px;
             color: gray;
@@ -311,6 +354,16 @@
             color: #000;
         }
 
+        #previousButton, #nextButton{
+            font-size: 14px;
+            border: 0;
+            color: #333;
+
+        }
+
+        .pageul * {
+            display: inline-block;
+        }
 
 
 
@@ -337,7 +390,7 @@
 
             <ol id="semi-titlebox">
                 <li style="padding-top: 13px; padding-bottom: 20px;">
-                    <a href="#" class="semi-title">HOME</a>
+                    <a th:href="@{/customer/home.do}" class="semi-title">HOME</a>
                     &nbsp;&nbsp;>&nbsp;&nbsp;
                     <a th:href="@{/customer/mypage.do}" class="semi-title">MY PAGE</a>
                     &nbsp;&nbsp;>&nbsp;&nbsp;
@@ -396,61 +449,94 @@
         </div>
 
         <!-- 날짜 조회 창 -->
-        <div class="calender d-flex justify-content-center">
-            <div class="grade ">
-                <div class="info ">
+        <form th:action="@{/customer/myorderlist.do}" method="get" th:object="${gc}">
+            <div class="calender d-flex justify-content-center">
+                <div class="grade">
+                    <div class="info d-flex justify-content-center">
+                        <input class="btn_date_1month" type="button" value="최근 1개월" onclick="onemonth()">
+                        <input type="date" id="fd" min="" max="" name="firstdate" th:field="${gc.firstdate}" onchange="firstdatechange()" >
+                        <span class="datespan">~</span>
+                        <input type="date" id="sd" min="" max="" name="seconddate" th:field="${gc.seconddate}" onchange="seconddatechange()" >
+                        <input class="btn_date" id="btn_date" type="submit" value="조 회">
+                    </div>
                 </div>
             </div>
-        </div>
+        
 
-        <!-- 주문내역 조회 창 -->
-        <div class="divList d-flex justify-content-center">
-            <table class="cols" id="ordertable">
-                <!-- <colgroup>
-                    <col style="width: 135px;">
+            <!-- 주문내역 조회 창 -->
+            <div class="divList d-flex justify-content-center">
+                <table class="cols" id="ordertable">
+                    <!-- <colgroup>
+                        <col style="width: 135px;">
 
-                </colgroup> -->
+                    </colgroup> -->
 
-                <thead>
-                    <tr>
-                        <th>주문일</th>
-                        <th class="second">공구주문번호</th>
-                        <th class="third">상품정보</th>
-                        <th class="forth">상품금액</th>
-                        <th class="fifth">진행상황</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr>
+                            <th>주문일</th>
+                            <th class="second">공구주문번호</th>
+                            <th class="third">상품정보</th>
+                            <th class="forth">상품금액</th>
+                            <th class="fifth">진행상황</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        <tr th:each="obj:${list}">
+                            <td th:text="${#dates.format(obj.regdate, 'yyyy.MM.dd')}" class="date"></td>
+                            <td th:text="${obj.pono}" class="order_number"></td>
+                            <td class="product" >
+                                <a th:href="@{/customer/item/selectone.do?(itemno=${obj.itemno})}">
+                                    <div class="img">
+                                        <img th:src="@{/customer/seimage(itemno=${obj.itemno})}" style="width: 90px; height: 120px;">
+                                    </div>
+                                </a>
+                                <a th:href="@{/customer/item/selectone.do?(itemno=${obj.itemno})}">
+                                    <div class="text">
+                                        <div class="title" th:text="${obj.name}"></div><br/>
+                                        <div class="details">
+                                            <div class="detail" th:text="|옵션 : ${obj.storename}, |"></div>
+                                            <div class="detail" th:text="|${obj.participant}인 공구|"></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </td>
+                            <td th:text="|${#numbers.formatInteger(obj.commaprice , 3 , 'COMMA')}원|" class="price"></td>
+                            <td class="status" th:text="${obj.statechk}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
                 
-                <tbody>
-                    <tr th:each="obj:${list}">
-                        <td th:text="${#dates.format(obj.regdate, 'yyyy.MM.dd')}" class="date"></td>
-                        <td th:text="${obj.pono}" class="order_number"></td>
-                        <td class="product">
-                            <div class="img">
-                                <img th:src="@{/customer/seimage(itemno=${obj.itemno})}" style="width: 90px; height: 120px;">
-                            </div>
-                            <div class="text">
-                                <div class="title" th:text="${obj.name}"></div><br/>
-                                <div class="details">
-                                    <div class="detail" th:text="|옵션 : ${obj.storename}, |"></div>
-                                    <div class="detail" th:text="|${obj.participant}인 공구|"></div>
-                                </div>
-                            </div>
-                        </td>
-                        <td th:text="|${#numbers.formatInteger(obj.commaprice , 3 , 'COMMA')}원|" class="price"></td>
-                        <td class="status" th:text="${obj.statechk}"></td>
-                    </tr>
-                </tbody>
-            </table>
+            </div>
+            <!-- 페이지 -->
+            <div class="pagearea d-flex justify-content-center" >
 
-            
-        </div>
+                    <ul class="pageul">
+                        <li th:if="${currentPage > 1}">
+                            <a th:href="@{/customer/myorderlist.do(page=1, firstdate=${firstdate}, seconddate=${seconddate})}">&laquo;</a>
+                        </li>
+                        <li th:if="${currentPage > 1}">
+                            <a th:href="@{/customer/myorderlist.do(page=${currentPage - 1}, firstdate=${firstdate}, seconddate=${seconddate})}">&lt;</a>
+                        </li>
+                        <li th:each="num : ${#numbers.sequence(startPage, endPage)}" th:class="${num == currentPage ? 'active' : ''}">
+                            <a th:href="@{/customer/myorderlist.do(page=${num}, firstdate=${firstdate}, seconddate=${seconddate})}"
+                            th:text="${num}"></a>
+                        </li>
+                        <li th:if="${currentPage < pages}">
+                            <a th:href="@{/customer/myorderlist.do(page=${currentPage + 1}, firstdate=${firstdate}, seconddate=${seconddate})}">&gt;</a>
+                        </li>
+                        <li th:if="${currentPage < pages}">
+                            <a th:href="@{/customer/myorderlist.do(page=${pages}, firstdate=${firstdate}, seconddate=${seconddate})}">&raquo;</a>
+                        </li>
+                    </ul>
 
-        <div class="pagearea d-flex justify-content-center" >
-            <th:block th:each="num : ${#numbers.sequence(1,pages)}" >
-                <a class="num" th:href="@{/customer/myorderlist.do(page=${num})}" th:text="${num}"></a>
-            </th:block>
-        </div>
+                <!-- </th:block> -->
+
+
+
+            </div>
+        </form>
 
 
         
@@ -462,11 +548,49 @@
 
 
 
+    
     <!-- script-->
     <script th:inline="javascript" type="text/javascript">
 
-  
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+        var formmattedDate = yyyy + '-' + mm + '-' + dd;
+
+        document.getElementById('sd').max = formmattedDate;
+        document.getElementById('fd').max = formmattedDate;
+
+        function firstdatechange(){
+            var startDate = document.getElementById("fd").value;
+            document.getElementById("sd").min = startDate;
+        }
+
+        function seconddatechange(){
+            var endDate = document.getElementById("sd").value;
+            document.getElementById("fd").max = endDate;
+        }
+
+        function onemonth() {
+            var today = new Date();
+            var today1 = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            today1.setDate(today1.getDate() - 30);
+
+            var dd = String(today1.getDate()).padStart(2, '0');
+            var mm = String(today1.getMonth() + 1).padStart(2, '0');
+            var yyyy = today1.getFullYear();
+            var formattedDate = yyyy + '-' + mm + '-' + dd;
+
+            var formattedDate1 = today.getFullYear() + '-' + (today.getMonth() + 1).toString().padStart(2, '0') + '-' + today.getDate().toString().padStart(2, '0');
+
+            document.getElementById("fd").value = formattedDate;
+            document.getElementById("sd").value = formattedDate1;
+            document.getElementById("btn_date").click();
+        }
+
         
+
+                
     </script>
     
 </body>
