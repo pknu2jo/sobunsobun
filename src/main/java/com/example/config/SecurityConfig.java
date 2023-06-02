@@ -105,9 +105,11 @@ public class SecurityConfig {
                                 .permitAll()
                                 .antMatchers("/admin/join.do", "/admin/login.do").permitAll()
 
-                                .antMatchers("/admin", "/admin/*").hasAuthority("ADMIN") // 주소가 9090/ROOT/admin ~~ 모든것
-                                .antMatchers("/seller", "/seller/*").hasAnyAuthority("ADMIN", "SELLER")
-                                .antMatchers("/customer", "/customer/*", "/customer/item/*").hasAnyAuthority("CUSTOMER")
+                                .antMatchers("/admin", "/admin/*").hasAuthority("ROLE_ADMIN") // 주소가 9090/ROOT/admin ~~
+                                                                                              // // 모든것
+                                .antMatchers("/seller", "/seller/*").hasAnyAuthority("ROLE_ADMIN", "SELLER")
+                                .antMatchers("/customer", "/customer/*", "/customer/item/*")
+                                .hasAnyAuthority("CUSTOMER")
 
                                 .anyRequest().permitAll();
 
