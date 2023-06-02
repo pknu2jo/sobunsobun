@@ -14,6 +14,9 @@ import com.example.entity.mj.ItemCategoryView;
 @Service
 public interface MjItemService {
     
+    /** 사업자 번호에 해당하는 물품 갯수 가져오기 */
+    public long countItems(String regno);
+
     /** 물품 등록 */
     public Item saveItem(Item obj);
 

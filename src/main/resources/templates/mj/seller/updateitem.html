@@ -24,7 +24,7 @@
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/mj/seller.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
-    <link rel="icon" th:href="@{/images/jk/sobun_seller.ico}">
+    <link rel="icon" th:href="@{/images/jk/sobunseller.ico}">
 </head>
 
 <body class="sb-nav-fixed">
@@ -43,7 +43,7 @@
 
                         <h3>물품수정</h3>
                         <a th:href="@{/seller/item/management.do}"><button class="btn btn-dark">물품리스트</button></a>
-                        <form th:action="@{/seller/item/updateitemaction.do}" method="post">
+                        <form th:action="@{/seller/item/updateitemaction.do}" method="post" id="form1">
                             <div class="row">
                                 <!-- <div class="col-auto" style="background-color: lime;">
                                     <p>물품번호</p>                                
@@ -81,7 +81,7 @@
                                         <td><input class="form-control readonly" type="text" name="scategoryCode[]" th:value="${obj.scategoryCode.name}" onclick="readonly()" readonly/></td>
                                         <td><input class="form-control readonly" type="text" name="mcategoryCode[]" th:value="${obj.scategoryCode.mcategoryCode.name}" onclick="readonly()" readonly/></td>
                                         <td><input class="form-control readonly" type="text" name="lcategoryCode[]" th:value="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}" onclick="readonly()" readonly/></td>
-                                        <td><input class="form-control readonly" type="text" th:value="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분 ss초')}" onclick="readonly()" readonly /></td>
+                                        <td><input class="form-control readonly" type="text" th:value="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일')}" onclick="readonly()" readonly /></td>
                                         
                             <!-- ====================== -->
                                         <!-- <td th:text="${obj.no.longValue()}" id="itemno">물품번호</td>
@@ -103,8 +103,25 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <button class="btn btn-outline-dark" id="updateitem">수정</button>
+                            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#updateOkmodal" id="updateitem">수정</button>
                         </form>
+                    </div>
+
+                    <div class="modal fade" id="updateOkmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">물품수정</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                물품수정을 수정하시겠습니까?
+                            </div>
+                            <div class="modal-footer">
+                            <button type="submit" class="btn btn-dark" data-bs-dismiss="modal" onclick="updateItemAction()">확인</button>
+                            </div>
+                        </div>
+                        </div>
                     </div>
 
                 </div>
@@ -194,17 +211,27 @@
             alert('물품번호, 카테고리, 등록일은 수정할 수 없습니다.');
         }
 
+
+        
+        function updateItemAction() {
+            const form1 = document.getElementById("form1");
+            form1.submit();
+            alert('물품수정이 완료되었습니다.');
+        }
+
         
     </script>
 
     <script>
-        document.getElementById("updateitem").addEventListener("click", clickFunction);
+        // document.getElementById("updateitem").addEventListener("click", clickFunction);
 
-        function clickFunction(){
-            if(!confirm('물품수정이 완료되었습니다.')){
-                    window.location.href = `/SOBUN/seller/item/management.do`;
-                }
-        }
+        // function clickFunction(){
+        //     $('#updateOkmodal').modal('show');
+            
+        //     // if(!confirm('물품수정이 완료되었습니다.')){
+        //     //         window.location.href = `/SOBUN/seller/item/management.do`;
+        //     //     }
+        // }
     </script>
 
 
