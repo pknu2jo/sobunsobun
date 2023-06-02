@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>새로운 1인가구 공구문화 - 소분소분</title>
+    <link rel="icon" th:href="@{/images/se/sobun.ico}">
 
     <th:block th:replace="~{/se/customer/header :: headerCSS}"></th:block>
     <th:block th:replace="~{/km/customer/footer :: footerCSS}"></th:block>
@@ -205,10 +206,10 @@
                                     </div>
                                     <div class="col-lg-12 desc_col">
                                         <div class="tab_image">
-                                            <th:block th:if="${imgList.size() > 0}">
+                                            <th:block th:if="${imgList.size() > 1}">
                                                 <img th:src="@{/customer/image(no=${imgList[1]})}">
                                             </th:block>
-                                            <th:block th:unless="${imgList.size() > 0}">
+                                            <th:block th:unless="${imgList.size() > 1}">
                                                 <img th:src="@{/customer/image}" alt="">
                                             </th:block>
                                         </div>

@@ -1,34 +1,82 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>새로운 1인가구 공구문화 - 소분소분</title>
+    <link rel="icon" th:href="@{/images/se/sobun.ico}">
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <!-- font-awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" th:href="@{/css/km/ordersuccess.css}" type="text/css">
     <th:block th:replace="~{/se/customer/header :: headerCSS}"></th:block>
     <th:block th:replace="~{/km/customer/footer :: footerCSS}"></th:block>
 
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <!-- axios (https://cdnjs.com/libraries/axios) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"
+        integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
 <body>
     <!-- header -->
     <th:block th:replace="~{/se/customer/header :: headerHTML}"></th:block>
-    
+
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
-    <div style="padding-bottom: 300px;">
-        <a th:href="@{/customer/myorderlist.do}">주문 확인하기</a>
+    <div class="bodysection" style="padding-bottom: 300px;">
+
+        <div class="success d-flex justify-content-center align-items-center" style="width: 100%;">
+            <div class="row">
+                <div class="col-2">
+                    <!-- <a href="https://www.flaticon.com/kr/free-icons/" title="진드기 아이콘"></a> -->
+                    <img class="checkmark" th:src="@{/images/km/checkmark.png}">
+                </div>
+                <div class="col">
+                    <h3 class="align-items-center mb-0" style="align-items: center;">결제가 완료되었습니다.</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center successhr" style="width: 100%;">
+            <hr>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center successcontent" style="width: 100%;">
+            <div class="row">
+                <div class="col-6 title">주문일시&nbsp;</div>
+                <div class="col-6 content" th:text="${ordersuccess.orderdate}"></div>
+                <div class="col-6 title">물품명&nbsp;</div>
+                <div class="col-6 content" th:text="${ordersuccess.itemname}"></div>
+                <div class="col-6 title">결제금액&nbsp;</div>
+                <div class="col-6 content" th:text="${ordersuccess.totalprice}"></div>
+                <div class="col-6 title">수령지점&nbsp;</div>
+                <div class="col-6 content" th:text="${ordersuccess.storagename}"></div>
+            </div>
+        </div>
+
+
+        <div class="success_btn_section">
+            <button type="button">
+                <a th:href="@{/customer/myorderlist.do}">주문내역 확인</a>
+            </button>
+            <button type="button">
+                <a th:href="@{/customer/home.do}" class="card-link">Home</a>
+            </button>
+        </div>
+
+
     </div>
 
     <!-- footer -->
     <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
 
     <!-- script-->
-    
+
 </body>
+
 </html>

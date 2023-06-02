@@ -6,7 +6,7 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name="description" content="소분소분 - 판매자를 위한 공간">
     <title>소분소분 - 판매자 페이지</title>
-    <link rel="icon" th:href="@{/images/jk/sobun_seller.ico}">
+    <link rel="icon" th:href="@{/images/jk/sobunseller.ico}">
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
     <!-- 1. Bootstrap용 css CDN 추가 -->
@@ -46,72 +46,127 @@
         <th:block th:replace="~{/jk/seller/navbar :: navbarHTML}"></th:block>
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
-            <main style="padding: 5%; background-color:rgb(242, 242, 242);">
+            <main>
                 <div class="container-fluid" style="padding: 3%;">
                     <div class="row">
-                        <div class="col-ml-6"
-                            style="border: 2px solid rgba(215, 219, 235, 0.534); border-radius: 20px; background-color: #ffffff; margin-bottom: 40px; ">
-                            <p style="margin: 20px; margin-top: 40px; font-weight: 500; font-size: 45px;"><strong>상품을 바로
-                                    등록하시겠어요?</strong></p>
-                            <div class="px-4 " style="font-weight: 600;">
-                                <p id="divContnent" class="mb-1"
-                                    th:text="'현재 ' + ${companyName} + '님의 등록된 상품은 ' + ${countItem} + '개 등록되어 있습니다.'"></p>
-                                <!-- ############## 민지씨 여기에 상품갯수 넣어주세요 ^ 여기 ############## -->
-                                <p id="divContnent">아래 버튼을 눌러 추가로 새로운 상품을 등록해보세요!</p>
-                                <div style="text-align: right; position:relative;right: 40px;">
-
-                                </div>
-                            </div>
-                            <div class="p-4  ">
-                                <img src="../images/jk/box.png" alt="상자img"
-                                    style="float: right; position: relative; bottom: 40px;">
-
-                                <div style="text-align: left; padding-top: 50px;">
-                                    <a th:href="@{/seller/item/insert.do}" class="btn btn-dark btn-lg btn-block">상품
-                                        등록하기</a>
-                                    <a th:href="@{/seller/item/search.do}"
-                                        class="btn btn-outline-dark btn-lg btn-block">상품 판매통계 확인하기</a>
+                        <div class="col-ml-12">
+                            <div class="card mb-4">
+                                <div class="card-body" id="guideCardBody">
+                                    <!-- 사이트 이용 설명을 위한 버튼 -->
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#guideModal">
+                                        가이드 보기
+                                    </button>
+                                
+                                    <!-- 오늘 하루 그만보기 버튼 -->
+                                    <button type="button" class="btn btn-secondary float-end" id="hideGuideBtn">
+                                        오늘하루 그만보기
+                                    </button>
+                                
+                                    <!-- 모달 창 -->
+                                    <div class="modal fade" id="guideModal" tabindex="-1" aria-labelledby="guideModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="guideModalLabel">사이트 이용 가이드</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- 가이드 내용 -->
+                                                    <p>사이트 이용 설명을 여기에 작성합니다.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6"
-                            style="border: 2px solid rgba(215, 219, 235, 0.534); border-radius: 20px; background-color: #ffffff; margin-bottom: 40px; ">
-                            <img src="https://via.placeholder.com/550x150" alt="배너 이미지"
-                                style="width: 100%; height: 100%;">
+
+
+                        <div class="col-ml-12">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <p style="margin: 20px; margin-top: 40px; font-weight: 500; font-size: 45px;">
+                                        <strong>상품을 바로
+                                            등록하시겠어요?</strong>
+                                    </p>
+                                    <div class="px-4 " style="font-weight: 600;">
+                                        <p id="divContnent" class="mb-1"
+                                            th:text="'현재 ' + ${companyName} + '님의 등록된 상품은 ' + ${countItem} + '개 등록되어 있습니다.'">
+                                            <!-- ############## 민지씨 여기에 상품갯수 넣어주세요 ^ 여기 ############## -->
+                                        </p>
+
+                                        <p id="divContnent">아래 버튼을 눌러 추가로 새로운 상품을 등록해보세요!</p>
+                                        <div style="text-align: right; position:relative;right: 40px;">
+                                        </div>
+                                    </div>
+                                    <div class="p-4">
+                                        <img src="../images/jk/box.png" alt="상자img"
+                                            style="float: right; position: relative; bottom: 40px;">
+
+                                        <div style="text-align: left; padding-top: 50px;">
+                                            <a th:href="@{/seller/item/insert.do}"
+                                                class="btn btn-dark btn-lg btn-block">상품
+                                                등록하기</a>
+                                            <a th:href="@{/seller/item/search.do}"
+                                                class="btn btn-outline-dark btn-lg btn-block">판매통계 확인하기</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <!-- <img src="https://via.placeholder.com/550x150" alt="배너 이미지"
+                                style="width: 100%; height: 100%;"> -->
                         </div>
                     </div>
 
                     <!-- 각 화면별 상세 화면 -->
-                    <div class="row mt-4">
-                        <div class="col-md-6"
-                            style="border: 2px solid rgba(215, 219, 235, 0.534); border-radius: 20px 0 0 20px; background-color: #ffffff; ">
-                            <p style="margin: 20px; margin-top: 40px; font-weight: 600; font-size: 28px;"><strong>지금까지
-                                    가장 많이 팔린 상품은..</strong></p>
-                            <div class="p-4">
-                                <img src="https://via.placeholder.com/350x250" alt="상품 사진"
-                                    style="padding: 5%; width: 50%; border: 0.5px solid rgb(196, 196, 196);">
-                                <!-- ############## 민지씨 ############## -->
-                                <!-- <img th:src="${imageUrl}" alt="상품 사진" style=""> -->
-                                <p id="divContnent">글자 글자</p>
-                                <p id="divContnent">글글</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-4">
+                                <div class="card-body" style="font-weight: 600;">
+                                    <p style="margin: 20px; font-weight: 600; font-size: 28px;">
+                                        <strong>지금까지 가장 많이 팔린 상품은..</strong>
+                                    </p>
+                                    <div class="d-flex">
+                                        <img src="https://via.placeholder.com/350x250" alt="상품 사진"
+                                            style="width: 30%; border-radius: 10px; border:1px; margin: 20px;">
+                                        <div class="ms-3">
+                                            <!-- <img th:src="${imageUrl}" alt="상품 사진" style="width: 30%; border-radius: 10px; border:1px; margin: 20px;">  와 같은-->
+                                            <p id="divContnent" th:text=" '상품명 : ' +  ${itemName}"
+                                                style="margin: 20px;">
+                                            <p id="divContnent" th:text=" '지금까지 총 ' +  ${soldCount} +'개 팔렸습니다!'"
+                                                style="margin: 20px;"></p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-md-6" style="border: 2px solid rgba(215, 219, 235, 0.534); border-left: 0px; border-radius: 0 20px 20px 0; background-color: #ffffff;  
-                            ">
-                            <p style="margin: 20px; margin-top: 40px; font-weight: 600; font-size: 26px;"><strong>이번 달에
-                                    가장 많이 팔린 상품들이에요!</strong></p>
-                            <br>
-                            <!-- 표가 들어갈 자리 -->
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="card mb-4">
-                                            <div class="card-header">
-                                                <i class="fas fa-chart-area me-1"></i>
-                                                지역
-                                            </div>
-                                            <div class="card-body">
-                                                <canvas id="myBarChart2" width="100%" height="30"></canvas>
+                        <div class="col-md-6">
+                            <div class="card mb-4">
+                                <div class="card-body" style="font-weight: 600;">
+                                    <p style="margin: 20px; font-weight: 600; font-size: 26px;">
+                                        <strong>이번 달에
+                                            가장 많이 팔린 상품들이에요!</strong>
+                                    </p>
+                                    <br>
+                                    <!-- 표가 들어갈 자리 -->
+                                    <div class="container">
+                                        <div class="row ">
+                                            <div class="col">
+                                                <div class="card mb-4">
+                                                    <div class="card-header" sty> <!-- header 부분 지우고 내용만 포함해도 됨. -->
+                                                        <!-- <i class="fas fa-chart-area me-1"></i> -->
+                                                        이달의 HOT Item Top 3
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <canvas id="myBarChart2" width="100%" height="30"></canvas>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -119,91 +174,129 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </main>
             <!-- footer -->
             <th:block th:replace="~{/jk/seller/footer :: footerHTML}"></th:block>
         </div>
 
-        <!-- 6. Bootstrap용 js -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
-            crossorigin="anonymous"></script>
-        <!-- jQuery 추가 -->
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-            integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-        <!-- font awesome용 스크립트 CDN -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
-            integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        <!-- Chart용 CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+    </div>
 
-        <script>
-            $(document).ready(function () {
-                const sidebarToggle = $('#sidebarToggle');
-                if (sidebarToggle) {
-                    sidebarToggle.click(function () {
-                        console.log('buttonClick');
-                        event.preventDefault(); /* 아래쪽 요소로 이벤트가 전파되지 않도록 */
-                        document.body.classList.toggle('sb-sidenav-toggled');
-                        localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
-                    });
-                }
-            });
-        </script>
+    <!-- 6. Bootstrap용 js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
+    <!-- jQuery 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <!-- font awesome용 스크립트 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+        integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        <script th:inline="javascript" type="text/javascript">
-            var arrays = "[[${array}]]";
-            var max = "[[${max}]]";
+    <!-- Chart용 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 
-            var ctx = document.getElementById("myBarChart2");
-            var myLineChart = new Chart(ctx, {
-                type: 'horizontalBar',
-                data: {
-                    labels: ["중구", "서구", "동구", "영도구", "진구", "동래구", "남구", "북구", "해운대구", "사하구", "금정구", "강서구", "연제구", "수영구", "사상구"],
-                    datasets: [{
-                        label: "Headcount",
-                        backgroundColor: "rgba(2,117,216,0.5)",
-                        borderColor: "rgba(2,117,216,1)",
-                        data: [arrays[1], arrays[3], arrays[5], arrays[7], arrays[9], arrays[11], arrays[13], arrays[15], arrays[17]
-                            , arrays[19], arrays[21], arrays[23], arrays[25], arrays[27], arrays[29]],
+    <script>
+        // // 페이지 로드 시, 저장된 값 확인하여 가이드 숨기기
+        // window.onload = function () {
+        //     var hideGuideUntil = localStorage.getItem('hideGuideUntil');
+        //     var now = new Date().getTime();
+
+        //     if (hideGuideUntil && now < hideGuideUntil) {
+        //         var guideCardBody = document.getElementById('guideCardBody');
+        //         guideCardBody.style.display = 'none';
+        //     }
+        // };
+
+        // // 오늘 날짜의 자정 시간을 구하는 함수
+        // function getMidnightTime() {
+        //     var now = new Date();
+        //     var midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+        //     return midnight.getTime();
+        // }
+
+        // // 오늘 하루 그만보기 버튼 클릭 시, 가이드 숨기기
+        // document.getElementById('hideGuideBtn').addEventListener('click', function () {
+        //     var guideCardBody = document.getElementById('guideCardBody');
+        //     guideCardBody.style.display = 'none';
+
+        //     // 오늘 날짜의 자정 시간을 구하고, localStorage에 저장
+        //     var midnightTime = getMidnightTime();
+        //     localStorage.setItem('hideGuideUntil', midnightTime);
+        // });
+
+        
+
+
+
+
+
+        $(document).ready(function () {
+            const sidebarToggle = $('#sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.click(function () {
+                    console.log('buttonClick');
+                    event.preventDefault(); /* 아래쪽 요소로 이벤트가 전파되지 않도록 */
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
+            }
+        });
+    </script>
+
+    <script th:inline="javascript" type="text/javascript">
+        var arrays = "[[${array}]]";
+        var max = "[[${max}]]";
+
+        var ctx = document.getElementById("myBarChart2");
+        var myLineChart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: ["중구", "서구", "동구", "영도구", "진구", "동래구", "남구", "북구", "해운대구", "사하구", "금정구", "강서구", "연제구", "수영구", "사상구"],
+                datasets: [{
+                    label: "Headcount",
+                    backgroundColor: "rgba(2,117,216,0.5)",
+                    borderColor: "rgba(2,117,216,1)",
+                    data: [arrays[1], arrays[3], arrays[5], arrays[7], arrays[9], arrays[11], arrays[13], arrays[15], arrays[17]
+                        , arrays[19], arrays[21], arrays[23], arrays[25], arrays[27], arrays[29]],
+                }],
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        barPercentage: 0.5, // 막대 두께 비율
+                        categoryPercentage: 0.9, // 그룹(카테고리) 너비 비율
+                        time: {
+                            unit: 'month'
+                        },
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: {
+                            maxTicksLimit: 15
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            min: 0,
+                            max: Number(max),
+                            maxTicksLimit: Number(max)
+                        },
+                        gridLines: {
+                            display: true
+                        }
                     }],
                 },
-                options: {
-                    scales: {
-                        yAxes: [{
-                            barPercentage: 0.5, // 막대 두께 비율
-                            categoryPercentage: 0.9, // 그룹(카테고리) 너비 비율
-                            time: {
-                                unit: 'month'
-                            },
-                            gridLines: {
-                                display: false
-                            },
-                            ticks: {
-                                maxTicksLimit: 15
-                            }
-                        }],
-                        xAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                min: 0,
-                                max: Number(max),
-                                maxTicksLimit: Number(max)
-                            },
-                            gridLines: {
-                                display: true
-                            }
-                        }],
-                    },
-                    legend: {
-                        display: false
-                    }
+                legend: {
+                    display: false
                 }
-            });
-        </script>
+            }
+        });
+    </script>
 </body>
 
 </html>
