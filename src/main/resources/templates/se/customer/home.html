@@ -37,8 +37,7 @@
             position: relative;
             margin: 10px;
             padding: 0 10px 0 10px;
-            top: -381px;
-            left: -10px;
+            top: -418px;
             background-color: #6D9275;
             color: #fff;
         }
@@ -83,6 +82,32 @@
             display: inline-block;
         }
 
+        /* 물품목록 */
+        .topList {
+            display: inline-block;
+            margin-top: 8px;
+            margin-right: 6px;
+            margin-bottom: 100px;
+        }
+
+        .topList:nth-child(5) {
+            margin-right: 0px;
+        }
+
+
+        .topList a {
+            text-decoration: none;
+            color: #204710;
+        }
+
+        .topList img {
+            margin-bottom: 10px;
+        }
+
+        .topList a div {
+            padding-left: 5px;
+        }
+
     </style>
 
 </head>
@@ -103,30 +128,38 @@
             
             <div class="container homeMain">
                 <th:block th:if="${idx.index == 0}" th:each=" deadOne, idx : ${deadList} ">
-                    <div class="row mb-3">
-                        <div class="col-auto">
+                    <div class="row" style="height: 465px;">
+                        <div class="col">
                             <!-- 기한이 얼마 안 남은 공구 -->
                             <img th:src="@{/images/se/homeBanner.jpg}" style="width: 800px; height: 450px;">
                         </div>
-                        <div class="col">
-                            <a th:href="@{/customer/item/selectone.do(itemno=${deadOne.itemno})}"><img th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="height: 100%; overflow-y: hidden;"></a>
+                        <div class="col mb-auto">
+                            <a th:href="@{/customer/item/selectone.do(itemno=${deadOne.itemno})}"><img th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="width: 450px; height: 450px;"></a>
                             <div class="dday1 shadow-sm" th:text="|D - ${deadOne.dday}|"></div>
                         </div>
                     </div>
                 </th:block>
 
-                <div class="row mb-5">
+                <!-- <div class="row mb-5"> -->
                     <th:block th:if="${idx.index != 0}" th:each=" deadOne, idx : ${deadList} ">
-                        <div class="col card p-0 shadow-sm m-2">
+                        <div class="topList">
+                            <a th:href="@{/customer/item/selectone.do(itemno=${deadOne.itemno})}">
+                                <img th:src="@{/customer/seimage(itemno=${deadOne.itemno})}"  style="width: 310px; height: 350px;">
+                                <div th:text="${deadOne.name}"></div>
+                                <div th:text="${#numbers.formatInteger(deadOne.price, 3, 'COMMA') + '원'}"></div>
+                                <label class="card-text dday2 shadow-sm" th:text="|D - ${deadOne.dday}|"></label>
+                            </a>
+                        </div>
+                        <!-- <div class="col card p-0 shadow-sm m-2">
                             <a th:href="@{/customer/item/selectone.do(itemno=${deadOne.itemno})}"><img class="card-img-top" th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="width: 307px; height: 307px;"></a>
                             <div class="card-body p-3">
                                 <div class="card-text" th:text="${deadOne.name}"></div>
                                 <div class="card-text" th:text="${#numbers.formatInteger(deadOne.price, 3, 'COMMA') + '원'}"></div>
                                 <label class="card-text dday2 shadow-sm" th:text="|D - ${deadOne.dday}|"></label>
                             </div>
-                        </div>
+                        </div> -->
                     </th:block>
-                </div>
+                <!-- </div> -->
                 
                 <br><br><br>
 
@@ -170,17 +203,24 @@
                     </div>
                 </th:block>
 
-                <div class="row mb-5">
+                <!-- <div class="row mb-5"> -->
                     <th:block th:if="${idx.index != 0}" th:each=" aroundOne, idx : ${aroundList} ">
-                        <div class="col card p-0 shadow-sm m-2">
-                            <a th:href="@{/customer/item/selectone.do(itemno=${aroundOne.itemno})}"><img class="card-img-top" th:src="@{/customer/seimage(itemno=${aroundOne.itemno})}" style="width: 307px; height: 307px;"></a>
+                        <div class="topList">
+                            <a th:href="@{/customer/item/selectone.do(itemno=${aroundOne.itemno})}">
+                                <img th:src="@{/customer/seimage(itemno=${aroundOne.itemno})}"  style="width: 310px; height: 350px;">
+                                <div th:text="${aroundOne.name}"></div>
+                                <div th:text="${#numbers.formatInteger(aroundOne.price, 3, 'COMMA') + '원'}"></div>
+                            </a>
+                        </div>
+                        <!-- <div class="col-sm-3 card p-0 shadow-sm m-2">
+                            <a th:href="@{/customer/item/selectone.do(itemno=${aroundOne.itemno})}"><img class="card-img-top" th:src="@{/customer/seimage(itemno=${aroundOne.itemno})}" ></a>
                             <div class="card-body p-3">
                                 <div class="card-text" th:text="${aroundOne.name}"></div>
                                 <div class="card-text" th:text="${#numbers.formatInteger(aroundOne.price, 3, 'COMMA') + '원'}"></div>
                             </div>
-                        </div>
+                        </div> -->
                     </th:block>
-                </div>
+                <!-- </div> -->
                 
                 <br><br><br>
 

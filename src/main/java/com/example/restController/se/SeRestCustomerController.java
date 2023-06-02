@@ -1,8 +1,12 @@
 package com.example.restController.se;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,12 +15,15 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.CustomerUser;
+import com.example.entity.CNotificationEntity;
 import com.example.entity.CustomerEntity;
 import com.example.service.se.SeCustomerService;
 
@@ -77,4 +84,30 @@ public class SeRestCustomerController {
         return retMap;
     }
 
+
+    // -------------------------------------------------------------------------------------------------------------------------------
+    // 알림 가져오기
+    @GetMapping(value = "/selectnoti.json")
+    public Map<String, Object> selectnotiGET(
+        @RequestParam(name = "id") String id
+    ) {
+        Map<String, Object> retMap = new HashMap<>();
+        try {
+            LocalDate currentDate = LocalDate.now();
+            LocalDate oneMonthAgo = currentDate.minusMonths(1);
+            Date oneMonthAgoDate = Date.from(oneMonthAgo.atStartOfDay(ZoneId.systemDefault()).toInstant());
+            // log.info("여기좀보세요 => {}", oneMonthAgoDate);
+
+            List<CNotificationEntity> list = cService.findByCustomerEntity_idAndRegdateAfter(id, oneMonthAgoDate);
+            // log.info("여기좀보세요 => {}", list1);
+
+            retMap.put("list", list);
+            retMap.put("ret", 1);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("ret", -1);
+        }
+        return retMap;
+    }
 }

@@ -8,25 +8,24 @@
 </head>
 <body>
 
-    <button onclick="sendMessage1()">send</button>
+    <button onclick="sendMessage2()">send</button>
     
     <script>
-        // const id = "마루";
-        // const eventSource = new EventSource(`/SOBUN/api/sse/notify/subscribe?id=${id}`);
 
-        const sendMessage = () => {
-            var message = '우히히';
-            fetch(`/SOBUN/api/sse/notify/publish?message=${message}`) // 메시지 보내기
-        }
-
+        // 찜물품 공구열림
         const sendMessage1 = () => {
+            var itemno = 13;
             var message = '찜';
-            fetch(`/SOBUN/api/sse/jjim/publish?message=${message}`) // 메시지 보내기
+            fetch(`/SOBUN/api/sse/jjim/publish?message=${message}&itemno=${itemno}`) // 메시지 보내기
         }
 
-        // eventSource.onmessage = (e) => { // 메시지가 왔을 때
-        //     console.log('onmessage', e.data);
-        // }
+        // 공구마감
+        const sendMessage2 = () => {
+            var purchaseno = 1058;
+            var message = '공구마감';
+            fetch(`/SOBUN/api/sse/completepurchase/publish?message=${message}&purchaseno=${purchaseno}`) // 메시지 보내기
+        }
+
     </script>
 </body>
 </html>

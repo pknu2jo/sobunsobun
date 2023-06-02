@@ -116,7 +116,7 @@ public class SePurchaseItemController {
             // 5세트의 끝 페이지 번호는 21 + 4 => 25 이지만 총 페이지 수(23)보다 크기 때문에
             // Math.min 으로 총 페이지 수(23) 을 끝 페이지 번호로 세팅
 
-            log.info("이게 왜 안돼... => {}, {}, {}, {}", pages, currentSet, startPage, endPage);
+            // log.info("이게 왜 안돼... => {}, {}, {}, {}", pages, currentSet, startPage, endPage);
             
             model.addAttribute("pages", (pages-1)/pageSize + 1); // 총 페이지 수
             model.addAttribute("currentPage", page); // 현재 페이지

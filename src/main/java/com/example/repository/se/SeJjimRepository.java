@@ -11,7 +11,6 @@ import com.example.entity.se.SeJjimProjection;
 
 @Repository
 public interface SeJjimRepository extends JpaRepository<JjimEntity, BigDecimal> {
-
     
     List<SeJjimProjection> findByItemEntity_no(BigDecimal no);
     
