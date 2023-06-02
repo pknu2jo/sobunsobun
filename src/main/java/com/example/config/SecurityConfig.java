@@ -7,6 +7,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -50,7 +52,6 @@ public class SecurityConfig {
 
                 // 서비스 등록
                 http.userDetailsService(userAdminDetailsService);
-
                 return http.build();
         }
 
@@ -95,15 +96,14 @@ public class SecurityConfig {
                                                 "/customer/kakaojoinaction.do", "/customer/item/selectlist.do",
                                                 "/customer/notitest.do",
                                                 "/customer/kmtest.do", "/customer/image", "/customer/item/selectone.do",
-                                                "/customer/kmreviewimage",
-                                                "/admin/home.do", "/admin/login.do")
+                                                "/customer/kmreviewimage")
                                 .permitAll()
                                 .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do",
                                                 "/seller/home.do",
                                                 "/seller/findpw.do", "/seller/updateinfo.do", "/seller/updatepw.do",
                                                 "/seller/pwinfocheck.do", "/seller/item/management.do")
                                 .permitAll()
-                                .antMatchers("/admin/join.do").permitAll()
+                                .antMatchers("/admin/join.do", "/admin/login.do").permitAll()
 
                                 .antMatchers("/admin", "/admin/*").hasAuthority("ADMIN") // 주소가 9090/ROOT/admin ~~ 모든것
                                 .antMatchers("/seller", "/seller/*").hasAnyAuthority("ADMIN", "SELLER")
