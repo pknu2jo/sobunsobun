@@ -211,16 +211,32 @@
             padding-bottom: 10px;
         }
 
-        .mypage_likeitemitems .mypage_likeitem .img{
+        .item-container{
+            position: relative;
+        }
+
+        .item-container .img{
             width: 265px;
             height: 300px;
+            position: relative;
+        }
+
+        .item-container .heartBtn{
+            background: transparent;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            position: absolute;
+            top: 13px;
+            right: 13px;
+            
         }
 
         .mypage_likeitemitems .mypage_likeitem .text{
             padding: 0 4px 0 12px;
             padding-top: 22px;
             padding-bottom: 19px;
-            height: 140px;
+            height: 115px;
         }
 
         .mypage_likeitemitems .mypage_likeitem .text .itemname{
@@ -240,7 +256,7 @@
         .mypage_likeitemitems .mypage_likeitem .text .price{
             position: relative;
             line-height: normal;
-            margin-top: 8px;
+            margin-top: 12px;
             margin-bottom: 8px;
             align-items: baseline;
             text-decoration: none;
@@ -261,13 +277,15 @@
         }
 
         hr{
-            margin-top: 1px;
+            margin-top: 8px;
             margin-bottom: 1px;
         }
 
         .pageul * {
             display: inline-block;
         }
+
+        
 
         .pagearea a{
             text-decoration: none;
@@ -277,10 +295,25 @@
             
         }
 
+        .pageul li.active a {
+            font-weight: bold;
+            color: black;
+        }
+
         .text button.active{
             background-color: none;
             border: 0;
         }
+
+        .buttonarea {
+            margin-top: 10px;
+        }
+
+        .heartBtn .fa-heart{
+            color: #FA5500;
+            font-size: 18px;
+        }
+        
 
 
 
@@ -308,9 +341,9 @@
                     &nbsp;&nbsp;>&nbsp;&nbsp;
                     <a th:href="@{/customer/mypage.do}" class="semi-title">MY PAGE</a>
                     &nbsp;&nbsp;>&nbsp;&nbsp;
-                    <a th:href="@{/customer/mylikeitem.do}" class="semi-title">관심물품</a>
+                    <a th:href="@{/customer/mylikeitem.do}" class="semi-title">MY ♡</a>
                     &nbsp;&nbsp;>&nbsp;&nbsp;
-                    <a th:href="@{/customer/mylikeitem.do}" class="semi-title">관심물품관리</a>
+                    <a th:href="@{/customer/mylikeitem.do}" class="semi-title">MY ♡ ITEM</a>
                     &nbsp;&nbsp;
                 </li>
             </ol>
@@ -320,7 +353,7 @@
             <div class="submenu-header d-flex justify-content-center">
                 <ul>
                     <li class="active">
-                        <a th:href="@{/customer/mylikeitem.do}">관심물품</a>
+                        <a th:href="@{/customer/mylikeitem.do}">MY ♡</a>
                     </li>
                     <li>
                         <a th:href="@{/customer/myorderlist.do}">주문관리</a>
@@ -334,7 +367,7 @@
                 <div class="inner d-flex justify-content-center">
                     <ul>
                         <li>
-                            <a th:href="@{/customer/mylikeitem.do}">관심물품 관리</a>
+                            <a th:href="@{/customer/mylikeitem.do}">MY ♡ ITEM</a>
                         </li>
                     </ul>
                     <ul>
@@ -374,19 +407,31 @@
 
             <div class="mypage_likeitem d-flex justify-content-center">
                 <ul>
-                    <th:block th:each="list : ${list}">
+                    <th:block th:each="list, listIndex : ${list}">
                         <li>
-                            <div class="img">
-                                <a th:href="@{/customer/item/selectone.do?(itemno=${list.itemno})}"><img th:src="@{/customer/seimage(itemno=${list.itemno})}" style="width: 265PX; height: 300PX;" ></a>
-                            </div>
-                            <div class="text">
-                                <a class="itemname" th:href="@{/customer/item/selectone.do?(itemno=${list.itemno})}"><div class="title" th:text="${list.name}"></div></a><div></div>
-                                <div class="price" id="price" th:text="|${#numbers.formatInteger(list.price , 3 , 'COMMA')}원|"  style="pointer-events: none;"></div>
-                                <hr />
-                                <!-- <button type="button" class="active" th:onclick="chkheart([[${list.itemno}]])"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="m12 20.703.343.667a.748.748 0 0 1-.686 0l-.003-.002-.007-.003-.025-.013a31.138 31.138 0 0 1-5.233-3.576C3.8 15.573 1 12.332 1 8.514v-.001C1 5.053 3.829 2.5 6.736 2.5 9.03 2.5 10.881 3.726 12 5.605 13.12 3.726 14.97 2.5 17.264 2.5 20.17 2.5 23 5.052 23 8.514c0 3.818-2.801 7.06-5.389 9.262a31.148 31.148 0 0 1-5.233 3.576l-.025.013-.007.003-.002.001ZM6.736 4C4.657 4 2.5 5.88 2.5 8.514c0 3.107 2.324 5.96 4.861 8.12a29.655 29.655 0 0 0 4.566 3.175l.073.041.073-.04c.271-.153.661-.38 1.13-.674.94-.588 2.19-1.441 3.436-2.502 2.537-2.16 4.861-5.013 4.861-8.12C21.5 5.88 19.343 4 17.264 4c-2.106 0-3.801 1.389-4.553 3.643a.751.751 0 0 1-1.422 0C10.537 5.389 8.841 4 6.736 4Z"></path></svg></button> -->
-                                <button type="button" class="active" th:onclick="chkheart([[${list.itemno}]])"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M14 20.408c-.492.308-.903.546-1.192.709-.153.086-.308.17-.463.252h-.002a.75.75 0 0 1-.686 0 16.709 16.709 0 0 1-.465-.252 31.147 31.147 0 0 1-4.803-3.34C3.8 15.572 1 12.331 1 8.513 1 5.052 3.829 2.5 6.736 2.5 9.03 2.5 10.881 3.726 12 5.605 13.12 3.726 14.97 2.5 17.264 2.5 20.17 2.5 23 5.052 23 8.514c0 3.818-2.801 7.06-5.389 9.262A31.146 31.146 0 0 1 14 20.408Z"></path></svg></button>
-                                
-            
+                            <div class="item-container">
+                                <div class="img">
+                                    <a th:href="@{/customer/item/selectone.do?(itemno=${list.itemno})}"><img th:src="@{/customer/seimage(itemno=${list.itemno})}" style="width: 265PX; height: 300PX;" ></a>
+                                    <button type="button" class="heartBtn" th:onclick="chkheart([[${list.itemno}]],[[${listIndex.index}]])">
+                                        <!-- 찜 안한 상태 => fa-regular -->
+                                        <!-- <i class="fa-regular fa-heart heartIcon"></i> -->
+                                        <!-- 찜 한 상태 => fa-solid -->
+                                        <i class="fa-solid fa-heart heartIcon" ></i>
+                                    </button>
+                                </div>
+                                <div class="text">
+                                    <a class="itemname" th:href="@{/customer/item/selectone.do?(itemno=${list.itemno})}"><div class="title" th:text="${list.name}"></div></a><div></div>
+                                    <div class="price" id="price" th:text="|${#numbers.formatInteger(list.price , 3 , 'COMMA')}원|"  style="pointer-events: none;"></div>
+                                    <hr />
+                                    <!-- <div class="buttonarea d-flex justify-content-center">
+                                        <button type="button" class="heartBtn" th:onclick="chkheart([[${list.itemno}]],[[${listIndex.index}]])">
+                                            <!-- 찜 안한 상태 => fa-regular -->
+                                            <!-- <i class="fa-regular fa-heart heartIcon"></i> -->
+                                            <!-- 찜 한 상태 => fa-solid 
+                                            <i class="fa-solid fa-heart heartIcon" ></i>
+                                        </button>
+                                    </div> -->
+                                </div>
                             </div>
                         </li>
                     </th:block>
@@ -423,14 +468,14 @@
     <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
 
 
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- script-->
     <script th:inline="javascript" type="text/javascript">
         const username = /*[[${user.username}]]*/"";
         console.log('반환되는 결과', username);
 
 
-        async function chkheart(itemno){
+        async function chkheart(itemno, index){
 
             const url = /*[[@{/api/customer/mylikeitem.json}]]*/"";
             const headers = {"Content-Type":"application/json"};
@@ -441,6 +486,40 @@
 
             console.log(data.result);
 
+            // const button = document.querySelector('.heartBtn');
+            // const heartIcon = document.querySelector('.heartIcon');
+            const button = $('.heartBtn');
+            const heartIcon = $('.heartIcon');
+
+
+            console.log("itemno => ", itemno);
+            console.log("index => ", index);
+
+            if (data.jjimstate === 1) {
+                // 찜 한 상태인 경우
+                // heartIcon[index].classList.remove('fa-regular');
+                // heartIcon[index].classList.add('fa-solid');
+                $(heartIcon[index]).addClass('fa-regular');
+                $(heartIcon[index]).removeClass('fa-solid');
+            } else {
+                // 찜 안한 상태인 경우
+                // heartIcon[index].classList.remove('fa-solid');
+                // heartIcon[index].classList.add('fa-regular');
+                $(heartIcon[index]).addClass('fa-solid');
+                $(heartIcon[index]).removeClass('fa-regular');
+            }
+
+            // button.addEventListener('click', function() {
+            //     if (heartIcon[index].classList.contains('fa-regular')) {
+            //         // 현재 아이콘이 찜 안한 상태인 경우
+            //         heartIcon[index].classList.remove('fa-regular');
+            //         heartIcon[index].classList.add('fa-solid'); // 찜 한 상태로 변경
+            //     } else {
+            //         // 현재 아이콘이 찜 한 상태인 경우
+            //         heartIcon[index].classList.remove('fa-solid');
+            //         heartIcon[index].classList.add('fa-regular'); // 찜 안한 상태로 변경
+            //     }
+            // });
         }
     </script>
  
