@@ -16,8 +16,8 @@ import lombok.Data;
 @Data
 @Immutable // 뷰
 @Entity
-@Table(name = "ORDERVIEW")
-public class OrderView {
+@Table(name = "COMPLETEORDERMEMBERVIEW")
+public class CompleteOrderMemberView {
     
     @Column(name = "NO")
     private String no;
@@ -27,25 +27,19 @@ public class OrderView {
 
     @Column(name = "ITEMCODE")
     private BigDecimal itemcode;
-
-    @Column(name = "ITEMNAME")
-    private String itemname;
-
-    @Column(name = "ADDRESS")
-    private String address;
     
     @Column(name = "MEMID")
     private String memid;
 
-    @Column(name = "STATE")
-    private BigDecimal state;
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "NICKNAME")
+    private String nickname;
 
     @Id
     @Column(name = "ENID")
     private BigDecimal enid;
-
-    @Column(name = "PARTICIPANT")
-    private BigDecimal participant;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @Column(name = "REGDATE")

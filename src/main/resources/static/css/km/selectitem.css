@@ -343,14 +343,12 @@ section
 .product_details_title
 {
 	font-weight: 500px;
-	line-height: 30px;
+	line-height: 50px;
+	margin-left: 10px;
 }
 .product_details_title p
 {
 	margin-top: 12px;
-}
-.product_details h2 {
-	display: inline-block;
 }
 
 /* 찜 기능 ~ */
@@ -359,8 +357,9 @@ section
 	background-color: inherit;
 }
 .product_details .heartIcon {
-	height: 45px;
-	color: #ff1f1f;
+	width: 100px;
+	color: #ef7b90;
+	font-size: 40px;
 }
 /* ~ 찜 기능 */
 
@@ -406,7 +405,7 @@ section
 {
 	display: inline-block;
 	font-size: 24px;
-	color: #fe4c50;
+	color: #e47e01;
 	font-weight: 500;
 	line-height: 30px;
 	margin-top: 2px;

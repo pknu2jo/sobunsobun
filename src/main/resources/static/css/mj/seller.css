@@ -437,3 +437,26 @@ main h3 {
 .datatable-pagination a {
     --bs-pagination-color:#0f4a7b;
 }
+
+/* 테이블 상단 'n개씩 보기'셀렉박스 안보이게 */
+.datatable-dropdown > label {
+    display: none;
+}
+
+
+/* input[type="file" i] {
+    appearance: none;
+    background-color: initial;
+    cursor: default;
+    align-items: baseline;
+    color: inherit;
+    text-overflow: ellipsis;
+    white-space: pre;
+    text-align: start !important;
+    padding: initial;
+    border: initial;
+    overflow: hidden !important;
+} */
+/* #file-upload-button {
+    background-color: #0f4a7b;
+} */

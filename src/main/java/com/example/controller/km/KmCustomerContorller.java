@@ -60,7 +60,7 @@ public class KmCustomerContorller {
                                 @AuthenticationPrincipal CustomerUser user,
                                 HttpServletRequest request,
                                 Model model ) {
-        log.info("물품 상세 조회 GET 진입");
+        // log.info("물품 상세 조회 GET 진입");
 
         try {
 
@@ -72,7 +72,7 @@ public class KmCustomerContorller {
 
             long itemno = Long.valueOf(no.toPlainString());
 
-            log.info("user 정보 보기 => {}", user);
+            // log.info("user 정보 보기 => {}", user);
 
             // 물품 정보 가져오기
             Map<String, Object> item = customerService.selectOneItem(itemno);
@@ -81,7 +81,7 @@ public class KmCustomerContorller {
 
             // 상품 번호에 해당하는 이미지 번호
             List<Long> imgList = customerService.selectItemImageNoList(itemno);
-            log.info("imgList 테스트 => {}", imgList);
+            // log.info("imgList 테스트 => {}", imgList);
 
             // 찜 여부 가져오기
             if( user != null) { // 로그인 안된 상태
@@ -176,7 +176,7 @@ public class KmCustomerContorller {
 
             // log.info("보관소 정보 storage => {}", storage.toString());
             // log.info("purchaseList => {}", purchaseList);
-            log.info("itemView 확인  => {}", item);
+            // log.info("itemView 확인  => {}", item);
 
             return "/km/customer/selectitem";
         } catch (Exception e) {
@@ -190,7 +190,7 @@ public class KmCustomerContorller {
     @PostMapping(value = "/item/selectone1.do")
     public String selectitemPOST(@ModelAttribute kmPurchaseView obj, Model model) {
         try {
-            log.info("post view 확인1 => {}", obj.toString());
+            // log.info("post view 확인1 => {}", obj.toString());
             // 공구 참여 버튼 -> kmPurchaseView(no=0, purchaseNo=1007, participant=0,
             //                                  deadline=null, remainingPerson=0, itemNo=0, itemName=null,
             //                                  itemPrice=0, storageNo=0, storageName=null, pricePerOne=0, imageUrl=null)
@@ -241,7 +241,7 @@ public class KmCustomerContorller {
 
             // 보관소 정보 불러오기
             Storage storage = customerService.selectOneStorage(obj.getStorageNo());
-            log.info("order.do storage 확인 => {}", storage.toString());
+            // log.info("order.do storage 확인 => {}", storage.toString());
             // Storage(no=4, name=부산중구점, phone=051-600-4000, postcode=48926, address1=부산광역시 중구 중구로 120, address2=(대청동1가, 중구청), 
             //          address3=null, latitude=35.1062826, longitude=129.032355, adminId=admin, regdate=Thu May 18 07:03:58 KST 2023)
 
@@ -264,8 +264,8 @@ public class KmCustomerContorller {
 
             // user의 id로 정보 꺼내오기 (id, name, phone, email)
             Customer customer = customerService.selectOneCustomer(user.getId());
-            log.info("user 정보 확인 => {}", user.toString());
-            log.info("customer 확인 => {}", customer.toString());
+            // log.info("user 정보 확인 => {}", user.toString());
+            // log.info("customer 확인 => {}", customer.toString());
             
             // 연락처, 이메일 잘라서 보내기
             Map<String, String> phoneAndEmail = new HashMap<>();
@@ -283,7 +283,7 @@ public class KmCustomerContorller {
             for(int i=0; i < email.length; i++) {
                 phoneAndEmail.put("email" + (i+1), email[i]);
             }
-            log.info("phoneAndEmail => {}", phoneAndEmail); // {email2=naver.com, email1=a, phone3=5678, phone2=1234, phone1=010}
+            // log.info("phoneAndEmail => {}", phoneAndEmail); // {email2=naver.com, email1=a, phone3=5678, phone2=1234, phone1=010}
 
             // 화면에 데이터 전달하기
             model.addAttribute("obj", obj);

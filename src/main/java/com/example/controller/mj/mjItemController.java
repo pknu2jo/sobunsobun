@@ -35,6 +35,7 @@ import com.example.repository.mj.ItemRepository;
 import com.example.repository.mj.LcateRepository;
 import com.example.repository.mj.McateRepository;
 import com.example.repository.mj.ScateRepository;
+import com.example.service.mj.MjItemService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,14 +46,16 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class mjItemController {
 
-    final ItemRepository iRepository;
-    final LcateRepository lRepository;
-    final McateRepository mRepository;
-    final ScateRepository sRepository;
+    // final ItemRepository iRepository;
+    // final LcateRepository lRepository;
+    // final McateRepository mRepository;
+    // final ScateRepository sRepository;
     final JkSellerRepository sellerRepository;
-    final mjItemMapper iMapper;
-    final ItemCategoryViewRepository icvRepository;
+    // final mjItemMapper iMapper;
+    // final ItemCategoryViewRepository icvRepository;
+    
     final HttpSession httpSession; //세션객체
+    final MjItemService itemService;
 
 
 
@@ -67,13 +70,13 @@ public class mjItemController {
         try {
             List<Item> list = new ArrayList<>();
             for(int i=0; i<no.length; i++){
-                Item item = iRepository.findById( BigDecimal.valueOf(no[i]) ).orElse(null);
+                Item item = itemService.findByItemNo( BigDecimal.valueOf(no[i]) );
                 item.setName(name[i]);
                 item.setPrice(BigDecimal.valueOf(price[i]));
                 item.setQuantity(BigDecimal.valueOf(quantity[i]));
                 list.add(item);
             }
-            iRepository.saveAll(list);
+            itemService.updateItems(list);
             return "redirect:/seller/item/updateitem.do";
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,16 +84,13 @@ public class mjItemController {
         }
     }
 
-    
-
-
 
     @SuppressWarnings("unchecked") // 경고 제외
     @GetMapping(value = "/item/updateitem.do")
     public String updateItemGET(Model model){
         try {
             List<BigDecimal> chk = (List<BigDecimal>) httpSession.getAttribute("itemno");
-            List<Item> list =iRepository.findAllById(chk);
+            List<Item> list =itemService.findAllByItemNo(chk);
             model.addAttribute("list", list);
             return "/mj/seller/updateitem";
         } catch (Exception e) {
@@ -127,7 +127,7 @@ public class mjItemController {
                 }
             }
             
-            int ret = iMapper.deleteItemBatch(no);
+            int ret = itemService.deleteItemBatch(no);
             log.info("삭제된 갯수 => {}", ret);
             
             // iRepository.deleteAllByRegNo(no);
@@ -186,13 +186,13 @@ public class mjItemController {
             model.addAttribute("user", user);
 
             Category cate = new Category();
-            List<Lcategory> list1 = lRepository.findAll();
+            List<Lcategory> list1 = itemService.findAllLcategory();
             cate.setLlist(list1);  // 대분류 코드, 네임
             cate.setLcode(Lcode);  // 대분류 코드
-            List<Mcategory> mlist = mRepository.findByLcategoryCode_code(Lcode);
+            List<Mcategory> mlist = itemService.findByLcategoryCode_code(Lcode);
             cate.setMlist(mlist);  // 중분류 코드, 네임
             cate.setMcode(Mcode);  // 중분류 코드
-            List<Scategory> slist = sRepository.findByMcategoryCode_code(Mcode);
+            List<Scategory> slist = itemService.findByMcategoryCode_code(Mcode);
             cate.setSlist(slist);  // 소분류 코드, 네임
             cate.setScode(Scode);  // 소분류 코드
             
@@ -202,45 +202,45 @@ public class mjItemController {
             // List<Item> list = new ArrayList<>();
             // list = iRepository.findAllByRegNoOrderByNoDesc("1248600538");
             List<ItemCategoryView> list = new ArrayList<>();
-            list = icvRepository.findAllByRegNoOrderByNoDesc(seller.getNo());
+            list = itemService.findAllByRegNoOrderByNoDesc(seller.getNo());
             // if( Lcode == BigDecimal.valueOf(000) ){ // cate가 없으면?
             // }
 
             // 전체 물품리스트
             if(Lcode == null && Mcode == null & Scode == null){
-                list = icvRepository.findAllByRegNoOrderByNoDesc(seller.getNo());
+                list = itemService.findAllByRegNoOrderByNoDesc(seller.getNo());
             }
             // 대분류별 물품리스트
             else if( Lcode != null && Mcode == null & Scode == null ){
                 // 대분류 전체 클릭시
                 if(Lcode.equals(BigDecimal.valueOf(000))){
-                    list = icvRepository.findAllByRegNoOrderByNoDesc(seller.getNo());
+                    list = itemService.findAllByRegNoOrderByNoDesc(seller.getNo());
                 }
                 // 대분류 각 카테고리별 물품리스트
                 else{
-                    list = icvRepository.findAllByRegNoAndLcategoryCodeOrderByNoDesc(seller.getNo(), Lcode);
+                    list = itemService.findAllByRegNoAndLcategoryCodeOrderByNoDesc(seller.getNo(), Lcode);
                 }
             }
             // 중분류별 물품리스트
             else if( Lcode != null && Mcode != null & Scode == null ){
                 // 중분류 전체 클릭시
                 if(Mcode.equals(BigDecimal.valueOf(000))){
-                    list = icvRepository.findAllByRegNoAndLcategoryCodeOrderByNoDesc(seller.getNo(), Lcode);
+                    list = itemService.findAllByRegNoAndLcategoryCodeOrderByNoDesc(seller.getNo(), Lcode);
                 }
                 // 중분류 각 카테고리별 물품리스트
                 else {
-                    list = icvRepository.findAllByRegNoAndMcategoryCodeOrderByNoDesc(seller.getNo(), Mcode);
+                    list = itemService.findAllByRegNoAndMcategoryCodeOrderByNoDesc(seller.getNo(), Mcode);
                 }
             }
             // 소분류별 물품리스트
             else if(Lcode != null && Mcode != null && Scode != null){
                 // 소분류 전체 클릭시
                 if(Scode.equals(BigDecimal.valueOf(000))){
-                    list = icvRepository.findAllByRegNoAndMcategoryCodeOrderByNoDesc(seller.getNo(), Mcode);
+                    list = itemService.findAllByRegNoAndMcategoryCodeOrderByNoDesc(seller.getNo(), Mcode);
                 }
                 // 소분류 각 카테고리별 물품리스트
                 else{
-                    list = icvRepository.findAllByRegNoAndScategoryCodeOrderByNoDesc(seller.getNo(), Scode);
+                    list = itemService.findAllByRegNoAndScategoryCodeOrderByNoDesc(seller.getNo(), Scode);
                 }
             }
             model.addAttribute("list", list);
@@ -261,19 +261,21 @@ public class mjItemController {
         try {
             SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);
             log.info("seller => {}", seller.toString());
+            log.info("sellerid => {}", seller.getNo());
             model.addAttribute("companyName", seller.getName().toString());
             model.addAttribute("user", user);
+            model.addAttribute("sellerid", seller.getNo());
 
             
             Category cate = new Category();
-            List<Lcategory> list1 = lRepository.findAll();
+            List<Lcategory> list1 = itemService.findAllLcategory();
             cate.setLlist(list1);  // 대분류 코드, 네임
             cate.setLcode(Lcode);  // 대분류 코드
             
-            List<Mcategory> mlist = mRepository.findByLcategoryCode_code(Lcode);
+            List<Mcategory> mlist = itemService.findByLcategoryCode_code(Lcode);
             cate.setMlist(mlist);  // 중분류 코드, 네임
             cate.setMcode(Mcode);  // 중분류 코드
-            List<Scategory> slist = sRepository.findByMcategoryCode_code(Mcode);
+            List<Scategory> slist = itemService.findByMcategoryCode_code(Mcode);
             cate.setSlist(slist);  // 소분류 코드, 네임
             cate.setScode(Scode);  // 소분류 코드
             

@@ -115,13 +115,25 @@ public class KmCustomerServiceImpl implements KmCustomerService {
     }
 
      // 찜 등록
-     public void insertJjim(JjimEntity jjim) {
-
+     public int insertJjim(JjimEntity jjim) {
+        try {
+            jRepository.save(jjim);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
      }
 
      // 찜 해제(삭제)
-     public void deleteJjim(JjimEntity jjim) {
-        
+     public int deleteJjim(String memid, BigDecimal itemno) {
+        try {
+            jRepository.deleteByCustomerEntity_idAndItemEntity_no(memid, itemno);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
      }
 
 // 결제 페이지 => /customer/item/order.do 

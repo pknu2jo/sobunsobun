@@ -16,8 +16,8 @@ import lombok.Data;
 @Data
 @Immutable // 뷰
 @Entity
-@Table(name = "ORDERVIEW")
-public class OrderView {
+@Table(name = "PROCEEDORDERFINALVIEW")
+public class ProceedOrderFinalView {
     
     @Column(name = "NO")
     private String no;
@@ -43,6 +43,9 @@ public class OrderView {
     @Id
     @Column(name = "ENID")
     private BigDecimal enid;
+    
+    @Column(name = "COUNT")
+    private long count;
 
     @Column(name = "PARTICIPANT")
     private BigDecimal participant;

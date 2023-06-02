@@ -137,9 +137,9 @@
                     <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
                         <h3>통계입니다.</h3>
                         <input type="text"  th:value="${sellername}"/><br/>
-                        여성(hidden처리 해야함) : <input type="number"  th:value="${female}"/><br/>
+                        <!-- 여성(hidden처리 해야함) : <input type="number"  th:value="${female}"/><br/>
                         남성(hidden처리 해야함) : <input type="number"  th:value="${male}"/><br/><br/>    
-                        지역 총 숫자(hidden 처리 하기) : <input type="number"  th:value="${total}"/><br/>
+                        지역 총 숫자(hidden 처리 하기) : <input type="number"  th:value="${total}"/><br/> -->
                         <div class="row">
                             <!-- 차트 영역(전체성비) -->
                             <div class="col-lg-6">
@@ -355,7 +355,7 @@
     <script th:inline="javascript" type="text/javascript">       
         var arrays = "[[${array}]]";
         var max = "[[${max}]]";
-        
+
         var ctx = document.getElementById("myBarChart2");
         var myLineChart = new Chart(ctx, {
         type: 'bar',

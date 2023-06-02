@@ -136,11 +136,13 @@
                 <div style="padding-left: 15px; padding-top: 30px; padding-right: 15px;">
                     <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->                        
                         <label th:text="${itemname}"></label><br/>
-                        여성(hidden처리 해야함) : <input type="number"  th:value="${female}"/><br/>
+                        <!-- 여성(hidden처리 해야함) : <input type="number"  th:value="${female}"/><br/>
                         남성(hidden처리 해야함) : <input type="number"  th:value="${male}"/><br/><br/>
     
                         지역 총 숫자(hidden 처리 하기) : <input type="number"  th:value="${total}"/><br/>
-                        지역별 인원수(hidden처리 해야함) : <input type="number"  th:value="${array}"/><br/>                   
+                        지역별 인원수(hidden처리 해야함) : <input type="number"  th:value="${array}"/><br/> -->
+
+                        <a th:href="@{/seller/item/search.do}"><button class="btn btn-primary">목록으로</button></a>
                         <!-- map -->
                         
     
