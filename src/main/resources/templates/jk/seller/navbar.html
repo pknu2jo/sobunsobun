@@ -14,12 +14,9 @@
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" herf="#!" onclick="pwCheck1()">
-                                내 정보 수정하기</a>
-                            <a class="nav-link" herf="#!" onclick="pwCheck2()">
-                                비밀번호 변경하기</a>
-                            <a class="nav-link" herf="#!" onclick="pwCheck3()">
-                                탈퇴하기</a>
+                            <a class="nav-link" herf="#" onclick="pwCheck1()">내 정보 수정하기</a>
+                            <a class="nav-link" herf="#" onclick="pwCheck2()">비밀번호 변경하기</a>
+                            <a class="nav-link" herf="#" onclick="pwCheck3()">탈퇴하기</a>
                         </nav>
                     </div>
 
@@ -76,7 +73,7 @@
 
             window.location.href = /*[[@{/seller/pwinfocheck.do?redirect=updateinfo.do}]]*/ + "";
         }
-        
+
         async function pwCheck2() {
             let url = /*[[@{/api/sellerpwcheck.json}]]*/"";
             url += `?redirect=updatepw`;
