@@ -30,6 +30,19 @@ public class MjItemServiceImpl implements MjItemService {
     final ScateRepository sRepository;
     final mjItemMapper iMapper;
 
+    /** 사업자 번호에 해당하는 물품 갯수 가져오기 */
+    @Override
+    public long countItems(String regno) {
+        try {
+            return iRepository.countByRegNo(regno);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+
+
     /** 물품 등록 */
     @Override
     public Item saveItem(Item obj) {
@@ -178,6 +191,8 @@ public class MjItemServiceImpl implements MjItemService {
             return null;
         }
     }
+
+    
 
 
     
