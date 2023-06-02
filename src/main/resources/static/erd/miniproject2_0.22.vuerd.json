@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 3000,
     "height": 3000,
-    "scrollTop": -473,
-    "scrollLeft": -1469,
-    "zoomLevel": 0.8,
+    "scrollTop": -955,
+    "scrollLeft": -786,
+    "zoomLevel": 0.9,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -544,7 +544,7 @@
             "name": "deadline",
             "comment": "공구마감기한",
             "dataType": "TIMESTAMP",
-            "default": "",
+            "default": "CURRENT_TIMESTAMP + 7",
             "option": {
               "autoIncrement": false,
               "primaryKey": false,
@@ -559,7 +559,7 @@
               "widthName": 60,
               "widthComment": 80,
               "widthDataType": 71.93212890625,
-              "widthDefault": 60
+              "widthDefault": 159.7265625
             },
             "id": "8f61f9fe-aef4-407b-8b31-50a3ae1966cb"
           },
@@ -613,7 +613,7 @@
             "name": "headcount",
             "comment": "공구인원수체크(max=공구인원수)",
             "dataType": "NUMBER",
-            "default": "",
+            "default": "0",
             "option": {
               "autoIncrement": false,
               "primaryKey": false,
@@ -634,7 +634,7 @@
           },
           {
             "name": "receivedate",
-            "comment": "보관소도착일",
+            "comment": "보관소도착일(deleveryNo=3 일 때 insert됨)",
             "dataType": "TIMESTAMP",
             "default": "",
             "option": {
@@ -649,7 +649,7 @@
               "fk": false,
               "pfk": false,
               "widthName": 68.79638671875,
-              "widthComment": 80,
+              "widthComment": 120,
               "widthDataType": 71.93212890625,
               "widthDefault": 60
             },
@@ -706,7 +706,7 @@
           "active": false,
           "left": 869.9809,
           "top": 942.6237,
-          "zIndex": 12,
+          "zIndex": 30,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FF9F9C"
@@ -3030,7 +3030,7 @@
           "active": false,
           "left": 2344.4444,
           "top": 348.2778,
-          "zIndex": 19,
+          "zIndex": 18,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FFB4EF"
@@ -3263,7 +3263,7 @@
           "columnIds": [
             "289d4778-4791-42a0-adb3-393e64e339a0"
           ],
-          "x": 1127.69720859375,
+          "x": 1134.8510171875,
           "y": 942.6237,
           "direction": "top"
         },
@@ -3298,7 +3298,7 @@
           "columnIds": [
             "9a9eaac6-ea38-4525-8c95-1535a592029d"
           ],
-          "x": 1127.69720859375,
+          "x": 1134.8510171875,
           "y": 1196.1237,
           "direction": "bottom"
         },
@@ -3367,7 +3367,7 @@
           "columnIds": [
             "289d4778-4791-42a0-adb3-393e64e339a0"
           ],
-          "x": 1385.4135171875,
+          "x": 1399.721134375,
           "y": 1069.3737,
           "direction": "right"
         },
