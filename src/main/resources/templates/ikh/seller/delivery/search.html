@@ -111,8 +111,8 @@
 
                                 <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
                                     <div style="display: inline-block; text-align: center;" >
-                                        <a th:href="@{/seller/delivery/search.do}"><button type="button" class="btn btn-outline-primary" >초기화</button></a>
-                                        <button type="submit" class="btn btn-outline-primary">검색</button>
+                                        <a th:href="@{/seller/delivery/search.do}"><button type="button" class="btn btn-outline-dark" >초기화</button></a>
+                                        <button type="submit" class="btn btn-outline-dark">검색</button>
                                     </div>
                                 </div>
                             </form>                            
@@ -170,7 +170,7 @@
                                                         <td th:text="${obj.sname}" my="aaa"></td>
                                                         <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal"
                                                             th:value="${obj.delivery}" th:attr="id='dvact' + ${iterStat.index}" th:onclick="dvclick([[${iterStat.index}]], [[${obj.enid}]])">
                                                                 <!-- th:value="${obj.delivery}" th:attr="id='dvact' + ${iterStat.index}" th:onclick="'dvclick(' + ${iterStat.index} + ',' + ${obj.enid}+ ')'"> -->
                                                                 변경
@@ -200,19 +200,19 @@
                 </div>
                 <div class="modal-body">                                                                            
                     <div style="display: inline-block; text-align: center;" >
-                        <button type="button" id="btn-0" class="btn btn-outline-primary" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(0)">배송전</button>
-                        <button type="button" id="btn-1" class="btn btn-outline-primary" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(1)">배송준비중</button>
-                        <button type="button" id="btn-2" class="btn btn-outline-primary" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(2)">배송중</button>
-                        <button type="button" id="btn-3" class="btn btn-outline-primary" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(3)">배송완료</button>              
+                        <button type="button" id="btn-0" class="btn btn-outline-dark" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(0)">배송전</button>
+                        <button type="button" id="btn-1" class="btn btn-outline-dark" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(1)">배송준비중</button>
+                        <button type="button" id="btn-2" class="btn btn-outline-dark" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(2)">배송중</button>
+                        <button type="button" id="btn-3" class="btn btn-outline-dark" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(3)">배송완료</button>              
                     </div>
                 </div>
                 <div class="modal-footer">
                     <form th:action="@{/seller/delivery/search.do}" method="post">
                         <input type="hidden" name="btndv" value="" id="btndv"/>
                         <input type="hidden" name="dvstatus" value="" id="dvstatus"/>
-                        <input type="submit" value="상태변경" class="btn btn-outline-primary" onclick="dvvalue()" />
+                        <input type="submit" value="상태변경" class="btn btn-outline-dark" onclick="dvvalue()" />
                     </form>
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">취소</button>
                 </div>
             </div>
         </div>
@@ -300,32 +300,32 @@
 
         // 상태에 맞는 토글 설정
         if(dv == 0){
-            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary active');
-            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary');
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');
             document.getElementById('btndv').setAttribute('value', enid);            
             // name 추가해주기
         }
         else if(dv == 1){
-            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary active');
-            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary');            
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');            
             document.getElementById('btndv').setAttribute('value', enid);            
         }
         else if(dv == 2){
-            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary active');
-            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary');
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');
             document.getElementById('btndv').setAttribute('value', enid);            
         }
         else if(dv == 3){
-            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary active');
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark active');
             document.getElementById('btndv').setAttribute('value', enid);            
         }
     }    
