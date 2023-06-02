@@ -113,5 +113,15 @@ public class JkSellerServiceImpl implements JkSellerService {
         }
     }
 
+    @Override
+    public SellerEntity saveObject(SellerEntity entity) {
+        try {
+            return sRepository.save(entity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     
 }

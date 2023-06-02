@@ -31,7 +31,6 @@ public interface JkSellerService {
 
     // 업체 탈퇴
     public int deleteSeller(@Param("obj") Seller obj);
-
     
     /* --------------------------- Repository 기능 --------------------------- */
 
@@ -40,4 +39,7 @@ public interface JkSellerService {
 
     // 아이디와 매칭되는 email 확인
     public SellerEntity findByNo(String id);
+
+    // 저장
+    public SellerEntity saveObject(SellerEntity entity);
 }

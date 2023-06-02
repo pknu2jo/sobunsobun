@@ -79,9 +79,7 @@ public class JkSellerController {
         }
         return "redirect:/seller/join.do";
     }
-    /*
-     * -------------------------------- 로그인 (Jpa) --------------------------------
-     */
+    /* -------------------------------- 로그인 (Jpa) -------------------------------- */
 
     // http://127.0.0.1:5959/SOBUN/seller/login.do
     // loginaction.do post는 만들지 않고 sercurity에서 처리.
@@ -120,12 +118,9 @@ public class JkSellerController {
         return "redirect:/seller/findpw.do";
     }
 
-    /*
-     * ----------------------------- 마이페이지(Jpa) ----------------------------------
-     */
+    /* ----------------------------- 마이페이지(Jpa) ---------------------------------- */
 
     // -------------------- 마이페이지 본인인증 (비밀번호) ------------------- //
-
     // http://127.0.0.1:5959/SOBUN/seller/pwcheck.do
     // (아이디, 비밀번호 필요)
     @GetMapping(value = "/pwinfocheck.do")
@@ -140,7 +135,6 @@ public class JkSellerController {
     }
 
     // ------------------------- 정보변경 -------------------------- //
-
     // http://127.0.0.1:5959/SOBUN/seller/updateinfo.do
     // 1. 정보변경 (이름, 전화번호, 이메일, 주소)
     @GetMapping(value = "/updateinfo.do")
@@ -174,7 +168,7 @@ public class JkSellerController {
             sellerOld.setName(seller.getName());
             sellerOld.setPhone(seller.getPhone());
             sellerOld.setEmail(seller.getEmail());
-            sRepository.save(sellerOld);
+            sSellerService.saveObject(sellerOld);
             return "redirect:/seller/updateinfo.do";
         } catch (Exception e) {
             e.printStackTrace();
@@ -183,7 +177,6 @@ public class JkSellerController {
     }
 
     // ------------------------ 비밀번호변경 -------------------------- //
-
     // http://127.0.0.1:5959/SOBUN/seller/updatepw.do
     // 2. 비번변경
     @GetMapping(value = "/updatepw.do")
@@ -207,7 +200,7 @@ public class JkSellerController {
             sellerOld.setPw(bcpe.encode(seller.getNewPw()));
             // log.info(" Seller UpdatePw Who => {}", sellerOld);
             // 저장
-            sRepository.save(sellerOld);
+            sSellerService.saveObject(sellerOld);
             return "redirect:/seller/home.do";
         } catch (Exception e) {
             e.printStackTrace();
@@ -218,6 +211,7 @@ public class JkSellerController {
     // -------------------------- 탈퇴 ---------------------------- //
     // 탈퇴 기능은 원래 관리자에서 구현해야함. (쿠팡윙도 같은 방식을 차용.)
     // 하지만 관리자 페이지의 부재로 인해 직접 탈퇴하는 방법으로 바꿔야 할듯 함.
+    // 6월1일에 기능은 빼고 칸만 남겨두기로 함.
 
     // http://127.0.0.1:5959/SOBUN/seller/unregister.do
     // 3. 탈퇴

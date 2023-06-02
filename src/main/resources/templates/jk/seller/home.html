@@ -4,9 +4,9 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <meta name="author" content="PJK">
-    <meta name="description" content="소분소분 - 판매자를 위한 마이페이지">
+    <meta name="description" content="소분소분 - 판매자를 위한 공간">
     <title>소분소분 - 판매자 페이지</title>
+    <link rel="icon" th:href="@{/images/jk/sobun_seller.ico}">
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 
     <!-- 1. Bootstrap용 css CDN 추가 -->
@@ -23,6 +23,16 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
+    <style>
+        main {
+            padding: 5%;
+            background-color: rgb(242, 242, 242);
+        }
+
+        #divContnent {
+            color: rgb(116, 116, 116);
+        }
+    </style>
 </head>
 
 <body class="sb-nav-fixed">
@@ -36,27 +46,36 @@
         <th:block th:replace="~{/jk/seller/navbar :: navbarHTML}"></th:block>
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
-            <main style="padding: 5%; background-color: #f4f7f8d8;">
+            <main style="padding: 5%; background-color:rgb(242, 242, 242);">
                 <div class="container-fluid" style="padding: 3%;">
                     <div class="row">
-                        <div class="col-md-12"
-                            style="border: 3px solid rgba(215, 219, 235, 0.534); border-radius: 20px; background-color: #ffffff; margin-bottom: 40px;">
-                            <p style="margin: 20px; margin-top: 40px; font-weight: 600; font-size: 35px;"><strong>상품을 바로
-                                    등록할 수 있어요!</strong></p>
-                            <div class="px-4 pt-4  " style="font-weight: 600;">
-                                <p th:text="'현재 ' + ${companyName} + '님의 등록된 상품은'"></p>
-                                <p>OO개 등록되어 있습니다.</p> <!-- ############## 민지씨 여기에 상품갯수 넣어주세요 ############## -->
-                                <p>아래 버튼을 눌러 추가로 새로운 상품을 등록해보세요!</p>
+                        <div class="col-ml-6"
+                            style="border: 2px solid rgba(215, 219, 235, 0.534); border-radius: 20px; background-color: #ffffff; margin-bottom: 40px; ">
+                            <p style="margin: 20px; margin-top: 40px; font-weight: 500; font-size: 45px;"><strong>상품을 바로
+                                    등록하시겠어요?</strong></p>
+                            <div class="px-4 " style="font-weight: 600;">
+                                <p id="divContnent" class="mb-1"
+                                    th:text="'현재 ' + ${companyName} + '님의 등록된 상품은 ' + ${countItem} + '개 등록되어 있습니다.'"></p>
+                                <!-- ############## 민지씨 여기에 상품갯수 넣어주세요 ^ 여기 ############## -->
+                                <p id="divContnent">아래 버튼을 눌러 추가로 새로운 상품을 등록해보세요!</p>
+                                <div style="text-align: right; position:relative;right: 40px;">
+
+                                </div>
                             </div>
-                            <div class="p-4  " style="text-align: right;">
-                                <a th:href="@{/seller/item/insert.do}" class="btn btn-dark btn-lg btn-block">상품
-                                    등록하기</a>
-                                <a th:href="@{/seller/item/search.do}"
-                                    class="btn btn-outline-dark btn-lg btn-block">상품 판매통계 확인하기</a>
+                            <div class="p-4  ">
+                                <img src="../images/jk/box.png" alt="상자img"
+                                    style="float: right; position: relative; bottom: 40px;">
+
+                                <div style="text-align: left; padding-top: 50px;">
+                                    <a th:href="@{/seller/item/insert.do}" class="btn btn-dark btn-lg btn-block">상품
+                                        등록하기</a>
+                                    <a th:href="@{/seller/item/search.do}"
+                                        class="btn btn-outline-dark btn-lg btn-block">상품 판매통계 확인하기</a>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6"
-                            style="border: 3px solid rgba(215, 219, 235, 0.534); border-radius: 20px; background-color: #ffffff; margin-bottom: 40px; ">
+                            style="border: 2px solid rgba(215, 219, 235, 0.534); border-radius: 20px; background-color: #ffffff; margin-bottom: 40px; ">
                             <img src="https://via.placeholder.com/550x150" alt="배너 이미지"
                                 style="width: 100%; height: 100%;">
                         </div>
@@ -65,25 +84,22 @@
                     <!-- 각 화면별 상세 화면 -->
                     <div class="row mt-4">
                         <div class="col-md-6"
-                            style="border: 3px solid rgba(215, 219, 235, 0.534); border-radius: 20px 0 0 20px; background-color: #ffffff; ">
+                            style="border: 2px solid rgba(215, 219, 235, 0.534); border-radius: 20px 0 0 20px; background-color: #ffffff; ">
                             <p style="margin: 20px; margin-top: 40px; font-weight: 600; font-size: 28px;"><strong>지금까지
-                                    아래의 상품이 가장 많이
-                                    팔렸어요!</strong></p>
+                                    가장 많이 팔린 상품은..</strong></p>
                             <div class="p-4">
                                 <img src="https://via.placeholder.com/350x250" alt="상품 사진"
                                     style="padding: 5%; width: 50%; border: 0.5px solid rgb(196, 196, 196);">
                                 <!-- ############## 민지씨 ############## -->
                                 <!-- <img th:src="${imageUrl}" alt="상품 사진" style=""> -->
-                                <p>글자 글자</p>
-                                <p>글글</p>
+                                <p id="divContnent">글자 글자</p>
+                                <p id="divContnent">글글</p>
                             </div>
                         </div>
-                        <div class="col-md-6"
-                            style="border: 3px solid rgba(215, 219, 235, 0.534); border-left: 0px; border-radius: 0 20px 20px 0; background-color: #ffffff;  
+                        <div class="col-md-6" style="border: 2px solid rgba(215, 219, 235, 0.534); border-left: 0px; border-radius: 0 20px 20px 0; background-color: #ffffff;  
                             ">
-                            <p style="margin: 20px; margin-top: 40px; font-weight: 600; font-size: 26px;"><strong>이번 달에는
-                                    아래 상품들이 제일 많이
-                                    팔렸어요!</strong></p>
+                            <p style="margin: 20px; margin-top: 40px; font-weight: 600; font-size: 26px;"><strong>이번 달에
+                                    가장 많이 팔린 상품들이에요!</strong></p>
                             <br>
                             <!-- 표가 들어갈 자리 -->
                             <div class="container">
