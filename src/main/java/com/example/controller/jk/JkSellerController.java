@@ -85,7 +85,9 @@ public class JkSellerController {
         }
         return "redirect:/seller/join.do";
     }
-    /* -------------------------------- 로그인 (Jpa) -------------------------------- */
+    /*
+     * -------------------------------- 로그인 (Jpa) --------------------------------
+     */
 
     // http://127.0.0.1:5959/SOBUN/seller/login.do
     // loginaction.do post는 만들지 않고 sercurity에서 처리.
@@ -124,7 +126,9 @@ public class JkSellerController {
         return "redirect:/seller/findpw.do";
     }
 
-    /* ----------------------------- 마이페이지(Jpa) ---------------------------------- */
+    /*
+     * ----------------------------- 마이페이지(Jpa) ----------------------------------
+     */
 
     // -------------------- 마이페이지 본인인증 (비밀번호) ------------------- //
     // http://127.0.0.1:5959/SOBUN/seller/pwcheck.do
@@ -193,7 +197,7 @@ public class JkSellerController {
         return new ModelAndView("jk/seller/mypage/updatepw", "seller", seller);
         // 미리 get에 해당 업체의 정보를 템플릿에 담아서 띄움.
     }
-    
+
     @PostMapping(value = "/updatepw.do")
     public String updatepwPOST(@ModelAttribute SellerEntity seller) {
         try {
