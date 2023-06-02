@@ -60,8 +60,6 @@ public class IkhDeliveryController {
         try {        
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);
-            log.info("seller => {}", seller.toString());
-            log.info("sellerid => {}", seller.getNo());
             model.addAttribute("companyName", seller.getName().toString());
             model.addAttribute("user", user);
 

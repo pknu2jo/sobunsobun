@@ -47,8 +47,6 @@ public class IkhOrderController {
             @RequestParam(name="pnonumber", defaultValue = "") BigDecimal pnonumber) {
         try {
             SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);
-            log.info("seller => {}", seller.toString());
-            log.info("sellerid => {}", seller.getNo());
             model.addAttribute("companyName", seller.getName().toString());
             model.addAttribute("user", user);
 
@@ -64,16 +62,29 @@ public class IkhOrderController {
             model.addAttribute("thlist", thlist);
 
             // 공구진행중 테이블
-            List<ProceedOrderFinalView> porfvlist = porfvRepository.findByNo(seller.getNo());            
+            long suma = 0;
+            long sum0 = 0;
+            long sum1 = 0;
+            long sum2 = 0;
+            List<ProceedOrderFinalView> porfvlist = porfvRepository.findByNo(seller.getNo());         
             model.addAttribute("porfvlist", porfvlist);
+            sum0 = porfvlist.size();
+            model.addAttribute("sum0", sum0);
 
             // 공구완료 테이블
             List<CompleteOrderView> covlist = covRepository.findByNo(seller.getNo());
             model.addAttribute("covlist", covlist);
+            sum1 = covlist.size();
+            model.addAttribute("sum1", sum1);
 
             // 공구취소 테이블
             List<CancelOrderView> cancellist = cancelRepository.findByNo(seller.getNo());            
             model.addAttribute("cancellist", cancellist);
+            sum2 = cancellist.size();
+            model.addAttribute("sum2", sum2);
+
+            suma = sum0 + sum1 + sum2;
+            model.addAttribute("suma", suma);
 
             List<Object> alllist = new ArrayList<>();
             alllist.addAll(porfvlist);

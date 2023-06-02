@@ -24,7 +24,7 @@
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/ikh/seller.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
-    <link rel="icon" th:href="@{/images/jk/sobun_seller.ico}">
+    <link rel="icon" th:href="@{/images/jk/sobunseller.ico}">
 </head>
 
 <body class="sb-nav-fixed">
@@ -41,72 +41,22 @@
             <main>
                 <div style="padding-left: 15px; padding-top: 30px; padding-right: 15px;">
                     <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->                                                                
-                        <h3>주문 입니다.</h3>
-                        
+                        <h2 th:text="${companyName} + ' 님의 공구주문 현황입니다.'" style="padding-bottom : 15px;"></h2>
                         <div>
-                            <div class="row" style ="border: 2px solid rgb(229, 229, 229); background-color: rgb(243,245,247);">
-                                <div style="display: inline-block; text-align: center;" >
-                                    <!-- <button type="button" class="btn btn-outline-primary" th:onclick="all0()">전체</button> -->
-                                    <button type="button" class="btn btn-outline-primary" th:onclick="zero0()">전체</button>
-                                    <button type="button" class="btn btn-outline-primary" th:onclick="one1()">공구진행중</button>
-                                    <button type="button" class="btn btn-outline-primary" th:onclick="two2()">공구완료</button>
-                                    <button type="button" class="btn btn-outline-primary" th:onclick="three3()">공구취소</button>
+                            <div class="mb-4" style ="border: 2px solid rgb(229, 229, 229); background-color: rgb(241 246 252);
+                                display: flex; justify-content: center; align-items: center; margin-bottom: 1rem;">
+                                <div style="display: inline-block; text-align: center; margin: 10px;">                                    
+                                    <button type="button" id="btn-0" class="btn btn-outline-dark" th:onclick="toggleButton(0)">전체 [[${suma}]]건</button>
+                                                               
+                                    <button type="button" id="btn-1" class="btn btn-outline-dark" th:onclick="toggleButton(1)">공구진행중 [[${sum0}]]건</button>
+                                    
+                                    <button type="button" id="btn-2" class="btn btn-outline-dark" th:onclick="toggleButton(2)">공구완료 [[${sum1}]]건</button>
+                                    
+                                    <button type="button" id="btn-3" class="btn btn-outline-dark" th:onclick="toggleButton(3)">공구취소 [[${sum2}]]건</button>
+                                    
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- <div id="all" style="display:block">
-                            <div class="row" style="margin-top: 15px;">
-                                <div class="col">
-                                    <div class="card mb-4">
-                                        <div class="card-header">    
-                                            <i class="fas fa-table me-1"></i>
-                                            전체
-                                        </div>
-                                        <div class="card-body">
-                                            <table id="datatablesSimplea">
-                                                <thead>
-                                                    <tr>
-                                                        <th>주문번호</th>
-                                                        <th>물품코드</th>
-                                                        <th>물품이름</th>
-                                                        <th>배송주소</th>
-                                                        <th>대표주문자</th>
-                                                        <th>배송상태</th>
-                                                        <th>주문일자</th>                                                        
-                                                    </tr>
-                                                </thead>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th>주문번호</th>
-                                                        <th>물품코드</th>
-                                                        <th>물품이름</th>
-                                                        <th>배송주소</th>
-                                                        <th>대표주문자</th>
-                                                        <th>배송상태</th>
-                                                        <th>주문일자</th>                                                        
-                                                    </tr>
-                                                </tfoot>
-                                                <tbody>
-                                                    <tr th:each="obj : ${alist}">                                                    
-                                                        <td th:text="${obj.pno.longValue()}"></td>
-                                                        <td th:text="${obj.itemcode.longValue()}"></td>
-                                                        <td th:text="${obj.itemname}"></td>
-                                                        <td th:text="${obj.address}"></td>
-                                                        <td th:text="${obj.memid}"></td>
-                                                        <td th:if="${obj.state == 0}" th:text="배송전"></td>
-                                                        <td th:if="${obj.state == 1}" th:text="배송준비중"></td>
-                                                        <td th:if="${obj.state == 2}" th:text="배송중"></td>
-                                                        <td th:if="${obj.state == 3}" th:text="배송완료"></td>
-                                                        <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>                                                                                                   
-                                                    </tr>                                            
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
+                        </div>                       
 
                         <div id="zero" style="display:block;">
                             <div class="row" style="margin-top: 15px;">
@@ -153,10 +103,10 @@
                                                         <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>
                                                         <td>
                                                             <form th:action="@{/seller/order/search.do}" method="get">
-                                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="pnonumbers"
+                                                                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" id="pnonumbers"
                                                                 name="pnonumber" th:onclick="dvclick([[${iterStat.index}]], [[${obj.pno}]])">
                                                                     <!-- th:attr="id='dvact' + ${iterStat.index}" -->
-                                                                    모달
+                                                                    보기
                                                                 </button>
                                                             </form>
                                                         </td>
@@ -214,10 +164,10 @@
                                                         <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>
                                                         <td>
                                                             <form th:action="@{/seller/order/search.do}" method="get">
-                                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="pnonumbers"
+                                                                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" id="pnonumbers"
                                                                 name="pnonumber" th:onclick="dvclick([[${iterStat.index}]], [[${obj.pno}]])">
                                                                     <!-- th:attr="id='dvact' + ${iterStat.index}" -->
-                                                                    모달
+                                                                    보기
                                                                 </button>
                                                             </form>
                                                         </td>
@@ -275,10 +225,10 @@
                                                         <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>
                                                         <td>
                                                             <form th:action="@{/seller/order/search.do}" method="get">
-                                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="pnonumbers"
+                                                                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" id="pnonumbers"
                                                                 name="pnonumber" th:onclick="dvclick([[${iterStat.index}]], [[${obj.pno}]])">
                                                                     <!-- th:attr="id='dvact' + ${iterStat.index}" -->
-                                                                    모달
+                                                                    보기
                                                                 </button>
                                                             </form>
                                                         </td>
@@ -336,10 +286,10 @@
                                                         <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>
                                                         <td>
                                                             <form th:action="@{/seller/order/search.do}" method="get">
-                                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="pnonumbers"
+                                                                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" id="pnonumbers"
                                                                 name="pnonumber" th:onclick="dvclick([[${iterStat.index}]], [[${obj.pno}]])">
                                                                     <!-- th:attr="id='dvact' + ${iterStat.index}" -->
-                                                                    모달
+                                                                    보기
                                                                 </button>
                                                             </form>
                                                         </td>
@@ -385,8 +335,7 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
-                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button> -->
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">확인</button>                
             </div>
           </div>
         </div>
@@ -509,32 +458,92 @@
                 ;
             }            
         }
-        
-        // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-        // function all0(){
-        //     document.getElementById('all').style.display = 'block'
-        //     document.getElementById('zero').style.display = 'none'
-        //     document.getElementById('one').style.display = 'none'
-        //     document.getElementById('two').style.display = 'none'
-        //     document.getElementById('three').style.display = 'none'
-        // }
 
-        function zero0(){
-                // document.getElementById('all').style.display = 'none'
-                document.getElementById('zero').style.display = 'block'
-                document.getElementById('one').style.display = 'none'
-                document.getElementById('two').style.display = 'none'
-                document.getElementById('three').style.display = 'none'
-                $(document).ready(function () {
-                new simpleDatatables.DataTable("#datatablesSimpleall", {
-                    searchable: true,
-                    fixedHeight: true,
-                })
+        // 상태들중 하나만 선택되게
+        function toggleButton(selectedButton) {
+            var buttons = document.querySelectorAll('[data-bs-toggle="button"]');
+            buttons.forEach(function(button, index) {
+                if (index === selectedButton) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
             });
         }
+        
+        // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+        function toggleButton(selectedButton) {            
+            if(selectedButton == 0){
+            document.getElementById('zero').style.display = 'block'
+            document.getElementById('one').style.display = 'none'
+            document.getElementById('two').style.display = 'none'
+            document.getElementById('three').style.display = 'none'
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');
+            console.log(selectedButton);
+            $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimpleall", {
+                searchable: true,
+                fixedHeight: true,
+            })
+                });
+            }
+            if(selectedButton == 1){
+            document.getElementById('zero').style.display = 'none'
+            document.getElementById('one').style.display = 'block'
+            document.getElementById('two').style.display = 'none'
+            document.getElementById('three').style.display = 'none'
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');
+            console.log(selectedButton);
+            $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimpleporfv", {
+                searchable: true,
+                fixedHeight: true,
+            })
+                });
+            }
+            if(selectedButton == 2){
+            document.getElementById('zero').style.display = 'none'
+            document.getElementById('one').style.display = 'none'
+            document.getElementById('two').style.display = 'block'
+            document.getElementById('three').style.display = 'none'
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');
+            console.log(selectedButton);
+            $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimplecov", {
+                searchable: true,
+                fixedHeight: true,
+            })
+                });
+            }
+            if(selectedButton == 3){
+            document.getElementById('zero').style.display = 'none'
+            document.getElementById('one').style.display = 'none'
+            document.getElementById('two').style.display = 'none'
+            document.getElementById('three').style.display = 'block'
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark active');
+            console.log(selectedButton);
+            $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimplecancel", {
+                searchable: true,
+                fixedHeight: true,
+            })
+                });
+            }
+        }
 
-        function one1(){
-                // document.getElementById('all').style.display = 'none'
+        function one1(){                
                 document.getElementById('zero').style.display = 'none'
                 document.getElementById('one').style.display = 'block'
                 document.getElementById('two').style.display = 'none'
@@ -547,8 +556,7 @@
             });
         } 
 
-        function two2(){
-                // document.getElementById('all').style.display = 'none'
+        function two2(){                
                 document.getElementById('zero').style.display = 'none'
                 document.getElementById('one').style.display = 'none'
                 document.getElementById('two').style.display = 'block'
@@ -562,7 +570,6 @@
         } 
         
         function three3(){
-            // document.getElementById('all').style.display = 'none'
             document.getElementById('zero').style.display = 'none'
             document.getElementById('one').style.display = 'none'
             document.getElementById('two').style.display = 'none'

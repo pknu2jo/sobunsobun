@@ -24,7 +24,7 @@
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/ikh/seller.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>    
-    <link rel="icon" th:href="@{/images/jk/sobun_seller.ico}">
+    <link rel="icon" th:href="@{/images/jk/sobunseller.ico}">
 </head>
 
 <body class="sb-nav-fixed">
@@ -40,10 +40,8 @@
             <main>                
                 <div style="padding-left: 15px; padding-top: 30px; padding-right: 15px;">
                     <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
-                        <h2 style="padding-bottom : 15px;">[[${companyName}]] 님의 판매 통계입니다.</h2>
-                        <!-- 여성(hidden처리 해야함) : <input type="number"  th:value="${female}"/><br/>
-                        남성(hidden처리 해야함) : <input type="number"  th:value="${male}"/><br/><br/>    
-                        지역 총 숫자(hidden 처리 하기) : <input type="number"  th:value="${total}"/><br/> -->
+                        <h2 th:text="${companyName} + ' 님의 판매 통계입니다.'" style="padding-bottom : 15px;"></h2>
+
                         <div class="row">
                             <!-- 차트 영역(전체성비) -->
                             <div class="col-lg-6">

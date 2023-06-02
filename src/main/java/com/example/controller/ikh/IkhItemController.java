@@ -40,9 +40,7 @@ public class IkhItemController {
     @GetMapping(value = "/item/search.do")
     public String searchGET(Model model, @AuthenticationPrincipal User user){
         try {
-            SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);
-            log.info("seller => {}", seller.toString());
-            log.info("sellerid => {}", seller.getNo());
+            SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);            
             model.addAttribute("companyName", seller.getName().toString());
             model.addAttribute("user", user);
 
