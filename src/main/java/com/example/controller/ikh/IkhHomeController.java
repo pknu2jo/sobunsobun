@@ -46,7 +46,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value = "/seller")
 @RequiredArgsConstructor
 @Slf4j
-public class HomeController {
+public class IkhHomeController {
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // 통계
     final TotalgenderViewRepository tgvRepository;
