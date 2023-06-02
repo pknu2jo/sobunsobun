@@ -87,8 +87,14 @@ public class mjItemController {
 
     @SuppressWarnings("unchecked") // 경고 제외
     @GetMapping(value = "/item/updateitem.do")
-    public String updateItemGET(Model model){
+    public String updateItemGET(Model model, @AuthenticationPrincipal User user){
         try {
+            SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);
+            log.info("seller => {}", seller.toString());
+            log.info("sellerid => {}", seller.getNo());
+            model.addAttribute("companyName", seller.getName().toString());
+            model.addAttribute("user", user);
+            
             List<BigDecimal> chk = (List<BigDecimal>) httpSession.getAttribute("itemno");
             List<Item> list =itemService.findAllByItemNo(chk);
             model.addAttribute("list", list);

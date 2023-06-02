@@ -17,6 +17,9 @@ public interface ItemRepository extends JpaRepository<Item, BigDecimal> {
     /** 물품 일괄수정 */
     List<Item> findByNo(BigDecimal no);
 
+    /** 사업자 번호에 해당하는 물품 갯수 가져오기 */
+    long countByRegNo(String regNo);
+
 
     /** 가장최근에 등록한 물품 번호 조회 */
     // Item findTop1ByNoAndByRegNoOrderByNoAsc(BigDecimal no);

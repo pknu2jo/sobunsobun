@@ -20,6 +20,7 @@ import com.example.dto.Seller;
 import com.example.entity.SellerEntity;
 import com.example.repository.jk.JkSellerRepository;
 import com.example.service.jk.JkSellerService;
+import com.example.service.mj.MjItemService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,7 @@ public class JkSellerController {
     final HttpSession httpSession;
     final JkSellerService sSellerService; // Mybatis 방식 Service (Mapper)
     final JkSellerRepository sRepository; // Jpa 방식 Repository
+    final MjItemService itemService;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
     /* ------------------------------- 홈화면 --------------------------------- */
@@ -47,6 +49,10 @@ public class JkSellerController {
             SellerEntity seller = sSellerService.findByNo(user.getUsername());
             // log.info("확인해봅시다 => {}", seller.toString());
             model.addAttribute("companyName", seller.getName().toString());
+
+            long ret = itemService.countItems(seller.getNo());
+            model.addAttribute("countItem", ret);
+
             return "/jk/seller/home";
         } else {
             return "/jk/seller/login";
