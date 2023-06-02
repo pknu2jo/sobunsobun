@@ -32,7 +32,7 @@ public class JkSellerController {
 
     final JkMailController mailController;
     final HttpSession httpSession;
-    final JkSellerService sService; // Mybatis 방식 Service (Mapper)
+    final JkSellerService sSellerService; // Mybatis 방식 Service (Mapper)
     final JkSellerRepository sRepository; // Jpa 방식 Repository
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
@@ -44,7 +44,7 @@ public class JkSellerController {
         // log.info("판매자 Home 정보 받아오기 => {}", user);
 
         if (!user.getUsername().equals("_")) {
-            SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
+            SellerEntity seller = sSellerService.findByNo(user.getUsername());
             // log.info("확인해봅시다 => {}", seller.toString());
             model.addAttribute("companyName", seller.getName().toString());
             return "/jk/seller/home";
@@ -72,16 +72,14 @@ public class JkSellerController {
         log.info("Seller address => {}", address1 + address2 + address3 + address4);
         seller.setAddress(address2 + " " + address3 + address4); // 우편번호는 제외
         seller.setPw(bcpe.encode(seller.getPw()));
-        int ret = sService.joinSeller(seller);
+        int ret = sSellerService.joinSeller(seller);
 
         if (ret == 1) {
             return "/jk/seller/login";
         }
         return "redirect:/seller/join.do";
     }
-    /*
-     * -------------------------------- 로그인 (Jpa) --------------------------------
-     */
+    /* -------------------------------- 로그인 (Jpa) -------------------------------- */
 
     // http://127.0.0.1:5959/SOBUN/seller/login.do
     // loginaction.do post는 만들지 않고 sercurity에서 처리.
@@ -111,7 +109,7 @@ public class JkSellerController {
         // (임시비밀번호는 이메일에서 복사 후 붙여넣는 용도라 자릿수는 크게 신경쓰지 않았음.)
 
         seller.setNewPw(bcpe.encode(tempPw)); // 암호화 과정
-        int ret = sService.findSellerPw(seller); // 필요한 정보 : no, newPw, email
+        int ret = sSellerService.findSellerPw(seller); // 필요한 정보 : no, newPw, email
         log.info("Find password 2 => {}", seller.toString());
         if (ret == 1) {
             mailController.sendPwMail(seller.getEmail(), tempPw);
@@ -120,18 +118,15 @@ public class JkSellerController {
         return "redirect:/seller/findpw.do";
     }
 
-    /*
-     * ----------------------------- 마이페이지(Jpa) ----------------------------------
-     */
+    /* ----------------------------- 마이페이지(Jpa) ---------------------------------- */
 
-    // --------------------마이페이지 본인인증 (비밀번호)------------------- //
-
+    // -------------------- 마이페이지 본인인증 (비밀번호) ------------------- //
     // http://127.0.0.1:5959/SOBUN/seller/pwcheck.do
     // (아이디, 비밀번호 필요)
     @GetMapping(value = "/pwinfocheck.do")
     public String infopwcheckGET(@AuthenticationPrincipal User user, Model model) { // Security로 정보 받아옴.
         log.info("pwinfocheck get => {}", user);
-        SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
+        SellerEntity seller = sSellerService.findByNo(user.getUsername());
         log.info("pwinfocheck get2 => {}", seller.toString());
         model.addAttribute("seller", seller);
         model.addAttribute("companyName", seller.getName().toString());
@@ -139,13 +134,12 @@ public class JkSellerController {
         // 미리 get에 해당 업체의 정보를 템플릿에 담아서 띄움.
     }
 
-    // -------------------------정보변경-------------------------- //
-
+    // ------------------------- 정보변경 -------------------------- //
     // http://127.0.0.1:5959/SOBUN/seller/updateinfo.do
     // 1. 정보변경 (이름, 전화번호, 이메일, 주소)
     @GetMapping(value = "/updateinfo.do")
     public ModelAndView updateInfoGET(@AuthenticationPrincipal User user, Model model) { // Security로 정보 받아옴.
-        SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
+        SellerEntity seller = sSellerService.findByNo(user.getUsername());
         model.addAttribute("companyName", seller.getName().toString());
         model.addAttribute("user", user);
 
@@ -164,7 +158,7 @@ public class JkSellerController {
             log.info("Seller address update => {}", address1 + address2 + address3 + address4);
 
             // 세션 ID 이용하여 기존정보를 받아오기
-            SellerEntity sellerOld = sRepository.findById(seller.getNo()).orElse(null);
+            SellerEntity sellerOld = sSellerService.findByNo(seller.getNo());
             if (address1.equals("")) { // if 새주소값 null => 이전주소 그대로 적용
                 sellerOld.setAddress(sellerOld.getAddress().toString());
             } else { // else 새주소값 입력 => 새주소 적용
@@ -174,7 +168,7 @@ public class JkSellerController {
             sellerOld.setName(seller.getName());
             sellerOld.setPhone(seller.getPhone());
             sellerOld.setEmail(seller.getEmail());
-            sRepository.save(sellerOld);
+            sSellerService.saveObject(sellerOld);
             return "redirect:/seller/updateinfo.do";
         } catch (Exception e) {
             e.printStackTrace();
@@ -182,36 +176,31 @@ public class JkSellerController {
         }
     }
 
-    // ------------------------비밀번호변경-------------------------- //
-
+    // ------------------------ 비밀번호변경 -------------------------- //
     // http://127.0.0.1:5959/SOBUN/seller/updatepw.do
     // 2. 비번변경
     @GetMapping(value = "/updatepw.do")
     public ModelAndView updatepwGET(@AuthenticationPrincipal User user, Model model) { // Security로 정보 받아옴.
-        SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
+        SellerEntity seller = sSellerService.findByNo(user.getUsername());
         model.addAttribute("companyName", seller.getName().toString());
 
         return new ModelAndView("jk/seller/mypage/updatepw", "seller", seller);
         // 미리 get에 해당 업체의 정보를 템플릿에 담아서 띄움.
     }
-
-    // @PostMapping(value = "/updateinfo.do")
-    // public String updatePwPOST() {
-    // return "";
-    // }
+    
     @PostMapping(value = "/updatepw.do")
     public String updatepwPOST(@ModelAttribute SellerEntity seller) {
         try {
             log.info("Seller UpdatePw Who => {}", seller);
             // 세션 ID 이용하여 기존암호 받아오기
-            SellerEntity sellerOld = sRepository.findById(seller.getNo()).orElse(null);
+            SellerEntity sellerOld = sSellerService.findByNo(seller.getNo());
             // 기존암호가 일치한다면 새암호 & 새암호 확인 대조
             /* -- newPw와 newPwCheck 사이의 유효성검사 필요! (JS) -- */
             // 새 암호값으로 업데이트
             sellerOld.setPw(bcpe.encode(seller.getNewPw()));
             // log.info(" Seller UpdatePw Who => {}", sellerOld);
             // 저장
-            sRepository.save(sellerOld);
+            sSellerService.saveObject(sellerOld);
             return "redirect:/seller/home.do";
         } catch (Exception e) {
             e.printStackTrace();
@@ -219,16 +208,17 @@ public class JkSellerController {
         }
     }
 
-    // --------------------------탈퇴---------------------------- //
+    // -------------------------- 탈퇴 ---------------------------- //
     // 탈퇴 기능은 원래 관리자에서 구현해야함. (쿠팡윙도 같은 방식을 차용.)
     // 하지만 관리자 페이지의 부재로 인해 직접 탈퇴하는 방법으로 바꿔야 할듯 함.
+    // 6월1일에 기능은 빼고 칸만 남겨두기로 함.
 
     // http://127.0.0.1:5959/SOBUN/seller/unregister.do
     // 3. 탈퇴
     @GetMapping(value = "/unregister.do")
     public ModelAndView unregisterGET(@AuthenticationPrincipal User user, Model model) { //
         // Security로 정보 받아옴.
-        SellerEntity seller = sRepository.findById(user.getUsername()).orElse(null);
+        SellerEntity seller = sSellerService.findByNo(user.getUsername());
         model.addAttribute("companyName", seller.getName().toString());
         model.addAttribute("user", user);
 
@@ -255,16 +245,5 @@ public class JkSellerController {
         }
 
     }
-
-    // // @PostMapping(value="/unregister.do")
-    // // public String deletePOST(@AuthenticationPrincipal User user) {
-    // // try {
-    // // sRepository.deleteById(user.getUsername());
-    // // return "redirect:/member1/selectlist.do";
-    // // }catch(Exception e){
-    // // e.printStackTrace();
-    // // return "redirect:/home.do";
-    // // } // securitycontext folder
-    // // }
     /* ------------------------------------------------------------------------ */
 }

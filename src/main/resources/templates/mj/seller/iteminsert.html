@@ -24,7 +24,7 @@
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/mj/seller.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
-    
+    <link rel="icon" th:href="@{/images/jk/sobun_seller.ico}">
 </head>
 
 <body class="sb-nav-fixed">
@@ -43,10 +43,6 @@
                     <h3>물품등록</h3>
                     <a th:href="@{/seller/item/management.do}"><button class="btn btn-primary">물품리스트</button></a>
                     <hr>
-                    
-                    
-                        
-                    
                     <!-- <form th:action="@{/seller/item/insert.do}" method="post"> -->
                         
                         <div class="input-group mb-3">
@@ -84,9 +80,9 @@
                             <span class="input-group-text" id="basic-addon1">수량</span>
                             <input type="number" name="quantity" class="form-control" id="quantity" aria-label="Itemname" aria-describedby="basic-addon1" onkeydown="insertname(this)">
                         </div>
-                        <div class="input-group mb-3">
+                        <div class="input-group mb-3" style="display: none;">
                             <span class="input-group-text" id="basic-addon1">사업자번호</span>
-                            <input type="number" name="regNo" class="form-control" id="regNo" aria-label="Itemname" aria-describedby="basic-addon1" onkeydown="insertname(this)">
+                            <input type="number" name="regNo" th:value="${sellerid}" class="form-control" id="regNo" aria-label="Itemname" aria-describedby="basic-addon1" onkeydown="insertname(this)">
                         </div>
                         <!-- ==================================== -->
                         <!-- <input type="text" th:value="${ret.no}" id="itemno"> -->
@@ -272,7 +268,7 @@
     
             document.getElementById('tomanagement').addEventListener("click", clickFunction1);
             function clickFunction1() {
-                window.location.href = `/SOBUN/seller/item/management.do`;
+                window.location.href = `/SOBUN/seller/item/insert.do`;
             }
 
             document.getElementById('tomanagement1').addEventListener("click", clickFunction2);

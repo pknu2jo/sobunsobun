@@ -24,6 +24,7 @@
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/mj/seller.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
+    <link rel="icon" th:href="@{/images/jk/sobun_seller.ico}">
 </head>
 
 <body class="sb-nav-fixed">
@@ -42,8 +43,10 @@
 
                     <h3>이미지등록/수정</h3>
                     <a th:href="@{/seller/item/management.do}"><button class="btn btn-dark">물품리스트</button></a><br>
-                    물품번호: <label th:text="${item.no}"></label><br>
-                    물품명: <label th:text="${item.name}"></label>
+                    <div>
+                        물품번호: <label th:text="${item.no}"></label><br>
+                        물품명: <label th:text="${item.name}"></label>
+                    </div>
                     <hr>
 
                     <h4>대표이미지</h4>

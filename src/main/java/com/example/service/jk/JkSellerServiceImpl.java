@@ -3,6 +3,7 @@ package com.example.service.jk;
 import org.springframework.stereotype.Service;
 
 import com.example.dto.Seller;
+import com.example.entity.SellerEntity;
 import com.example.mapper.jk.SellerMapper;
 import com.example.repository.jk.JkSellerRepository;
 
@@ -102,14 +103,25 @@ public class JkSellerServiceImpl implements JkSellerService {
         }
     }
 
-    // @Override
-    // public SellerEntity findEmailByNo(String id) {
-    //     try {
-    //         return sRepository.findEmailByNo(id);
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return null;
+    @Override
+    public SellerEntity findByNo(String id) {
+        try {
+            return sRepository.findByNo(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-    //     }
-    // }
+    @Override
+    public SellerEntity saveObject(SellerEntity entity) {
+        try {
+            return sRepository.save(entity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    
 }

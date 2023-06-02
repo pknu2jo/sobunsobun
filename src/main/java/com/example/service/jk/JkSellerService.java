@@ -4,9 +4,12 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import com.example.dto.Seller;
+import com.example.entity.SellerEntity;
 
 @Service
 public interface JkSellerService {
+
+    /*--------------------------- Mapper 기능 ---------------------------*/
 
     // 업체 회원가입
     public int joinSeller(@Param("obj") Seller obj);
@@ -28,13 +31,15 @@ public interface JkSellerService {
 
     // 업체 탈퇴
     public int deleteSeller(@Param("obj") Seller obj);
+    
+    /* --------------------------- Repository 기능 --------------------------- */
 
     // 아이디 중복확인
     public int countByNo(String id);
 
-    // 비밀번호 일치여부 확인
-    // public int countBy
+    // 아이디와 매칭되는 email 확인
+    public SellerEntity findByNo(String id);
 
-    // // 아이디와 매칭되는 email 확인
-    // public SellerEntity findEmailByNo(String id);
+    // 저장
+    public SellerEntity saveObject(SellerEntity entity);
 }

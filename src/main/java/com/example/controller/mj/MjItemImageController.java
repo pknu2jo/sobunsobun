@@ -32,6 +32,8 @@ import com.example.mapper.mj.mjItemImageMapper;
 import com.example.repository.jk.JkSellerRepository;
 import com.example.repository.mj.ItemImageRepository;
 import com.example.repository.mj.ItemRepository;
+import com.example.service.mj.MjItemImageService;
+import com.example.service.mj.MjItemService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,10 +44,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MjItemImageController {
     
-    final ItemRepository iRepository;
-    final ItemImageRepository imageRepository;
-    final mjItemImageMapper imageMapper;
+    // final ItemRepository iRepository;
+    // final ItemImageRepository imageRepository;
+    // final mjItemImageMapper imageMapper;
     final JkSellerRepository sellerRepository;
+    final MjItemImageService imageService;
+    final MjItemService itemService;
 
     final ResourceLoader resourceLoader; //resources폴더의 파일을 읽기 위한 객체 생성
     @Value("${default.image}") String DEFAULTIMAGE;
@@ -53,7 +57,9 @@ public class MjItemImageController {
     //127.0.0.1:5959/SOBUN/seller/itemimage/image?no=1
     @GetMapping(value = "/image")
     public ResponseEntity<byte[]> image(@RequestParam(name="no", defaultValue = "0") long no) throws IOException{
-        ItemImage obj = imageRepository.findById(BigDecimal.valueOf(no)).orElse(null);
+        ItemImage obj = imageService.findById(BigDecimal.valueOf(no));
+        
+        log.info("itemimage obj =>{}", obj.toString());
 
         HttpHeaders headers = new HttpHeaders();
         if(obj != null) { // 이미지가 존재할 경우
@@ -92,7 +98,7 @@ public class MjItemImageController {
             // 대표이미지 등록/수정
             if(image==0){
                 // 물품번호에 해당하는 이미지 중 "상세"가 포함되지않은 이미지 가져오기
-                ItemImage image1 = imageRepository.findByItemNo_noAndFilenameNotLikeOrderByNoAsc(itemno, "%상세%");
+                ItemImage image1 = imageService.findByItemNo_noAndFilenameNotLikeOrderByNoAsc(itemno, "%상세%");
                 // 대표이미지가 있으면 새이미지로 수정
                 if(image1 != null){
                     log.info("이미지 33 => {}" , image1.getFilename());
@@ -104,7 +110,7 @@ public class MjItemImageController {
                     Item obj1 = new Item();
                     obj1.setNo(itemno);
                     image1.setItemNo( obj1 );
-                    imageRepository.save(image1);
+                    imageService.saveImage(image1);
                 }
                 // 대표이미지가 없으면 새이미지 등록
                 else {
@@ -117,7 +123,7 @@ public class MjItemImageController {
                     Item obj1 = new Item();
                     obj1.setNo(itemno);
                     image2.setItemNo( obj1 );
-                    imageRepository.save(image2);
+                    imageService.saveImage(image2);
                 }
     
             }
@@ -135,7 +141,7 @@ public class MjItemImageController {
                     obj1.setNo(itemno);
                     images.setItemNo( obj1 );
                     
-                    imageRepository.save(images);
+                    imageService.saveImage(images);
                 }
             }
             return "redirect:/seller/itemimage/selectlist.do?no=" + itemno;
@@ -151,7 +157,7 @@ public class MjItemImageController {
         try {
             // ItemImage itemimage = new ItemImage();
             // imageRepository.deleteAllByNo(imageno);
-            int ret = imageMapper.deleteImageBatch(imageno);
+            int ret = imageService.deleteImageBatch(imageno);
             log.info("ret=>{}", ret);
             return "redirect:/seller/itemimage/selectlist.do?no=" + itemno.longValue();
         } catch (Exception e) {
@@ -174,12 +180,13 @@ public class MjItemImageController {
             model.addAttribute("user", user);
 
 
-            Item item = iRepository.findById(BigDecimal.valueOf(no)).orElse(null);
+            Item item = itemService.findByItemNo(BigDecimal.valueOf(no));
+            log.info("item => {}", item.toString());
             
             // 대표이미지
             // String a = "%상세%";
 
-            ItemImage image = imageRepository.findByItemNo_noAndFilenameNotLikeOrderByNoAsc(BigDecimal.valueOf(no), "%상세%");
+            ItemImage image = imageService.findByItemNo_noAndFilenameNotLikeOrderByNoAsc(BigDecimal.valueOf(no), "%상세%");
             item.setImageUrl( request.getContextPath() + "/seller/itemimage/image?no=" + 0);
             if(image != null){
                 item.setImageUrl( request.getContextPath() + "/seller/itemimage/image?no=" + image.getNo().longValue() );
@@ -190,7 +197,7 @@ public class MjItemImageController {
             
             // 전체이미지
             // List<String> 타입으로 만들어서 view로 전달후 출력
-            List<ItemImage> list = imageRepository.findByItemNo_noAndFilenameLikeOrderByNoAsc(BigDecimal.valueOf(no), "%상세%");
+            List<ItemImage> list = imageService.findByItemNo_noAndFilenameLikeOrderByNoAsc(BigDecimal.valueOf(no), "%상세%");
             if( !list.isEmpty() ){
                 log.info("imagelist => {}", list.toString());
             }
