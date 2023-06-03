@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 3000,
     "height": 3000,
-    "scrollTop": -653,
-    "scrollLeft": -963,
-    "zoomLevel": 0.5,
+    "scrollTop": -985.6666666666666,
+    "scrollLeft": -845.0000000000005,
+    "zoomLevel": 1,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -588,7 +588,7 @@
           },
           {
             "name": "receivestate",
-            "comment": "물품수령상태(0,1)",
+            "comment": "모든 인원 물품수령상태(0,1)",
             "dataType": "NUMBER",
             "default": "0",
             "option": {
@@ -603,7 +603,7 @@
               "fk": false,
               "pfk": false,
               "widthName": 71.08154296875,
-              "widthComment": 105.0859375,
+              "widthComment": 120,
               "widthDataType": 60,
               "widthDefault": 60
             },
@@ -703,10 +703,10 @@
           }
         ],
         "ui": {
-          "active": false,
+          "active": true,
           "left": 869.9809,
           "top": 942.6237,
-          "zIndex": 18,
+          "zIndex": 28,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FF9F9C"

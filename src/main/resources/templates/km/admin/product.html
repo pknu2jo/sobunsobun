@@ -35,7 +35,7 @@
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;" class="container">
         <main>
-            <div th:text="${storageList}"></div>
+            <!-- <div th:text="${storageList}"></div> -->
             <select id="selectStorage" name="storageNo" onchange="selectStorage()">
                 <option value="0" selected>---[필수 선택]---</option>
                 <option th:each="tmp:${storageList}" th:value="${tmp.no}" th:text="${tmp.name}">
@@ -46,48 +46,28 @@
             <div class="px-4">
                 <h1 class="mt-4">고객 상품 수령 관리</h1>
 
-                <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a href="index.html">대시보드</a></li>
-                    <li class="breadcrumb-item active">테이블</li>
-                </ol>
-
                 <!--테이블(보드) 영역-->
                 <div class="row">
                     <div class="col">
                         <div class="card mb-4">
-                            <div class="card-header">
+                            <!-- <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
                                 테이블 예제
-                            </div>
+                            </div> -->
                             <div class="card-body">
-                                <table id="datatablesSimple" class="table">
-                                    <thead>
-                                        <tr>
+                                <table id="datatablesSimple" class="dataTable">
+                                    <thead id="thead">
+                                        <!-- <tr>
                                             <th>Name</th>
                                             <th>Position</th>
                                             <th>Office</th>
                                             <th>Age</th>
                                             <th>Start date</th>
                                             <th>Salary</th>
-                                        </tr>
+                                        </tr> -->
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Quinn Flynn</td>
-                                            <td>Support Lead</td>
-                                            <td>Edinburgh</td>
-                                            <td>22</td>
-                                            <td>2013/03/03</td>
-                                            <td>$342,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Charde Marshall</td>
-                                            <td>Regional Director</td>
-                                            <td>San Francisco</td>
-                                            <td>36</td>
-                                            <td>2008/10/16</td>
-                                            <td>$470,600</td>
-                                        </tr>
+                                    <tbody id="tbody">
+                                       
                                     </tbody>
                                 </table>
                             </div>
@@ -109,17 +89,14 @@
 
     <!-- Simple DataTable용 JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+
     <script th:inline="javascript" type="text/javascript">
-        $(document).ready(function () {
-            new simpleDatatables.DataTable("#datatablesSimple", {
-                searchable: true,
-                fixedHeight: true,
 
-            })
-        });
+        const dataTable = document.querySelector('#datatablesSimple');
+        var table = null;
 
-        
         async function selectStorage() {
+
             var select = document.querySelector('#selectStorage');
             var selectVal = select.options[select.selectedIndex].value;
             var selectText = select.options[select.selectedIndex].text;
@@ -132,7 +109,78 @@
             const headers = { "Content-Type": "application/json" };
             const { data } = await axios.get(url, { headers: headers });
 
-            console.log("반환값 확인", data);
+            // console.log("반환값 확인", data.purchaseList);
+
+            // 이전 테이블 인스턴스가 있다면 제거
+            if (table) {
+                table.destroy();
+                table = null;
+            }
+            
+            var thead = document.querySelector('#thead');
+            var tbody = document.querySelector('#tbody');
+
+
+            if (data.result == 1) {
+                thead.innerHTML = '';
+                tbody.innerHTML = '';
+                if (data.purchaseList != null) {
+                    thead.innerHTML += 
+                        `<tr>` +
+                                `<th>공구번호</th>` +
+                                `<th>참여인원</th>` +
+                                `<th>수령인원</th>` +
+                                `<th>보관소 도착일</th>` +
+                                `<th>5</th>` +
+                                `<th>6</th>` +
+                        `</tr>`;
+
+                    for (let i = 0; i < data.purchaseList.length; i++) {
+
+                        let tmp = data.purchaseList[i];
+                        console.log("반환값 확인", tmp);
+
+                        tbody.innerHTML +=
+                            `<tr>` +
+                            `<td>${tmp.no}</td>` +
+                            `<td>${tmp.no}</td>` +
+                            `<td>${tmp.no}</td>` +
+                            `<td>${tmp.no}</td>` +
+                            `<td>${tmp.no}</td>` +
+                            `<td>${tmp.no}</td>` +
+                        // `<input type="text" name="purchaseNo" value="${tmp.purchaseNo}">` +
+                        // `<td scope="row">${tmp.participant}</td>` +
+                        // `<td>${tmp.remainingPerson}</td>` +
+                        // `<td>${tmp.storageName}</td>` +
+                        // `<td>` + price1 + `</td>` +
+                        // '<td id="clock' + i + '">' + deadline + '</td>' +
+                        // `<td><input type='button' class="btn participant-btn" value="참여" 
+                        //                 onclick="participate(${tmp.purchaseNo},${Math.floor(itemprice / tmp.participant)})" 
+                        //                 id="participateBtn` + i + `" ></td>` +
+                        `</tr>`;
+
+                        if (!table) {
+                            // 데이터 테이블 생성
+                            table = new simpleDatatables.DataTable("#datatablesSimple", {
+                                searchable: true,
+                                fixedHeight: true,
+                            });
+                        }
+                    }
+                } else if (data.purchaseList == null ) {
+
+                    let thead = document.getElementById('thead');
+                    thead.innerHTML = '';
+                    let row = document.createElement('tr');
+                        
+                        row.innerHTML =
+                           'No entries found';
+
+                        tbody.appendChild(row);
+                }
+
+
+            }
 
         }
     </script>
