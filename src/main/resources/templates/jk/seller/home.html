@@ -52,7 +52,8 @@
                         <div class="col-ml-12" id="guideCardBody">
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <!-- 사이트 이용 설명을 위한 버튼 -->
+                                    
+                                    <!-- 오늘 하루 그만보기 버튼 -->
                                     <a href="#" id="hideGuideBtn" class="float-end">오늘하루 그만보기 <i
                                             class="fas fa-xmark"></i></a>
                                     <div class="p-2">
@@ -62,6 +63,7 @@
                                         <!-- <img src="../images/jk/box.png" alt="상자img"
                                             style="float: right; position: relative; bottom: 40px;"> -->
                                         <div class="ms-3" style="position: relative;">
+                                            <!-- 사이트 이용 설명을 위한 버튼 -->
                                             <p style="margin: 5px;  font-weight: 600; font-size: 20px;">도움말이 필요하시다면 <a
                                                     href="#" data-bs-toggle="modal" data-bs-target="#modal1"
                                                     style="font-size: 20px; color: rgb(0, 60, 255); font-weight: 600;">여기</a>를
@@ -69,7 +71,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- 오늘 하루 그만보기 버튼 -->
+                                    
 
 
 
@@ -356,20 +358,33 @@
     </script>
 
     <script th:inline="javascript" type="text/javascript">
-        var arrays = "[[${array}]]";
-        var max = "[[${max}]]";
+        var list = /*[[${list}]]*/"";
+        
+        console.log(list);        
+
+        var xdata = [0,0,0];
+        var ydata = ['없음','없음','없음'];
+        
+        for(var i = 0; i < list.length; i++){            
+            ydata[i]= list[i].itemname;
+            if (list[i].itemname.length >= 7){
+                ydata[i] = list[i].itemname.slice(0, 4) + '..';                
+            }
+            xdata[i]=list[i].count;
+        }
+        console.log(ydata);
+        console.log(xdata);
 
         var ctx = document.getElementById("myBarChart2");
         var myLineChart = new Chart(ctx, {
             type: 'horizontalBar',
             data: {
-                labels: ["중구", "서구", "동구", "영도구", "진구", "동래구", "남구", "북구", "해운대구", "사하구", "금정구", "강서구", "연제구", "수영구", "사상구"],
+                labels: [ydata[0], ydata[1], ydata[2]],
                 datasets: [{
                     label: "Headcount",
                     backgroundColor: "rgba(2,117,216,0.5)",
                     borderColor: "rgba(2,117,216,1)",
-                    data: [arrays[1], arrays[3], arrays[5], arrays[7], arrays[9], arrays[11], arrays[13], arrays[15], arrays[17]
-                        , arrays[19], arrays[21], arrays[23], arrays[25], arrays[27], arrays[29]],
+                    data: [xdata[0], xdata[1], xdata[2]],
                 }],
             },
             options: {
@@ -384,15 +399,15 @@
                             display: false
                         },
                         ticks: {
-                            maxTicksLimit: 15
+                            maxTicksLimit: 3
                         }
                     }],
                     xAxes: [{
                         ticks: {
                             beginAtZero: true,
                             min: 0,
-                            max: Number(max),
-                            maxTicksLimit: Number(max)
+                            max: xdata[0],
+                            maxTicksLimit: xdata[0]
                         },
                         gridLines: {
                             display: true
@@ -404,6 +419,7 @@
                 }
             }
         });
+
     </script>
 </body>
 
