@@ -21,6 +21,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -35,7 +37,9 @@ public class StorageEntity {
     @Column(name = "NO")
     private BigDecimal no;
 
+    @Column(name = "NAME")
     private String name;
+    
     private String phone;
     private String postcode;
     private String address1;

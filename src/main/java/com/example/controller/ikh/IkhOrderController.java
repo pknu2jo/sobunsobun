@@ -37,7 +37,7 @@ public class IkhOrderController {
     final OrderViewRepository ovRepository;
     final CompleteOrderViewRepository covRepository;
     final ProceedOrderFinalViewRepository porfvRepository;
-    final CancelOrderViewRepository cancelRepository;
+    final CancelOrderViewRepository cancelRepository;    
     final JkSellerRepository sellerRepository;
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
@@ -65,8 +65,9 @@ public class IkhOrderController {
             long suma = 0;
             long sum0 = 0;
             long sum1 = 0;
-            long sum2 = 0;
+            long sum2 = 0;            
             List<ProceedOrderFinalView> porfvlist = porfvRepository.findByNo(seller.getNo());         
+            log.info("{}", porfvlist);
             model.addAttribute("porfvlist", porfvlist);
             sum0 = porfvlist.size();
             model.addAttribute("sum0", sum0);

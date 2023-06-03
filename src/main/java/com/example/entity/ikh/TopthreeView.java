@@ -14,16 +14,16 @@ import org.springframework.format.annotation.DateTimeFormat;
 import lombok.Data;
 
 @Data
-@Immutable // 뷰
+@Immutable
 @Entity
-@Table(name = "TOTALTABLE")
-public class TotaltableView {
-    
+@Table(name = "TOPTHREE")
+public class TopthreeView {
     @Column(name = "NO")
     private String no;
     
+    @Id
     @Column(name = "ITEMNO")
-    private BigDecimal itemno;
+    private BigDecimal itemno;    
     
     @Column(name = "ITEMNAME")
     private String itemname;
@@ -39,8 +39,7 @@ public class TotaltableView {
 
     @Column(name = "COUNT")
     private long count;
-    
-    @Id
+        
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @Column(name = "ITEMREGDATE")
     private Date itemregdate;
