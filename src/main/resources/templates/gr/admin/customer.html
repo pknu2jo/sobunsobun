@@ -53,8 +53,91 @@
             border: none;
         }
 
+        /* 테이블 css */
+
         .card-body{
+            padding-top: 25px;
+            padding-left: 0;
+            padding-right: 0;
+            text-align: center;
         }
+
+        .datatable-top{
+            padding-bottom: 30px;
+            padding-left: 0;
+            padding-right: 0;
+            
+        }
+
+        .datatable-dropdown {
+            display: none;
+        }
+
+        .datatable-search input{
+            width: 270px;
+            border: 1.5px solid #c4c4c4 ;
+            border-radius: 0;
+        }
+
+        .datatable-container{
+            padding-left: 7px;
+            padding-right: 7px;
+        }
+
+        
+
+        #datatablesSimple thead th{
+            text-align: center;
+            vertical-align: middle;
+            height: 45px;
+            font-size: 16px;
+        }
+
+        #datatablesSimple thead th a{
+            text-align: center;
+            vertical-align: middle;
+            padding-top: 5px;
+        }
+
+        #datatablesSimple thead th:first-child{
+            width: 160px;
+        }
+
+        #datatablesSimple thead th:nth-child(4) {
+            width: 260px; /* 원하는 너비 값으로 변경 */
+        }
+
+        #datatablesSimple thead th:nth-child(6) {
+            width: 73px; /* 원하는 너비 값으로 변경 */
+        }
+
+        #datatablesSimple thead th:nth-child(8) {
+            width: 70px; /* 원하는 너비 값으로 변경 */
+        }
+
+        /* 테이블 안에 내용 */
+        #datatablesSimple tbody td{
+            height: 60px;
+            text-align: center; /* 수평 정렬 */
+            vertical-align: middle; /* 수직 정렬 */
+            display: table-cell;
+        }
+
+        /* 페이지네이션있는부분*/
+        .datatable-bottom{
+            padding-top: 20px;
+        }
+
+        .datatable-bottom .datatable-info{
+            display: none;
+        }
+
+    
+        .datatable-wrapper.no-footer .datatable-container {
+            border: none;
+        }
+
+        
     </style>
      
     
@@ -84,21 +167,21 @@
                                     <th>닉네임</th>
                                     <th>성별</th>
                                     <th>가입일</th>
-                                    <th>탈퇴여부</th>
+                                    <th>탈퇴</th>
                                     <th>블랙리스트</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="obj : ${list}">
+                                <tr th:each="obj, objIndex : ${list}">
                                     <td th:text="${obj.id}"></td>
                                     <td th:text="${obj.name}"></td>
                                     <td th:text="${obj.phone}"></td>
                                     <td th:text="${obj.email}"></td>
                                     <td th:text="${obj.nickname}"></td>
                                     <td th:text="${obj.gender}"></td>
-                                    <td th:text="${obj.regdate}"></td>
+                                    <td th:text="${#dates.format(obj.regdate, 'yyyy-MM-dd')}"></td>
                                     <td th:text="${obj.quitchk}"></td>
-                                    <td th:text="${obj.blockchk}"><input type="checkbox" /></td>
+                                    <td><input type="checkbox" th:checked="${obj.blockchk == 1}" th:onclick="blockchk([[${obj.id}]],[[${obj.blockchk}]],[[${objIndex.index}]])" /></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -123,14 +206,29 @@
 
     <!-- Simple DataTable용 JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
-    <script>
+    <script th:inline="javascript" type="text/javascript">
            $(document).ready(function () {
             new simpleDatatables.DataTable("#datatablesSimple", {
                 searchable: true,
                 fixedHeight: true,
-                
             })
         });
+
+        const username = /*[[${user.username}]]*/"";
+        console.log('반환되는 결과', username);
+
+        async function blockchk(id, blockchk, index){
+
+            const url = /*[[@{/api/admin/customer.json}]]*/"";
+            const headers = {"Content-Type":"application/json"};
+            const body = {id:username, customerId:id, blockchk:blockchk};
+            const {data} = await axios.post(url, body, {headers:headers});
+            console.log('blockchk값', body);
+            console.log('반환되는 결과', data);
+
+        }
+
+       
     </script>
 
 </body>

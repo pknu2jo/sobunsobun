@@ -12,4 +12,6 @@ public interface grcompanyRepository extends JpaRepository<SellerEntity, String>
 
     List<SellerEntity> findAll();
 
+    SellerEntity findByNo(String no);
+
 }

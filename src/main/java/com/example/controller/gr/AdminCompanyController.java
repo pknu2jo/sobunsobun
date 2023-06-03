@@ -26,10 +26,13 @@ public class AdminCompanyController {
     @GetMapping(value = "/company.do")
     public String companyGET(@AuthenticationPrincipal User user, Model model) {
         try {
+
             List<SellerEntity> list = cRepository.findAll();
 
             model.addAttribute("user", user);
             model.addAttribute("list", list);
+
+            log.info("가가가가=>{}", user.getUsername().toString());
 
             log.info("가람 => {}", list.toString());
 
