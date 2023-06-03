@@ -47,33 +47,29 @@
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
             <main>
-                <div class="container-fluid" style="padding: 3%;">
+                <div class="container-fluid px-4">
                     <div class="row">
                         <div class="col-ml-12" id="guideCardBody">
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    
+
                                     <!-- 오늘 하루 그만보기 버튼 -->
                                     <a href="#" id="hideGuideBtn" class="float-end">오늘하루 그만보기 <i
                                             class="fas fa-xmark"></i></a>
                                     <div class="p-2">
-                                        <img th:src="@{/images/jk/info.png}"
-                                            style="float: left; width: 5vh;"
-                                            alt="정보아이콘" />
+                                        <img class="mx-3" th:src="@{/images/jk/info.png}"
+                                            style=" float: left; width: 5vh;" alt="정보아이콘" />
                                         <!-- <img src="../images/jk/box.png" alt="상자img"
                                             style="float: right; position: relative; bottom: 40px;"> -->
                                         <div class="ms-3" style="position: relative;">
                                             <!-- 사이트 이용 설명을 위한 버튼 -->
-                                            <p style="margin: 5px;  font-weight: 600; font-size: 20px;">도움말이 필요하시다면 <a
-                                                    href="#" data-bs-toggle="modal" data-bs-target="#modal1"
+                                            <p
+                                                style="margin: 5px; margin-left: 50px;  font-weight: 600; font-size: 20px;">
+                                                도움말이 필요하시다면 <a href="#" data-bs-toggle="modal" data-bs-target="#modal1"
                                                     style="font-size: 20px; color: rgb(0, 60, 255); font-weight: 600;">여기</a>를
                                                 눌러주세요!</p>
                                         </div>
                                     </div>
-
-                                    
-
-
 
 
                                     <!-- 모달 1 -->
@@ -151,11 +147,11 @@
                         <div class="col-ml-12">
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <p style="margin: 20px; margin-top: 20px; font-weight: 500; font-size: 45px;">
+                                    <p style="margin: 20px; margin-top: 20px; font-weight: 800; font-size: 45px;">
                                         <strong>상품 바로
                                             등록하기</strong>
                                     </p>
-                                    <div class="px-4 " style="font-weight: 600;">
+                                    <div class="px-4 " style="font-weight: 400;">
                                         <p id="divContnent" class="mb-1"
                                             th:text="'현재 ' + ${companyName} + '님의 등록된 상품은 ' + ${countItem} + '개 등록되어 있습니다.'">
                                             <!-- ############## 민지씨 여기에 상품갯수 넣어주세요 ^ 여기 ############## -->
@@ -167,7 +163,7 @@
                                     </div>
                                     <div class="p-4">
                                         <img src="../images/jk/box.png" alt="상자img"
-                                            style="float: right; position: relative; bottom: 40px;">
+                                            style="float: right; position: relative; bottom: 20px;">
 
                                         <div style="text-align: left; padding-top: 50px;">
                                             <a th:href="@{/seller/item/insert.do}"
@@ -189,7 +185,26 @@
 
                     <!-- 각 화면별 상세 화면 -->
                     <div class="row">
-                        <div class="col-md-6">
+                        <!-- 상품 판매 완료가 되지 않았을때 뜨는 card-body -->
+                        <div class="col-md-12" id="sellAlert">
+                            <div class="card mb-4">
+                                <div class="card-body" style="font-weight: 800;">
+                                    <p style="margin: 20px; font-size: 28px;">
+                                        <strong>아직 상품 판매가 완료되지 않았네요. </strong>
+                                    </p>
+                                    <div class="px-4">
+                                        <img src="../images/jk/chart.png" alt="차트img"
+                                            style="float: right; position: relative; bottom: 30px;">
+                                        <div style="font-weight: 400;">
+                                            <p id="divContnent" class="mb-1">먼저 상품을 등록한 후 판매를 진행해보세요.</p>
+                                            <p id="divContnent" class="mb-0">판매가 완료되면, 저희가 판매실적을 통계로 알려드릴 수 있어요.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 상품 판매 완료가 되면 뜨는 card-body -->
+                        <div class="col-md-6" id="sellChart1">
                             <div class="card mb-4">
                                 <div class="card-body" style="font-weight: 600;">
                                     <p style="margin: 20px; font-weight: 600; font-size: 28px;">
@@ -201,16 +216,18 @@
                                         <div class="ms-3">
                                             <!-- <img th:src="${imageUrl}" alt="상품 사진" style="width: 30%; border-radius: 10px; border:1px; margin: 20px;">  와 같은-->
                                             <p id="divContnent" th:text=" '상품명 : '" style="margin: 20px;"></p>
-                                            <p id="divContnent" th:text="${itemName}" style="margin: 20px;"></p>
+                                            <!-- 데이터가 null이 아닌 경우에 처리할 내용 -->
+                                            <p id="divContnent" name="bestSeller" th:text="${itemName}"
+                                                style="margin: 20px;"></p>
+                                            <input id="modelValue" th:value="${itemName}" hidden></input>
                                             <p id="divContnent" th:text=" '지금까지 총 ' +  ${soldCount} +'개 팔렸습니다!'"
                                                 style="margin: 20px;"></p>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="sellChart2">
                             <div class="card mb-4">
                                 <div class="card-body" style="font-weight: 600;">
                                     <p style="margin: 20px; font-weight: 600; font-size: 26px;">
@@ -263,6 +280,24 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 
     <script>
+
+        // function cardBoxHideAction() {
+        //     var modelValue = document.getElementsById("modelValue").innerText; // 현재까지 가장 많이 팔린 상품명
+
+        //     if (modelValue.value === null) { // 팔린 상품이 없다면 "~완료되지 않았네요" 카드박스 띄움.
+        //         document.getElementById("sellAlert").hidden = false;
+        //         document.getElementById("sellChart1").hidden = true;
+        //     }
+        //     else { // 만일 값이 있다면 해당 카드박스 숨김
+        //         document.getElementById("sellAlert").hidden = true;
+        //         document.getElementById("sellChart1").hidden = false;
+        //     }
+        // }
+
+        // cardBoxHideAction();
+
+
+
         var modalCount = 3; // 모달 창 개수
         var currentModal = 1; // 현재 모달 창 번호
 
@@ -359,21 +394,27 @@
 
     <script th:inline="javascript" type="text/javascript">
         var list = /*[[${list}]]*/"";
-        
-        console.log(list);        
 
-        var xdata = [0,0,0];
-        var ydata = ['없음','없음','없음'];
-        
-        for(var i = 0; i < list.length; i++){            
-            ydata[i]= list[i].itemname;
-            if (list[i].itemname.length >= 7){
-                ydata[i] = list[i].itemname.slice(0, 4) + '..';                
+        console.log(list);
+
+        var xdata = [0, 0, 0];
+        var ydata = ['없음', '없음', '없음'];
+
+        for (var i = 0; i < list.length; i++) {
+            ydata[i] = list[i].itemname;
+            if (list[i].itemname.length >= 7) {
+                ydata[i] = list[i].itemname.slice(0, 4) + '..';
             }
-            xdata[i]=list[i].count;
+            xdata[i] = list[i].count;
         }
         console.log(ydata);
         console.log(xdata);
+
+        // if (xdata[0] === 0) {
+        //     document.getElementById("sellChart2").hidden = true;
+        // } else {
+        //     document.getElementById("sellChart2").hidden = false;
+        // }
 
         var ctx = document.getElementById("myBarChart2");
         var myLineChart = new Chart(ctx, {

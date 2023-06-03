@@ -59,16 +59,20 @@ public class JkSellerController {
             long ret = itemService.countItems(seller.getNo());
             model.addAttribute("countItem", ret);
 
-            // 지금까지 가장 많이 팔린 상품은 파트
-            BestSellView best = bsvRepository.findByNo(seller.getNo());
-            log.info("확인해봅시다 => {}", best.toString());
-            model.addAttribute("itemName", best.getItemname()); // 상품명
-            model.addAttribute("soldCount", best.getCount()); // 팔린 개수
+           // 지금까지 가장 많이 팔린 상품은 파트
+           BestSellView best = bsvRepository.findByNo(seller.getNo());
+           if(best != null ) { 
+               log.info("확인해봅시다 => {}", best.toString());
+               model.addAttribute("itemName", best.getItemname()); // 상품명
+               model.addAttribute("soldCount", best.getCount()); // 팔린 개수
+           }
 
-            // 가장 많이 팔린 상품들이에요! 파트
-            List<TopthreeView> list = ttvRepository.findByNo(seller.getNo());
-            log.info("topthree => {}", list.toString());
-            model.addAttribute("list", list);
+           // 가장 많이 팔린 상품들이에요! 파트
+           List<TopthreeView> list = ttvRepository.findByNo(seller.getNo());
+           if(list != null){
+               log.info("topthree => {}", list.toString());
+               model.addAttribute("list", list);
+           }
 
             return "/jk/seller/home";
         } else {
