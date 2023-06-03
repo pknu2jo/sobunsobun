@@ -1,16 +1,15 @@
 package com.example.repository.ikh;
 
-import java.util.Date;
-import java.util.List;
+import java.math.BigDecimal;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.entity.ikh.TotaltableView;
+import com.example.entity.ikh.BestSellView;
 
 @Repository
-public interface TotaltableViewRepository extends JpaRepository<TotaltableView, Date>{
+public interface BestSellViewRepository extends JpaRepository<BestSellView, BigDecimal>{
     
     // 사업자 번호에 맞는 테이블 구하기
-    List<TotaltableView> findByNo(String no);
+    BestSellView findByNo(String no);
 }

@@ -1,5 +1,6 @@
 package com.example.controller.jk;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
@@ -18,6 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.dto.Seller;
 import com.example.entity.SellerEntity;
+import com.example.entity.ikh.BestSellView;
+import com.example.entity.ikh.TopthreeView;
+import com.example.repository.ikh.BestSellViewRepository;
+import com.example.repository.ikh.TopthreeViewRepository;
 import com.example.repository.jk.JkSellerRepository;
 import com.example.service.jk.JkSellerService;
 import com.example.service.mj.MjItemService;
@@ -36,6 +41,8 @@ public class JkSellerController {
     final JkSellerService sSellerService; // Mybatis 방식 Service (Mapper)
     final JkSellerRepository sRepository; // Jpa 방식 Repository
     final MjItemService itemService;
+    final BestSellViewRepository bsvRepository;
+    final TopthreeViewRepository ttvRepository;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
     /* ------------------------------- 홈화면 --------------------------------- */
@@ -44,7 +51,6 @@ public class JkSellerController {
     @GetMapping(value = "/home.do")
     public String homeGET(@AuthenticationPrincipal User user, Model model) {
         // log.info("판매자 Home 정보 받아오기 => {}", user);
-
         if (!user.getUsername().equals("_")) {
             SellerEntity seller = sSellerService.findByNo(user.getUsername());
             // log.info("확인해봅시다 => {}", seller.toString());
@@ -52,6 +58,17 @@ public class JkSellerController {
 
             long ret = itemService.countItems(seller.getNo());
             model.addAttribute("countItem", ret);
+
+            // 지금까지 가장 많이 팔린 상품은 파트
+            BestSellView best = bsvRepository.findByNo(seller.getNo());
+            log.info("확인해봅시다 => {}", best.toString());
+            model.addAttribute("itemName", best.getItemname()); // 상품명
+            model.addAttribute("soldCount", best.getCount()); // 팔린 개수
+
+            // 가장 많이 팔린 상품들이에요! 파트
+            List<TopthreeView> list = ttvRepository.findByNo(seller.getNo());
+            log.info("topthree => {}", list.toString());
+            model.addAttribute("list", list);
 
             return "/jk/seller/home";
         } else {
