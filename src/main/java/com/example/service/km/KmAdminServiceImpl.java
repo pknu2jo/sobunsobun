@@ -40,11 +40,11 @@ public class KmAdminServiceImpl implements KmAdminService {
 
     // RestController => purchaselistbystorage.json ------------------------------------------
 
-    // storageno=?와 deliveryno=3(배달 완료)인 공구 리스트 가져오기
+    // storageno=?와 deliveryno=3(배달 완료), receiveState=?인 공구 리스트 가져오기
     @Override
-    public List<PurchaseEntity> findPurchaseByStoragenoAndDelieveryNo(BigDecimal storageno) {
+    public List<PurchaseEntity> findPurchaseByStoragenoAndDelieveryNo(BigDecimal storageno, BigDecimal receivestate) {
         try {
-            return purchaseR.findByStorageEntity_noAndDeliveryEntity_noOrderByNoAsc(storageno, BigDecimal.valueOf(3));
+            return purchaseR.findByStorageEntity_noAndDeliveryEntity_noAndReceiveStateOrderByNoAsc(storageno, BigDecimal.valueOf(3), receivestate);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

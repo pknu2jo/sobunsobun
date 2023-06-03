@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.entity.StorageEntity;
 import com.example.service.km.KmAdminService;
@@ -23,8 +24,10 @@ public class KmAdminController {
     final KmAdminService adminService;
 
     @GetMapping(value = "/product.do")
-    public String productGET(Model model) {
+    public String productGET(Model model,
+            @RequestParam(name="receive", defaultValue = "notcomplete") String receive) {
         try {
+
             List<StorageEntity> storageList =  adminService.findAllStorage();
             model.addAttribute("storageList", storageList);
 

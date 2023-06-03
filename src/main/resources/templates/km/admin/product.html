@@ -8,7 +8,7 @@
     <title>Document</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <!-- Simple DataTable용 CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css"> -->
     <!--최신버전-->
     <!-- font-awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -38,9 +38,13 @@
             <!-- <div th:text="${storageList}"></div> -->
             <select id="selectStorage" name="storageNo" onchange="selectStorage()">
                 <option value="0" selected>---[필수 선택]---</option>
-                <option th:each="tmp:${storageList}" th:value="${tmp.no}" th:text="${tmp.name}">
-                </option>
+                <option th:each="tmp:${storageList}" th:value="${tmp.no}" th:text="${tmp.name}"></option>
             </select>
+
+            <div id="receive_btn">
+                <!-- <button>수령 미완료</button>
+                <button>수령 완료</button> -->
+            </div>
 
 
             <div class="px-4">
@@ -50,24 +54,18 @@
                 <div class="row">
                     <div class="col">
                         <div class="card mb-4">
-                            <!-- <div class="card-header">
+                            <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                테이블 예제
-                            </div> -->
+                                <span>테이블 예제</span>
+
+                            </div>
                             <div class="card-body">
-                                <table id="datatablesSimple" class="dataTable">
+                                <table id="datatablesSimple" class="dataTable table">
                                     <thead id="thead">
-                                        <!-- <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr> -->
+
                                     </thead>
                                     <tbody id="tbody">
-                                       
+
                                     </tbody>
                                 </table>
                             </div>
@@ -88,35 +86,56 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
     <!-- Simple DataTable용 JS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script> -->
 
     <script th:inline="javascript" type="text/javascript">
 
         const dataTable = document.querySelector('#datatablesSimple');
         var table = null;
 
+        const select = document.querySelector('#selectStorage');
+        var selectVal = null;
+
+
         async function selectStorage() {
 
-            var select = document.querySelector('#selectStorage');
-            var selectVal = select.options[select.selectedIndex].value;
-            var selectText = select.options[select.selectedIndex].text;
-
+            selectVal = select.options[select.selectedIndex].value;
             console.log("value => ", selectVal);
-            console.log("text => ", selectText);
 
-            const url = [[@{/api/admin/purchaselistbystorage.json}]] + "?storageno=" + selectVal;
+            document.querySelector('#receive_btn').innerHTML =
+                `<button onclick="receiveState(0)">수령 미완료</button>` +
+                `<button onclick="receiveState(1)" >수령 완료</button>`;
+
+            // var thead = document.querySelector('#thead');
+            // var tbody = document.querySelector('#tbody');
+
+            // thead.innerHTML = '';
+            // tbody.innerHTML = '';  
+        }
+
+        async function receiveState(no) {
+            var url = null;
+            if (no == 0) {
+                console.log("수령미완");
+                url = [[@{/api/admin/purchaselistbystorage.json}]] + "?storageno=" + selectVal + `&receivestate=0`;
+            } else if(no == 1) {
+                console.log("수령완");
+                url = [[@{/api/admin/purchaselistbystorage.json}]] + "?storageno=" + selectVal + `&receivestate=1`;
+
+            }
             console.log(url);
+
             const headers = { "Content-Type": "application/json" };
             const { data } = await axios.get(url, { headers: headers });
 
-            // console.log("반환값 확인", data.purchaseList);
+            console.log("반환값 확인", data.purchaseList);
 
             // 이전 테이블 인스턴스가 있다면 제거
             if (table) {
                 table.destroy();
                 table = null;
             }
-            
+
             var thead = document.querySelector('#thead');
             var tbody = document.querySelector('#tbody');
 
@@ -125,63 +144,80 @@
                 thead.innerHTML = '';
                 tbody.innerHTML = '';
                 if (data.purchaseList != null) {
-                    thead.innerHTML += 
+                    thead.innerHTML +=
                         `<tr>` +
-                                `<th>공구번호</th>` +
-                                `<th>참여인원</th>` +
-                                `<th>수령인원</th>` +
-                                `<th>보관소 도착일</th>` +
-                                `<th>5</th>` +
-                                `<th>6</th>` +
+                        `<th>공구번호</th>` +
+                        `<th>참여인원</th>` +
+                        `<th>수령인원</th>` +
+                        `<th>보관소 도착일</th>` +
+                        `<th>고객 리스트</th>` +
                         `</tr>`;
 
                     for (let i = 0; i < data.purchaseList.length; i++) {
 
                         let tmp = data.purchaseList[i];
                         console.log("반환값 확인", tmp);
+                        var receivedate = formatDate(tmp.receivedate);
+
+
+                        // 컨테이너 초기화
+                        var buttonContainer = '';
+
+                        for (let j = 0; j < tmp.memIdList.length; j++) {
+                            const memId = tmp.memIdList[j];
+                            const buttonId = `memIdBtn_${i}_${j}`; // 버튼의 고유한 ID 생성
+
+                            // 버튼을 생성하고 이벤트 리스너를 등록
+                            buttonContainer += `${memId}<button id="${buttonId}" class="btn" style="color:red;">☐ ✓ ☑</button>`;
+                            document.addEventListener('click', function (event) {
+                                if (event.target.id === buttonId) {
+                                    // 버튼이 클릭되었을 때 실행할 동작 작성
+                                    console.log(`${memId} 버튼이 클릭되었습니다.`);
+                                    // 추가적인 동작을 수행하고자 한다면 여기에 작성
+                                }
+                            });
+                        }
 
                         tbody.innerHTML +=
                             `<tr>` +
                             `<td>${tmp.no}</td>` +
-                            `<td>${tmp.no}</td>` +
-                            `<td>${tmp.no}</td>` +
-                            `<td>${tmp.no}</td>` +
-                            `<td>${tmp.no}</td>` +
-                            `<td>${tmp.no}</td>` +
-                        // `<input type="text" name="purchaseNo" value="${tmp.purchaseNo}">` +
-                        // `<td scope="row">${tmp.participant}</td>` +
-                        // `<td>${tmp.remainingPerson}</td>` +
-                        // `<td>${tmp.storageName}</td>` +
-                        // `<td>` + price1 + `</td>` +
-                        // '<td id="clock' + i + '">' + deadline + '</td>' +
-                        // `<td><input type='button' class="btn participant-btn" value="참여" 
-                        //                 onclick="participate(${tmp.purchaseNo},${Math.floor(itemprice / tmp.participant)})" 
-                        //                 id="participateBtn` + i + `" ></td>` +
-                        `</tr>`;
+                            `<td>${tmp.participant}</td>` +
+                            `<td>${tmp.headCount}</td>` +
+                            `<td>${receivedate}</td>` +
+                            `<td>${buttonContainer}</td></tr>`;
 
-                        if (!table) {
-                            // 데이터 테이블 생성
-                            table = new simpleDatatables.DataTable("#datatablesSimple", {
-                                searchable: true,
-                                fixedHeight: true,
-                            });
-                        }
+                        // if (!table) {
+                        //     // 데이터 테이블 생성
+                        //     table = new simpleDatatables.DataTable("#datatablesSimple", {
+                        //         searchable: true,
+                        //         fixedHeight: true,
+                        //     });
+                        // }
                     }
-                } else if (data.purchaseList == null ) {
+                } else if (data.purchaseList == null) {
 
                     let thead = document.getElementById('thead');
                     thead.innerHTML = '';
                     let row = document.createElement('tr');
-                        
-                        row.innerHTML =
-                           'No entries found';
 
-                        tbody.appendChild(row);
+                    row.innerHTML =
+                        'No entries found';
+
+                    tbody.appendChild(row);
                 }
 
 
             }
 
+        }
+
+        // 날짜 형식 바꾸기
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}.${month}.${day}`;
         }
     </script>
 </body>

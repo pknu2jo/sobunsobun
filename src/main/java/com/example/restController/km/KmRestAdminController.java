@@ -30,16 +30,18 @@ public class KmRestAdminController {
 
     // 리뷰 등록 전 해야할 일
     @GetMapping(value="/purchaselistbystorage.json")
-    public Map<String, Object> selectPurchaseGET(@RequestParam(name = "storageno") BigDecimal storageno) { 
+    public Map<String, Object> selectPurchaseGET(
+            @RequestParam(name = "storageno") BigDecimal storageno,
+            @RequestParam(name = "receivestate") BigDecimal receivestate) { 
         Map<String, Object> retMap = new HashMap<>();
         try {
 
             // 1. product.html에서 storageno 받아오기
             log.info("purchaselistbystorage.json => {}", storageno);
 
-            // 2. storageno=?와 deliveryno=3(배달 완료)인 PURCHASE의 번호, 참여자수 가져오기
+            // 2. storageno=?와 deliveryno=3(배달 완료), receivestate=?인 PURCHASE의 번호, 참여자수 가져오기
             List<PurchaseEntity> purchaseList = 
-                adminService.findPurchaseByStoragenoAndDelieveryNo(storageno);
+                adminService.findPurchaseByStoragenoAndDelieveryNo(storageno, receivestate);
 
             // 3. purchaseno=?와 state=1인 PURCHASESTATUS의 memid들 가져오기
             if(purchaseList.size() > 0) {

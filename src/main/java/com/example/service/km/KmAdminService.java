@@ -21,8 +21,8 @@ public interface KmAdminService {
 
     // RestController => purchaselistbystorage.json ------------------------------------------
     
-    // storageno=?와 deliveryno=3(배달 완료)인 공구 리스트 가져오기
-    public List<PurchaseEntity> findPurchaseByStoragenoAndDelieveryNo(BigDecimal storageno);
+    // storageno=?와 deliveryno=3(배달 완료), receiveState=?인 공구 리스트 가져오기
+    public List<PurchaseEntity> findPurchaseByStoragenoAndDelieveryNo(BigDecimal storageno, BigDecimal receivestate);
 
     // purchaseno=?와 state=1인 PURCHASESTATUS의 memid들 가져오기 
     public List<KmPurchaseStatusIdProjection> findIdByPurchaseNoAndState(BigDecimal purchaseno);

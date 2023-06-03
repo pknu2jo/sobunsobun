@@ -12,5 +12,5 @@ import com.example.entity.PurchaseEntity;
 public interface KmPurchaseRepository extends JpaRepository<PurchaseEntity, BigDecimal> {
     
     // storageno=?와 deliveryno=3(배달 완료)인 공구 리스트 가져오기
-    public List<PurchaseEntity> findByStorageEntity_noAndDeliveryEntity_noOrderByNoAsc(BigDecimal storageno, BigDecimal deliveryno);
+    public List<PurchaseEntity> findByStorageEntity_noAndDeliveryEntity_noAndReceiveStateOrderByNoAsc(BigDecimal storageno, BigDecimal deliveryno, BigDecimal receivestate);
 }
