@@ -49,21 +49,22 @@
             <main>
                 <div class="container-fluid" style="padding: 3%;">
                     <div class="row">
-                        <div class="col-ml-12" id="guideCardBody" >
+                        <div class="col-ml-12" id="guideCardBody">
                             <div class="card mb-4">
-                                <div class="card-body" >
+                                <div class="card-body">
                                     <!-- 사이트 이용 설명을 위한 버튼 -->
                                     <a href="#" id="hideGuideBtn" class="float-end">오늘하루 그만보기 <i
                                             class="fas fa-xmark"></i></a>
-                                    <div class="d-flex">
-                                        <img th:src="@{/images/jk/info.png}" style="width: 8%; padding: 10px;"
+                                    <div class="p-2">
+                                        <img th:src="@{/images/jk/info.png}"
+                                            style="float: left; width: 5vh;"
                                             alt="정보아이콘" />
-
-                                        <div class="ms-3">
-
-                                            <p style="margin: 20px;  font-weight: 600; font-size: 20px;">도움말이 필요하시다면 <a
+                                        <!-- <img src="../images/jk/box.png" alt="상자img"
+                                            style="float: right; position: relative; bottom: 40px;"> -->
+                                        <div class="ms-3" style="position: relative;">
+                                            <p style="margin: 5px;  font-weight: 600; font-size: 20px;">도움말이 필요하시다면 <a
                                                     href="#" data-bs-toggle="modal" data-bs-target="#modal1"
-                                                    style="font-size: 30px; color: rgb(19, 74, 255); font-weight: 900;">여기</a>를
+                                                    style="font-size: 20px; color: rgb(0, 60, 255); font-weight: 600;">여기</a>를
                                                 눌러주세요!</p>
                                         </div>
                                     </div>
@@ -340,7 +341,7 @@
             var midnightTime = getMidnightTime();
             setCookie('hideGuideUntil', midnightTime, 1);
         });
-        
+
         $(document).ready(function () {
             const sidebarToggle = $('#sidebarToggle');
             if (sidebarToggle) {
