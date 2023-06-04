@@ -11,6 +11,7 @@ import com.example.dto.SeDeadlinePurchaseDdayView;
 import com.example.dto.SeManyPurchaseItemView;
 import com.example.dto.SeSelectItemListView;
 import com.example.entity.ItemImage;
+import com.example.entity.JjimEntity;
 
 @Service
 public interface SePurchaseItemService {
@@ -44,5 +45,14 @@ public interface SePurchaseItemService {
 
     // 물품이 현재 공구 중인지 확인
     public long selectPurchaseChk(long itemno);
+
+    // 물품이 찜 상태인지 확인
+    public long countByCustomerEntity_idAndItemEntity_no(String id, BigDecimal no);
+
+    // 찜 save
+    public int saveJjim(JjimEntity jjimEntity);
+
+    // 찜 delete
+    public int deleteJjim(String id, BigDecimal no);
 
 }

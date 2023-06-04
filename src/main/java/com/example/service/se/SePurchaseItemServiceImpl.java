@@ -12,10 +12,12 @@ import com.example.dto.SeManyPurchaseItemView;
 import com.example.dto.SeSelectItemListView;
 import com.example.entity.CustomerAddressEntity;
 import com.example.entity.ItemImage;
+import com.example.entity.JjimEntity;
 import com.example.mapper.se.SePurchaseItemMapper;
 import com.example.repository.se.SeCustomerAddressRepository;
 import com.example.repository.se.SeCustomerRepository;
 import com.example.repository.se.SeItemImageRepository;
+import com.example.repository.se.SeJjimRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +29,7 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
     final SeItemImageRepository iiRepository;
     final SeCustomerRepository cRepository;
     final SeCustomerAddressRepository caRepository;
+    final SeJjimRepository jjimRepository;
     
     // --------------------------------------------------------------------------------------------
     // 공구가 많이 열린 물품 n개
@@ -155,6 +158,47 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
         } catch (Exception e) {
              e.printStackTrace();
              return 0L;
+        }
+    }
+
+    // 물품이 찜 상태인지 확인
+    @Override
+    public long countByCustomerEntity_idAndItemEntity_no(String id, BigDecimal no) {
+        try {
+            return jjimRepository.countByCustomerEntity_idAndItemEntity_no(id, no);
+        } catch (Exception e) {
+             e.printStackTrace();
+             return 0L;
+        }
+    }
+
+    // 찜 save
+    @Override
+    public int saveJjim(JjimEntity jjimEntity) {
+        try {
+            int ret = 0;
+            JjimEntity obj = jjimRepository.save(jjimEntity);
+            if(obj != null) {
+                ret = 1;
+            }
+            else {
+                ret = 0;
+            }
+            return ret;
+        } catch (Exception e) {
+             e.printStackTrace();
+             return -1;
+        }
+    }
+
+    // 찜 delete
+    @Override
+    public int deleteJjim(String id, BigDecimal no) {
+        try {
+            return jjimRepository.deleteByCustomerEntity_idAndItemEntity_no(id, no);
+        } catch (Exception e) {
+             e.printStackTrace();
+             return -1;
         }
     }
 
