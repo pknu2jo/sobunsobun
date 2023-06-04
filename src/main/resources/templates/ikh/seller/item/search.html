@@ -65,7 +65,8 @@
                                         매출
                                     </div>
                                     <div class="card-body">                                    
-                                        전체 매출 : <label th:text= "${all}"></label><br/>                                        
+                                        <!-- 전체 매출 : <label th:text= "${all}"></label><br/> -->
+                                        전체 매출 : <label id="max" text=""></label><br/>
                                         구매자 수 : <label th:text= "${total}"></label>
                                         <canvas id="myBarChart1" width="100%" height="50"></canvas>
                                     </div>
@@ -195,7 +196,15 @@
     <script th:inline="javascript" type="text/javascript">      
         // mlist 받기
         var salesData = /*[[${mlist}]]*/ null;
+        console.log(salesData);
 
+        var totalprice = 0;
+        for(var i = 0 ; i < salesData.length; i++){
+            totalprice += salesData[i].amount;
+        }
+        console.log(totalprice);
+        document.getElementById('max').textContent = totalprice;
+        
         // mlist에 있는 값 꺼내기
         var labels = salesData.map(function(item) {
             return item.monthly;
@@ -230,7 +239,7 @@
     </script>
     <script>
         // 새로운 데이터 추가
-        var newMonthly = "2023-06";
+        var newMonthly = "2023-07";
         var newAmount = 0;
 
         salesData.push({ monthly: newMonthly, amount: newAmount });
@@ -248,9 +257,7 @@
         var max = "[[${max}]]";
         
         var arrays = rays.split(",");   
-        for(var i = 0 ; i < arrays.length; i++){
-            console.log(arrays[i]+ " " + i + "번");
-        }
+
         var first = arrays[0];
         var last = arrays[14];
         var firstn = first.match(/\d+/)[0];
