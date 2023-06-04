@@ -3,6 +3,7 @@ package com.example.controller.jk;
 import java.util.List;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.dto.Seller;
+import com.example.entity.Item;
+import com.example.entity.ItemImage;
 import com.example.entity.SellerEntity;
 import com.example.entity.ikh.BestSellView;
 import com.example.entity.ikh.TopthreeView;
@@ -25,6 +28,7 @@ import com.example.repository.ikh.BestSellViewRepository;
 import com.example.repository.ikh.TopthreeViewRepository;
 import com.example.repository.jk.JkSellerRepository;
 import com.example.service.jk.JkSellerService;
+import com.example.service.mj.MjItemImageService;
 import com.example.service.mj.MjItemService;
 
 import lombok.RequiredArgsConstructor;
@@ -45,11 +49,13 @@ public class JkSellerController {
     final TopthreeViewRepository ttvRepository;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
+    final MjItemImageService imageService;
+
     /* ------------------------------- 홈화면 --------------------------------- */
 
     // http://127.0.0.1:5959/SOBUN/seller/home.do
     @GetMapping(value = "/home.do")
-    public String homeGET(@AuthenticationPrincipal User user, Model model) {
+    public String homeGET(@AuthenticationPrincipal User user, Model model, HttpServletRequest request) {
         // log.info("판매자 Home 정보 받아오기 => {}", user);
         if (!user.getUsername().equals("_")) {
             SellerEntity seller = sSellerService.findByNo(user.getUsername());
@@ -61,14 +67,26 @@ public class JkSellerController {
 
             // 지금까지 가장 많이 팔린 상품은 파트
             BestSellView best = bsvRepository.findByNo(seller.getNo());
-            log.info("확인해봅시다 => {}", best.toString());
-            model.addAttribute("itemName", best.getItemname()); // 상품명
-            model.addAttribute("soldCount", best.getCount()); // 팔린 개수
+            if(best != null ) {
+                log.info("확인해봅시다 => {}", best.toString());
+                model.addAttribute("itemName", best.getItemname()); // 상품명
+                model.addAttribute("soldCount", best.getCount()); // 팔린 개수
+                
+                // 상품 이미지
+                ItemImage image = imageService.findByItemNo_noAndFilenameNotLikeOrderByNoAsc(best.getItemno(),"%상세%");
+                Item item = new Item();
+                item.setNo(best.getItemno());
+                item.setImageUrl( request.getContextPath() + "/seller/itemimage/image?no=" + image.getNo().longValue() );
+
+                model.addAttribute("imageUrl", item.getImageUrl());
+            }
 
             // 가장 많이 팔린 상품들이에요! 파트
             List<TopthreeView> list = ttvRepository.findByNo(seller.getNo());
-            log.info("topthree => {}", list.toString());
-            model.addAttribute("list", list);
+            if(list != null){
+                log.info("topthree => {}", list.toString());
+                model.addAttribute("list", list);
+            }
 
             return "/jk/seller/home";
         } else {

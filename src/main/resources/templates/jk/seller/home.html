@@ -134,11 +134,11 @@
                                         <strong>지금까지 가장 많이 팔린 상품은..</strong>
                                     </p>
                                     <div class="d-flex">
-                                        <img src="https://via.placeholder.com/350x250" alt="상품 사진"
+                                        <img th:src="${imageUrl}" alt="상품 사진"
                                             style="width: 30%; border-radius: 10px; border:1px; margin: 20px;">
                                         <div class="ms-3">
 
-                                            <!-- <img th:src="${imageUrl}" alt="상품 사진" style="width: 30%; border-radius: 10px; border:1px; margin: 20px;">  와 같은-->
+                                            <!-- <img th:src="${imageUrl}" alt="상품 사진" style="width: 30%; border-radius: 10px; border:1px; margin: 20px;">  와 같은 -->
                                             <p id="divContnent" th:text=" '상품명 : ' +  ${itemName}"
                                                 style="margin: 20px;">
                                             <p id="divContnent" th:text=" '지금까지 총 ' +  ${soldCount} +'개 팔렸습니다!'"
