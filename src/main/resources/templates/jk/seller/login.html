@@ -37,8 +37,8 @@
 						<label for="id" class="form-label">사업자번호</label>
 					</div>
 					<div class="form-floating mb-2 ">
-						<input type="password" id="pw" name="pw" class="form-control" />
-						<label for="pw" class="form-label">암호</label>
+						<input type="password" id="pw" name="pw" class="form-control" onkeydown="capsLockCheck(event)" />
+						<label id="pwLabel" for="pw" class="form-label">암호</label>
 					</div>
 					<br>
 
@@ -97,8 +97,18 @@
 				return false; // 함수종료, 전송하지 않음
 			}
 			document.getElementById("login_form").submit();
+
 		}
 
+		function capsLockCheck(e) {
+			if (e.getModifierState("CapsLock")) {
+				document.getElementById("pwLabel").innerText = "Caps Lock이 켜져 있습니다."
+				document.getElementById("pwLabel").style.color = 'red'
+			} else {
+				document.getElementById("pwLabel").innerText = "암호"
+				document.getElementById("pwLabel").style.color = 'black'
+			}
+		}
 
 	</script>
 </body>

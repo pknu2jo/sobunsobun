@@ -190,7 +190,7 @@
                             <div class="card mb-4">
                                 <div class="card-body" style="font-weight: 800;">
                                     <p style="margin: 20px; font-size: 28px;">
-                                        <strong>아직 상품 판매가 완료되지 않았네요. </strong>
+                                        <strong>아직 상품 판매가 완료되지 않았어요. </strong>
                                     </p>
                                     <div class="px-4">
                                         <img src="../images/jk/chart.png" alt="차트img"
@@ -220,7 +220,7 @@
                                             <p id="divContnent" name="bestSeller" th:text="${itemName}"
                                                 style="margin: 20px;"></p>
                                             <input id="modelValue" th:value="${itemName}" hidden></input>
-                                            <p id="divContnent" th:text=" '지금까지 총 ' +  ${soldCount} +'개 팔렸습니다!'"
+                                            <p id="divContnent" th:text=" '지금까지 총 ' +  ${soldCount} +'개가 판매완료됐네요!'"
                                                 style="margin: 20px;"></p>
                                         </div>
                                     </div>
@@ -231,7 +231,7 @@
                             <div class="card mb-4">
                                 <div class="card-body" style="font-weight: 600;">
                                     <p style="margin: 20px; font-weight: 600; font-size: 26px;">
-                                        <strong>가장 많이 팔린 상품들이에요!</strong>
+                                        <strong>가장 인기있는 상품들이에요!</strong>
                                     </p>
                                     <br>
                                     <!-- 표가 들어갈 자리 -->
@@ -281,20 +281,22 @@
 
     <script>
 
-        // function cardBoxHideAction() {
-        //     var modelValue = document.getElementsById("modelValue").innerText; // 현재까지 가장 많이 팔린 상품명
+        function cardBoxHideAction() {
+            var modelValue = document.getElementById("modelValue"); // 현재까지 가장 많이 팔린 상품명
+            var sellAlert = document.getElementById("sellAlert");
+            var sellChart1 = document.getElementById("sellChart1");
 
-        //     if (modelValue.value === null) { // 팔린 상품이 없다면 "~완료되지 않았네요" 카드박스 띄움.
-        //         document.getElementById("sellAlert").hidden = false;
-        //         document.getElementById("sellChart1").hidden = true;
-        //     }
-        //     else { // 만일 값이 있다면 해당 카드박스 숨김
-        //         document.getElementById("sellAlert").hidden = true;
-        //         document.getElementById("sellChart1").hidden = false;
-        //     }
-        // }
+            if (modelValue === null || modelValue.value === "") { // 팔린 상품이 없다면 "~완료되지 않았네요" 카드박스 띄움.
+                sellAlert.hidden = false;
+                sellChart1.hidden = true;
+            }
+            else { // 만일 값이 있다면 해당 카드박스 숨김
+                sellAlert.hidden = true;
+                sellChart1.hidden = false;
+            }
+        }
 
-        // cardBoxHideAction();
+        cardBoxHideAction();
 
 
 
@@ -410,11 +412,11 @@
         console.log(ydata);
         console.log(xdata);
 
-        // if (xdata[0] === 0) {
-        //     document.getElementById("sellChart2").hidden = true;
-        // } else {
-        //     document.getElementById("sellChart2").hidden = false;
-        // }
+        if (xdata[0] === 0) {
+            document.getElementById("sellChart2").hidden = true;
+        } else {
+            document.getElementById("sellChart2").hidden = false;
+        }
 
         var ctx = document.getElementById("myBarChart2");
         var myLineChart = new Chart(ctx, {
