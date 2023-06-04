@@ -49,7 +49,7 @@
             <main>
                 <div class="container-fluid px-4">
                     <div class="row">
-                        <div class="col-ml-12" id="guideCardBody">
+                        <div class="col-ml-12" id="guideCardBody" hidden>
                             <div class="card mb-4">
                                 <div class="card-body">
 
@@ -154,9 +154,8 @@
                                     <div class="px-4 " style="font-weight: 400;">
                                         <p id="divContnent" class="mb-1"
                                             th:text="'현재 ' + ${companyName} + '님의 등록된 상품은 ' + ${countItem} + '개 등록되어 있습니다.'">
-                                            <!-- ############## 민지씨 여기에 상품갯수 넣어주세요 ^ 여기 ############## -->
                                         </p>
-
+                                        <input id="companyNo" th:value="${companyNo}" hidden></input>
                                         <p id="divContnent">아래 버튼을 눌러 추가로 새로운 상품을 등록해보세요!</p>
                                         <div style="text-align: right; position:relative;right: 40px;">
                                         </div>
@@ -294,9 +293,7 @@
                 sellAlert.hidden = true;
                 sellChart1.hidden = false;
             }
-        }
-
-        cardBoxHideAction();
+        } cardBoxHideAction();
 
 
 
@@ -323,7 +320,6 @@
 
 
 
-
         // 페이지 로드 시, 저장된 값 확인하여 가이드 숨기기
         window.onload = function () {
             var hideGuideUntil = getCookie('hideGuideUntil');
@@ -331,9 +327,9 @@
             var guideCardBody = document.getElementById('guideCardBody');
 
             if (hideGuideUntil && now < hideGuideUntil) {
-                guideCardBody.style.display = 'none';
+                guideCardBody.hidden = true;
             } else {
-                guideCardBody.style.display = 'block';
+                guideCardBody.hidden = false;
             }
         };
 
@@ -347,6 +343,7 @@
         // Cookie를 설정하는 함수
         function setCookie(name, value, days) {
             var expires = '';
+            var name =  document.getElementById("companyNo");
             if (days) {
                 var date = new Date();
                 date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -357,6 +354,7 @@
 
         // Cookie를 가져오는 함수
         function getCookie(name) {
+            var name = document.getElementById("companyNo");
             var nameEQ = name + '=';
             var ca = document.cookie.split(';');
             for (var i = 0; i < ca.length; i++) {
@@ -374,7 +372,7 @@
         // 오늘 하루 그만보기 버튼 클릭 시, 가이드 숨기기
         document.getElementById('hideGuideBtn').addEventListener('click', function () {
             var guideCardBody = document.getElementById('guideCardBody');
-            guideCardBody.style.display = 'none';
+            guideCardBody.hidden = true;
 
             // 오늘 날짜의 자정 시간을 구하고, Cookie에 저장
             var midnightTime = getMidnightTime();

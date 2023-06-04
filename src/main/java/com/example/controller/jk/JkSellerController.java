@@ -55,7 +55,7 @@ public class JkSellerController {
             SellerEntity seller = sSellerService.findByNo(user.getUsername());
             // log.info("확인해봅시다 => {}", seller.toString());
             model.addAttribute("companyName", seller.getName().toString());
-
+            model.addAttribute("companyNo", seller.getNo().toString()); // 쿠키 저장용
             long ret = itemService.countItems(seller.getNo());
             model.addAttribute("countItem", ret);
 
