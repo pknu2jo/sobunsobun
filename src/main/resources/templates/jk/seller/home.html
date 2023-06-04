@@ -274,13 +274,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
         integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <!-- Chart용 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+    <!-- Chart.js용 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
 
     <script>
-
-        function cardBoxHideAction() {
+         function cardBoxHideAction() {
             var modelValue = document.getElementById("modelValue"); // 현재까지 가장 많이 팔린 상품명
             var sellAlert = document.getElementById("sellAlert");
             var sellChart1 = document.getElementById("sellChart1");
@@ -394,18 +392,18 @@
 
     <script th:inline="javascript" type="text/javascript">
         var list = /*[[${list}]]*/"";
+        
+        console.log(list);        
 
-        console.log(list);
-
-        var xdata = [0, 0, 0];
-        var ydata = ['없음', '없음', '없음'];
-
-        for (var i = 0; i < list.length; i++) {
-            ydata[i] = list[i].itemname;
-            if (list[i].itemname.length >= 7) {
-                ydata[i] = list[i].itemname.slice(0, 4) + '..';
+        var xdata = [0,0,0];
+        var ydata = ['없음','없음','없음'];
+        
+        for(var i = 0; i < list.length; i++){            
+            ydata[i]= list[i].itemname;
+            if (list[i].itemname.length >= 7){
+                ydata[i] = list[i].itemname.slice(0, 4) + '..';                
             }
-            xdata[i] = list[i].count;
+            xdata[i]=list[i].count;
         }
         console.log(ydata);
         console.log(xdata);
@@ -415,6 +413,7 @@
         } else {
             document.getElementById("sellChart2").hidden = false;
         }
+
 
         var ctx = document.getElementById("myBarChart2");
         var myLineChart = new Chart(ctx, {
