@@ -24,8 +24,7 @@ public class KmAdminController {
     final KmAdminService adminService;
 
     @GetMapping(value = "/product.do")
-    public String productGET(Model model,
-            @RequestParam(name="receive", defaultValue = "notcomplete") String receive) {
+    public String productGET(Model model) {
         try {
 
             List<StorageEntity> storageList =  adminService.findAllStorage();

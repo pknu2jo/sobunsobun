@@ -61,5 +61,26 @@ public class KmAdminServiceImpl implements KmAdminService {
             return null;
         }
     }
-    
+ // RestController => purchaselistbysearch.json ------------------------------------------
+        // 2-1. deliveryno=3(배달 완료), purchaseno = ?, receivestate=?인 PURCHASE의 번호, 참여자수 가져오기
+        @Override
+        public List<PurchaseEntity> findPurchaseByPurchaseNoAndDelieveryNo(BigDecimal purchaseno, BigDecimal receivestate) {
+            try {
+                return purchaseR.findByNoAndDeliveryEntity_noAndReceiveStateOrderByNoAsc(purchaseno, BigDecimal.valueOf(3), receivestate);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        // 2-2. deliveryno=3(배달 완료), memid = searchvalue, receivestate=?인 PURCHASE의 번호 가져오기
+        @Override
+        public List<BigDecimal> selectPurchaseNoByMemId(String memid) {
+            try {
+                return purchaseR.selectPurchaseNoByMemId(memid);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
 }

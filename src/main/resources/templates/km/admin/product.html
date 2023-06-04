@@ -35,22 +35,48 @@
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;" class="container">
         <main>
+            
             <!-- <div th:text="${storageList}"></div> -->
+
+            <!-- -------------------------------------------------------------------------------------------------------------- -->
+            <!-- 지점 선택 ~  -->
             <select id="selectStorage" name="storageNo" onchange="selectStorage()">
                 <option value="0" selected>---[필수 선택]---</option>
                 <option th:each="tmp:${storageList}" th:value="${tmp.no}" th:text="${tmp.name}"></option>
             </select>
+            <!-- ~ 지점 선택-->
 
+            <!-- 지점 선택시 생성될 버튼들 ~  -->
             <div id="receive_btn">
-                <!-- <button>수령 미완료</button>
-                <button>수령 완료</button> -->
+                <!-- 위의 select 태그 선택 시 생성됨
+                    <button>수령 미완료</button>
+                    <button>수령 완료</button> 
+                -->
             </div>
+            <!-- ~ 지점 선택시 생성될 버튼들  -->
+            
+            
+            <!-- -------------------------------------------------------------------------------------------------------------- -->
 
+            <!-- 검색 기능 ~  -->
+            <select id="receiveState" onclick="removeReceiveBtn()">
+                <option value="0">수령미완료</option>
+                <option value="1">수령완료</option>
+            </select>
+            <select id="searchOption" onclick="removeReceiveBtn()">
+                <option value="purchaseno">번호</option>
+                <option value="memid">아이디</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="검색" onclick="removeReceiveBtn()">
+            <button onclick="searchData()">검색</button>
+            <!-- ~ 검색 기능  -->
 
+            <!-- -------------------------------------------------------------------------------------------------------------- -->
+
+            <!-- 테이블 영역 ~ -->
             <div class="px-4">
                 <h1 class="mt-4">고객 상품 수령 관리</h1>
 
-                <!--테이블(보드) 영역-->
                 <div class="row">
                     <div class="col">
                         <div class="card mb-4">
@@ -73,6 +99,7 @@
                     </div>
                 </div>
             </div>
+            <!-- ~ 테이블 영역 -->
         </main>
 
 
@@ -96,39 +123,31 @@
         const select = document.querySelector('#selectStorage');
         var selectVal = null;
 
+        function removeReceiveBtn() {
+            document.querySelector('#receive_btn').innerHTML = '';
+        }
 
+        // select 태그 누르면 버튼 생성하기
         async function selectStorage() {
 
             selectVal = select.options[select.selectedIndex].value;
             console.log("value => ", selectVal);
 
             document.querySelector('#receive_btn').innerHTML =
-                `<button onclick="receiveState(0)">수령 미완료</button>` +
-                `<button onclick="receiveState(1)" >수령 완료</button>`;
-
-            // var thead = document.querySelector('#thead');
-            // var tbody = document.querySelector('#tbody');
-
-            // thead.innerHTML = '';
-            // tbody.innerHTML = '';  
+                `<button onclick="selectPurchase(0)">수령 미완료</button>` +
+                `<button onclick="selectPurchase(1)" >수령 완료</button>`;
         }
 
-        async function receiveState(no) {
-            var url = null;
-            if (no == 0) {
-                console.log("수령미완");
-                url = [[@{/api/admin/purchaselistbystorage.json}]] + "?storageno=" + selectVal + `&receivestate=0`;
-            } else if(no == 1) {
-                console.log("수령완");
-                url = [[@{/api/admin/purchaselistbystorage.json}]] + "?storageno=" + selectVal + `&receivestate=1`;
-
-            }
+        // select 태그의 값에 해당하는 공구 리스트 가져오기
+        async function selectPurchase(receivestate) {
+           
+            const url = [[@{/api/admin/purchaselistbystorage.json}]] + "?storageno=" + selectVal + `&receivestate=` + receivestate;
             console.log(url);
 
             const headers = { "Content-Type": "application/json" };
             const { data } = await axios.get(url, { headers: headers });
 
-            console.log("반환값 확인", data.purchaseList);
+            // console.log("반환값 확인", data.purchaseList);
 
             // 이전 테이블 인스턴스가 있다면 제거
             if (table) {
@@ -156,7 +175,7 @@
                     for (let i = 0; i < data.purchaseList.length; i++) {
 
                         let tmp = data.purchaseList[i];
-                        console.log("반환값 확인", tmp);
+                        // console.log("반환값 확인", tmp);
                         var receivedate = formatDate(tmp.receivedate);
 
 
@@ -165,17 +184,8 @@
 
                         for (let j = 0; j < tmp.memIdList.length; j++) {
                             const memId = tmp.memIdList[j];
-                            const buttonId = `memIdBtn_${i}_${j}`; // 버튼의 고유한 ID 생성
-
-                            // 버튼을 생성하고 이벤트 리스너를 등록
-                            buttonContainer += `${memId}<button id="${buttonId}" class="btn" style="color:red;">☐ ✓ ☑</button>`;
-                            document.addEventListener('click', function (event) {
-                                if (event.target.id === buttonId) {
-                                    // 버튼이 클릭되었을 때 실행할 동작 작성
-                                    console.log(`${memId} 버튼이 클릭되었습니다.`);
-                                    // 추가적인 동작을 수행하고자 한다면 여기에 작성
-                                }
-                            });
+                            buttonContainer += `${memId}<button id="checkBtn" class="btn notcomplete" th:onclick="checkBtn(this, ${tmp.no})" style="color:red;">☐</button>`;
+                            
                         }
 
                         tbody.innerHTML +=
@@ -185,14 +195,6 @@
                             `<td>${tmp.headCount}</td>` +
                             `<td>${receivedate}</td>` +
                             `<td>${buttonContainer}</td></tr>`;
-
-                        // if (!table) {
-                        //     // 데이터 테이블 생성
-                        //     table = new simpleDatatables.DataTable("#datatablesSimple", {
-                        //         searchable: true,
-                        //         fixedHeight: true,
-                        //     });
-                        // }
                     }
                 } else if (data.purchaseList == null) {
 
@@ -210,6 +212,109 @@
             }
 
         }
+        
+
+
+        // 검색 기능 => 검색 값에 해당하는 공구 리스트 가져오기
+        async function searchData() {
+
+            // const receiveState = document.querySelector('#receiveState').value;
+            const receiveState = parseInt(document.querySelector('#receiveState').value);
+            const searchOption = document.querySelector('#searchOption').value;
+            const searchValue = document.querySelector('#searchInput').value;
+
+            let url = [[@{/api/admin/purchaselistbysearch.json}]] 
+                    + "?receivestate=" + receiveState 
+                    + "&searchoption=" + searchOption 
+                    + "&searchvalue=" + searchValue; 
+                    
+            console.log(url);
+
+            const headers = { "Content-Type": "application/json" };
+            const { data } = await axios.get(url, { headers: headers });
+
+            console.log("반환값 확인", data );
+
+            // 이전 테이블 인스턴스가 있다면 제거
+            if (table) {
+                table.destroy();
+                table = null;
+            }
+
+            var thead = document.querySelector('#thead');
+            var tbody = document.querySelector('#tbody');
+
+
+            if (data.result == 1) {
+                thead.innerHTML = '';
+                tbody.innerHTML = '';
+
+                if (data.purchaseList != null) {
+                    thead.innerHTML +=
+                        `<tr>` +
+                        `<th>공구번호</th>` +
+                        `<th>참여인원</th>` +
+                        `<th>수령인원</th>` +
+                        `<th>보관소 도착일</th>` +
+                        `<th>고객 리스트</th>` +
+                        `</tr>`;
+
+                    for (let i = 0; i < data.purchaseList.length; i++) {
+
+                        let tmp = data.purchaseList[i];
+                        // console.log("반환값 확인", tmp);
+                        var receivedate = formatDate(tmp.receivedate);
+
+
+                        // 컨테이너 초기화
+                        var buttonContainer = '';
+
+                        for (let j = 0; j < tmp.memIdList.length; j++) {
+                            const memId = tmp.memIdList[j];
+                            buttonContainer += `${memId}<button id="checkBtn" class="btn notcomplete" th:onclick="checkBtn(this, ${tmp.no})" style="color:red;">☐</button>`;
+                        }
+
+                        tbody.innerHTML +=
+                            `<tr>` +
+                            `<td>${tmp.no}</td>` +
+                            `<td>${tmp.participant}</td>` +
+                            `<td>${tmp.headCount}</td>` +
+                            `<td>${receivedate}</td>` +
+                            `<td>${buttonContainer}</td></tr>`;
+                    }
+                } else if (data.purchaseList == null) {
+
+                    let thead = document.getElementById('thead');
+                    thead.innerHTML = '';
+                    let row = document.createElement('tr');
+
+                    row.innerHTML =
+                        'No entries found';
+
+                    tbody.appendChild(row);
+                }
+            }
+        }
+
+
+        
+        async function checkBtn(btnTag, purchaseNo) {
+            alert("안녕");
+            console.log(purchaseNo);
+
+            if (btnTag.classList.contains("notcomplete")) {
+                btnTag.classList.remove("notcomplete");
+                btnTag.classList.add("complete");
+                // 'notcomplete' 클래스를 제거하고 'complete' 클래스를 추가
+            } else if(btnTag.classList.contains("complete")) {
+                btnTag.classList.remove("complete");
+                btnTag.classList.add("notcomplete");
+            }
+            console.log(btnTag);
+
+        }
+
+
 
         // 날짜 형식 바꾸기
         function formatDate(dateString) {
@@ -219,6 +324,8 @@
             const day = String(date.getDate()).padStart(2, '0');
             return `${year}.${month}.${day}`;
         }
+
+
     </script>
 </body>
 

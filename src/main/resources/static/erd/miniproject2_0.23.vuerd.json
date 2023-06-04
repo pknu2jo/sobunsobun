@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 3000,
     "height": 3000,
-    "scrollTop": -985.6666666666666,
-    "scrollLeft": -845.0000000000005,
-    "zoomLevel": 1,
+    "scrollTop": -873.6666666666641,
+    "scrollLeft": -562.3333333333333,
+    "zoomLevel": 0.7,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -703,10 +703,10 @@
           }
         ],
         "ui": {
-          "active": true,
-          "left": 869.9809,
-          "top": 942.6237,
-          "zIndex": 28,
+          "active": false,
+          "left": 939.1478,
+          "top": 859.2905,
+          "zIndex": 37,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FF9F9C"
@@ -1146,9 +1146,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 855.424,
-          "top": 551.4595,
-          "zIndex": 11,
+          "left": 917.0906,
+          "top": 539.7928,
+          "zIndex": 39,
           "widthName": 89.24853515625,
           "widthComment": 60,
           "color": "#E96161"
@@ -2368,9 +2368,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 292.1879,
-          "top": 800.1737,
-          "zIndex": 10,
+          "left": 218.0216,
+          "top": 812.6736,
+          "zIndex": 35,
           "widthName": 60,
           "widthComment": 60,
           "color": "#D28BFF"
@@ -3090,8 +3090,8 @@
           "columnIds": [
             "18240e3d-3ab8-41ba-8943-6f14d1534c62"
           ],
-          "x": 1386.33855078125,
-          "y": 657.7095,
+          "x": 1448.00515078125,
+          "y": 646.0428,
           "direction": "right"
         },
         "constraintName": "fk_고객_to_참여자 정보",
@@ -3246,8 +3246,8 @@
           "columnIds": [
             "d5f54687-1a60-4d83-854d-16d8da5c3cf2"
           ],
-          "x": 541.000644140625,
-          "y": 1094.6737,
+          "x": 466.83434414062503,
+          "y": 1107.1736,
           "direction": "bottom"
         },
         "constraintName": "fk_admin_to_storage",
@@ -3263,8 +3263,8 @@
           "columnIds": [
             "289d4778-4791-42a0-adb3-393e64e339a0"
           ],
-          "x": 1134.8510171875,
-          "y": 942.6237,
+          "x": 1204.0179171875,
+          "y": 859.2905,
           "direction": "top"
         },
         "end": {
@@ -3272,8 +3272,8 @@
           "columnIds": [
             "b37e3e32-39b9-407a-853f-6c9e9d9e7d17"
           ],
-          "x": 1120.881275390625,
-          "y": 763.9595,
+          "x": 1182.547875390625,
+          "y": 752.2928,
           "direction": "bottom"
         },
         "constraintName": "fk_purchase_to_purchasestatus",
@@ -3298,8 +3298,8 @@
           "columnIds": [
             "9a9eaac6-ea38-4525-8c95-1535a592029d"
           ],
-          "x": 1134.8510171875,
-          "y": 1196.1237,
+          "x": 1071.58285859375,
+          "y": 1112.7905,
           "direction": "bottom"
         },
         "constraintName": "fk_delivery_to_purchase",
@@ -3315,8 +3315,8 @@
           "columnIds": [
             "e16443cf-5766-4f70-87d8-5bc446797ef7"
           ],
-          "x": 789.81338828125,
-          "y": 947.4237,
+          "x": 715.64708828125,
+          "y": 959.9236,
           "direction": "right"
         },
         "end": {
@@ -3324,8 +3324,8 @@
           "columnIds": [
             "a9666aa5-c258-4459-a404-0c17c5df999e"
           ],
-          "x": 869.9809,
-          "y": 1069.3737,
+          "x": 939.1478,
+          "y": 986.0405,
           "direction": "left"
         },
         "constraintName": "fk_storage_to_purchase",
@@ -3367,9 +3367,9 @@
           "columnIds": [
             "289d4778-4791-42a0-adb3-393e64e339a0"
           ],
-          "x": 1399.721134375,
-          "y": 1069.3737,
-          "direction": "right"
+          "x": 1336.45297578125,
+          "y": 1112.7905,
+          "direction": "bottom"
         },
         "end": {
           "tableId": "b8b73342-fba1-4a5f-bba8-bcaaaa704e6c",
@@ -3480,8 +3480,8 @@
           "columnIds": [
             "5193b76a-f52e-46f4-b422-b0fa60ce7fd1"
           ],
-          "x": 1120.881275390625,
-          "y": 551.4595,
+          "x": 1182.547875390625,
+          "y": 539.7928,
           "direction": "top"
         },
         "constraintName": "fk_item_to_purchasestatus",
