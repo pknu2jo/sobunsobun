@@ -353,8 +353,9 @@ ul {
 
 .datatable-pagination li:last-child,
 .datatable-pagination li:last-child a {
-    border-top-right-radius: 0.5;
-    border-bottom-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    
 }
 
 /* 에러페이지 */
