@@ -49,37 +49,100 @@
             <main>
                 <div class="container-fluid" style="padding: 3%;">
                     <div class="row">
-                        <div class="col-ml-12">
+                        <div class="col-ml-12" id="guideCardBody">
                             <div class="card mb-4">
-                                <div class="card-body" id="guideCardBody">
-                                    <!-- 사이트 이용 설명을 위한 버튼 -->
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#guideModal">
-                                        가이드 보기
-                                    </button>
-                                
+                                <div class="card-body">
+                                    
                                     <!-- 오늘 하루 그만보기 버튼 -->
-                                    <button type="button" class="btn btn-secondary float-end" id="hideGuideBtn">
-                                        오늘하루 그만보기
-                                    </button>
-                                
-                                    <!-- 모달 창 -->
-                                    <div class="modal fade" id="guideModal" tabindex="-1" aria-labelledby="guideModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
+                                    <a href="#" id="hideGuideBtn" class="float-end">오늘하루 그만보기 <i
+                                            class="fas fa-xmark"></i></a>
+                                    <div class="p-2">
+                                        <img th:src="@{/images/jk/info.png}"
+                                            style="float: left; width: 5vh;"
+                                            alt="정보아이콘" />
+                                        <!-- <img src="../images/jk/box.png" alt="상자img"
+                                            style="float: right; position: relative; bottom: 40px;"> -->
+                                        <div class="ms-3" style="position: relative;">
+                                            <!-- 사이트 이용 설명을 위한 버튼 -->
+                                            <p style="margin: 5px;  font-weight: 600; font-size: 20px;">도움말이 필요하시다면 <a
+                                                    href="#" data-bs-toggle="modal" data-bs-target="#modal1"
+                                                    style="font-size: 20px; color: rgb(0, 60, 255); font-weight: 600;">여기</a>를
+                                                눌러주세요!</p>
+                                        </div>
+                                    </div>
+
+                                    
+
+
+
+
+                                    <!-- 모달 1 -->
+                                    <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="modal1Label"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="guideModalLabel">사이트 이용 가이드</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <h5 class="modal-title" id="modal1Label">사이트 이용 가이드</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <!-- 가이드 내용 -->
-                                                    <p>사이트 이용 설명을 여기에 작성합니다.</p>
+                                                    <p>모달 1 내용</p>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+
+                                                    <button type="button"
+                                                        class="btn btn-primary nextModalButton">다음으로</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- 모달 2 -->
+                                    <div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="modal2Label"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modal2Label">사이트 이용 가이드</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>모달 2 내용</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button"
+                                                        class="btn btn-secondary prevModalButton">이전으로</button>
+                                                    <button type="button"
+                                                        class="btn btn-primary nextModalButton">다음으로</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 모달 3 -->
+                                    <div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="modal3Label"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modal3Label">사이트 이용 가이드</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>모달 3 내용</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button"
+                                                        class="btn btn-secondary prevModalButton">이전으로</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -88,12 +151,11 @@
                         <div class="col-ml-12">
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <p style="margin: 20px; margin-top: 40px; font-weight: 500; font-size: 45px;">
-                                        <strong>상품을 바로
-                                            등록하시겠어요?</strong>
+                                    <p style="margin: 20px; margin-top: 20px; font-weight: 500; font-size: 45px;">
+                                        <strong>상품 바로
+                                            등록하기</strong>
                                     </p>
                                     <div class="px-4 " style="font-weight: 600;">
-
                                         <p id="divContnent" class="mb-1"
                                             th:text="'현재 ' + ${companyName} + '님의 등록된 상품은 ' + ${countItem} + '개 등록되어 있습니다.'">
                                             <!-- ############## 민지씨 여기에 상품갯수 넣어주세요 ^ 여기 ############## -->
@@ -134,15 +196,15 @@
                                         <strong>지금까지 가장 많이 팔린 상품은..</strong>
                                     </p>
                                     <div class="d-flex">
-                                        <img th:src="${imageUrl}" alt="상품 사진"
+                                        <img src="https://via.placeholder.com/350x250" alt="상품 사진"
                                             style="width: 30%; border-radius: 10px; border:1px; margin: 20px;">
                                         <div class="ms-3">
-
-                                            <!-- <img th:src="${imageUrl}" alt="상품 사진" style="width: 30%; border-radius: 10px; border:1px; margin: 20px;">  와 같은 -->
-                                            <p id="divContnent" th:text=" '상품명 : ' +  ${itemName}"
-                                                style="margin: 20px;">
+                                            <!-- <img th:src="${imageUrl}" alt="상품 사진" style="width: 30%; border-radius: 10px; border:1px; margin: 20px;">  와 같은-->
+                                            <p id="divContnent" th:text=" '상품명 : '" style="margin: 20px;"></p>
+                                            <p id="divContnent" th:text="${itemName}" style="margin: 20px;"></p>
                                             <p id="divContnent" th:text=" '지금까지 총 ' +  ${soldCount} +'개 팔렸습니다!'"
                                                 style="margin: 20px;"></p>
+
                                         </div>
                                     </div>
                                 </div>
@@ -152,8 +214,7 @@
                             <div class="card mb-4">
                                 <div class="card-body" style="font-weight: 600;">
                                     <p style="margin: 20px; font-weight: 600; font-size: 26px;">
-                                        <strong>
-                                            가장 많이 팔린 상품들이에요!</strong>
+                                        <strong>가장 많이 팔린 상품들이에요!</strong>
                                     </p>
                                     <br>
                                     <!-- 표가 들어갈 자리 -->
@@ -182,6 +243,8 @@
             <!-- footer -->
             <th:block th:replace="~{/jk/seller/footer :: footerHTML}"></th:block>
         </div>
+
+
     </div>
 
     <!-- 6. Bootstrap용 js -->
@@ -195,37 +258,91 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
         integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <!-- Chart.js용 CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+
+    <!-- Chart용 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 
     <script>
-        // // 페이지 로드 시, 저장된 값 확인하여 가이드 숨기기
-        // window.onload = function () {
-        //     var hideGuideUntil = localStorage.getItem('hideGuideUntil');
-        //     var now = new Date().getTime();
+        var modalCount = 3; // 모달 창 개수
+        var currentModal = 1; // 현재 모달 창 번호
 
-        //     if (hideGuideUntil && now < hideGuideUntil) {
-        //         var guideCardBody = document.getElementById('guideCardBody');
-        //         guideCardBody.style.display = 'none';
-        //     }
-        // };
+        // "다음으로" 버튼 클릭 시 다음 모달 창으로 이동
+        $('.nextModalButton').click(function () {
+            if (currentModal < modalCount) {
+                $('#modal' + currentModal).modal('hide');
+                currentModal++;
+                $('#modal' + currentModal).modal('show');
+            }
+        });
 
-        // // 오늘 날짜의 자정 시간을 구하는 함수
-        // function getMidnightTime() {
-        //     var now = new Date();
-        //     var midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
-        //     return midnight.getTime();
-        // }
+        // "이전으로" 버튼 클릭 시 이전 모달 창으로 이동
+        $('.prevModalButton').click(function () {
+            if (currentModal > 1) {
+                $('#modal' + currentModal).modal('hide');
+                currentModal--;
+                $('#modal' + currentModal).modal('show');
+            }
+        });
 
-        // // 오늘 하루 그만보기 버튼 클릭 시, 가이드 숨기기
-        // document.getElementById('hideGuideBtn').addEventListener('click', function () {
-        //     var guideCardBody = document.getElementById('guideCardBody');
-        //     guideCardBody.style.display = 'none';
 
-        //     // 오늘 날짜의 자정 시간을 구하고, localStorage에 저장
-        //     var midnightTime = getMidnightTime();
-        //     localStorage.setItem('hideGuideUntil', midnightTime);
-        // });
+
+
+        // 페이지 로드 시, 저장된 값 확인하여 가이드 숨기기
+        window.onload = function () {
+            var hideGuideUntil = getCookie('hideGuideUntil');
+            var now = new Date().getTime();
+            var guideCardBody = document.getElementById('guideCardBody');
+
+            if (hideGuideUntil && now < hideGuideUntil) {
+                guideCardBody.style.display = 'none';
+            } else {
+                guideCardBody.style.display = 'block';
+            }
+        };
+
+        // 오늘 날짜의 자정 시간을 구하는 함수
+        function getMidnightTime() {
+            var now = new Date();
+            var midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+            return midnight.getTime();
+        }
+
+        // Cookie를 설정하는 함수
+        function setCookie(name, value, days) {
+            var expires = '';
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = '; expires=' + date.toUTCString();
+            }
+            document.cookie = name + '=' + value + expires + '; path=/';
+        }
+
+        // Cookie를 가져오는 함수
+        function getCookie(name) {
+            var nameEQ = name + '=';
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1, c.length);
+                }
+                if (c.indexOf(nameEQ) === 0) {
+                    return c.substring(nameEQ.length, c.length);
+                }
+            }
+            return null;
+        }
+
+        // 오늘 하루 그만보기 버튼 클릭 시, 가이드 숨기기
+        document.getElementById('hideGuideBtn').addEventListener('click', function () {
+            var guideCardBody = document.getElementById('guideCardBody');
+            guideCardBody.style.display = 'none';
+
+            // 오늘 날짜의 자정 시간을 구하고, Cookie에 저장
+            var midnightTime = getMidnightTime();
+            setCookie('hideGuideUntil', midnightTime, 1);
+        });
 
         $(document).ready(function () {
             const sidebarToggle = $('#sidebarToggle');
