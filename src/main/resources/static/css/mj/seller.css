@@ -12,6 +12,7 @@ body {
 }
 
 
+
 hr {
     margin: 1rem 0;
     color: inherit;
@@ -352,8 +353,9 @@ ul {
 
 .datatable-pagination li:last-child,
 .datatable-pagination li:last-child a {
-    border-top-right-radius: 0.5;
-    border-bottom-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    
 }
 
 /* 에러페이지 */
@@ -385,7 +387,8 @@ ul {
 /* 메인화면 */
 
 main {
-    margin: 20px;
+    margin: 0 100px 0 100px;
+    min-width: 1000px;
 }
 
 main h3 {
@@ -443,7 +446,10 @@ main h3 {
     display: none;
 }
 
-
+/* 상세이미지 */
+.card-detailImage {
+    display: inline-block;
+}
 
 /* input[type="file" i] {
     appearance: none;
