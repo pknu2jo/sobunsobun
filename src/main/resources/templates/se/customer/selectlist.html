@@ -399,17 +399,20 @@
 
         // 찜 확인
         const chkJjim = async (idx, itemno) => {
+            const user = [[${user}]];
 
-            const url = [[@{/api/sejjimchk.json}]] + `?itemno=${itemno}`;
-            const headers = {"Content-Type" : "application/json"};
-            const { data } = await axios.get(url, {headers});
-            // console.log(data.chk);
+            if(user != null){
+                const url = [[@{/api/sejjimchk.json}]] + `?itemno=${itemno}`;
+                const headers = {"Content-Type" : "application/json"};
+                const { data } = await axios.get(url, {headers});
+                // console.log(data.chk);
 
-            if( data.chk == 0 ){
-                document.getElementsByName('heartBtn')[idx].style.display = 'block';
-            }
-            else if( data.chk == 1 ) {
-                document.getElementsByName('heartBtnFill')[idx].style.display = 'block';
+                if( data.chk == 0 ){
+                    document.getElementsByName('heartBtn')[idx].style.display = 'block';
+                }
+                else if( data.chk == 1 ) {
+                    document.getElementsByName('heartBtnFill')[idx].style.display = 'block';
+                }
             }
 
         }
