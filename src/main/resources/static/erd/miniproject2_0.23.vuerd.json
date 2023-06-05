@@ -3,9 +3,9 @@
     "version": "2.2.11",
     "width": 3000,
     "height": 3000,
-    "scrollTop": -873.6666666666641,
-    "scrollLeft": -562.3333333333333,
-    "zoomLevel": 0.7,
+    "scrollTop": -774.6666666666641,
+    "scrollLeft": -959,
+    "zoomLevel": 0.9,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -281,7 +281,7 @@
           "active": false,
           "left": 2231.6965,
           "top": 809.2258,
-          "zIndex": 12,
+          "zIndex": 10,
           "widthName": 60,
           "widthComment": 60,
           "color": "#ECD824"
@@ -706,7 +706,7 @@
           "active": false,
           "left": 939.1478,
           "top": 859.2905,
-          "zIndex": 37,
+          "zIndex": 22,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FF9F9C"
@@ -970,7 +970,7 @@
           "active": false,
           "left": 895.6544,
           "top": 238.7284,
-          "zIndex": 13,
+          "zIndex": 11,
           "widthName": 60,
           "widthComment": 60,
           "color": "rgb(88,184,231)"
@@ -1007,7 +1007,7 @@
           },
           {
             "name": "state",
-            "comment": "공구상태(0,1)",
+            "comment": "공구상태(0:모집중,1:모집완료, 2: 개인수령완료)",
             "dataType": "NUMBER",
             "default": "0",
             "option": {
@@ -1022,7 +1022,7 @@
               "fk": false,
               "pfk": false,
               "widthName": 60,
-              "widthComment": 79.0859375,
+              "widthComment": 120,
               "widthDataType": 60,
               "widthDefault": 60
             },
@@ -1148,7 +1148,7 @@
           "active": false,
           "left": 917.0906,
           "top": 539.7928,
-          "zIndex": 39,
+          "zIndex": 17,
           "widthName": 89.24853515625,
           "widthComment": 60,
           "color": "#E96161"
@@ -2370,7 +2370,7 @@
           "active": false,
           "left": 218.0216,
           "top": 812.6736,
-          "zIndex": 35,
+          "zIndex": 16,
           "widthName": 60,
           "widthComment": 60,
           "color": "#D28BFF"
@@ -2588,7 +2588,7 @@
           "active": false,
           "left": 1414.2224,
           "top": 1327.8609,
-          "zIndex": 14,
+          "zIndex": 12,
           "widthName": 88.5947265625,
           "widthComment": 60,
           "color": "#F7C7FF"
@@ -2743,7 +2743,7 @@
           "active": false,
           "left": 1506.1106,
           "top": 938.8052,
-          "zIndex": 15,
+          "zIndex": 13,
           "widthName": 60,
           "widthComment": 60,
           "color": "#A0FFA4"
@@ -2921,7 +2921,7 @@
           "active": false,
           "left": 1577,
           "top": 494.5,
-          "zIndex": 16,
+          "zIndex": 14,
           "widthName": 75.9248046875,
           "widthComment": 71.5703125,
           "color": "#A8E07A"
@@ -3030,7 +3030,7 @@
           "active": false,
           "left": 2344.4444,
           "top": 348.2778,
-          "zIndex": 17,
+          "zIndex": 15,
           "widthName": 60,
           "widthComment": 60,
           "color": "#FFB4EF"

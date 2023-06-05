@@ -22,6 +22,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.example.dto.KmAdminPurchaseStatusDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
@@ -81,6 +82,4 @@ public class PurchaseEntity {
     @OneToMany(mappedBy = "purchaseEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     List<PurchaseStatusEntity> purchaseStatusList = new ArrayList<>();
 
-    @Transient // 임시변수 == 컬럼이 생성되지 않는다. Mybatis dto 개념
-    private List<String> memIdList; // 찜 상태 ( 찜 안되어있다? => 0, 찜 되어있다 => 1)
 }

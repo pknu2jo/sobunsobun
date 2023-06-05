@@ -16,6 +16,25 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <th:block th:replace="~{/gr/admin/header :: headerCSS}"></th:block>
     <th:block th:replace="~{/gr/admin/footer :: footerCSS}"></th:block>
+    <style>
+        .checkbox-button {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: #fff;
+            }
+
+            .checkbox-button.checked {
+            background-color: #007bff;
+            }
+
+            .checkbox-button.checked::before {
+            content: "\2713";
+            color: #fff;
+            }
+    </style>
 
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <!-- axios (https://cdnjs.com/libraries/axios) -->
@@ -41,7 +60,8 @@
             <!-- -------------------------------------------------------------------------------------------------------------- -->
             <!-- 지점 선택 ~  -->
             <select id="selectStorage" name="storageNo" onchange="selectStorage()">
-                <option value="0" selected>---[필수 선택]---</option>
+                <option  selected>---[필수 선택]---</option>
+                <option value="0">전체</option>
                 <option th:each="tmp:${storageList}" th:value="${tmp.no}" th:text="${tmp.name}"></option>
             </select>
             <!-- ~ 지점 선택-->
@@ -59,10 +79,6 @@
             <!-- -------------------------------------------------------------------------------------------------------------- -->
 
             <!-- 검색 기능 ~  -->
-            <select id="receiveState" onclick="removeReceiveBtn()">
-                <option value="0">수령미완료</option>
-                <option value="1">수령완료</option>
-            </select>
             <select id="searchOption" onclick="removeReceiveBtn()">
                 <option value="purchaseno">번호</option>
                 <option value="memid">아이디</option>
@@ -138,6 +154,11 @@
                 `<button onclick="selectPurchase(1)" >수령 완료</button>`;
         }
 
+        // CSS 클래스를 토글하는 이벤트 핸들러 함수
+        function toggleCheckbox(event) {
+            event.target.classList.toggle('checked');
+        }
+
         // select 태그의 값에 해당하는 공구 리스트 가져오기
         async function selectPurchase(receivestate) {
            
@@ -147,7 +168,7 @@
             const headers = { "Content-Type": "application/json" };
             const { data } = await axios.get(url, { headers: headers });
 
-            // console.log("반환값 확인", data.purchaseList);
+            console.log("반환값 확인", data.purchaseList);
 
             // 이전 테이블 인스턴스가 있다면 제거
             if (table) {
@@ -166,10 +187,13 @@
                     thead.innerHTML +=
                         `<tr>` +
                         `<th>공구번호</th>` +
+                        `<th>물품명</th>` +
                         `<th>참여인원</th>` +
                         `<th>수령인원</th>` +
+                        `<th>완료상태</th>` +
                         `<th>보관소 도착일</th>` +
-                        `<th>고객 리스트</th>` +
+                        `<th>보관소</th>` +
+                        `<th>고객수령상태</th>` +
                         `</tr>`;
 
                     for (let i = 0; i < data.purchaseList.length; i++) {
@@ -178,23 +202,43 @@
                         // console.log("반환값 확인", tmp);
                         var receivedate = formatDate(tmp.receivedate);
 
-
-                        // 컨테이너 초기화
-                        var buttonContainer = '';
-
-                        for (let j = 0; j < tmp.memIdList.length; j++) {
-                            const memId = tmp.memIdList[j];
-                            buttonContainer += `${memId}<button id="checkBtn" class="btn notcomplete" th:onclick="checkBtn(this, ${tmp.no})" style="color:red;">☐</button>`;
-                            
+                        if (tmp.customerList.state === 1) {
+                            // 체크되지 않은 체크박스 모양의 버튼
+                            stateButton = `<button class="checkbox-button" onclick="toggleCheckbox(event)"></button>`;
+                        } else if (tmp.customerList.state === 2) {
+                            // 체크된 체크박스 모양의 버튼
+                            stateButton = `<button class="checkbox-button checked" onclick="toggleCheckbox(event)"></button>`;
                         }
 
                         tbody.innerHTML +=
                             `<tr>` +
-                            `<td>${tmp.no}</td>` +
+                            `<td>${tmp.purchaseno}</td>` +
+                            `<td>${tmp.itemname}</td>` +
                             `<td>${tmp.participant}</td>` +
-                            `<td>${tmp.headCount}</td>` +
+                            `<td>${tmp.headcount}</td>` +
+                            `<td>${tmp.receivestate}</td>` +
                             `<td>${receivedate}</td>` +
-                            `<td>${buttonContainer}</td></tr>`;
+                            `<td>${tmp.storagename}</td>` +
+                            `<td>
+                                <p>
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample` + i+ `" aria-expanded="false">
+                                       수령상태 
+                                    </button>
+                                </p>
+                                <div class="collapse" id="collapseExample` + i+ `">
+                                    <div class="card card-body">
+                                        ${tmp.customerList.map(customer => `
+                                            <p>
+                                                <button class="btn btn-primary checkbox-button ${customer.state === 2 ? 'checked' : ''}" type="button" 
+                                                        onclick="handleButtonClick(this, '${customer.memid}', '${tmp.itemno}', '${tmp.purchaseno}')">
+                                                    ${customer.state === 2 ? '✔' : ''}
+                                                </button>
+                                                ${customer.memid}
+                                            </p>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </td>`;
                     }
                 } else if (data.purchaseList == null) {
 
@@ -212,20 +256,43 @@
             }
 
         }
+
+        async function handleButtonClick(btn, memid, itemno, purchaseno) {
+
+            console.log(btn);
+            console.log(memid, itemno, purchaseno);
+           
+            const isChecked = btn.classList.contains('checked');
+
+            if (!isChecked && confirm(purchaseno + "번 공구의 '" + memid + "'님이 확실한가요?")) {
+                // 체크 => state=2로 바꿔야함
+
+                const url = /*[[@{/api/admin/insertstatus2.json}]]*/"";
+                const headers = {"Content-Type":"application/json"};
+                const body = {customerEntity : {id:memid}, itemEntity : {no:itemno},
+                                purchaseEntity : {no:purchaseno}, state:2, cancel:0 };
+                const { data } = await axios.post(url, body, {headers:headers});
+
+                console.log("반환값 확인", data );
+
+                if(data.result == 1) {
+                    // 체크 처리하기
+                    alert(purchaseno + "번 공구의 '" + memid + "'님의 수령 처리가 완료되었습니다.")
+                    btn.classList.add('checked');
+                }
+            }
+        }
         
 
 
         // 검색 기능 => 검색 값에 해당하는 공구 리스트 가져오기
         async function searchData() {
 
-            // const receiveState = document.querySelector('#receiveState').value;
-            const receiveState = parseInt(document.querySelector('#receiveState').value);
             const searchOption = document.querySelector('#searchOption').value;
             const searchValue = document.querySelector('#searchInput').value;
 
             let url = [[@{/api/admin/purchaselistbysearch.json}]] 
-                    + "?receivestate=" + receiveState 
-                    + "&searchoption=" + searchOption 
+                    + "?searchoption=" + searchOption 
                     + "&searchvalue=" + searchValue; 
                     
             console.log(url);
@@ -235,86 +302,68 @@
 
             console.log("반환값 확인", data );
 
-            // 이전 테이블 인스턴스가 있다면 제거
-            if (table) {
-                table.destroy();
-                table = null;
-            }
+            // // 이전 테이블 인스턴스가 있다면 제거
+            // if (table) {
+            //     table.destroy();
+            //     table = null;
+            // }
 
-            var thead = document.querySelector('#thead');
-            var tbody = document.querySelector('#tbody');
+            // var thead = document.querySelector('#thead');
+            // var tbody = document.querySelector('#tbody');
+
+            // if (data.result == 1) {
+            //     thead.innerHTML = '';
+            //     tbody.innerHTML = '';
+
+            //     if (data.purchaseList != null) {
+            //         thead.innerHTML +=
+            //             `<tr>` +
+            //             `<th>공구번호</th>` +
+            //             `<th>참여인원</th>` +
+            //             `<th>보관소 도착일</th>` +
+            //             `<th>보관소</th>` +
+            //             `<th>고객</th>` +
+            //             `<th>물품명</th>` +
+            //             `</tr>`;
+
+            //         for (let i = 0; i < data.purchaseList.length; i++) {
+
+            //             let tmp = data.purchaseList[i];
+            //             // console.log("반환값 확인", tmp);
+            //             var receivedate = formatDate(tmp.receivedate);
 
 
-            if (data.result == 1) {
-                thead.innerHTML = '';
-                tbody.innerHTML = '';
+            //             // 컨테이너 초기화
+            //             var buttonContainer = '';
 
-                if (data.purchaseList != null) {
-                    thead.innerHTML +=
-                        `<tr>` +
-                        `<th>공구번호</th>` +
-                        `<th>참여인원</th>` +
-                        `<th>수령인원</th>` +
-                        `<th>보관소 도착일</th>` +
-                        `<th>고객 리스트</th>` +
-                        `</tr>`;
+            //             for (let j = 0; j < tmp.memIdList.length; j++) {
+            //                 const memId = tmp.memIdList[j];
+            //                 buttonContainer += `${memId}<button id="checkBtn" class="btn notcomplete" th:onclick="checkBtn(this, ${tmp.no})" style="color:red;">☐</button>`;
+            //             }
 
-                    for (let i = 0; i < data.purchaseList.length; i++) {
+            //             tbody.innerHTML +=
+            //                 `<tr>` +
+            //                 `<td>${tmp.no}</td>` +
+            //                 `<td>${tmp.participant}</td>` +
+            //                 `<td>${tmp.headCount}</td>` +
+            //                 `<td>${receivedate}</td>` +
+            //                 `<td>${buttonContainer}</td></tr>`;
+            //         }
+            //     }   else if (data.purchaseList == null) {
 
-                        let tmp = data.purchaseList[i];
-                        // console.log("반환값 확인", tmp);
-                        var receivedate = formatDate(tmp.receivedate);
+            //         let thead = document.getElementById('thead');
+            //         thead.innerHTML = '';
+            //         let row = document.createElement('tr');
 
+            //         row.innerHTML =
+            //             'No entries found';
 
-                        // 컨테이너 초기화
-                        var buttonContainer = '';
-
-                        for (let j = 0; j < tmp.memIdList.length; j++) {
-                            const memId = tmp.memIdList[j];
-                            buttonContainer += `${memId}<button id="checkBtn" class="btn notcomplete" th:onclick="checkBtn(this, ${tmp.no})" style="color:red;">☐</button>`;
-                        }
-
-                        tbody.innerHTML +=
-                            `<tr>` +
-                            `<td>${tmp.no}</td>` +
-                            `<td>${tmp.participant}</td>` +
-                            `<td>${tmp.headCount}</td>` +
-                            `<td>${receivedate}</td>` +
-                            `<td>${buttonContainer}</td></tr>`;
-                    }
-                } else if (data.purchaseList == null) {
-
-                    let thead = document.getElementById('thead');
-                    thead.innerHTML = '';
-                    let row = document.createElement('tr');
-
-                    row.innerHTML =
-                        'No entries found';
-
-                    tbody.appendChild(row);
-                }
-            }
+            //         tbody.appendChild(row);
+            //     }
+            // }
         }
-
 
         
-        async function checkBtn(btnTag, purchaseNo) {
-            alert("안녕");
-            console.log(purchaseNo);
-
-            if (btnTag.classList.contains("notcomplete")) {
-                btnTag.classList.remove("notcomplete");
-                btnTag.classList.add("complete");
-                // 'notcomplete' 클래스를 제거하고 'complete' 클래스를 추가
-            } else if(btnTag.classList.contains("complete")) {
-                btnTag.classList.remove("complete");
-                btnTag.classList.add("notcomplete");
-            }
-            console.log(btnTag);
-
-        }
-
-
 
         // 날짜 형식 바꾸기
         function formatDate(dateString) {
