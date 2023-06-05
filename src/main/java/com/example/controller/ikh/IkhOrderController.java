@@ -66,9 +66,10 @@ public class IkhOrderController {
             long sum0 = 0;
             long sum1 = 0;
             long sum2 = 0;            
-            List<ProceedOrderFinalView> porfvlist = porfvRepository.findByNo(seller.getNo());         
-            log.info("{}", porfvlist);
-            model.addAttribute("porfvlist", porfvlist);
+
+            // 공구진행중 테이블
+            List<ProceedOrderFinalView> porfvlist = porfvRepository.findByNo(seller.getNo());
+            model.addAttribute("porfvlist", porfvlist);            
             sum0 = porfvlist.size();
             model.addAttribute("sum0", sum0);
 

@@ -5,6 +5,9 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,8 +24,10 @@ import com.example.dto.Seller;
 import com.example.entity.SellerEntity;
 import com.example.entity.ikh.BestSellView;
 import com.example.entity.ikh.TopthreeView;
+import com.example.entity.ikh.TotaltableView;
 import com.example.repository.ikh.BestSellViewRepository;
 import com.example.repository.ikh.TopthreeViewRepository;
+import com.example.repository.ikh.TotaltableViewRepository;
 import com.example.repository.jk.JkSellerRepository;
 import com.example.service.jk.JkSellerService;
 import com.example.service.mj.MjItemService;
@@ -43,6 +48,7 @@ public class JkSellerController {
     final MjItemService itemService;
     final BestSellViewRepository bsvRepository;
     final TopthreeViewRepository ttvRepository;
+    final TotaltableViewRepository totalRepository;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
     /* ------------------------------- 홈화면 --------------------------------- */
@@ -61,15 +67,18 @@ public class JkSellerController {
             // 지금까지 가장 많이 팔린 상품은 파트
             BestSellView best = bsvRepository.findByNo(seller.getNo());
             if(best != null){
-                log.info("확인해봅시다 => {}", best.toString());
+                // log.info("확인해봅시다 => {}", best.toString());
                 model.addAttribute("itemName", best.getItemname()); // 상품명
                 model.addAttribute("soldCount", best.getCount()); // 팔린 개수
             }
 
-            // 가장 많이 팔린 상품들이에요! 파트            
-            List<TopthreeView> list = ttvRepository.findByNo(seller.getNo());
+            // 가장 많이 팔린 상품들이에요! 파트
+            Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "count").and(Sort.by(Sort.Direction.ASC, "itemregdate")));
+            List<TotaltableView> list = totalRepository.findBest(seller.getNo(), pageable);
+            // log.info("best3 {}", bestlist);
+            // List<TopthreeView> list = ttvRepository.findByNo(seller.getNo());
             if(list != null){
-                log.info("topthree => {}", list.toString());
+                // log.info("topthree => {}", list.toString());
                 model.addAttribute("list", list);
             }
             return "/jk/seller/home";

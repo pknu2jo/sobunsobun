@@ -54,7 +54,7 @@ public class IkhItemController {
             long Male = tgvRepository.countByGenderAndNo("M", seller.getNo());                            
             
             // html로 값 넘기기
-            if(Female != 0 && Male != 0){
+            if(Female != 0 || Male != 0){
                 model.addAttribute("female", Female);
                 model.addAttribute("male", Male);
             }

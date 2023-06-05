@@ -395,13 +395,14 @@
             var arr1 = new Array(data.table1.length);
             var arr2 = new Array(data.table2.length);            
 
+            // 완료된 공구
             for (let i=0; i<data.table.length; i++){
                 var regdate =  new Date(data.table[i].regdate);                    
                 var formattedDate = regdate.toLocaleString('ko-KR', options);
 
                 var year = formattedDate.substr(0, 4);
                 var month = formattedDate.substr(6, 2);
-                var day = formattedDate.substr(9, 2);
+                var day = formattedDate.substr(10, 2);
                 var weekday = formattedDate.substr(12, formattedDate.indexOf(' ') - 12);
                 var hour = formattedDate.substr(formattedDate.indexOf(' ') + 1, 2);
                 var minute = formattedDate.substr(formattedDate.indexOf(':') + 1, 2);
@@ -415,14 +416,15 @@
                 + `</tr>`
                 ;
             }
-            
+
+            // 진행중 공구            
             for (let i=0; i<data.table1.length; i++){
                 var regdate =  new Date(data.table1[i].regdate);                    
                 var formattedDate = regdate.toLocaleString('ko-KR', options);
 
                 var year = formattedDate.substr(0, 4);
                 var month = formattedDate.substr(6, 2);
-                var day = formattedDate.substr(9, 2);
+                var day = formattedDate.substr(10, 2);
                 var weekday = formattedDate.substr(12, formattedDate.indexOf(' ') - 12);
                 var hour = formattedDate.substr(formattedDate.indexOf(' ') + 1, 2);
                 var minute = formattedDate.substr(formattedDate.indexOf(':') + 1, 2);
@@ -435,15 +437,16 @@
                 // + '<td>' + data.table1[i].regdate + '</td>'
                 + `</tr>`
                 ;
-            }
+            }              
 
+            // 취소된 공구
             for (let i=0; i<data.table2.length; i++){
                 var regdate =  new Date(data.table2[i].regdate);                    
                 var formattedDate = regdate.toLocaleString('ko-KR', options);
 
                 var year = formattedDate.substr(0, 4);
                 var month = formattedDate.substr(6, 2);
-                var day = formattedDate.substr(9, 2);
+                var day = formattedDate.substr(10, 2);
                 var weekday = formattedDate.substr(12, formattedDate.indexOf(' ') - 12);
                 var hour = formattedDate.substr(formattedDate.indexOf(' ') + 1, 2);
                 var minute = formattedDate.substr(formattedDate.indexOf(':') + 1, 2);
