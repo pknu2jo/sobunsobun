@@ -107,6 +107,7 @@
                         </form>
                     </div>
 
+                    <!-- 물품 수정 모달 -->
                     <div class="modal fade" id="updateOkmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
                         <div class="modal-content">
@@ -119,6 +120,42 @@
                             </div>
                             <div class="modal-footer">
                             <button type="submit" class="btn btn-dark" data-bs-dismiss="modal" onclick="updateItemAction()">확인</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- 물품 수정완료 모달 -->
+                    <div class="modal fade" id="update" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">물품수정</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                물품수정이 완료되었습니다.
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal" >확인</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <!-- 수정불가항목 모달 -->
+                    <div class="modal fade" id="Xupdate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">물품수정</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                물품번호, 카테고리, 등록일은 수정할 수 없습니다.
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal" >확인</button>
                             </div>
                         </div>
                         </div>
@@ -208,7 +245,8 @@
         }
 
         function readonly() {
-            alert('물품번호, 카테고리, 등록일은 수정할 수 없습니다.');
+            // alert('물품번호, 카테고리, 등록일은 수정할 수 없습니다.');
+            $('#Xupdate').modal('show');
         }
 
 
@@ -216,7 +254,8 @@
         function updateItemAction() {
             const form1 = document.getElementById("form1");
             form1.submit();
-            alert('물품수정이 완료되었습니다.');
+            // alert('물품수정이 완료되었습니다.');
+            $('#update').modal('show');
         }
 
         

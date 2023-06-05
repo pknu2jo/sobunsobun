@@ -90,6 +90,7 @@
                         <!-- <input type="text" th:value="${ret.no}" id="itemno"> -->
                         <button type="button" class="btn btn-dark" id="insertbtn"  onclick="insertitem()">등록</button>
                         <!-- </form> -->
+                    
                     <!-- Modal -->
                     <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -104,6 +105,57 @@
                             <div class="modal-footer">
                             <button type="submit" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="tomanagement">아니요. 물품 추가등록할래요.... </button>
                             <button type="submit" class="btn btn-dark" id="insertimage" onclick="insertimage()">네</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="insertname" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                물품명을 입력해주세요.
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" id="insertimage" data-bs-dismiss="modal">확인</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="insertprice" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                가격을 입력해주세요.
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" id="insertimage" data-bs-dismiss="modal">확인</button>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="insertquantity" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                수량을 입력해주세요.
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" id="insertimage" data-bs-dismiss="modal">확인</button>
                             </div>
                         </div>
                         </div>
@@ -226,19 +278,22 @@
         
 
         if (name.value.trim() === "") {
-            alert("물품명을 입력해주세요.")
+            // alert("물품명을 입력해주세요.")
+            $('#insertname').modal('show');
             name.focus();
 
             return false;
         }
         if (price.value.trim() === "") {
-            alert("가격을 입력해주세요.")
+            // alert("가격을 입력해주세요.")
+            $('#insertprice').modal('show');
             price.focus();
 
             return false;
         }
         if (quantity.value.trim() === "") {
-            alert("수량을 입력해주세요.")
+            // alert("수량을 입력해주세요.")
+            $('#insertquantity').modal('show');
             quantity.focus();
 
             return false;
