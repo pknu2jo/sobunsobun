@@ -13,7 +13,13 @@ body {
     height: 100%;
 }
 
-
+.card-header {
+    padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
+    margin-bottom: 0;
+    color: var(--bs-card-cap-color);
+    background-color: rgb(0 127 255 / 3%);
+    border-bottom: var(--bs-card-border-width) solid rgb(255 255 255 / 18%);
+}
 
 a {
     text-decoration: none;
