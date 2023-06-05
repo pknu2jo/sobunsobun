@@ -72,11 +72,11 @@ public class JkSellerController {
 
             // 지금까지 가장 많이 팔린 상품은 파트
             BestSellView best = bsvRepository.findByNo(seller.getNo());
-            if(best != null){
-                // log.info("확인해봅시다 => {}", best.toString());
+            if(best != null ) {
+                log.info("확인해봅시다 => {}", best.toString());
                 model.addAttribute("itemName", best.getItemname()); // 상품명
                 model.addAttribute("soldCount", best.getCount()); // 팔린 개수
-
+                
                 // 상품 이미지
                 ItemImage image = imageService.findByItemNo_noAndFilenameNotLikeOrderByNoAsc(best.getItemno(),"%상세%");
                 Item item = new Item();
@@ -127,7 +127,9 @@ public class JkSellerController {
         }
         return "redirect:/seller/join.do";
     }
-    /* -------------------------------- 로그인 (Jpa) -------------------------------- */
+    /*
+     * -------------------------------- 로그인 (Jpa) --------------------------------
+     */
 
     // http://127.0.0.1:5959/SOBUN/seller/login.do
     // loginaction.do post는 만들지 않고 sercurity에서 처리.
@@ -166,7 +168,9 @@ public class JkSellerController {
         return "redirect:/seller/findpw.do";
     }
 
-    /* ----------------------------- 마이페이지(Jpa) ---------------------------------- */
+    /*
+     * ----------------------------- 마이페이지(Jpa) ----------------------------------
+     */
 
     // -------------------- 마이페이지 본인인증 (비밀번호) ------------------- //
     // http://127.0.0.1:5959/SOBUN/seller/pwcheck.do
@@ -235,7 +239,7 @@ public class JkSellerController {
         return new ModelAndView("jk/seller/mypage/updatepw", "seller", seller);
         // 미리 get에 해당 업체의 정보를 템플릿에 담아서 띄움.
     }
-    
+
     @PostMapping(value = "/updatepw.do")
     public String updatepwPOST(@ModelAttribute SellerEntity seller) {
         try {
