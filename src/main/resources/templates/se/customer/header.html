@@ -20,6 +20,20 @@
             color: black;
         }
         /* 카테고리 */
+
+        #navbarContent {
+            position: relative;
+            z-index: 9500;
+            margin-left: 300px;
+            margin-right: 300px;
+        }
+
+        .category {
+            position: absolute;
+            z-index: 9500;
+            background-color: rgba(255, 255, 255, 0.90);
+        }
+
         .lcate, .allItemBtn, .allItemBtn a  {
             height: 15px;
             font-size: 17px;
@@ -59,6 +73,7 @@
         /* 헤더 */
         .header1 {
             background-size: cover;
+            position: relative; /* 카테고리 고정용 */
         }
 
         .logoutBtn {
@@ -143,7 +158,7 @@
             display: none;
             position: fixed;
             top: 0;
-            z-index: 9999;
+            z-index: 10000;
             animation: down 0.5s ease;
         }
 
@@ -276,6 +291,7 @@
             border-radius: 5px;
             box-shadow:  0 .125rem .25rem rgba(0, 0, 0, .075);
             color: #204710;
+            z-index: 9999;
         }
 
         .notibox::-webkit-scrollbar { /* 스크롤 숨기기 */
@@ -288,6 +304,7 @@
             border-bottom: 1px solid #dce2dd;
         }
 
+
         </style>
     </th:block>
 </head>
@@ -295,7 +312,7 @@
 <th:block th:fragment="headerHTML">
     <div class="headerAll">
         <!-- 헤더 -->
-        <header class="container-fluid header1" th:style="'background-image:url('+ @{/images/se/testheader6.png} +');'">
+        <header class="container-fluid header1 " th:style="'background-image:url('+ @{/images/se/testheader6.png} +');'">
             <div class="row p-5">
                 <div class="col-4 navbar-toggler d-flex align-items-center" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false">
                     <input onclick="cateAction()" id="toggle" type="checkbox" />
@@ -384,7 +401,7 @@
         </header> 
 
         <!-- 카테고리 -->
-        <div class="container mb-5"><!-- style="position: fixed;" -->
+        <div class="container-fluid mb-5 category">
             <div class="row collapse navbar-collapse p-3" id="navbarContent"> <!-- 처음에 접은 상태 => class에 collapse 추가 -->
             </div>
         </div>    
