@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"> -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <!-- font-awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <th:block th:replace="~{/gr/admin/header :: headerCSS}"></th:block>
@@ -14,6 +14,196 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <!-- axios (https://cdnjs.com/libraries/axios) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <style>
+
+        .title{
+            width: 1275px;
+            padding-left: 35px;
+            margin-top: 70px;
+            margin-bottom: 11px;
+        }
+
+        .title h3{
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .adminhome .grade{
+            width: 1250px;
+            height: 200px;
+            padding: 10px ;
+            padding-left: 50px;
+            /* margin-bottom: 90px; */
+            margin: 0;
+            background-color: #f8f8f8;
+            display: flex;
+            align-items: center;
+            margin-top: 13px;
+        }
+
+        .adminhome .grade .info{
+            width: 1250px;
+            height: 180px;
+            padding-left: 94px;
+            /* float: left; */
+            position: relative;
+            display: inline-block;
+        }
+
+        .adminhome .grade .info .purchase{
+            margin-left: 30px;
+        }
+
+        .adminhome .grade .info .purchase,
+        .adminhome .grade .info .join,
+        .adminhome .grade .info .drop{
+            display: inline-block;
+            width: 330px;
+            padding-top: 30px;
+            padding-left: 117px;
+        }
+
+        .adminhome .grade .info .content{
+            display: inline-block;
+        }
+
+        .adminhome .grade .info .purchase a,
+        .adminhome .grade .info .join a,
+        .adminhome .grade .info .drop a{
+            font-size: 50px;
+            font-weight: 700;
+            color: #333;
+            margin-left: 37px;
+        }
+
+        /* .adminhome .grade .info .purchase p,
+        .adminhome .grade .info .join p,
+        .adminhome .grade .info .drop p{
+            font-size: 18px;
+            color: gray;
+            width: 90px;
+            margin: 0;
+        } */
+
+        .adminhome .grade .info .purchase p{
+            padding-left: 34px;
+        }
+
+        .adminhome .grade .info .join p{
+            padding-left: 34px;
+        }
+
+        .adminhome .grade .info .drop p{
+            padding-left: 39px;
+        }
+
+        .adminhome .grade .info .purchase-icon,
+        .adminhome .grade .info .join-icon,
+        .adminhome .grade .info .drop-icon{
+            position: absolute;
+            left: 80px;
+            width: 100px;
+        }
+
+        .adminhome .grade .info .purchase-icon{
+            padding-left: 65px;
+        }
+
+        .adminhome .grade .info .join-icon{
+            padding-left: 403px;
+        }
+
+        .adminhome .grade .info .drop-icon{
+            padding-left: 739px;
+        }
+
+
+
+        .linkimg{
+            width: 1205px;
+            margin: 0 auto;
+            margin-top: 64px;
+        }
+
+        .image-container{
+            display: flex;
+        }
+
+        .customerpage,
+        .sellerpage{
+            width: calc(50% - 17.5px);
+            margin-right: 35px;
+            position: relative;
+        }
+
+        .sellerpage{
+            margin-right: 0;
+        }
+
+        .customerpage img,
+        .sellerpage img{
+            /* width: 100%; */
+            width: 585px;
+            height: 400px;
+            filter: grayscale(100%);
+            transition:  filter 0.2s ease;
+        }
+
+        .customerpage:hover img,
+        .sellerpage:hover img{
+            filter: grayscale(0%);
+        }
+
+        .customerpage a,
+        .sellerpage a{
+            text-decoration: none;
+        }
+
+        .caption{
+            position: absolute;
+            bottom: 84px;
+            right: 46px;
+            padding: 5px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .customerpage:hover .caption,
+        .sellerpage:hover .caption{
+            opacity: 1;
+            border-bottom: 2px solid white;
+        }
+
+        .image-wrapper{
+            position: relative;
+            display: inline-block;
+        }
+
+        .overlay{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .customerpage:hover .overlay,
+        .sellerpage:hover .overlay{
+            opacity: 1;
+        }
+  
+
+    </style>
+
+
 </head>
 
 <body>
@@ -22,7 +212,68 @@
     
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;">
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur eaque illum doloremque officiis facilis, iure magni optio nobis earum placeat ab tempore dolore voluptatibus! Corrupti distinctio perspiciatis quo! Placeat, optio?</p>
+        <div class="title-box d-flex justify-content-center">
+            <div class="title">
+                <h3>소분소분 현황</h3>
+            </div>
+        </div>
+        <div class="adminhome d-flex justify-content-center">
+            <div class="grade d-flex justify-content-center"> 
+                <div class="info">
+                    
+                    <div class="purchase">
+                        <div class="purchase-icon">
+                            <img th:src="@{/images/gr/purchaseicon.png}" width="100px" height="100px">
+                        </div>
+                        <div class="content">
+                            <a th:text="${countpurchase}"></a>
+                            <p>오늘 공구완료</p>
+                        </div>
+                    </div>
+                    <div class="join">
+                        <div class="join-icon">
+                            <img th:src="@{/images/gr/memberjoinicon.png}" width="100px" height="100px">
+                        </div>
+                        <div class="content">
+                            <a th:text="${countjoin}"></a>
+                            <p>오늘 회원가입</p>
+                        </div>
+                    </div>
+                    <div class="drop">
+                        <div class="drop-icon">
+                            <img th:src="@{/images/gr/memberdropicon.png}" width="100px" height="100px">
+                        </div>
+                        <div class="content">
+                            <a th:text="${countdrop}"></a>
+                            <p>회원탈퇴</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="linkimg">
+                <div class="image-container">
+                    <div class="customerpage">
+                        <a th:href="@{/customer/home.do}">
+                          <div class="image-wrapper">
+                            <img th:src="@{/images/gr/customer.jpg}">
+                            <div class="overlay"></div>
+                          </div>
+                          <div class="caption">고객페이지로 이동 →</div>
+                        </a>
+                      </div>
+                      <div class="sellerpage">
+                        <a th:href="@{/seller/home.do}">
+                          <div class="image-wrapper">
+                            <img th:src="@{/images/gr/seller1.jpg}">
+                            <div class="overlay"></div>
+                          </div>
+                          <div class="caption">판매자페이지로 이동 →</div>
+                        </a>
+                      </div>
+                </div>
+            </div>
+            
     </div>
 
     <!-- footer -->
