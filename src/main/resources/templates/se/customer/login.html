@@ -233,15 +233,21 @@
                             const body = { "id":id };
                             const headers = {"Content-Type":"application/json"};
                             const {data} = await axios.post(url, body,  {headers});
-                            console.log(data.ret);
+                            // console.log(data.ret);
 
-                            // 등록된 아이디(카카오 이메일)이 있으면 home 화면으로
-                            if(data.ret == 1){
-                                location.href="http://127.0.0.1:5959/SOBUN/customer/home.do";
-                            }
-                            // 등록된 아이디(카카오 이메일)이 없으면 회원가입 화면으로
-                            else if(data.ret == 0){
+                            if(data.ret === 0) { // 등록된 회원이 없을 때 회원가입으로
                                 kakaojoin();
+                            }
+                            else if(data.ret === 1) { // 탈퇴회원
+                                alert('이미 탈퇴한 회원입니다');
+                                return false;
+                            }
+                            else if(data.ret === 2) { // 블랙리스트 회원
+                                alert('블랙리스트 회원입니다');
+                                return false;
+                            }
+                            else if(data.ret === 3){ // 정상회원 => 홈으로
+                                location.href="http://127.0.0.1:5959/SOBUN/customer/home.do";
                             }
 
 
@@ -298,9 +304,12 @@
         // 카카오 로그인
 
         // 유효성 검사 -----------------------------------------------------------------------------------
-        const loginAction = () => {
+        const loginAction = async () => {
+
             const id = document.querySelector("input[name='id']");
             const pw = document.querySelector("input[name='pw']");
+
+            // 유효성 검사
             if( id.value.length  <= 0 ){
                 alert("아이디를 입력하세요");
                 id.focus();
@@ -312,7 +321,35 @@
                 return false;
             }
 
-            document.querySelector('#loginFrom').submit();
+            // 회원정보 확인
+            const url = [[@{/api/chkcustomerstate.json}]] + `?id=${id.value}`;
+            // console.log(url);
+            const headers = {"Content-Type":"application/json"};
+            const {data} = await axios.get(url, {headers});
+            console.log(data.ret);
+
+            // 없는 회원 거르기
+            if(data.ret === 1) {
+                alert('일치하는 회원정보를 찾을 수 없습니다');
+                return false;
+            }
+            
+            // 탈퇴한 회원 거르기
+            if(data.ret === 2) {
+                alert('이미 탈퇴한 회원입니다');
+                return false;
+            }
+
+            // 블랙리스트 거르기
+            else if(data.ret === 3) {
+                alert('블랙리스트 회원입니다');
+                return false;
+            }
+
+            // 정상회원일 때 로그인
+            else if(data.ret == 0) {
+                document.querySelector('#loginFrom').submit();
+            }
         }
         // 유효성 검사
 

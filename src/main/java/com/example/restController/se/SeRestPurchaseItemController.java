@@ -71,7 +71,7 @@ public class SeRestPurchaseItemController {
     ) {
         Map<String, Object> retMap = new HashMap<>();
         try {
-            log.info("찜업뎃 => {}", map.toString());
+            // log.info("찜업뎃 => {}", map.toString());
             BigDecimal itemno = BigDecimal.valueOf((Long.valueOf(map.get("itemno").toString())));
             int menu = (int) map.get("menu");
 
