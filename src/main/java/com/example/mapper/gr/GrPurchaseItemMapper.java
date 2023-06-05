@@ -26,7 +26,7 @@ public interface GrPurchaseItemMapper {
     public long countMyOrderListDate(GrDate grDate);
 
     // test
-    @Select({ " SELECT * FROM grpurchaseview WHERE memId=#{memId} ORDER BY regdate desc" })
+    @Select({ " SELECT * FROM grgrpurchaseview WHERE memId=#{memId} ORDER BY regdate desc" })
     public List<grgrpurchaseview> selectById(String id);
 
     // 기한내 구매목록 불러오기
