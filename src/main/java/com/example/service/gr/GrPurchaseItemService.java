@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.dto.GrDate;
 import com.example.entity.gr.grgrpurchaseview;
-import com.example.entity.gr.grpurchaseview;
 
 @Service
 public interface GrPurchaseItemService {
