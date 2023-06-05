@@ -22,12 +22,16 @@
                 /* font-family: 'nanumsquare','MinSans-Regular', sans-serif; */
                 font-family: 'NanumSquare';
                 font-size: 13px;
+                padding: 0;
             }
 
             footer{
                 width: 100%;
-                height: 55px;
+                height: 58px;
                 border-top: 1px solid gray;
+                position: fixed;
+                bottom: 0;
+                
             }
 
             .footer_container{
@@ -63,8 +67,8 @@
 <body id='wrapper'>
 
 <th:block th:fragment="footerHTML">
-    <footer class="text-body-secondary py-5">
-        <div class="footer_container text-center">
+    <footer class="text-body-secondary">
+        <div class="footer_container text-center d-flex justify-content-center" >
             <div class="d-flex justify-content-center">
                 <p class="text-center" style="margin-left: 60px;padding-top: 20px;">    
                     새로운 1인 공구문화 &copy; 소분소분
@@ -75,6 +79,7 @@
             <button id="backToTopBtn" onclick="scrollToTop()">Top</button>
         </div>
     </footer>
+</th:block>
 
     <script>
         window.onscroll = function() {
@@ -94,7 +99,7 @@
             document.documentElement.scrollTop = 0;
         }
     </script>
-</th:block>
+
 
 </body>
 
