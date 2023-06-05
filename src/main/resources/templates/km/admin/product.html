@@ -8,7 +8,7 @@
     <title>Document</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <!-- Simple DataTable용 CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css"> -->
     <!--최신버전-->
     <!-- font-awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -16,6 +16,25 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <th:block th:replace="~{/gr/admin/header :: headerCSS}"></th:block>
     <th:block th:replace="~{/gr/admin/footer :: footerCSS}"></th:block>
+    <style>
+        .checkbox-button {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: #fff;
+            }
+
+            .checkbox-button.checked {
+            background-color: #007bff;
+            }
+
+            .checkbox-button.checked::before {
+            content: "\2713";
+            color: #fff;
+            }
+    </style>
 
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <!-- axios (https://cdnjs.com/libraries/axios) -->
@@ -35,59 +54,60 @@
     <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
     <div style="padding-bottom: 300px;" class="container">
         <main>
-            <div th:text="${storageList}"></div>
+            
+            <!-- <div th:text="${storageList}"></div> -->
+
+            <!-- -------------------------------------------------------------------------------------------------------------- -->
+            <!-- 지점 선택 ~  -->
             <select id="selectStorage" name="storageNo" onchange="selectStorage()">
-                <option value="0" selected>---[필수 선택]---</option>
-                <option th:each="tmp:${storageList}" th:value="${tmp.no}" th:text="${tmp.name}">
-                </option>
+                <option  selected>---[필수 선택]---</option>
+                <option value="0">전체</option>
+                <option th:each="tmp:${storageList}" th:value="${tmp.no}" th:text="${tmp.name}"></option>
             </select>
+            <!-- ~ 지점 선택-->
 
+            <!-- 지점 선택시 생성될 버튼들 ~  -->
+            <div id="receive_btn">
+                <!-- 위의 select 태그 선택 시 생성됨
+                    <button>수령 미완료</button>
+                    <button>수령 완료</button> 
+                -->
+            </div>
+            <!-- ~ 지점 선택시 생성될 버튼들  -->
+            
+            
+            <!-- -------------------------------------------------------------------------------------------------------------- -->
 
+            <!-- 검색 기능 ~  -->
+            <select id="searchOption" onclick="removeReceiveBtn()">
+                <option value="purchaseno">번호</option>
+                <option value="memid">아이디</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="검색" onclick="removeReceiveBtn()">
+            <button onclick="searchData()">검색</button>
+            <!-- ~ 검색 기능  -->
+
+            <!-- -------------------------------------------------------------------------------------------------------------- -->
+
+            <!-- 테이블 영역 ~ -->
             <div class="px-4">
                 <h1 class="mt-4">고객 상품 수령 관리</h1>
 
-                <ol class="breadcrumb mb-4">
-                    <li class="breadcrumb-item"><a href="index.html">대시보드</a></li>
-                    <li class="breadcrumb-item active">테이블</li>
-                </ol>
-
-                <!--테이블(보드) 영역-->
                 <div class="row">
                     <div class="col">
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                테이블 예제
+                                <span>테이블 예제</span>
+
                             </div>
                             <div class="card-body">
-                                <table id="datatablesSimple" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
-                                        </tr>
+                                <table id="datatablesSimple" class="dataTable table">
+                                    <thead id="thead">
+
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Quinn Flynn</td>
-                                            <td>Support Lead</td>
-                                            <td>Edinburgh</td>
-                                            <td>22</td>
-                                            <td>2013/03/03</td>
-                                            <td>$342,000</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Charde Marshall</td>
-                                            <td>Regional Director</td>
-                                            <td>San Francisco</td>
-                                            <td>36</td>
-                                            <td>2008/10/16</td>
-                                            <td>$470,600</td>
-                                        </tr>
+                                    <tbody id="tbody">
+
                                     </tbody>
                                 </table>
                             </div>
@@ -95,6 +115,7 @@
                     </div>
                 </div>
             </div>
+            <!-- ~ 테이블 영역 -->
         </main>
 
 
@@ -108,33 +129,252 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
     <!-- Simple DataTable용 JS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script> -->
+
     <script th:inline="javascript" type="text/javascript">
-        $(document).ready(function () {
-            new simpleDatatables.DataTable("#datatablesSimple", {
-                searchable: true,
-                fixedHeight: true,
 
-            })
-        });
+        const dataTable = document.querySelector('#datatablesSimple');
+        var table = null;
 
-        
+        const select = document.querySelector('#selectStorage');
+        var selectVal = null;
+
+        function removeReceiveBtn() {
+            document.querySelector('#receive_btn').innerHTML = '';
+        }
+
+        // select 태그 누르면 버튼 생성하기
         async function selectStorage() {
-            var select = document.querySelector('#selectStorage');
-            var selectVal = select.options[select.selectedIndex].value;
-            var selectText = select.options[select.selectedIndex].text;
 
+            selectVal = select.options[select.selectedIndex].value;
             console.log("value => ", selectVal);
-            console.log("text => ", selectText);
 
-            const url = [[@{/api/admin/purchaselistbystorage.json}]] + "?storageno=" + selectVal;
+            document.querySelector('#receive_btn').innerHTML =
+                `<button onclick="selectPurchase(0)">수령 미완료</button>` +
+                `<button onclick="selectPurchase(1)" >수령 완료</button>`;
+        }
+
+        // CSS 클래스를 토글하는 이벤트 핸들러 함수
+        function toggleCheckbox(event) {
+            event.target.classList.toggle('checked');
+        }
+
+        // select 태그의 값에 해당하는 공구 리스트 가져오기
+        async function selectPurchase(receivestate) {
+           
+            const url = [[@{/api/admin/purchaselistbystorage.json}]] + "?storageno=" + selectVal + `&receivestate=` + receivestate;
             console.log(url);
+
             const headers = { "Content-Type": "application/json" };
             const { data } = await axios.get(url, { headers: headers });
 
-            console.log("반환값 확인", data);
+            console.log("반환값 확인", data.purchaseList);
+
+            // 이전 테이블 인스턴스가 있다면 제거
+            if (table) {
+                table.destroy();
+                table = null;
+            }
+
+            var thead = document.querySelector('#thead');
+            var tbody = document.querySelector('#tbody');
+
+
+            if (data.result == 1) {
+                thead.innerHTML = '';
+                tbody.innerHTML = '';
+                if (data.purchaseList != null) {
+                    thead.innerHTML +=
+                        `<tr>` +
+                        `<th>공구번호</th>` +
+                        `<th>물품명</th>` +
+                        `<th>참여인원</th>` +
+                        `<th>수령인원</th>` +
+                        `<th>완료상태</th>` +
+                        `<th>보관소 도착일</th>` +
+                        `<th>보관소</th>` +
+                        `<th>고객수령상태</th>` +
+                        `</tr>`;
+
+                    for (let i = 0; i < data.purchaseList.length; i++) {
+
+                        let tmp = data.purchaseList[i];
+                        // console.log("반환값 확인", tmp);
+                        var receivedate = formatDate(tmp.receivedate);
+
+                        if (tmp.customerList.state === 1) {
+                            // 체크되지 않은 체크박스 모양의 버튼
+                            stateButton = `<button class="checkbox-button" onclick="toggleCheckbox(event)"></button>`;
+                        } else if (tmp.customerList.state === 2) {
+                            // 체크된 체크박스 모양의 버튼
+                            stateButton = `<button class="checkbox-button checked" onclick="toggleCheckbox(event)"></button>`;
+                        }
+
+                        tbody.innerHTML +=
+                            `<tr>` +
+                            `<td>${tmp.purchaseno}</td>` +
+                            `<td>${tmp.itemname}</td>` +
+                            `<td>${tmp.participant}</td>` +
+                            `<td>${tmp.headcount}</td>` +
+                            `<td>${tmp.receivestate}</td>` +
+                            `<td>${receivedate}</td>` +
+                            `<td>${tmp.storagename}</td>` +
+                            `<td>
+                                <p>
+                                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample` + i+ `" aria-expanded="false">
+                                       수령상태 
+                                    </button>
+                                </p>
+                                <div class="collapse" id="collapseExample` + i+ `">
+                                    <div class="card card-body">
+                                        ${tmp.customerList.map(customer => `
+                                            <p>
+                                                <button class="btn btn-primary checkbox-button ${customer.state === 2 ? 'checked' : ''}" type="button" 
+                                                        onclick="handleButtonClick(this, '${customer.memid}', '${tmp.itemno}', '${tmp.purchaseno}')">
+                                                    ${customer.state === 2 ? '✔' : ''}
+                                                </button>
+                                                ${customer.memid}
+                                            </p>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            </td>`;
+                    }
+                } else if (data.purchaseList == null) {
+
+                    let thead = document.getElementById('thead');
+                    thead.innerHTML = '';
+                    let row = document.createElement('tr');
+
+                    row.innerHTML =
+                        'No entries found';
+
+                    tbody.appendChild(row);
+                }
+
+
+            }
 
         }
+
+        async function handleButtonClick(btn, memid, itemno, purchaseno) {
+
+            console.log(btn);
+            console.log(memid, itemno, purchaseno);
+           
+            const isChecked = btn.classList.contains('checked');
+
+            if (!isChecked && confirm(purchaseno + "번 공구의 '" + memid + "'님이 확실한가요?")) {
+                // 체크 => state=2로 바꿔야함
+
+                const url = /*[[@{/api/admin/insertstatus2.json}]]*/"";
+                const headers = {"Content-Type":"application/json"};
+                const body = {customerEntity : {id:memid}, itemEntity : {no:itemno},
+                                purchaseEntity : {no:purchaseno}, state:2, cancel:0 };
+                const { data } = await axios.post(url, body, {headers:headers});
+
+                console.log("반환값 확인", data );
+
+                if(data.result == 1) {
+                    // 체크 처리하기
+                    alert(purchaseno + "번 공구의 '" + memid + "'님의 수령 처리가 완료되었습니다.")
+                    btn.classList.add('checked');
+                }
+            }
+        }
+        
+
+
+        // 검색 기능 => 검색 값에 해당하는 공구 리스트 가져오기
+        async function searchData() {
+
+            const searchOption = document.querySelector('#searchOption').value;
+            const searchValue = document.querySelector('#searchInput').value;
+
+            let url = [[@{/api/admin/purchaselistbysearch.json}]] 
+                    + "?searchoption=" + searchOption 
+                    + "&searchvalue=" + searchValue; 
+                    
+            console.log(url);
+
+            const headers = { "Content-Type": "application/json" };
+            const { data } = await axios.get(url, { headers: headers });
+
+            console.log("반환값 확인", data );
+
+            // // 이전 테이블 인스턴스가 있다면 제거
+            // if (table) {
+            //     table.destroy();
+            //     table = null;
+            // }
+
+            // var thead = document.querySelector('#thead');
+            // var tbody = document.querySelector('#tbody');
+
+            // if (data.result == 1) {
+            //     thead.innerHTML = '';
+            //     tbody.innerHTML = '';
+
+            //     if (data.purchaseList != null) {
+            //         thead.innerHTML +=
+            //             `<tr>` +
+            //             `<th>공구번호</th>` +
+            //             `<th>참여인원</th>` +
+            //             `<th>보관소 도착일</th>` +
+            //             `<th>보관소</th>` +
+            //             `<th>고객</th>` +
+            //             `<th>물품명</th>` +
+            //             `</tr>`;
+
+            //         for (let i = 0; i < data.purchaseList.length; i++) {
+
+            //             let tmp = data.purchaseList[i];
+            //             // console.log("반환값 확인", tmp);
+            //             var receivedate = formatDate(tmp.receivedate);
+
+
+            //             // 컨테이너 초기화
+            //             var buttonContainer = '';
+
+            //             for (let j = 0; j < tmp.memIdList.length; j++) {
+            //                 const memId = tmp.memIdList[j];
+            //                 buttonContainer += `${memId}<button id="checkBtn" class="btn notcomplete" th:onclick="checkBtn(this, ${tmp.no})" style="color:red;">☐</button>`;
+            //             }
+
+            //             tbody.innerHTML +=
+            //                 `<tr>` +
+            //                 `<td>${tmp.no}</td>` +
+            //                 `<td>${tmp.participant}</td>` +
+            //                 `<td>${tmp.headCount}</td>` +
+            //                 `<td>${receivedate}</td>` +
+            //                 `<td>${buttonContainer}</td></tr>`;
+            //         }
+            //     }   else if (data.purchaseList == null) {
+
+            //         let thead = document.getElementById('thead');
+            //         thead.innerHTML = '';
+            //         let row = document.createElement('tr');
+
+            //         row.innerHTML =
+            //             'No entries found';
+
+            //         tbody.appendChild(row);
+            //     }
+            // }
+        }
+
+        
+
+        // 날짜 형식 바꾸기
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}.${month}.${day}`;
+        }
+
+
     </script>
 </body>
 
