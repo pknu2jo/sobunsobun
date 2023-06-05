@@ -33,8 +33,8 @@
         }
 
         .logo img{
-            padding-top: 13px;
-            padding-left: 25px;
+            padding-left: 32px;
+            padding-bottom: 16px;
         }
 
         .menu-item{
@@ -57,7 +57,7 @@
             display: inline-block;
             padding-right: 24px;
             padding-top: 20px;
-            font-size: 18px;
+            font-size: 14px;
             font-weight: bold;
         }
 
@@ -101,13 +101,15 @@
         
         <header class="container-fluid header1" >
  
-            <nav class="menu-bar">
-                <div class="logo"><a th:href="@{/admin/home.do}"><img th:src="@{/images/se/logo1.png}" width="160px"></a></div>
-                <div class="menu-item"><a th:href="@{/admin/customer.do}"><span>고객관리</span></a></div>
-                <div class="menu-item"><a th:href="@{/admin/company.do}"><span>업체관리</span></a></div>
-                <div class="menu-item"><a th:href="@{/admin/product.do}"><span>상품관리</span></a></div>
-                <div class="button"><button>LOGOUT</button></div>
-            </nav>
+            <form class="position-relative" th:action="@{/logout.do}" method="post" id="logoutFrom">
+                <nav class="menu-bar">
+                    <div class="logo"><a th:href="@{/admin/home.do}"><img th:src="@{/images/se/logo1.png}" width="180px"></a></div>
+                    <div class="menu-item"><a th:href="@{/admin/customer.do}"><span>고객관리</span></a></div>
+                    <div class="menu-item"><a th:href="@{/admin/company.do}"><span>업체관리</span></a></div>
+                    <div class="menu-item"><a th:href="@{/admin/product.do}"><span>상품관리</span></a></div>
+                    <div class="button" ><button type="submit" id="로그아웃abc" th:onclick="logoutAction()">LOGOUT</button></div>
+                </nav>
+            </form>
 
             <div class="banner" th:style="'background-image:url('+ @{/images/se/testheader1.png} +');'">
                 <a>소분소분 관리자센터</a>
@@ -120,6 +122,24 @@
     </div>
 
     <!-- script 넣는 자리-->
+    <script th:inline="javascript" type="text/javascript">
+        // function logoutAction(e){
+        //     const abc = document.getElementById("로그아웃abc");
+        //     console.log(abc);
+
+        //     const logoutform = document.createElement("form");
+        //     logoutform.action = /*[[@{/logout.do}]]*/"";
+        //     logoutform.method = "post";
+        //     logoutform.style.display="none";
+
+
+
+        //     document.body.appendChild(logoutform);
+        //     logoutform.submit();
+
+        
+        // }
+    </script>
 
 </th:block>
 </body>

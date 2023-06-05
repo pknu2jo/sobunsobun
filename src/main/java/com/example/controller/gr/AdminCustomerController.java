@@ -27,12 +27,19 @@ public class AdminCustomerController {
     @GetMapping(value = "/customer.do")
     public String customerGET(@AuthenticationPrincipal User user, Model model) {
 
-        List<CustomerEntity> list = gcRepository.findAll();
-        log.info("고객 리스트 => {}", list.toString());
-        model.addAttribute("user", user);
-        model.addAttribute("list", list);
+        try {
 
-        return "/gr/admin/customer";
+            List<CustomerEntity> list = gcRepository.findAll();
+            log.info("고객 리스트 => {}", list.toString());
+            model.addAttribute("user", user);
+            model.addAttribute("list", list);
+
+            return "/gr/admin/customer";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "/gr/admin/home";
+        }
+
     }
 
 }
