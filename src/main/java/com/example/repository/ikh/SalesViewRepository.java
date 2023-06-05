@@ -10,7 +10,7 @@ import com.example.entity.ikh.SalesViewProjection;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Repository
+@Repository 
 public interface SalesViewRepository extends JpaRepository<SalesView, String>{
     // 전체 매출(전체)
     @Query(value = "SELECT sum(sv.itemprice) FROM SalesView sv Where sv.no = :no")

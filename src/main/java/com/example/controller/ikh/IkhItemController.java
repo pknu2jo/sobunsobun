@@ -1,5 +1,7 @@
 package com.example.controller.ikh;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -51,9 +53,11 @@ public class IkhItemController {
             // 전체 남성 인원수 구하기
             long Male = tgvRepository.countByGenderAndNo("M", seller.getNo());                            
             
-            // html로 값 넘기기            
-            model.addAttribute("female", Female);
-            model.addAttribute("male", Male);
+            // html로 값 넘기기
+            if(Female != 0 || Male != 0){
+                model.addAttribute("female", Female);
+                model.addAttribute("male", Male);
+            }
             /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 각 행정구를 배열에 저장
             String[] locations = {"중구","서구","동구","영도구","진구","동래구","남구","북구","해운대구","사하구","금정구","강서구","연제구","수영구","사상구"};
@@ -69,26 +73,36 @@ public class IkhItemController {
                 if(array[i] > max){
                     max = array[i];
                 }
-            }        
-            model.addAttribute("max", max); // 가장 높은 값
-            model.addAttribute("total", total); // 전체인원수
-            model.addAttribute("array", array); // 배열
+            }
+            
+            if(max != 0 && total != 0){                
+                model.addAttribute("max", max); // 가장 높은 값
+                model.addAttribute("total", total); // 전체인원수
+                model.addAttribute("array", array); // 배열
+            }            
 
             /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 매출 파트
             // 전체 매출
-            long all = svRepository.sumByItemprice(seller.getNo());
-            // 월 매출
-            List<SalesViewProjection> mlist = svRepository.findMonthlySales(seller.getNo());
-
-            model.addAttribute("all", all); // 전체매출
-            model.addAttribute("mlist", mlist); // 월 매출
+            // 월 매출            
+            List<SalesViewProjection> mlist = new ArrayList<>();
+            mlist = svRepository.findMonthlySales(seller.getNo());
+            // long all = 0;
+            // all = svRepository.sumByItemprice(seller.getNo());
+            // if(all != 0){
+            //     log.info("all {}", all);
+            //     model.addAttribute("all", all); // 전체매출
+            // }
+            if(mlist != null){             
+                model.addAttribute("mlist", mlist); // 월 매출
+            }            
             /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 물품 테이블 넘기기                       
-
             // 상세정보로 가기 위한 리스트 추출
             List<TotaltableView> tlist = tvRepository.findByNo(seller.getNo());
-            model.addAttribute("tlist", tlist);
+            if(tlist != null){
+                model.addAttribute("tlist", tlist);
+            }            
             /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
 
             return "/ikh/seller/item/search";

@@ -6,6 +6,9 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,8 +27,10 @@ import com.example.entity.ItemImage;
 import com.example.entity.SellerEntity;
 import com.example.entity.ikh.BestSellView;
 import com.example.entity.ikh.TopthreeView;
+import com.example.entity.ikh.TotaltableView;
 import com.example.repository.ikh.BestSellViewRepository;
 import com.example.repository.ikh.TopthreeViewRepository;
+import com.example.repository.ikh.TotaltableViewRepository;
 import com.example.repository.jk.JkSellerRepository;
 import com.example.service.jk.JkSellerService;
 import com.example.service.mj.MjItemImageService;
@@ -47,6 +52,7 @@ public class JkSellerController {
     final MjItemService itemService;
     final BestSellViewRepository bsvRepository;
     final TopthreeViewRepository ttvRepository;
+    final TotaltableViewRepository totalRepository;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
     final MjItemImageService imageService;
@@ -61,7 +67,6 @@ public class JkSellerController {
             SellerEntity seller = sSellerService.findByNo(user.getUsername());
             // log.info("확인해봅시다 => {}", seller.toString());
             model.addAttribute("companyName", seller.getName().toString());
-
             long ret = itemService.countItems(seller.getNo());
             model.addAttribute("countItem", ret);
 
@@ -79,15 +84,17 @@ public class JkSellerController {
                 item.setImageUrl( request.getContextPath() + "/seller/itemimage/image?no=" + image.getNo().longValue() );
 
                 model.addAttribute("imageUrl", item.getImageUrl());
-            }
+            }            
 
             // 가장 많이 팔린 상품들이에요! 파트
-            List<TopthreeView> list = ttvRepository.findByNo(seller.getNo());
+            Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "count").and(Sort.by(Sort.Direction.ASC, "itemregdate")));
+            List<TotaltableView> list = totalRepository.findBest(seller.getNo(), pageable);
+            // log.info("best3 {}", bestlist);
+            // List<TopthreeView> list = ttvRepository.findByNo(seller.getNo());
             if(list != null){
-                log.info("topthree => {}", list.toString());
+                // log.info("topthree => {}", list.toString());
                 model.addAttribute("list", list);
             }
-
             return "/jk/seller/home";
         } else {
             return "/jk/seller/login";

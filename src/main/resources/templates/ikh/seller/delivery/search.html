@@ -40,79 +40,121 @@
             <main>
                 <div style="padding-left: 15px; padding-top: 30px; padding-right: 15px;">
                     <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->                                        
-                        <h3>배송 입니다.</h3>
+                        <h2 th:text="${companyName} + ' 님의 배송현황입니다.'" style="padding-bottom : 15px;"></h2>
                         <div>
+                            <div class="row" style ="border: 2px solid rgb(229, 229, 229); margin-bottom: 15px; text-align: center; background-color: rgb(241 246 252);">
+                                <div class="col-1">                                        
+                                </div>
+                                    <div class="col-10" style="display: inline-block; padding-top: 3px; padding-bottom: 5px;">
+                                        <div class="col-2" style="display: inline-block;">
+                                            <div style="display: inline;" class="wrapper">
+                                                <img th:src="@{/images/ikh/all.png}" style="width: 50px; height: 50px;"/>
+                                                <div class="text-wrapper" style="display:inline-block; position: relative; top : 10px;">
+                                                    <div>전체현황</div>
+                                                    <div class="accent">
+                                                        <span th:text="${total}"></span>
+                                                        건
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-2" style="display: inline-block;">
+                                            <div style="display:inline;" class="wrapper">
+                                                <img th:src="@{/images/ikh/befored.png}" style="width: 50px; height: 50px;"/>
+                                                <div class="text-wrapper" style="display:inline-block; position: relative; top : 10px;">
+                                                    <div>배송전</div>
+                                                    <div class="accent">
+                                                        <span th:text="${one}"></span>                                                    
+                                                        건
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                            <div class="row" style ="border: 2px solid rgb(229, 229, 229); margin-bottom: 15px;">                            
-                                    <div class="col-2">
-                                        여백
+                                        <div class="col-2" style="display: inline-block;">
+                                            <div style="display:inline;" class="wrapper">
+                                                <img th:src="@{/images/ikh/prepare.png}" style="width: 50px; height: 50px;"/>
+                                                <div class="text-wrapper" style="display:inline-block; position: relative; top : 10px;">
+                                                    <div>배송준비중</div>
+                                                    <div class="accent">
+                                                        <span th:text="${two}"></span>
+                                                        건
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-2" style="display: inline-block;">
+                                            <div style="display:inline;" class="wrapper">
+                                                <img th:src="@{/images/ikh/delivery.png}" style="width: 50px; height: 50px;"/>
+                                                <div class="text-wrapper" style="display:inline-block; position: relative; top : 10px;">
+                                                    <div>배송중</div>
+                                                    <div class="accent">
+                                                        <span th:text="${three}"></span>
+                                                        건
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-2" style="display: inline-block;">
+                                            <div style="display:inline;" class="wrapper">
+                                                <img th:src="@{/images/ikh/completed.png}" style="width: 50px; height: 50px;"/>
+                                                <div class="text-wrapper" style="display:inline-block; position: relative; top : 10px;">
+                                                    <div>배송완료</div>
+                                                    <div class="accent">
+                                                        <span th:text="${four}"></span>
+                                                        건
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                        
                                     </div>
-                                    <div class="col-sm" style="display: inline-block;">
-                                        전체<p th:text="${total}" style="display: inline-block;"></p>
-                                        배송전<p th:text="${one}" style="display: inline-block;"></p>
-                                        배송준비중<p th:text="${two}" style="display: inline-block;"></p>
-                                        배송중<p th:text="${three}" style="display: inline-block;"></p>
-                                        배송완료<p th:text="${four}" style="display: inline-block;"></p>
-                                    </div>
-                                    <div class ="col-2">
-                                        여백
-                                    </div>
+                                <div class ="col-1">                                        
+                                </div>
                             </div>
 
                             <form th:action="@{/seller/delivery/search.do}" method="get" th:object="${dvs}">
-                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); background-color: rgb(243,245,247);">
-                                    <div style="display: inline-block;">
-                                        검색어<hr/>
-                                        물품코드 <input type="number" th:field="${dvs.itemcode}" name="itemcode" placeholder="물품코드 입력" />
-                                        물품이름 <input type="text" th:field="${dvs.itemname}" name="itemname" placeholder="물품이름 입력" />
-                                        주소 <input type="text" th:field="${dvs.address}" name="address" placeholder="주소 입력" />
-                                        공구주문번호 <input type="number" th:field="${dvs.purchaseno}" name="purchaseno" placeholder="공구주문번호 입력" />
+                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); background-color: rgb(241 246 252);">
+                                    <div style="display: inline-block; margin: 10px 5px 10px 5px;">
+                                        <div class="col-2" style="display: inline-block;">
+                                            검색어
+                                        </div>
+                                        <div style="display: inline-block;">
+                                            물품코드&nbsp;&nbsp;<input type="number" th:field="${dvs.itemcode}" name="itemcode" placeholder="물품코드 입력" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                            물품이름&nbsp;&nbsp;<input type="text" th:field="${dvs.itemname}" name="itemname" placeholder="물품이름 입력" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                            주소&nbsp;&nbsp;<input type="text" th:field="${dvs.address}" name="address" placeholder="주소 입력" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                            공구주문번호&nbsp;&nbsp;<input type="number" th:field="${dvs.purchaseno}" name="purchaseno" placeholder="공구주문번호 입력" />
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">                                                                        
-                                    배송상태<hr/>
-                                    <div style="display: inline-block;">
-                                        <input type="radio" th:each="obj : ${statuslist}" th:field="${dvs.status}" name="status" th:text="${obj.status}" th:value="${obj.no}"/>
+                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(241 246 252); ">
+                                    <div style="display: inline-block; margin: 10px 5px 10px 5px;">
+                                        <div class="col-2" style="display: inline-block;">
+                                            배송상태
+                                        </div>                                        
+                                        <input class="form-check-input" type="radio" th:each="obj : ${statuslist}" th:field="${dvs.status}" name="status" th:text="${obj.status} + '&nbsp;&nbsp;&nbsp;&nbsp;'" th:value="${obj.no}"/>                                        
+                                        
                                     </div>
                                 </div>
 
-                                <!-- <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
-                                    <form th:action="@{/seller/delivery/search.do}" method="get">
-                                        <select id="firstselect" name="lname" th:onchange="first()">
-                                            <option>대분류</option>
-                                            <option>ㅡㅡㅡㅡㅡㅡ</option>
-                                            <option th:each="obj : ${llist}" th:value ="${obj.code.longValue()}" th:text="${obj.name}"></option>
-                                        </select>                                    
-                                    
-                                        <select id="secondselect" name="mname" onchange="second()">
-                                            <option>중분류</option>
-                                            <option>ㅡㅡㅡㅡㅡㅡ</option>
-                                            <option th:each="obj : ${mlist}" th:value ="${obj.code.longValue()}" th:text="${obj.name}"></option>
-                                        </select>           
-                                    
-                                        <select id="thirdselect" name="sname" onchange="third()">
-                                            <option>소분류</option>
-                                            <option>ㅡㅡㅡㅡㅡㅡ</option>
-                                            <option th:each="obj : ${slist}" th:value ="${obj.code.longValue()}" th:text="${obj.name}"></option>
-                                        </select>
-                                    </form>
-                                </div> -->
-
-                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">                                    
-                                    <h6 style="display: inline;">기간</h6>
-                                    <div style="display: inline-block;">
-                                    <!-- script -->
-                                    <input type="date" id="fd" th:min="${sdate}" th:field="${dvs.firstdate}" name="firstdate" th:onchange="firstdatechange()"/>
-                                    &nbsp;~&nbsp;
-                                    <input type="date" id="sd" min="" th:max="${today}" th:field="${dvs.seconddate}" name="seconddate" th:onchange="seconddatechange()"/>                                   
+                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(241 246 252);">                                    
+                                    <div style="display: inline-block; margin: 10px 5px 10px 5px;">
+                                        <div class="col-2" style="display: inline-block;">
+                                            기간
+                                        </div>                                        
+                                        <input type="date" id="fd" th:min="${sdate}" th:field="${dvs.firstdate}" name="firstdate" th:onchange="firstdatechange()"/>
+                                            &nbsp;~&nbsp;
+                                        <input type="date" id="sd" min="" th:max="${today}" th:field="${dvs.seconddate}" name="seconddate" th:onchange="seconddatechange()"/>                                   
                                     </div>
                                 </div>                                
 
-                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(243,245,247);">
-                                    <div style="display: inline-block; text-align: center;" >
-                                        <a th:href="@{/seller/delivery/search.do}"><button type="button" class="btn btn-outline-primary" >초기화</button></a>
-                                        <button type="submit" class="btn btn-outline-primary">검색</button>
+                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(241 246 252);">
+                                    <div style="display: inline-block; text-align: center; margin: 5px 10px 5px 10px;" >
+                                        <a th:href="@{/seller/delivery/search.do}"><button type="button" class="btn btn-outline-dark">초기화</button></a>                                        
+                                        <button type="submit" class="btn btn-outline-dark">검색</button>
                                     </div>
                                 </div>
                             </form>                            
@@ -123,7 +165,7 @@
                                     <div class="card mb-4">
                                         <div class="card-header">
                                             <i class="fas fa-table me-1"></i>
-                                            테이블 예제
+                                            배송현황
                                         </div>
                                         <div class="card-body">
                                             <table id="datatablesSimple">
@@ -170,7 +212,7 @@
                                                         <td th:text="${obj.sname}" my="aaa"></td>
                                                         <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>
                                                         <td>
-                                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal"
                                                             th:value="${obj.delivery}" th:attr="id='dvact' + ${iterStat.index}" th:onclick="dvclick([[${iterStat.index}]], [[${obj.enid}]])">
                                                                 <!-- th:value="${obj.delivery}" th:attr="id='dvact' + ${iterStat.index}" th:onclick="'dvclick(' + ${iterStat.index} + ',' + ${obj.enid}+ ')'"> -->
                                                                 변경
@@ -200,19 +242,19 @@
                 </div>
                 <div class="modal-body">                                                                            
                     <div style="display: inline-block; text-align: center;" >
-                        <button type="button" id="btn-0" class="btn btn-outline-primary" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(0)">배송전</button>
-                        <button type="button" id="btn-1" class="btn btn-outline-primary" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(1)">배송준비중</button>
-                        <button type="button" id="btn-2" class="btn btn-outline-primary" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(2)">배송중</button>
-                        <button type="button" id="btn-3" class="btn btn-outline-primary" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(3)">배송완료</button>              
+                        <button type="button" id="btn-0" class="btn btn-outline-dark" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(0)">배송전</button>
+                        <button type="button" id="btn-1" class="btn btn-outline-dark" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(1)">배송준비중</button>
+                        <button type="button" id="btn-2" class="btn btn-outline-dark" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(2)">배송중</button>
+                        <button type="button" id="btn-3" class="btn btn-outline-dark" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(3)">배송완료</button>              
                     </div>
                 </div>
                 <div class="modal-footer">
                     <form th:action="@{/seller/delivery/search.do}" method="post">
                         <input type="hidden" name="btndv" value="" id="btndv"/>
                         <input type="hidden" name="dvstatus" value="" id="dvstatus"/>
-                        <input type="submit" value="상태변경" class="btn btn-outline-primary" onclick="dvvalue()" />
+                        <input type="submit" value="상태변경" class="btn btn-outline-dark" onclick="dvvalue()" />
                     </form>
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">취소</button>
                 </div>
             </div>
         </div>
@@ -300,32 +342,32 @@
 
         // 상태에 맞는 토글 설정
         if(dv == 0){
-            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary active');
-            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary');
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');
             document.getElementById('btndv').setAttribute('value', enid);            
             // name 추가해주기
         }
         else if(dv == 1){
-            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary active');
-            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary');            
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');            
             document.getElementById('btndv').setAttribute('value', enid);            
         }
         else if(dv == 2){
-            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary active');
-            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary');
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');
             document.getElementById('btndv').setAttribute('value', enid);            
         }
         else if(dv == 3){
-            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-primary');
-            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-primary active');
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark active');
             document.getElementById('btndv').setAttribute('value', enid);            
         }
     }    
