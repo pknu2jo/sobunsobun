@@ -143,7 +143,8 @@
 
         .customerpage img,
         .sellerpage img{
-            width: 100%;
+            /* width: 100%; */
+            width: 585px;
             height: 400px;
             filter: grayscale(100%);
             transition:  filter 0.2s ease;
@@ -154,6 +155,11 @@
             filter: grayscale(0%);
         }
 
+        .customerpage a,
+        .sellerpage a{
+            text-decoration: none;
+        }
+
         .caption{
             position: absolute;
             bottom: 84px;
@@ -162,8 +168,37 @@
             color: white;
             font-size: 24px;
             font-weight: bold;
+            text-decoration: none;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            border-bottom: 2px solid transparent;
         }
 
+        .customerpage:hover .caption,
+        .sellerpage:hover .caption{
+            opacity: 1;
+            border-bottom: 2px solid white;
+        }
+
+        .image-wrapper{
+            position: relative;
+            display: inline-block;
+        }
+
+        .overlay{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .customerpage:hover .overlay,
+        .sellerpage:hover .overlay{
+            opacity: 1;
+        }
   
 
     </style>
@@ -218,14 +253,24 @@
         </div>
             <div class="linkimg">
                 <div class="image-container">
-                    <div class="customerpage">  
-                        <img th:src="@{/images/gr/customer.jpg}" >
-                        <div class="caption">고객페이지로 이동 →</div>
-                    </div>
-                    <div class="sellerpage">
-                        <img th:src="@{/images/gr/seller1.jpg}" >
-                        <div class="caption">판매자페이지로 이동 →</div>
-                    </div>
+                    <div class="customerpage">
+                        <a th:href="@{/customer/home.do}">
+                          <div class="image-wrapper">
+                            <img th:src="@{/images/gr/customer.jpg}">
+                            <div class="overlay"></div>
+                          </div>
+                          <div class="caption">고객페이지로 이동 →</div>
+                        </a>
+                      </div>
+                      <div class="sellerpage">
+                        <a th:href="@{/seller/home.do}">
+                          <div class="image-wrapper">
+                            <img th:src="@{/images/gr/seller1.jpg}">
+                            <div class="overlay"></div>
+                          </div>
+                          <div class="caption">판매자페이지로 이동 →</div>
+                        </a>
+                      </div>
                 </div>
             </div>
             
