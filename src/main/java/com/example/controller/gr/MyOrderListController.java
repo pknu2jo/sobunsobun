@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.GrDate;
 import com.example.dto.Grcalender;
-import com.example.entity.gr.grpurchaseview;
-import com.example.repository.gr.grpurchaseviewRepository;
+import com.example.entity.gr.grgrpurchaseview;
+import com.example.repository.gr.grgrpurchaseviewRepository;
 import com.example.service.gr.GrPurchaseItemService;
 import com.example.service.se.SePurchaseItemService;
 
@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class MyOrderListController {
 
-    final grpurchaseviewRepository grRepository;
+    final grgrpurchaseviewRepository grRepository;
     final GrPurchaseItemService gpiService;
 
     // 이미지 전송용
@@ -78,24 +78,24 @@ public class MyOrderListController {
                 map.put("end", end1);
                 map.put("memId", user.getUsername());
 
-                List<grpurchaseview> list = gpiService.selectMyOrderListPage(map);
+                List<grgrpurchaseview> list = gpiService.selectMyOrderListPage(map);
                 log.info("rkfka => {}", list.toString());
 
                 long cnt = gpiService.countMyOrderList(user.getUsername());
 
                 for (int i = 0; i < list.size(); i++) {
                     log.info("skdhkfk => {}",
-                            Long.parseLong(list.get(i).getPsstate().toPlainString()));
+                            Long.parseLong(list.get(i).getState().toPlainString()));
                     log.info("skdhkfk1 => {}",
                             Long.parseLong(list.get(i).getCancel().toPlainString()));
                     list.get(i).setCommaprice(Long.parseLong(list.get(i).getTotalprice().toPlainString()));
-                    if (Long.parseLong(list.get(i).getPsstate().toPlainString()) == 0
+                    if (Long.parseLong(list.get(i).getState().toPlainString()) == 0
                             && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
                         list.get(i).setStatechk("결제 완료");
-                    } else if (Long.parseLong(list.get(i).getPsstate().toPlainString()) == 1
+                    } else if (Long.parseLong(list.get(i).getState().toPlainString()) == 1
                             && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
                         list.get(i).setStatechk("주문 진행 중");
-                    } else if (Long.parseLong(list.get(i).getPsstate().toPlainString()) == 0
+                    } else if (Long.parseLong(list.get(i).getState().toPlainString()) == 0
                             && Long.parseLong(list.get(i).getCancel().toPlainString()) == 1) {
                         list.get(i).setStatechk("결제 취소");
                     }
@@ -160,7 +160,7 @@ public class MyOrderListController {
                             + seconddate;
                 }
 
-                List<grpurchaseview> list = gpiService.searchMyOrderList(grdate);
+                List<grgrpurchaseview> list = gpiService.searchMyOrderList(grdate);
                 log.info("rkfkarkfka => {}", list);
 
                 long cnt = gpiService.countMyOrderListDate(grdate);
@@ -169,18 +169,18 @@ public class MyOrderListController {
                 for (int i = 0; i < list.size(); i++) {
 
                     log.info("skdhkfk => {}",
-                            Long.parseLong(list.get(i).getPsstate().toPlainString()));
+                            Long.parseLong(list.get(i).getState().toPlainString()));
                     log.info("skdhkfk1 => {}",
                             Long.parseLong(list.get(i).getCancel().toPlainString()));
 
                     list.get(i).setCommaprice(Long.parseLong(list.get(i).getTotalprice().toPlainString()));
-                    if (Long.parseLong(list.get(i).getPsstate().toPlainString()) == 0
+                    if (Long.parseLong(list.get(i).getState().toPlainString()) == 0
                             && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
                         list.get(i).setStatechk("결제 완료");
-                    } else if (Long.parseLong(list.get(i).getPsstate().toPlainString()) == 1
+                    } else if (Long.parseLong(list.get(i).getState().toPlainString()) == 1
                             && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
                         list.get(i).setStatechk("주문 진행 중");
-                    } else if (Long.parseLong(list.get(i).getPsstate().toPlainString()) == 0
+                    } else if (Long.parseLong(list.get(i).getState().toPlainString()) == 0
                             && Long.parseLong(list.get(i).getCancel().toPlainString()) == 1) {
                         list.get(i).setStatechk("결제 취소");
                     }

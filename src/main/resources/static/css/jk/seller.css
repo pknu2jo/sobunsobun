@@ -435,7 +435,7 @@ ul {
 
 .datatable-pagination li:last-child,
 .datatable-pagination li:last-child a {
-    border-top-right-radius: 0.5;
+    border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
 }
 

@@ -1,3 +1,4 @@
+
 package com.example.entity.gr;
 
 import java.math.BigDecimal;
@@ -13,13 +14,12 @@ import org.springframework.data.annotation.Immutable;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @Data
 @Immutable
-@Table(name = "GRPURCHASEVIEW")
-public class grpurchaseview {
+@Table(name = "GRGRPURCHASEVIEW")
+public class grgrpurchaseview {
 
     @Id
     @Column(name = "PONO")
@@ -38,11 +38,8 @@ public class grpurchaseview {
     @Column(name = "TOTALPRICE")
     private BigDecimal totalprice;
 
-    @Column(name = "POSTATE")
-    private BigDecimal postate;
-
-    @Column(name = "PSSTATE")
-    private BigDecimal psstate;
+    @Column(name = "STATE")
+    private BigDecimal state;
 
     @Column(name = "CANCEL")
     private BigDecimal cancel;
@@ -53,20 +50,11 @@ public class grpurchaseview {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "PRICE")
-    private BigDecimal price;
-
-    @Column(name = "QUANTITY")
-    private BigDecimal quantity;
-
-    @Column(name = "SCATEGORYCODE")
-    private BigDecimal scategorycode;
-
     @Column(name = "PARTICIPANT")
     private BigDecimal participant;
 
-    @Column(name = "STORENAME")
-    private String storename;
+    @Column(name = "SNAME")
+    private String sname;
 
     @Transient
     private long commaprice;
