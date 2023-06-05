@@ -57,16 +57,19 @@
                                     <a href="#" id="hideGuideBtn" class="float-end">오늘하루 그만보기 <i
                                             class="fas fa-xmark"></i></a>
                                     <div class="p-2">
-                                        <img class="mx-3" th:src="@{/images/jk/info.png}"
-                                            style=" float: left; width: 5vh;" alt="정보아이콘" />
+                                        <!-- <img class="mx-3" th:src="@{/images/jk/info.png}"
+                                            style=" float: left; width: 5vh;" alt="정보아이콘" /> -->
+                                        <lord-icon src="https://cdn.lordicon.com/kipaqhoz.json" trigger="morph"
+                                            colors="primary:#121331" style="float: left; width:70px;height:70px">
+                                        </lord-icon>
                                         <!-- <img src="../images/jk/box.png" alt="상자img"
                                             style="float: right; position: relative; bottom: 40px;"> -->
                                         <div class="ms-3" style="position: relative;">
                                             <!-- 사이트 이용 설명을 위한 버튼 -->
                                             <p
-                                                style="margin: 5px; margin-left: 50px;  font-weight: 600; font-size: 20px;">
+                                                style="margin: 5px; margin-left: 50px;  font-weight: 600; font-size: 20px; position: relative; top: 10px; left: 5px;">
                                                 도움말이 필요하시다면 <a href="#" data-bs-toggle="modal" data-bs-target="#modal1"
-                                                    style="font-size: 20px; color: rgb(0, 60, 255); font-weight: 600;">여기</a>를
+                                                    style="font-size: 20px; color: rgb(0, 60, 255); font-weight: 900;">여기</a>를
                                                 눌러주세요!</p>
                                         </div>
                                     </div>
@@ -88,7 +91,7 @@
                                                 <div class="modal-footer">
 
                                                     <button type="button"
-                                                        class="btn btn-primary nextModalButton">다음으로</button>
+                                                        class="btn btn-dark nextModalButton">다음으로</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -111,7 +114,7 @@
                                                     <button type="button"
                                                         class="btn btn-secondary prevModalButton">이전으로</button>
                                                     <button type="button"
-                                                        class="btn btn-primary nextModalButton">다음으로</button>
+                                                        class="btn btn-dark nextModalButton">다음으로</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -156,15 +159,19 @@
                                             th:text="'현재 ' + ${companyName} + '님의 등록된 상품은 ' + ${countItem} + '개 등록되어 있습니다.'">
                                         </p>
                                         <input id="companyNo" th:value="${companyNo}" hidden></input>
-                                        <p id="divContnent">아래 버튼을 눌러 추가로 새로운 상품을 등록해보세요!</p>
+                                        <p id="divContnent">아래 버튼을 눌러 새로운 상품을 추가로 등록해보세요!</p>
                                         <div style="text-align: right; position:relative;right: 40px;">
                                         </div>
                                     </div>
                                     <div class="p-4">
-                                        <img src="../images/jk/box.png" alt="상자img"
-                                            style="float: right; position: relative; bottom: 20px;">
+                                        <!-- <img src="../images/jk/box.png" alt="상자img"
+                                            style="float: right; position: relative; bottom: 20px;"> -->
+                                        <lord-icon src="https://cdn.lordicon.com/nkmsrxys.json" trigger="hover"
+                                            colors="primary:#0b3b63,secondary:#4c8ddb"
+                                            style="width:200px; height:200px; float: right; position: relative; bottom:15px;">
+                                        </lord-icon>
 
-                                        <div style="text-align: left; padding-top: 50px;">
+                                        <div style="text-align: left; padding-top: 100px;">
                                             <a th:href="@{/seller/item/insert.do}"
                                                 class="btn btn-dark btn-lg btn-block">상품
                                                 등록하기</a>
@@ -176,10 +183,7 @@
 
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <!-- <img src="https://via.placeholder.com/550x150" alt="배너 이미지"
-                                style="width: 100%; height: 100%;"> -->
-                        </div>
+
                     </div>
 
                     <!-- 각 화면별 상세 화면 -->
@@ -193,7 +197,7 @@
                                     </p>
                                     <div class="px-4">
                                         <img src="../images/jk/chart.png" alt="차트img"
-                                            style="float: right; position: relative; bottom: 30px;">
+                                            style="float: right; position: relative; bottom: 30px; right: 35px;">
                                         <div style="font-weight: 400;">
                                             <p id="divContnent" class="mb-1">먼저 상품을 등록한 후 판매를 진행해보세요.</p>
                                             <p id="divContnent" class="mb-0">판매가 완료되면, 저희가 판매실적을 통계로 알려드릴 수 있어요.</p>
@@ -210,10 +214,9 @@
                                         <strong>지금까지 가장 많이 팔린 상품은..</strong>
                                     </p>
                                     <div class="d-flex">
-                                        <img src="https://via.placeholder.com/350x250" alt="상품 사진"
+                                        <img th:src="${imageUrl}" alt="상품 사진"
                                             style="width: 30%; border-radius: 10px; border:1px; margin: 20px;">
                                         <div class="ms-3">
-                                            <!-- <img th:src="${imageUrl}" alt="상품 사진" style="width: 30%; border-radius: 10px; border:1px; margin: 20px;">  와 같은-->
                                             <p id="divContnent" th:text=" '상품명 : '" style="margin: 20px;"></p>
                                             <!-- 데이터가 null이 아닌 경우에 처리할 내용 -->
                                             <p id="divContnent" name="bestSeller" th:text="${itemName}"
@@ -276,9 +279,11 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Chart.js용 CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <!-- lordicon -->
+    <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
 
     <script>
-         function cardBoxHideAction() {
+        function cardBoxHideAction() {
             var modelValue = document.getElementById("modelValue"); // 현재까지 가장 많이 팔린 상품명
             var sellAlert = document.getElementById("sellAlert");
             var sellChart1 = document.getElementById("sellChart1");
@@ -341,7 +346,7 @@
         // Cookie를 설정하는 함수
         function setCookie(name, value, days) {
             var expires = '';
-            var name =  document.getElementById("companyNo");
+            var name = document.getElementById("companyNo");
             if (days) {
                 var date = new Date();
                 date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -392,18 +397,18 @@
 
     <script th:inline="javascript" type="text/javascript">
         var list = /*[[${list}]]*/"";
-        
-        console.log(list);        
 
-        var xdata = [0,0,0];
-        var ydata = ['없음','없음','없음'];
-        
-        for(var i = 0; i < list.length; i++){            
-            ydata[i]= list[i].itemname;
-            if (list[i].itemname.length >= 7){
-                ydata[i] = list[i].itemname.slice(0, 4) + '..';                
+        console.log(list);
+
+        var xdata = [0, 0, 0];
+        var ydata = ['없음', '없음', '없음'];
+
+        for (var i = 0; i < list.length; i++) {
+            ydata[i] = list[i].itemname;
+            if (list[i].itemname.length >= 7) {
+                ydata[i] = list[i].itemname.slice(0, 4) + '..';
             }
-            xdata[i]=list[i].count;
+            xdata[i] = list[i].count;
         }
         console.log(ydata);
         console.log(xdata);

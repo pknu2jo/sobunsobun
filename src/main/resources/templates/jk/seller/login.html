@@ -100,13 +100,15 @@
 
 		}
 
-		function capsLockCheck(e) {
-			if (e.getModifierState("CapsLock")) {
-				document.getElementById("pwLabel").innerText = "Caps Lock이 켜져 있습니다."
-				document.getElementById("pwLabel").style.color = 'red'
-			} else {
-				document.getElementById("pwLabel").innerText = "암호"
-				document.getElementById("pwLabel").style.color = 'black'
+		function capsLockCheck(e) { // CapsLock 유효성 검사
+			let pwLabel = document.getElementById("pwLabel");
+
+			if (e.getModifierState("CapsLock")) { // CapsLock이 켜져 있는 상태라면
+				pwLabel.innerText = "Caps Lock이 켜져 있습니다.";
+				pwLabel.style.color = 'red';
+			} else { // 그외의 모든 상황
+				pwLabel.innerText = "암호";
+				pwLabel.style.color = 'black';
 			}
 		}
 
