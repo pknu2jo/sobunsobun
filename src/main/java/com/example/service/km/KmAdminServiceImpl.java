@@ -9,6 +9,7 @@ import com.example.entity.PurchaseEntity;
 import com.example.entity.PurchaseStatusEntity;
 import com.example.entity.StorageEntity;
 import com.example.entity.km.KmAdminProductSimpleView;
+import com.example.entity.km.KmAdminProductView;
 import com.example.repository.km.KmAdminProductSimpleViewRepository;
 import com.example.repository.km.KmAdminProductViewRepository;
 import com.example.repository.km.KmPurchaseRepository;
@@ -50,7 +51,7 @@ public class KmAdminServiceImpl implements KmAdminService {
     @Override
     public List<KmAdminProductSimpleView> findPurchaseByReceivestate(BigDecimal receivestate) {
         try {
-            return productSimpleR.findByReceivestate(receivestate);
+            return productSimpleR.findByReceivestateOrderByPurchasenoAsc(receivestate);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -61,7 +62,7 @@ public class KmAdminServiceImpl implements KmAdminService {
     @Override
     public List<KmAdminProductSimpleView> findPurchaseByStoragenoAndReceivestate(BigDecimal storageno, BigDecimal receivestate) {
         try {
-            return productSimpleR.findByStoragenoAndReceivestate(storageno, receivestate);
+            return productSimpleR.findByStoragenoAndReceivestateOrderByPurchasenoAsc(storageno, receivestate);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -78,23 +79,22 @@ public class KmAdminServiceImpl implements KmAdminService {
             return null;
         }
     }
+
  // RestController => purchaselistbysearch.json ------------------------------------------
-        // 2-1. deliveryno=3(배달 완료), purchaseno = ?, receivestate=?인 PURCHASE의 번호, 참여자수 가져오기
-        @Override
-        public List<PurchaseEntity> findPurchaseByPurchaseNoAndDelieveryNo(BigDecimal purchaseno, BigDecimal receivestate) {
+       // 2-1. deliveryno=3(배달 완료), 공구 번호 별, 공구 주문 1개 가져오기
+        public KmAdminProductSimpleView findOnePurchaseSimpleView(BigDecimal purchaseno) {
             try {
-                return purchaseR.findByNoAndDeliveryEntity_noAndReceiveStateOrderByNoAsc(purchaseno, BigDecimal.valueOf(3), receivestate);
+                return productSimpleR.findById(purchaseno).orElse(null);
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
         }
 
-        // 2-2. deliveryno=3(배달 완료), memid = searchvalue, receivestate=?인 PURCHASE의 번호 가져오기
-        @Override
-        public List<BigDecimal> selectPurchaseNoByMemId(String memid) {
+        // 2-2. deliveryno=3(배달 완료), memid = searchvalue인 PURCHASE 리스트 가져오기
+        public List<KmAdminProductView> findPurchaseListByMemid(String memid) {
             try {
-                return purchaseR.selectPurchaseNoByMemId(memid);
+                return productR.findByMemid(memid);
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
