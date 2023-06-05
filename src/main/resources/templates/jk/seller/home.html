@@ -47,39 +47,120 @@
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
             <main>
-                <div class="container-fluid" style="padding: 3%;">
+                <div class="container-fluid px-4">
                     <div class="row">
-                        <div class="col-ml-12">
+                        <div class="col-ml-12" id="guideCardBody" hidden>
                             <div class="card mb-4">
-                                <div class="card-body" id="guideCardBody">
-                                    <!-- 사이트 이용 설명을 위한 버튼 -->
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#guideModal">
-                                        가이드 보기
-                                    </button>
-                                
+                                <div class="card-body">
                                     <!-- 오늘 하루 그만보기 버튼 -->
-                                    <button type="button" class="btn btn-secondary float-end" id="hideGuideBtn">
-                                        오늘하루 그만보기
-                                    </button>
-                                
-                                    <!-- 모달 창 -->
-                                    <div class="modal fade" id="guideModal" tabindex="-1" aria-labelledby="guideModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
+                                    <a href="#" id="hideGuideBtn" class="float-end">오늘하루 그만보기 <i
+                                            class="fas fa-xmark"></i></a>
+                                    <div class="p-2">
+                                        <!-- <img class="mx-3" th:src="@{/images/jk/info.png}"
+                                            style=" float: left; width: 5vh;" alt="정보아이콘" /> -->
+                                        <lord-icon src="https://cdn.lordicon.com/kipaqhoz.json" trigger="morph"
+                                            colors="primary:#121331" style="float: left; width:70px;height:70px">
+                                        </lord-icon>
+                                        <!-- <img src="../images/jk/box.png" alt="상자img"
+                                            style="float: right; position: relative; bottom: 40px;"> -->
+                                        <div class="ms-3" style="position: relative;">
+                                            <!-- 사이트 이용 설명을 위한 버튼 -->
+                                            <p
+                                                style="margin: 5px; margin-left: 50px;  font-weight: 600; font-size: 20px; position: relative; top: 10px; left: 5px;">
+                                                도움말이 필요하시다면 <a href="#" data-bs-toggle="modal" data-bs-target="#modal1"
+                                                    style="font-size: 20px; color: rgb(0, 60, 255); font-weight: 900;">여기</a>를
+                                                눌러주세요!</p>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- 모달 1 -->
+                                    <div class="modal fade" id="modal1" tabindex="-1" data-bs-backdrop="static"
+                                        aria-labelledby="modal1Label" aria-hidden="true">
+                                        <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="guideModalLabel">사이트 이용 가이드</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    <h5 class="modal-title" id="modal1Label">사이트 이용 가이드</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <!-- 가이드 내용 -->
-                                                    <p>사이트 이용 설명을 여기에 작성합니다.</p>
+                                                    <p style="font-weight: 800;"><strong>소분소분에 오신 판매자 여러분을 진심으로
+                                                            환영합니다!</strong></p>
+                                                    <img th:src="@{/images/jk/guide2.png}" alt="홈화면 사진 (판매전)"
+                                                        class="my-3"
+                                                        style="width: 100%; padding-bottom: 20px; border: 1px solid #082842; border-radius: 20px;">
+                                                    <p class="mt-3 mb-0"> 처음 회원가입을 하신 판매자분들은 먼저 상품 등록을 진행해주세요.</p>
+                                                    <p class="mb-1">상품 등록은 화면에 보이는 <strong style="font-weight: 800;">「상품
+                                                            등록하기」</strong> 버튼을 사용하여 등록할 수 있습니다. </p>
+                                                    <br>
+                                                    <hr>
+                                                    <img th:src="@{/images/jk/guide3.png}" alt="홈화면 사진 (판매후)"
+                                                        class="my-3"
+                                                        style="width: 100%; padding-bottom: 20px; border: 1px solid #082842; border-radius: 20px;">
+                                                    <p class="my-3">상품 판매가 완료된 이후에는 위와 같이 바탕화면에서도 판매완료된 물품들의 정보를 확인할 수
+                                                        있습니다.</p>
+
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+
+                                                    <button type="button"
+                                                        class="btn btn-dark nextModalButton">다음으로</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- 모달 2 -->
+                                    <div class="modal fade" id="modal2" tabindex="-1" data-bs-backdrop="static"
+                                        aria-labelledby="modal2Label" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modal2Label">사이트 이용 가이드</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div style="text-align: center; ">
+                                                    <img th:src="@{/images/jk/guide1.png}" alt="메뉴바 사진"
+                                                        style="width: 50%; padding-bottom: 20px; border: 1px solid #082842; border-radius: 20px;">
+                                                    </div>
+                                                        <p class="mt-3 mb-1">좌측의 메뉴바를 통해 내 정보를 관리하거나 물품을 관리할 수 있고,</p>
+                                                    <p>주문과 배송또한 추적 및 관리가 가능합니다.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button"
+                                                        class="btn btn-secondary prevModalButton">이전으로</button>
+                                                    <button type="button"
+                                                        class="btn btn-dark nextModalButton">다음으로</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 모달 3 -->
+                                    <div class="modal fade" id="modal3" tabindex="-1" data-bs-backdrop="static"
+                                        aria-labelledby="modal3Label" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="modal3Label">사이트 이용 가이드</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>모달 3 내용</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button"
+                                                        class="btn btn-secondary prevModalButton">이전으로</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -88,25 +169,28 @@
                         <div class="col-ml-12">
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <p style="margin: 20px; margin-top: 40px; font-weight: 500; font-size: 45px;">
-                                        <strong>상품을 바로
-                                            등록하시겠어요?</strong>
+                                    <p style="margin: 20px; margin-top: 20px; font-weight: 800; font-size: 36px;">
+                                        <strong>상품 바로
+                                            등록하기</strong>
                                     </p>
-                                    <div class="px-4 " style="font-weight: 600;">
+                                    <div class="px-4 " style="font-weight: 400;">
                                         <p id="divContnent" class="mb-1"
                                             th:text="'현재 ' + ${companyName} + '님의 등록된 상품은 ' + ${countItem} + '개 등록되어 있습니다.'">
-                                            <!-- ############## 민지씨 여기에 상품갯수 넣어주세요 ^ 여기 ############## -->
                                         </p>
-
-                                        <p id="divContnent">아래 버튼을 눌러 추가로 새로운 상품을 등록해보세요!</p>
+                                        <input id="companyNo" th:value="${companyNo}" hidden></input>
+                                        <p id="divContnent">아래 버튼을 눌러 새로운 상품을 추가로 등록해보세요!</p>
                                         <div style="text-align: right; position:relative;right: 40px;">
                                         </div>
                                     </div>
                                     <div class="p-4">
-                                        <img src="../images/jk/box.png" alt="상자img"
-                                            style="float: right; position: relative; bottom: 40px;">
+                                        <!-- <img src="../images/jk/box.png" alt="상자img"
+                                            style="float: right; position: relative; bottom: 20px;"> -->
+                                        <lord-icon src="https://cdn.lordicon.com/nkmsrxys.json" trigger="hover"
+                                            colors="primary:#0b3b63,secondary:#4c8ddb"
+                                            style="width:200px; height:200px; float: right; position: relative; bottom:15px;">
+                                        </lord-icon>
 
-                                        <div style="text-align: left; padding-top: 50px;">
+                                        <div style="text-align: left; padding-top: 100px;">
                                             <a th:href="@{/seller/item/insert.do}"
                                                 class="btn btn-dark btn-lg btn-block">상품
                                                 등록하기</a>
@@ -118,40 +202,59 @@
 
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <!-- <img src="https://via.placeholder.com/550x150" alt="배너 이미지"
-                                style="width: 100%; height: 100%;"> -->
-                        </div>
+
                     </div>
 
                     <!-- 각 화면별 상세 화면 -->
                     <div class="row">
-                        <div class="col-md-6">
+                        <!-- 상품 판매 완료가 되지 않았을때 뜨는 card-body -->
+                        <div class="col-md-12" id="sellAlert">
+                            <div class="card mb-4">
+                                <div class="card-body" style="font-weight: 800;">
+                                    <p style="margin: 20px; font-size: 28px;">
+                                        <strong>아직 상품 판매가 완료되지 않았어요. </strong>
+                                    </p>
+                                    <div class="px-4">
+                                        <img src="../images/jk/chart.png" alt="차트img"
+                                            style="float: right; position: relative; bottom: 30px; right: 35px;">
+                                        <div style="font-weight: 400;">
+                                            <p id="divContnent" class="mb-1">먼저 상품을 등록한 후 판매를 진행해보세요.</p>
+                                            <p id="divContnent" class="mb-0">판매가 완료되면, 저희가 판매실적을 통계로 알려드릴 수 있어요.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 상품 판매 완료가 되면 뜨는 card-body -->
+                        <div class="col-md-6" id="sellChart1">
                             <div class="card mb-4">
                                 <div class="card-body" style="font-weight: 600;">
-                                    <p style="margin: 20px; font-weight: 600; font-size: 28px;">
+                                    <p style="margin: 14px; font-weight: 600; font-size: 28px;">
                                         <strong>지금까지 가장 많이 팔린 상품은..</strong>
+                                        <hr>
                                     </p>
                                     <div class="d-flex">
                                         <img th:src="${imageUrl}" alt="상품 사진"
                                             style="width: 30%; border-radius: 10px; border:1px; margin: 20px;">
-                                        <div class="ms-3">
-                                            <!-- <img th:src="${imageUrl}" alt="상품 사진" style="width: 30%; border-radius: 10px; border:1px; margin: 20px;">  와 같은 -->
-                                            <p id="divContnent" th:text=" '상품명 : ' +  ${itemName}"
-                                                style="margin: 20px;">
-                                            <p id="divContnent" th:text=" '지금까지 총 ' +  ${soldCount} +'개 팔렸습니다!'"
+                                        <div class="ms-3" style="position: relative; top: 35px;">
+                                            <!-- 데이터가 null이 아닌 경우에 처리할 내용 -->
+                                            <p id="divContnent" name="bestSeller" th:text="${itemName}"
+                                                style="margin: 20px; font-size: 24px; font-weight: 900; color: #082842;">
+                                            </p>
+                                            <input id="modelValue" th:value="${itemName}" hidden></input>
+                                            <p id="divContnent" th:text=" '지금까지 총 ' +  ${soldCount} +'개가 판매완료 됐네요!'"
                                                 style="margin: 20px;"></p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6" id="sellChart2">
                             <div class="card mb-4">
                                 <div class="card-body" style="font-weight: 600;">
-                                    <p style="margin: 20px; font-weight: 600; font-size: 26px;">
-                                        <strong>
-                                            가장 많이 팔린 상품들이에요!</strong>
+                                    <p style="margin: 14px; font-weight: 600; font-size: 26px;">
+                                        <strong>소비자들에게 가장 인기있는 상품들이에요!</strong>
+                                        <hr>
                                     </p>
                                     <br>
                                     <!-- 표가 들어갈 자리 -->
@@ -180,6 +283,8 @@
             <!-- footer -->
             <th:block th:replace="~{/jk/seller/footer :: footerHTML}"></th:block>
         </div>
+
+
     </div>
 
     <!-- 6. Bootstrap용 js -->
@@ -195,35 +300,108 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Chart.js용 CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <!-- lordicon -->
+    <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
 
     <script>
-        // // 페이지 로드 시, 저장된 값 확인하여 가이드 숨기기
-        // window.onload = function () {
-        //     var hideGuideUntil = localStorage.getItem('hideGuideUntil');
-        //     var now = new Date().getTime();
+        function cardBoxHideAction() {
+            var modelValue = document.getElementById("modelValue"); // 현재까지 가장 많이 팔린 상품명
+            var sellAlert = document.getElementById("sellAlert");
+            var sellChart1 = document.getElementById("sellChart1");
 
-        //     if (hideGuideUntil && now < hideGuideUntil) {
-        //         var guideCardBody = document.getElementById('guideCardBody');
-        //         guideCardBody.style.display = 'none';
-        //     }
-        // };
+            if (modelValue === null || modelValue.value === "") { // 팔린 상품이 없다면 "~완료되지 않았네요" 카드박스 띄움.
+                sellAlert.hidden = false;
+                sellChart1.hidden = true;
+            }
+            else { // 만일 값이 있다면 해당 카드박스 숨김
+                sellAlert.hidden = true;
+                sellChart1.hidden = false;
+            }
+        } cardBoxHideAction();
 
-        // // 오늘 날짜의 자정 시간을 구하는 함수
-        // function getMidnightTime() {
-        //     var now = new Date();
-        //     var midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
-        //     return midnight.getTime();
-        // }
 
-        // // 오늘 하루 그만보기 버튼 클릭 시, 가이드 숨기기
-        // document.getElementById('hideGuideBtn').addEventListener('click', function () {
-        //     var guideCardBody = document.getElementById('guideCardBody');
-        //     guideCardBody.style.display = 'none';
 
-        //     // 오늘 날짜의 자정 시간을 구하고, localStorage에 저장
-        //     var midnightTime = getMidnightTime();
-        //     localStorage.setItem('hideGuideUntil', midnightTime);
-        // });
+        var modalCount = 3; // 모달 창 개수
+        var currentModal = 1; // 현재 모달 창 번호
+
+        // "다음으로" 버튼 클릭 시 다음 모달 창으로 이동
+        $('.nextModalButton').click(function () {
+            if (currentModal < modalCount) {
+                $('#modal' + currentModal).modal('hide');
+                currentModal++;
+                $('#modal' + currentModal).modal('show');
+            }
+        });
+
+        // "이전으로" 버튼 클릭 시 이전 모달 창으로 이동
+        $('.prevModalButton').click(function () {
+            if (currentModal > 1) {
+                $('#modal' + currentModal).modal('hide');
+                currentModal--;
+                $('#modal' + currentModal).modal('show');
+            }
+        });
+
+
+
+        // 페이지 로드 시, 저장된 값 확인하여 가이드 숨기기
+        window.onload = function () {
+            var hideGuideUntil = getCookie('hideGuideUntil');
+            var now = new Date().getTime();
+            var guideCardBody = document.getElementById('guideCardBody');
+
+            if (hideGuideUntil && now < hideGuideUntil) {
+                guideCardBody.hidden = true;
+            } else {
+                guideCardBody.hidden = false;
+            }
+        };
+
+        // 오늘 날짜의 자정 시간을 구하는 함수
+        function getMidnightTime() {
+            var now = new Date();
+            var midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+            return midnight.getTime();
+        }
+
+        // Cookie를 설정하는 함수
+        function setCookie(name, value, days) {
+            var expires = '';
+            var name = document.getElementById("companyNo");
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = '; expires=' + date.toUTCString();
+            }
+            document.cookie = name + '=' + value + expires + '; path=/';
+        }
+
+        // Cookie를 가져오는 함수
+        function getCookie(name) {
+            var name = document.getElementById("companyNo");
+            var nameEQ = name + '=';
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1, c.length);
+                }
+                if (c.indexOf(nameEQ) === 0) {
+                    return c.substring(nameEQ.length, c.length);
+                }
+            }
+            return null;
+        }
+
+        // 오늘 하루 그만보기 버튼 클릭 시, 가이드 숨기기
+        document.getElementById('hideGuideBtn').addEventListener('click', function () {
+            var guideCardBody = document.getElementById('guideCardBody');
+            guideCardBody.hidden = true;
+
+            // 오늘 날짜의 자정 시간을 구하고, Cookie에 저장
+            var midnightTime = getMidnightTime();
+            setCookie('hideGuideUntil', midnightTime, 1);
+        });
 
         $(document).ready(function () {
             const sidebarToggle = $('#sidebarToggle');
@@ -240,21 +418,28 @@
 
     <script th:inline="javascript" type="text/javascript">
         var list = /*[[${list}]]*/"";
-        
-        console.log(list);        
 
-        var xdata = [0,0,0];
-        var ydata = ['없음','없음','없음'];
-        
-        for(var i = 0; i < list.length; i++){            
-            ydata[i]= list[i].itemname;
-            if (list[i].itemname.length >= 7){
-                ydata[i] = list[i].itemname.slice(0, 4) + '..';                
+        console.log(list);
+
+        var xdata = [0, 0, 0];
+        var ydata = ['없음', '없음', '없음'];
+
+        for (var i = 0; i < list.length; i++) {
+            ydata[i] = list[i].itemname;
+            if (list[i].itemname.length >= 7) {
+                ydata[i] = list[i].itemname.slice(0, 4) + '..';
             }
-            xdata[i]=list[i].count;
+            xdata[i] = list[i].count;
         }
         console.log(ydata);
         console.log(xdata);
+
+        if (xdata[0] === 0) {
+            document.getElementById("sellChart2").hidden = true;
+        } else {
+            document.getElementById("sellChart2").hidden = false;
+        }
+
 
         var ctx = document.getElementById("myBarChart2");
         var myLineChart = new Chart(ctx, {
