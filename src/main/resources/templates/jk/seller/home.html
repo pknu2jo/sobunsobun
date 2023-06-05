@@ -150,7 +150,7 @@
                         <div class="col-ml-12">
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <p style="margin: 20px; margin-top: 20px; font-weight: 800; font-size: 45px;">
+                                    <p style="margin: 20px; margin-top: 20px; font-weight: 800; font-size: 36px;">
                                         <strong>상품 바로
                                             등록하기</strong>
                                     </p>
@@ -210,19 +210,19 @@
                         <div class="col-md-6" id="sellChart1">
                             <div class="card mb-4">
                                 <div class="card-body" style="font-weight: 600;">
-                                    <p style="margin: 20px; font-weight: 600; font-size: 28px;">
+                                    <p style="margin: 14px; font-weight: 600; font-size: 28px;">
                                         <strong>지금까지 가장 많이 팔린 상품은..</strong>
+                                        <hr>
                                     </p>
                                     <div class="d-flex">
                                         <img th:src="${imageUrl}" alt="상품 사진"
                                             style="width: 30%; border-radius: 10px; border:1px; margin: 20px;">
-                                        <div class="ms-3">
-                                            <p id="divContnent" th:text=" '상품명 : '" style="margin: 20px;"></p>
+                                        <div class="ms-3" style="position: relative; top: 35px;">
                                             <!-- 데이터가 null이 아닌 경우에 처리할 내용 -->
                                             <p id="divContnent" name="bestSeller" th:text="${itemName}"
-                                                style="margin: 20px;"></p>
+                                                style="margin: 20px; font-size: 24px; font-weight: 900; color: #082842;"></p>
                                             <input id="modelValue" th:value="${itemName}" hidden></input>
-                                            <p id="divContnent" th:text=" '지금까지 총 ' +  ${soldCount} +'개가 판매완료됐네요!'"
+                                            <p id="divContnent" th:text=" '지금까지 총 ' +  ${soldCount} +'개가 판매완료 됐네요!'"
                                                 style="margin: 20px;"></p>
                                         </div>
                                     </div>
@@ -232,8 +232,9 @@
                         <div class="col-md-6" id="sellChart2">
                             <div class="card mb-4">
                                 <div class="card-body" style="font-weight: 600;">
-                                    <p style="margin: 20px; font-weight: 600; font-size: 26px;">
-                                        <strong>가장 인기있는 상품들이에요!</strong>
+                                    <p style="margin: 14px; font-weight: 600; font-size: 26px;">
+                                        <strong>소비자들에게 가장 인기있는 상품들이에요!</strong>
+                                        <hr>
                                     </p>
                                     <br>
                                     <!-- 표가 들어갈 자리 -->
