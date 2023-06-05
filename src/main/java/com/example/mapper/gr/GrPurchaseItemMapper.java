@@ -9,7 +9,6 @@ import org.apache.ibatis.annotations.Select;
 import com.example.dto.GrDate;
 import com.example.dto.ItemImage;
 import com.example.entity.gr.grgrpurchaseview;
-import com.example.entity.gr.grpurchaseview;
 
 @Mapper
 public interface GrPurchaseItemMapper {
