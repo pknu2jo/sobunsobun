@@ -14,10 +14,11 @@ public interface KmAdminProductSimpleViewRepository
         extends JpaRepository<KmAdminProductSimpleView, BigDecimal>{
     
     // 모든 지점 선택 시, 수령 상태에 따른 공구 주문 가져오기
-    List<KmAdminProductSimpleView> findByReceivestate(BigDecimal receivestate);
+    List<KmAdminProductSimpleView> findByReceivestateOrderByPurchasenoAsc(BigDecimal receivestate);
 
     // 지점(storageno)별, 수령 상태에 따른 공구 주문 가져오기
-    List<KmAdminProductSimpleView> findByStoragenoAndReceivestate(BigDecimal storageno, BigDecimal receivestate);
+    List<KmAdminProductSimpleView> findByStoragenoAndReceivestateOrderByPurchasenoAsc(BigDecimal storageno, BigDecimal receivestate);
+
     
     // memid별 검색 시 공구 주문 가져오기
     // List<KmAdminProductView> findByMemid(String searchvalue);
