@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class SecurityAdminSeviceImpl implements UserDetailsService {
-    
+
     final String format = "SecurityServiceImpl => {}";
     final SecurityMapper mapper;
 
@@ -25,21 +25,20 @@ public class SecurityAdminSeviceImpl implements UserDetailsService {
 
         log.info(format, username);
 
-        Admin admin = mapper.selectAdminOne( username );
+        Admin admin = mapper.selectAdminOne(username);
 
-        if(admin != null) {
+        if (admin != null) {
             System.out.println("id : " + admin.getId() + ", pw : " + admin.getPw());
 
             return User.builder()
-                        .username(admin.getId())
-                        .password(admin.getPw())
-                        .roles("ADMIN", "SELLER")
-                        .build();
+                    .username(admin.getId())
+                    .password(admin.getPw())
+                    .roles("ADMIN", "SELLER", "CUSTOMER")
+                    .build();
         }
 
         return User.builder()
-                    .username("_").password("_").roles("_").build();
+                .username("_").password("_").roles("_").build();
     }
-
 
 }

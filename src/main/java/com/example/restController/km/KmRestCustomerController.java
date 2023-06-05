@@ -20,10 +20,12 @@ import com.example.dto.Purchase;
 import com.example.dto.PurchaseOrder;
 import com.example.dto.PurchaseStatus;
 import com.example.entity.Item;
+import com.example.entity.JjimEntity;
 import com.example.entity.PurchaseOrderEntity;
 import com.example.entity.ReviewEntity;
 import com.example.entity.ReviewImageEntity;
 import com.example.entity.km.KmCheckReviewView;
+import com.example.entity.km.KmOrderNoProjection;
 import com.example.service.km.KmCustomerService;
 
 import lombok.RequiredArgsConstructor;
@@ -146,7 +148,40 @@ public class KmRestCustomerController {
                     }
                 }
             }
+            retMap.put("purchaseno", purchaseNo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            retMap.put("result", -1);
+        }
+        return retMap;
+    }
 
+    // 찜 기능 구현
+    @PostMapping(value = "/jjim.km")
+    public Map<String, Object> JjimPost(@RequestBody JjimEntity jjim) {
+        Map<String, Object> retMap = new HashMap<>();
+        try {
+            log.info("testtest => {}", jjim.toString()); // {memid=km2, itemno=13}
+            // log.info("testtest1 itemno => {}", jjim.getItemEntity().getNo());
+            // log.info("testtest1 memid => {}", jjim.getCustomerEntity().getId());
+
+            String memid = jjim.getCustomerEntity().getId();
+            BigDecimal itemno = jjim.getItemEntity().getNo();
+
+            int ret = customerService.checkJjim(memid, itemno);
+            log.info("ret check => {}", ret);
+
+            if(ret  == 0) {
+                // 찜 안된 상태 => insert 필요
+                System.out.println("abcdefg");
+                retMap.put("result", customerService.insertJjim(jjim));
+                retMap.put("jjimState", 1);
+            } else if (ret  == 1) {
+                // 찜 된 상태 => delete 필요
+                System.out.println("1234567");
+                retMap.put("result", customerService.deleteJjim(memid, itemno));
+                retMap.put("jjimState", 0);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             retMap.put("result", -1);
@@ -160,23 +195,26 @@ public class KmRestCustomerController {
                                                 @RequestParam(name="itemno") long itemno) { 
         Map<String, Object> retMap = new HashMap<>();
         try {
-            log.info("체크체크check1 => {}", id);
-            log.info("체크체크check2 => {}", itemno);
+            // log.info("체크체크check1 => {}", id);
+            // log.info("체크체크check2 => {}", itemno);
 
             // 리뷰 등록 전 구매한 상품이 맞는지 확인하기
             List<BigDecimal> purchaseNoList = customerService.selectCheckOrder(itemno, id);
-            log.info("리뷰 확인하기 => {}", purchaseNoList);
+            // log.info("리뷰 확인하기 => {}", purchaseNoList);
 
             retMap.put("reviewCount", 1);
 
             // 리뷰 작성 여부 확인하기 (위에서 purchaseNo 받아옴)
             for(BigDecimal purchaseNo : purchaseNoList) {
                 KmCheckReviewView obj = customerService.checkReview(id, purchaseNo);
-                log.info("KmCheckReviewView => {}", obj.toString());
-                if(obj.getReviewno() == null) {
+                // log.info("KmCheckReviewView => {}", obj.toString());
+                if(obj == null) {
                     retMap.put("reviewCount", 0);
-                    retMap.put("orderNo", obj.getOrderno());
+                    KmOrderNoProjection orderNo =  customerService.findByCustomerEntity_idAndPurchaseEntity_no(id, purchaseNo);
+                    retMap.put("orderNo", orderNo.getNo());
                     break;
+                } else {
+
                 }
             }
             System.out.println("retMap => " + retMap.get("reviewCount"));
@@ -209,7 +247,6 @@ public class KmRestCustomerController {
 
             // Review save
             ReviewEntity review = new ReviewEntity();
-            // review.setNo(reviewNo);
             review.setComment(comment);
             review.setRating(rating);
                 PurchaseOrderEntity purchaseOrder = new PurchaseOrderEntity();

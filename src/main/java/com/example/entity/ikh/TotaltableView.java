@@ -21,8 +21,7 @@ public class TotaltableView {
     
     @Column(name = "NO")
     private String no;
-
-    @Id
+    
     @Column(name = "ITEMNO")
     private BigDecimal itemno;
     
@@ -41,6 +40,7 @@ public class TotaltableView {
     @Column(name = "COUNT")
     private long count;
     
+    @Id
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     @Column(name = "ITEMREGDATE")
     private Date itemregdate;

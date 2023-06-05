@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.entity.JjimEntity;
@@ -20,9 +18,8 @@ public interface grjjimRepository extends JpaRepository<JjimEntity, BigDecimal> 
 
     JjimEntity findByCustomerEntity_idAndItemEntity_no(String memid, BigDecimal itemno);
 
-    // @Query(value = " DELETE FROM jjim WHERE memid = :memid and itemno = :itemno
-    // ", nativeQuery = true)
-    // public int deleteOneJjim(
-    // @Param("itemno") BigDecimal itemno,
-    // @Param("memid") String memid);
+    // 아이디와 아이템번호가 같을 경우 카운트
+    // 있으면 1, 없으면 0
+    int countByCustomerEntity_idAndItemEntity_no(String memid, BigDecimal itemno);
+
 }

@@ -24,6 +24,7 @@
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/mj/seller.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
+    <link rel="icon" th:href="@{/images/jk/sobunseller.ico}">
 </head>
 
 <body class="sb-nav-fixed">
@@ -37,81 +38,147 @@
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
             <main>
-                <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
+                <div class="container"> <!-- 옆쪽에 딱 붙음. -->
 
-
-                    <h3>이미지등록/수정</h3>
-                    <a th:href="@{/seller/item/management.do}"><button class="btn btn-dark">물품리스트</button></a><br>
-                    물품번호: <label th:text="${item.no}"></label><br>
-                    물품명: <label th:text="${item.name}"></label>
-                    <hr>
-
-                    <h4>대표이미지</h4>
-                    
                     <div>
-                        <img th:src="${item.imageUrl}"  class="mainimage"> <br>
+                        <div style="margin-top: 30px;">
+
+                            <h3 style="float: left;">이미지등록/수정</h3>
+                            <a th:href="@{/seller/item/management.do}" style="margin-top: 15px; float: right;"><button
+                                    class="btn btn-dark">물품리스트</button></a><br>
+                        </div>
+
+                    </div><br><br>
+                    <div>
+                        물품번호: <label th:text="${item.no}"></label><br>
+                        물품명: <label th:text="${item.name}"></label>
                     </div>
-                    
-                    <form th:action="@{/seller/itemimage/insertimage.do(image=0)}" method="post" enctype="multipart/form-data" id="form0">
-                        <input type="hidden" name="item.no" th:value="${item.no}" /><br>
-                        <input type="file" name="tmpFile" accept="image/*" id="file" onchange="setFileName(event)"/><br>
-                        <input type="hidden" name="image" id="image" th:value="${image}" />
-                        <button class="btn btn-dark" type="button" onclick="uploadFileOne()" >이미지업로드</button>
-                    </form>
                     <hr>
-<!-- ===================================================================================================================== -->
-                    <h4>상세이미지</h4>
-                    <form th:action="@{/seller/itemimage/deleteimage.do}" method="post" id="form2">
-                        <button class="btn btn-outline-dark" type="button" onclick="deleteimages()">선택삭제</button>
-                        <!-- <input type="submit" value="선택삭제"> -->
+                    <!-- ============================================================================================================================ -->
+                    <!-- test -->
 
+                    <div class="container">
+                        <div class="row" style="display: flex;">
+                            <div class="col-4" style=" border-right:0.5px solid #C7C8C9; position: relative;">
+                                <h5><strong>대표이미지</strong></h5>
 
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th><input type="hidden" value="물품번호" /></th>
-                                    <th>선택</th>
-                                    <th>이미지번호</th>
-                                    <th>이미지</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="tmp : ${imageList}">
-                                    <td><input type="hidden" name="item.no" th:value="${item.no}" /></td>
-                                    <td><input type="checkbox" name="imageno" id="imageno" th:value="${tmp[0]}" onclick="getimageNo()"></td>
-                                    <td><label>[[${tmp[0]}]]</label></td>
-                                    <td><img th:src="${tmp[1]}" class="detailimage"></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                <div>
+                                    <img th:src="${item.imageUrl}" class="mainimage"
+                                    style="width: 400px; height: 500px;"> <br>
+                                </div>
+                                
+                                <form thz:action="@{/seller/itemimage/insertimage.do(image=0)}" method="post"
+                                    enctype="multipart/form-data" id="form0" style="width:200px; margin-top: 0;">
+                                    <input type="hidden" name="item.no" th:value="${item.no}" /><br>
+                                    <input type="file" name="tmpFile" accept="image/*" id="file"
+                                        onchange="setFileName(event)" /><br>
+                                    <input type="hidden" name="image" id="image" th:value="${image}" />
+                                    <button class="btn btn-dark" type="button"
+                                        onclick="uploadFileOne()" >이미지업로드</button>
+                                </form>
 
-                    </form>
+                            </div>
 
-                    <form th:action="@{/seller/itemimage/insertimage.do(image=1)}" method="post" enctype="multipart/form-data" id="form1">
-                        <input type="hidden" id="item.no" name="item.no" th:value="${item.no}" /><br>
-                        <input multiple="multiple" type="file" name="tmpFile[]" accept="image/*" id="files" onchange="setFilesName(event)"/><br>
-                        <input type="hidden" name="images" id="images" th:value="${images}"/>
-                        <button class="btn btn-dark" type="button" onclick="uploadFiles()">이미지업로드</button>
-                    </form>
+                            <div class="col-8" style="border-left:0.5px solid #C7C8C9; position: relative;">
+                                <div class="row" >
+                                    <div class="col" style="float:left; ">
+
+                                        <h5><strong>상세이미지</strong></h5>
+                                    </div>
+                                    <div class="col" style="float:right;">
+                                        <form th:action="@{/seller/itemimage/deleteimage.do}" method="post" id="form2">
+                                            <button class="btn btn-outline-dark" type="button" onclick="deleteimages()"
+                                                style="float:right;">선택삭제</button>
+                                            <!-- <input type="submit" value="선택삭제"> -->
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-left: 15px;">
+                                    <div th:each="tmp : ${imageList}" class="card-detailImage"
+                                        style="width: 250px; height: 300px;">
+                                        <input type="hidden" name="item.no" th:value="${item.no}" />
+                                        <input type="checkbox" name="imageno" id="imageno" th:value="${tmp[0]}"
+                                            onclick="getimageNo()">
+                                        <label>[[${tmp[0]}]]</label><br>
+                                        <img th:src="${tmp[1]}" class="detailimage">
+                                    </div>
+                                    </form>
+
+                                    <form th:action="@{/seller/itemimage/insertimage.do(image=1)}" method="post"
+                                        enctype="multipart/form-data" id="form1">
+                                        <input type="hidden" id="item.no" name="item.no" th:value="${item.no}" /><br>
+                                        <input multiple="multiple" type="file" name="tmpFile[]" accept="image/*"
+                                            id="files" onchange="setFilesName(event)" /><br>
+
+                                        <input type="hidden" name="images" id="images" th:value="${images}" />
+                                        <button class="btn btn-dark" type="button"
+                                            onclick="uploadFiles()">이미지업로드</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
 
                     <hr>
+                    <!-- test -->
+                    <!-- ============================================================================================================================ -->
+
+
+
+                    <!-- <hr> -->
                     <!-- 글번호: <label th:text="${board1.no}"></label><br>
                     글제목: <label th:text="${board1.title}"></label> -->
 
                     <!-- 모달창 -->
-                    <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">이미지 삭제</h1>
-                            </div>
-                            <div class="modal-body">
-                                삭제할 이미지를 선택해주세요.
-                            </div>
-                            <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">이미지 삭제</h1>
+                                </div>
+                                <div class="modal-body">
+                                    삭제할 이미지를 선택해주세요.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">확인</button>
+                                </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="modal fade" id="uploadfilemodal" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">이미지 업로드</h1>
+                                </div>
+                                <div class="modal-body">
+                                    등록할 이미지를 선택해주세요.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">확인</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="uploadfilesmodal" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">이미지 업로드</h1>
+                                </div>
+                                <div class="modal-body">
+                                    등록할 이미지를 1개 이상 선택해주세요.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">확인</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- 모달창 -->
@@ -159,113 +226,116 @@
                 });
             }
         });
-        
-        
+
+
         $(document).ready(function () {
             new simpleDatatables.DataTable("#datatablesSimple", {
                 searchable: true,
                 fixedHeight: true,
-                
+
             })
         });
-        </script>
+    </script>
 
-        <script th:inline="javascript"> 
-            function setFileName(event){
-                const fileName = event.target.files[0].name;
-                document.getElementById('image').value = fileName;
-                console.log(fileName);
+    <script th:inline="javascript">
+        function setFileName(event) {
+            const fileName = event.target.files[0].name;
+            document.getElementById('image').value = fileName;
+            console.log(fileName);
+        }
+
+        function setFilesName(event) {
+            const filesName = event.target.files[0].name;
+            document.getElementById('images').value = filesName;
+            console.log(filesName);
+        }
+
+        // 대표이미지 등록/수정 
+        async function uploadFileOne() {
+            const file = document.getElementById('file');
+            const image = document.getElementById('image');
+            console.log(file.value);
+
+            let url = /*[[@{/api/seller/insertimageone.json}]]*/"";
+            url += "?image=" + image.value;
+            console.log(url);
+            const headers = { "Content-Type": "application/json" };
+            console.log(headers);
+            const { data } = await axios.get(url, { headers: headers });
+
+            console.log(data.message);
+            console.log(data.result);
+            if (data.result === 1) {
+                document.getElementById('form0').submit();
+            }
+            else if (data.result === 0) {
+                $('#uploadfilemodal').modal('show');
+                // alert("이미지를 선택해주세요.");
+            }
+        }
+
+        /* 상세이미지 n개 등록 */
+        async function uploadFiles() {
+            const images = document.getElementById('images');
+            let url = /*[[@{/api/seller/insertimages.json}]]*/"";
+            url += "?images=" + images.value;
+            console.log(url);
+            const headers = { "Content-Type": "application/json" };
+            console.log(headers);
+            const { data } = await axios.get(url, { headers: headers });
+
+            console.log(data.message);
+            console.log(data.result);
+            if (data.result === 1) {
+                document.getElementById('form1').submit();
+            }
+            else if (data.result === 0) {
+
+                $('#uploadfilesmodal').modal('show');
+                // alert("이미지를 1개 이상 선택해주세요.");
+            }
+        }
+
+        // 이미지 삭제버튼 유효성검사
+        function getimageNo() {
+            const checkboxes = document.querySelectorAll('input[name="imageno"]:checked');
+            const imagenoArray = Array.from(checkboxes).map(checkbox => checkbox.value);
+            console.log(imagenoArray);
+            return imagenoArray;
+        }
+
+        //이미지 선택삭제
+        async function deleteimages() {
+            const imageno = getimageNo();
+            if (imageno.length === 0) {
+                $('#modal').modal('show');
+                // alert("삭제할 이미지를 선택해주세요.");
+                return;
             }
 
-            function setFilesName(event){
-                const filesName = event.target.files[0].name;
-                document.getElementById('images').value = filesName;
-                console.log(filesName);
-            }
-
-            // 대표이미지 등록/수정 
-            async function uploadFileOne() {
-                const file = document.getElementById('file');
-                const image  = document.getElementById('image');
-                console.log(file.value);
-                
-                let url = /*[[@{/api/seller/insertimageone.json}]]*/"";
-                url += "?image=" + image.value;
-                console.log(url);
-                const headers = {"Content-Type":"application/json"};
-                console.log(headers);
-                const { data } = await axios.get(url,{ headers:headers });
-                
-                console.log(data.message);
-                console.log(data.result);   
-                if(data.result === 1){
-                    document.getElementById('form0').submit();
-                }
-                else if( data.result === 0){
-                    alert("이미지를 선택해주세요.");
-                }
-            }
-
-            /* 상세이미지 n개 등록 */
-            async function uploadFiles() {
-                const images = document.getElementById('images');
-                let url = /*[[@{/api/seller/insertimages.json}]]*/"";
-                url += "?images=" + images.value;
-                console.log(url);
-                const headers = {"Content-Type":"application/json"};
-                console.log(headers);
-                const { data } = await axios.get(url,{ headers:headers });
-                
-                console.log(data.message);
-                console.log(data.result);   
-                if(data.result === 1){
-                    document.getElementById('form1').submit();
-                }
-                else if( data.result === 0){
-                    alert("이미지를 1개 이상 선택해주세요.");
-                }
-            }
-
-            // 이미지 삭제버튼 유효성검사
-            function getimageNo () {
-                const checkboxes = document.querySelectorAll('input[name="imageno"]:checked');
-                const imagenoArray = Array.from(checkboxes).map(checkbox => checkbox.value);
-                console.log(imagenoArray);
-                return imagenoArray;
-            }
-
-            //이미지 선택삭제
-            async function deleteimages(){
-                const imageno = getimageNo();
-                if (imageno.length === 0) {
+            let url = /*[[@{/api/seller/deleteimages.json}]]*/"";
+            url += "?imageno=" + imageno;
+            const headers = { "Content-Type": "application/json" };
+            try {
+                const response = await axios.get(url, { headers: headers });
+                const data = response.data;
+                if (data.result === 1) {
+                    document.getElementById('form2').submit();
+                } else {
                     $('#modal').modal('show');
                     // alert("삭제할 이미지를 선택해주세요.");
-                    return;
                 }
-
-                let url = /*[[@{/api/seller/deleteimages.json}]]*/"";
-                url += "?imageno=" + imageno;
-                const headers = {"Content-Type":"application/json"};
-                try {
-                    const response = await axios.get(url, { headers:headers });
-                    const data = response.data;
-                    if(data.result === 1){
-                        document.getElementById('form2').submit();
-                    } else {
-                        $('#modal').modal('show');
-                        // alert("삭제할 이미지를 선택해주세요.");
-                    }
-                } catch (error) {
-                    console.error(error);
-                    $('#modal').modal('show');
-                    // alert("삭제할 이미지를 선택해주세요.");
-                }
+            } catch (error) {
+                console.error(error);
+                $('#modal').modal('show');
+                // alert("삭제할 이미지를 선택해주세요.");
             }
-        </script>
+        }
+    </script>
 
-    
 
-   
+
+
 </body>
 
 </html>

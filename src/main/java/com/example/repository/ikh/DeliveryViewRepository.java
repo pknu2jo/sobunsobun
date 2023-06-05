@@ -11,11 +11,7 @@ import com.example.entity.ikh.DeliveryView;
 public interface DeliveryViewRepository extends JpaRepository<DeliveryView, BigDecimal>{    
     // no /\ itemcode itemname address purchaseno delivery regdate
     long countByDeliveryAndNo(BigDecimal delivery, String no);
-    
-
-
-
-    
+        
     // 0
     List<DeliveryView> findByNo(String no);
 

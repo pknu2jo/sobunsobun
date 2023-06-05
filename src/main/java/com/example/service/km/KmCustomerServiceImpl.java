@@ -1,6 +1,5 @@
 package com.example.service.km;
 
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +15,16 @@ import com.example.dto.PurchaseStatus;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
 import com.example.entity.ItemImage;
+import com.example.entity.JjimEntity;
 import com.example.entity.ReviewEntity;
 import com.example.entity.ReviewImageEntity;
 import com.example.entity.km.KmCheckReviewView;
+import com.example.entity.km.KmOrderNoProjection;
 import com.example.entity.km.KmReviewNoProjection;
 import com.example.mapper.km.KmCustomerMapper;
 import com.example.repository.km.KmCheckReviewViewRepository;
+import com.example.repository.km.KmJjimRepository;
+import com.example.repository.km.KmPurchaseOrderRepository;
 import com.example.repository.km.KmPurchaseStatusRepository;
 import com.example.repository.km.KmReviewImageRepository;
 import com.example.repository.km.KmReviewRepository;
@@ -39,6 +42,8 @@ public class KmCustomerServiceImpl implements KmCustomerService {
     final KmCheckReviewViewRepository roRepository;
     final KmReviewRepository rRepository;
     final KmReviewImageRepository riRepository;
+    final KmPurchaseOrderRepository poRepository;
+    final KmJjimRepository jRepository;
 
 // 물품 상세 조회 페이지
 
@@ -97,6 +102,39 @@ public class KmCustomerServiceImpl implements KmCustomerService {
             return null;
         }
     }
+
+    // 찜 여부 확인하기
+    public int checkJjim(String memid, BigDecimal itemno) {
+        try {
+            // 찜 여부 확인하기
+            return jRepository.countByCustomerEntity_idAndItemEntity_no(memid, itemno);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+     // 찜 등록
+     public int insertJjim(JjimEntity jjim) {
+        try {
+            jRepository.save(jjim);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+     }
+
+     // 찜 해제(삭제)
+     public int deleteJjim(String memid, BigDecimal itemno) {
+        try {
+            jRepository.deleteByCustomerEntity_idAndItemEntity_no(memid, itemno);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+     }
 
 // 결제 페이지 => /customer/item/order.do 
     // 공구 정보 한개 가져오기
@@ -263,6 +301,16 @@ public class KmCustomerServiceImpl implements KmCustomerService {
     public KmCheckReviewView checkReview(String memid, BigDecimal purchaseno) {
         try {
             return roRepository.findByMemidAndPurchaseno(memid, purchaseno);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // purchaseNo, memId에 해당하는 주문 번호 가져오기
+    public KmOrderNoProjection findByCustomerEntity_idAndPurchaseEntity_no(String memid, BigDecimal purchaseno) {
+        try {
+            return poRepository.findByCustomerEntity_idAndPurchaseEntity_no(memid, purchaseno);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

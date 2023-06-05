@@ -24,7 +24,7 @@
     <!-- CSS -->
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/mj/seller.css}'>
     <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
-    
+    <link rel="icon" th:href="@{/images/jk/sobunseller.ico}">
 </head>
 
 <body class="sb-nav-fixed">
@@ -38,81 +38,155 @@
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
             <main>
-                <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
+                <div class="container-fluid px-4" style="margin-bottom: 150px;"> <!-- 옆쪽에 딱 붙음. -->
+                    <div>
 
-                    <h3>물품등록</h3>
-                    <a th:href="@{/seller/item/management.do}"><button class="btn btn-primary">물품리스트</button></a>
-                    <hr>
-                    
-                    
-                        
-                    
+                        <h3 style="float: left; margin-top: 30px;">물품등록</h3>
+                        <a th:href="@{/seller/item/management.do}"><button class="btn btn-dark"
+                                style="float: right; margin-top: 45px;">물품리스트</button></a>
+                    </div>
+                    <hr style="margin-top: 5px;">
                     <!-- <form th:action="@{/seller/item/insert.do}" method="post"> -->
-                        
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">카테고리</span>
-                            <!-- 대분류 -->
-                            <select class="form-select" aria-label="Default select example" id="LcateSelect" th:field="${cate.Lcode}" onchange="updateMcateSelect()">
-                                <option value="000">대분류</option>
-                                <option th:each="obj : ${cate.Llist}" th:value="${obj.code.longValue()}" th:text="${obj.name}" id="lcategory"></option>
-                            </select>
-                            <!-- 중분류 -->
-                            <select class="form-select" aria-label="Default select example" id="McateSelect" th:field="${cate.Mcode}" onchange="updateScateSelect()">
-                                <option value="000">중분류</option>
-                                <option th:each="obj1 : ${cate.Mlist}" th:value="${obj1.code.longValue()}" th:text="${obj1.name}" id="mcategory"></option>
-                                <!-- <option value="">-- Select Middle Category --</option> -->
-                            </select>
-                            <!-- 소분류 -->
-                            <select class="form-select" aria-label="Default select example" name="scategoryCode" id="ScateSelect" th:field="${cate.Scode}" onchange="updateUrl()">
-                                <option value="000">소분류</option>
-                                <option th:each="obj2 : ${cate.Slist}" th:value="${obj2.code.longValue()}" th:text="${obj2.name}" id="scategory"></option>
-                                <!-- <option value="">-- Select Small Category --</option> -->
-                            </select><br>
-                        </div>
-                        <!-- 소분류코드 파라미터전달받기 hidden-->
-                        <input type="hidden" name="scategoryCode" id="scode" th:value = ${param.scate} />
-                        
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">물품명</span>
-                            <input type="text" name="name" class="form-control" id="name" aria-label="Itemname" aria-describedby="basic-addon1" onkeydown="insertname(this)">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">가격</span>
-                            <input type="number" name="price" class="form-control" id="price" aria-label="Itemname" aria-describedby="basic-addon1" onkeydown="insertname(this)">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">수량</span>
-                            <input type="number" name="quantity" class="form-control" id="quantity" aria-label="Itemname" aria-describedby="basic-addon1" onkeydown="insertname(this)">
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">사업자번호</span>
-                            <input type="number" name="regNo" class="form-control" id="regNo" aria-label="Itemname" aria-describedby="basic-addon1" onkeydown="insertname(this)">
-                        </div>
-                        <!-- ==================================== -->
-                        <!-- <input type="text" th:value="${ret.no}" id="itemno"> -->
-                        <button type="button" class="btn btn-primary" id="insertbtn"  onclick="insertitem()">등록</button>
-                        <!-- </form> -->
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">카테고리</span>
+                        <!-- 대분류 -->
+                        <select class="form-select" aria-label="Default select example" id="LcateSelect"
+                            th:field="${cate.Lcode}" onchange="updateMcateSelect()">
+                            <option value="000">대분류</option>
+                            <option th:each="obj : ${cate.Llist}" th:value="${obj.code.longValue()}"
+                                th:text="${obj.name}" id="lcategory"></option>
+                        </select>
+                        <!-- 중분류 -->
+                        <select class="form-select" aria-label="Default select example" id="McateSelect"
+                            th:field="${cate.Mcode}" onchange="updateScateSelect()">
+                            <option value="000">중분류</option>
+                            <option th:each="obj1 : ${cate.Mlist}" th:value="${obj1.code.longValue()}"
+                                th:text="${obj1.name}" id="mcategory"></option>
+                            <!-- <option value="">-- Select Middle Category --</option> -->
+                        </select>
+                        <!-- 소분류 -->
+                        <select class="form-select" aria-label="Default select example" name="scategoryCode"
+                            id="ScateSelect" th:field="${cate.Scode}" onchange="updateUrl()">
+                            <option value="000">소분류</option>
+                            <option th:each="obj2 : ${cate.Slist}" th:value="${obj2.code.longValue()}"
+                                th:text="${obj2.name}" id="scategory"></option>
+                            <!-- <option value="">-- Select Small Category --</option> -->
+                        </select><br>
+                    </div>
+                    <!-- 소분류코드 파라미터전달받기 hidden-->
+                    <input type="hidden" name="scategoryCode" id="scode" th:value=${param.scate} />
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">물품명</span>
+                        <input type="text" name="name" class="form-control" id="name" aria-label="Itemname"
+                            aria-describedby="basic-addon1" onblur="insertname(this)">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">가격</span>
+                        <input type="number" name="price" class="form-control" id="price" aria-label="Itemname"
+                            aria-describedby="basic-addon1" onblur="insertname(this)">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">수량</span>
+                        <input type="number" name="quantity" class="form-control" id="quantity" aria-label="Itemname"
+                            aria-describedby="basic-addon1" onblur="insertname(this)">
+                    </div>
+                    <div class="input-group mb-3" style="display: none;">
+                        <span class="input-group-text" id="basic-addon1">사업자번호</span>
+                        <input type="number" name="regNo" th:value="${sellerid}" class="form-control" id="regNo"
+                            aria-label="Itemname" aria-describedby="basic-addon1" onblur="insertname(this)">
+                    </div>
+                    <!-- ==================================== -->
+                    <!-- <input type="text" th:value="${ret.no}" id="itemno"> -->
+                    <button type="button" class="btn btn-dark" id="insertbtn" onclick="insertitem()">등록</button>
+                    <!-- </form> -->
+
                     <!-- Modal -->
-                    <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록완료</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="tomanagement1"></button>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록완료</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                        id="tomanagement1"></button>
+                                </div>
+                                <div class="modal-body">
+                                    물품이 등록되었습니다. 이미지를 등록하시겠습니까?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-dark" id="insertimage"
+                                        onclick="insertimage()">네</button>
+                                    <button type="submit" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                        id="tomanagement">아니요. </button>
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                물품이 등록되었습니다. 이미지를 등록하시겠습니까?
-                            </div>
-                            <div class="modal-footer">
-                            <button type="submit" class="btn btn-outline-secondary" data-bs-dismiss="modal" id="tomanagement">아니요. 물품 추가등록할래요.... </button>
-                            <button type="submit" class="btn btn-dark" id="insertimage" onclick="insertimage()">네</button>
-                            </div>
-                        </div>
                         </div>
                     </div>
 
-                    
-                    
+                    <div class="modal fade" id="insertname" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    물품명을 입력해주세요.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" id="insertimage"
+                                        data-bs-dismiss="modal">확인</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="insertprice" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    가격을 입력해주세요.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" id="insertimage"
+                                        data-bs-dismiss="modal">확인</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="insertquantity" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    수량을 입력해주세요.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" id="insertimage"
+                                        data-bs-dismiss="modal">확인</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
 
 
                 </div>
@@ -122,7 +196,7 @@
         </div>
     </div>
 
-    
+
 
     <!-- 6. Bootstrap용 js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
@@ -163,126 +237,132 @@
             new simpleDatatables.DataTable("#datatablesSimple", {
                 searchable: true,
                 fixedHeight: true,
-                
+
             })
         });
-        </script>
+    </script>
 
-<script th:inline="javascript">
-    let isScodeSelected = false;
+    <script th:inline="javascript">
+        let isScodeSelected = false;
 
-    function updateMcateSelect() {
-        const code = document.getElementById("LcateSelect").value;
-        console.log(code);
-        window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}`;
-    }
-
-    function updateScateSelect() {
-        const code = document.getElementById("LcateSelect").value;
-        const mcode = document.getElementById("McateSelect").value;
-        console.log(code);
-        console.log(mcode);
-        window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}`;
-    }
-
-    function updateUrl() {
-        const code = document.getElementById("LcateSelect").value;
-        const mcode = document.getElementById("McateSelect").value;
-        const scode = document.getElementById("ScateSelect").value;
-        console.log(code);
-        console.log(mcode);
-        console.log(scode);
-        window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
-        isScodeSelected = true; 
-    }
-    
-
-    async function insertname() {
-        const ScateSelect = document.getElementById("ScateSelect");
-        let url = /*[[@{/api/seller/scodechk.json}]]*/"";
-        console.log(url);
-        url += "?scode=" + ScateSelect.value;
-        const headers = {"Content-Type":"application/json"};
-        const { data } = await axios.get(url, { headers:headers });
-        console.log(data.result);
-        if(data.result === 0){
-            alert('카테고리를 선택해주세요.');
-        }else if(data.result === 1){
-            return false;
+        function updateMcateSelect() {
+            const code = document.getElementById("LcateSelect").value;
+            console.log(code);
+            window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}`;
         }
 
-    }
-
-    async function insertitem() {
-
-        const scategory = document.getElementById("scategory");
-        const mcategory = document.getElementById("mcategory");
-        const lcategory = document.getElementById("lcategory");
-        const name = document.getElementById("name");
-        const scode = document.getElementById("scode");
-        console.log(name);
-        const price = document.getElementById("price");
-        const quantity = document.getElementById("quantity");
-        const regNo = document.getElementById("regNo");
-
-        
-
-        if (name.value.trim() === "") {
-            alert("물품명을 입력해주세요.")
-            name.focus();
-
-            return false;
-        }
-        if (price.value.trim() === "") {
-            alert("가격을 입력해주세요.")
-            price.focus();
-
-            return false;
-        }
-        if (quantity.value.trim() === "") {
-            alert("수량을 입력해주세요.")
-            quantity.focus();
-
-            return false;
-        }
-        if (regNo.value.trim() === "") {
-            alert("사업자번호를 입력해주세요.")
-            regNo.focus();
-
-            return false;
+        function updateScateSelect() {
+            const code = document.getElementById("LcateSelect").value;
+            const mcode = document.getElementById("McateSelect").value;
+            console.log(code);
+            console.log(mcode);
+            window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}`;
         }
 
-        const url = /*[[@{/api/seller/insertitem.json}]]*/"";
-        console.log(url);
-        const headers = {"Content-Type":"application/json"};
-        const body = {name : name.value, price : price.value, quantity : quantity.value, regNo : regNo.value, scategoryCode : {code : scategory.value}};
-        const { data } = await axios.post(url, body, { headers:headers });
-        
-        console.log(data.result1);
-        console.log(data.result);
-        console.log(data.itemno);
-        // if(data.result != null){}
-        if(data.result == 1){
-            $('#modal').modal('show');
-            // 모달창에서 네 클릭시 새로등록한 물품번호를 받아 /seller/itemimage/selectlist.do?no=159 로 이동
-            document.getElementById('insertimage').addEventListener("click", clickFunction);
-            function clickFunction() {
-                window.location.href = `/SOBUN/seller/itemimage/selectlist.do?no=` + data.itemno;
-            }
-    
-            document.getElementById('tomanagement').addEventListener("click", clickFunction1);
-            function clickFunction1() {
-                window.location.href = `/SOBUN/seller/item/management.do`;
+        function updateUrl() {
+            const code = document.getElementById("LcateSelect").value;
+            const mcode = document.getElementById("McateSelect").value;
+            const scode = document.getElementById("ScateSelect").value;
+            console.log(code);
+            console.log(mcode);
+            console.log(scode);
+            window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
+            isScodeSelected = true;
+        }
+
+
+        async function insertname() {
+            const code = document.getElementById("LcateSelect").value;
+            const ScateSelect = document.getElementById("ScateSelect");
+            let url = /*[[@{/api/seller/scodechk.json}]]*/"";
+            console.log(url);
+            url += "?scode=" + ScateSelect.value;
+            const headers = { "Content-Type": "application/json" };
+            const { data } = await axios.get(url, { headers: headers });
+            console.log(data.result);
+            if (data.result === 0) {
+                alert('카테고리를 선택해주세요.');
+                code.focus();
+                return false;
+            } else if (data.result === 1) {
+                return false;
             }
 
-            document.getElementById('tomanagement1').addEventListener("click", clickFunction2);
-            function clickFunction2() {
-                window.location.href = `/SOBUN/seller/item/insert.do`;
+        }
+
+        async function insertitem() {
+
+            const scategory = document.getElementById("scategory");
+            const mcategory = document.getElementById("mcategory");
+            const lcategory = document.getElementById("lcategory");
+            const name = document.getElementById("name");
+            const scode = document.getElementById("scode");
+            console.log(name);
+            const price = document.getElementById("price");
+            const quantity = document.getElementById("quantity");
+            const regNo = document.getElementById("regNo");
+
+
+
+            if (name.value.trim() === "") {
+                // alert("물품명을 입력해주세요.")
+                $('#insertname').modal('show');
+                name.focus();
+
+                return false;
+            }
+            if (price.value.trim() === "") {
+                // alert("가격을 입력해주세요.")
+                $('#insertprice').modal('show');
+                price.focus();
+
+                return false;
+            }
+            if (quantity.value.trim() === "") {
+                // alert("수량을 입력해주세요.")
+                $('#insertquantity').modal('show');
+                quantity.focus();
+
+                return false;
+            }
+            if (regNo.value.trim() === "") {
+                alert("사업자번호를 입력해주세요.")
+                regNo.focus();
+
+                return false;
+            }
+
+            const url = /*[[@{/api/seller/insertitem.json}]]*/"";
+            console.log(url);
+            const headers = { "Content-Type": "application/json" };
+            const body = { name: name.value, price: price.value, quantity: quantity.value, regNo: regNo.value, scategoryCode: { code: scategory.value } };
+            const { data } = await axios.post(url, body, { headers: headers });
+
+            console.log(data.result1);
+            console.log(data.result);
+            console.log(data.itemno);
+            // if(data.result != null){}
+            if (data.result == 1) {
+                $('#modal').modal('show');
+                // 모달창에서 네 클릭시 새로등록한 물품번호를 받아 /seller/itemimage/selectlist.do?no=159 로 이동
+                document.getElementById('insertimage').addEventListener("click", clickFunction);
+                function clickFunction() {
+                    window.location.href = `/SOBUN/seller/itemimage/selectlist.do?no=` + data.itemno;
+                }
+
+                document.getElementById('tomanagement').addEventListener("click", clickFunction1);
+                function clickFunction1() {
+                    window.location.href = `/SOBUN/seller/item/management.do`;
+                }
+
+                document.getElementById('tomanagement1').addEventListener("click", clickFunction2);
+                function clickFunction2() {
+                    window.location.href = `/SOBUN/seller/item/insert.do`;
+                }
             }
         }
-    }
-</script>
-        
+    </script>
+
 
     <!-- <script>
         document.getElementById("insertitem").addEventListener("click", clickFunction);

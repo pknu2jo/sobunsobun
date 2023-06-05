@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.example.entity.Item;
@@ -18,6 +16,9 @@ public interface ItemRepository extends JpaRepository<Item, BigDecimal> {
 
     /** 물품 일괄수정 */
     List<Item> findByNo(BigDecimal no);
+
+    /** 사업자 번호에 해당하는 물품 갯수 가져오기 */
+    long countByRegNo(String regNo);
 
 
     /** 가장최근에 등록한 물품 번호 조회 */
