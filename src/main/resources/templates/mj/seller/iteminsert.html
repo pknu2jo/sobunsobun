@@ -77,20 +77,20 @@
                     <!-- 소분류코드 파라미터전달받기 hidden-->
                     <input type="hidden" name="scategoryCode" id="scode" th:value=${param.scate} />
 
-                    <div class="input-group mb-3" id="hiddenName" hidden>
+                    <div class="input-group mb-3" id="hiddenName" style="display: none;" >
                         <span class="input-group-text" id="basic-addon1">물품명</span>
                         <input type="text" name="name" class="form-control" id="name" aria-label="Itemname"
-                            aria-describedby="basic-addon1" onkeydown="insertname()" >
+                            aria-describedby="basic-addon1" onclick="insertname()" >
                     </div>
-                    <div class="input-group mb-3" id="hiddenPrice" hidden>
+                    <div class="input-group mb-3" id="hiddenPrice" style="display: none;">
                         <span class="input-group-text" id="basic-addon1">가격</span>
                         <input type="number" name="price" class="form-control" id="price" aria-label="Itemname"
-                            aria-describedby="basic-addon1" onkeydown="insertname()" >
+                            aria-describedby="basic-addon1" onclick="insertname()" >
                     </div>
-                    <div class="input-group mb-3" id="hiddenQuantity" hidden>
+                    <div class="input-group mb-3" id="hiddenQuantity" style="display: none;">
                         <span class="input-group-text" id="basic-addon1">수량</span>
                         <input type="number" name="quantity" class="form-control" id="quantity" aria-label="Itemname"
-                            aria-describedby="basic-addon1" onkeydown="insertname()" >
+                            aria-describedby="basic-addon1" onclick="insertname()" >
                     </div>
                     <div class="input-group mb-3" style="display: none;">
                         <span class="input-group-text" id="basic-addon1">사업자번호</span>
@@ -270,6 +270,12 @@
             isScodeSelected = true;
         }
 
+        var hd = document.getElementById('hiddenName').value;
+        if(!hd.equals("소분류")){
+            document.getElementById("hiddenName").style.display = "block";
+            document.getElementById("hiddenPrice").style.display = "block";
+            document.getElementById("hiddenQuantity").style.display = "block";
+        }
 
         async function insertname() {
             const code = document.getElementById("LcateSelect");
@@ -280,16 +286,16 @@
             url += "?scode=" + ScateSelect.value;
             const headers = { "Content-Type": "application/json" };
             const { data } = await axios.get(url, { headers: headers });
-            console.log(data.result);
-            if (data.result == 0) {
+            console.log('반환되는결과',data);
+            if (data.result === 1) {
+                document.getElementById("hiddenName").style.display = "block";
+                document.getElementById("hiddenPrice").style.display = "block";
+                document.getElementById("hiddenQuantity").style.display = "block";
 
+            } else if (data.result === 0) {
                 alert('카테고리를 선택해주세요.');
                 code.focus();
                 return false;
-            } else if (data.result == 1) {
-                document.getElementById("hiddenName").hidden = false;
-                document.getElementById("hiddenPrice").hidden = false;
-                document.getElementById("hiddenQuantity").hidden = false;
             }
             
 
