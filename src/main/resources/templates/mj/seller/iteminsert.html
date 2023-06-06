@@ -77,25 +77,28 @@
                     <!-- 소분류코드 파라미터전달받기 hidden-->
                     <input type="hidden" name="scategoryCode" id="scode" th:value=${param.scate} />
 
-                    <div class="input-group mb-3" id="hiddenName" style="display: none;" >
-                        <span class="input-group-text" id="basic-addon1">물품명</span>
-                        <input type="text" name="name" class="form-control" id="name" aria-label="Itemname"
-                            aria-describedby="basic-addon1" onclick="insertname()" >
-                    </div>
-                    <div class="input-group mb-3" id="hiddenPrice" style="display: none;">
-                        <span class="input-group-text" id="basic-addon1">가격</span>
-                        <input type="number" name="price" class="form-control" id="price" aria-label="Itemname"
-                            aria-describedby="basic-addon1" onclick="insertname()" >
-                    </div>
-                    <div class="input-group mb-3" id="hiddenQuantity" style="display: none;">
-                        <span class="input-group-text" id="basic-addon1">수량</span>
-                        <input type="number" name="quantity" class="form-control" id="quantity" aria-label="Itemname"
-                            aria-describedby="basic-addon1" onclick="insertname()" >
-                    </div>
-                    <div class="input-group mb-3" style="display: none;">
-                        <span class="input-group-text" id="basic-addon1">사업자번호</span>
-                        <input type="number" name="regNo" th:value="${sellerid}" class="form-control" id="regNo"
-                            aria-label="Itemname" aria-describedby="basic-addon1" onkeypress="insertname()">
+                    <div class="input-group mb-3" id="inputContainer" style="display: none;">
+                    
+                        <div class="input-group mb-3" id="hiddenName" >
+                            <span class="input-group-text" id="basic-addon1">물품명</span>
+                            <input type="text" name="name" class="form-control" id="name" aria-label="Itemname"
+                                aria-describedby="basic-addon1" onclick="insertname()" >
+                        </div>
+                        <div class="input-group mb-3" id="hiddenPrice" >
+                            <span class="input-group-text" id="basic-addon1">가격</span>
+                            <input type="number" name="price" class="form-control" id="price" aria-label="Itemname"
+                                aria-describedby="basic-addon1" onclick="insertname()" >
+                        </div>
+                        <div class="input-group mb-3" id="hiddenQuantity" >
+                            <span class="input-group-text" id="basic-addon1">수량</span>
+                            <input type="number" name="quantity" class="form-control" id="quantity" aria-label="Itemname"
+                                aria-describedby="basic-addon1" onclick="insertname()" >
+                        </div>
+                        <div class="input-group mb-3" style="display: none;">
+                            <span class="input-group-text" id="basic-addon1">사업자번호</span>
+                            <input type="number" name="regNo" th:value="${sellerid}" class="form-control" id="regNo"
+                                aria-label="Itemname" aria-describedby="basic-addon1" onkeypress="insertname()">
+                        </div>
                     </div>
                     <!-- ==================================== -->
                     <!-- <input type="text" th:value="${ret.no}" id="itemno"> -->
@@ -243,7 +246,7 @@
     </script>
 
     <script th:inline="javascript">
-        let isScodeSelected = false;
+        // let isScodeSelected = false;
 
         function updateMcateSelect() {
             const code = document.getElementById("LcateSelect").value;
@@ -266,40 +269,52 @@
             console.log(code);
             console.log(mcode);
             console.log(scode);
-            window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
-            isScodeSelected = true;
-        }
-
-        var hd = document.getElementById('hiddenName').value;
-        if(!hd.equals("소분류")){
-            document.getElementById("hiddenName").style.display = "block";
-            document.getElementById("hiddenPrice").style.display = "block";
-            document.getElementById("hiddenQuantity").style.display = "block";
-        }
-
-        async function insertname() {
-            const code = document.getElementById("LcateSelect");
-            const ScateSelect = document.getElementById("ScateSelect");
             
-            let url = /*[[@{/api/seller/scodechk.json}]]*/"";
-            console.log(url);
-            url += "?scode=" + ScateSelect.value;
-            const headers = { "Content-Type": "application/json" };
-            const { data } = await axios.get(url, { headers: headers });
-            console.log('반환되는결과',data);
-            if (data.result === 1) {
-                document.getElementById("hiddenName").style.display = "block";
-                document.getElementById("hiddenPrice").style.display = "block";
-                document.getElementById("hiddenQuantity").style.display = "block";
+            const url = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
+            window.location.href = url;
+            // if (scode !== "000" && scode !== null) {
+            //     hiddenName.style.display = "block";
+            //     hiddenPrice.style.display = "block";
+            //     hiddenQuantity.style.display = "block";
+            // } else {
+            //     hiddenName.style.display = "none";
+            //     hiddenPrice.style.display = "none";
+            //     hiddenQuantity.style.display = "none";
+            // }
+            // isScodeSelected = true;
+            
+        }
 
-            } else if (data.result === 0) {
-                alert('카테고리를 선택해주세요.');
-                code.focus();
-                return false;
-            }
+        // var hd = document.getElementById('scode').value;
+        // if(!hd.equals("000") && hd != null ){
+        //     document.getElementById("hiddenName").style.display = "block";
+        //     document.getElementById("hiddenPrice").style.display = "block";
+        //     document.getElementById("hiddenQuantity").style.display = "block";
+        // }
+
+        // async function insertname() {
+        //     const code = document.getElementById("LcateSelect");
+        //     const ScateSelect = document.getElementById("ScateSelect");
+            
+        //     let url = /*[[@{/api/seller/scodechk.json}]]*/"";
+        //     console.log(url);
+        //     url += "?scode=" + ScateSelect.value;
+        //     const headers = { "Content-Type": "application/json" };
+        //     const { data } = await axios.get(url, { headers: headers });
+        //     console.log('반환되는결과',data);
+        //     if (data.result === 1) {
+        //         document.getElementById("hiddenName").style.display = "block";
+        //         document.getElementById("hiddenPrice").style.display = "block";
+        //         document.getElementById("hiddenQuantity").style.display = "block";
+
+        //     } else if (data.result === 0) {
+        //         alert('카테고리를 선택해주세요.');
+        //         code.focus();
+        //         return false;
+        //     }
             
 
-        }
+        // }
 
         async function insertitem() {
 
@@ -374,6 +389,17 @@
         }
     </script>
 
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const scate = urlParams.get('scate');
+        
+            if (scate !== "000" && scate !== null) {
+                const inputContainer = document.getElementById("inputContainer");
+                inputContainer.style.display = "block";
+            }
+        });
+    </script>
 
     <!-- <script>
         document.getElementById("insertitem").addEventListener("click", clickFunction);
