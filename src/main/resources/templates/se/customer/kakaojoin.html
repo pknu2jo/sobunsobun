@@ -189,8 +189,8 @@
 
         <div class="container text-center">
             <form th:action="@{/customer/kakaojoinaction.do}" method="post" id="kakaojoinForm"><br>
-                <input class="kakaoJoinInput" type="text" name="name" placeholder="이름" value="이름"><br>
-                <input class="kakaoJoinInput mb-5" type="tel" name="phone" placeholder="연락처" value="01053535353"><br>
+                <input class="kakaoJoinInput" type="text" name="name" placeholder="이름"><br>
+                <input class="kakaoJoinInput mb-5" type="tel" name="phone" placeholder="연락처"><br>
 
                 <input type="hidden" name="id" placeholder="아이디" th:value="${customer.id}">
                 <input type="hidden" name="email" placeholder="이메일" th:value="${customer.email}">

@@ -117,6 +117,7 @@ public class SeRestCustomerController {
                 obj.setPw(""); // pw => null 이라 오류나서 추가
                 User user = new CustomerUser( obj.getId(), obj.getPw(), role, obj.getNickname() ); // import org.springframework.security.core.userdetails.User;
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, role);
+                log.info("카카오로그인 user => {}", user.toString());
 
                 // 수동으로 세션에 저장(로그인)
                 SecurityContext context = SecurityContextHolder.createEmptyContext();
