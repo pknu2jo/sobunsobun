@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping(value = "/api/customer")
 @RequiredArgsConstructor
-public class RestMyAccountDrop {
+public class GrRestMyAccountDrop {
 
     final GrCustomerService cService;
 

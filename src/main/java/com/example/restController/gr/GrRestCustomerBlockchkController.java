@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping(value = "/api/admin")
 @RequiredArgsConstructor
-public class RestCustomerBlockchkController {
+public class GrRestCustomerBlockchkController {
 
     final grcustomerRepository gcRepository;
 
@@ -35,9 +35,9 @@ public class RestCustomerBlockchkController {
             String ret1 = map.get("customerId").toString();
             BigDecimal ret2 = BigDecimal.valueOf(Long.parseLong(map.get("blockchk").toString()));
 
-            // log.info("가람 => {}", ret);
-            // log.info("가람1 => {}", ret1);
-            // log.info("가람2 => {}", ret2);
+            log.info("가람 => {}", ret);
+            log.info("가람1 => {}", ret1);
+            log.info("가람2 => {}", ret2);
 
             CustomerEntity cEntity = gcRepository.findById(ret1).orElse(null);
             // log.info("가람가람=>{}", cEntity);

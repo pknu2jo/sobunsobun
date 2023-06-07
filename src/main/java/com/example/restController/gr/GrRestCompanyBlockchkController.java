@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.entity.CustomerEntity;
 import com.example.entity.SellerEntity;
 import com.example.repository.gr.grcompanyRepository;
 
@@ -20,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping(value = "/api/admin")
 @RequiredArgsConstructor
-public class RestCompanyBlockchkController {
+public class GrRestCompanyBlockchkController {
 
     final grcompanyRepository gcRepository;
 
