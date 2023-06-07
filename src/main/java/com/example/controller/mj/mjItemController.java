@@ -35,13 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class mjItemController {
 
-    // final ItemRepository iRepository;
-    // final LcateRepository lRepository;
-    // final McateRepository mRepository;
-    // final ScateRepository sRepository;
     final JkSellerRepository sellerRepository;
-    // final mjItemMapper iMapper;
-    // final ItemCategoryViewRepository icvRepository;
     
     final HttpSession httpSession; //세션객체
     final MjItemService itemService;
@@ -111,9 +105,7 @@ public class mjItemController {
 
     @PostMapping(value ="/item/deleteitem.do")
     public String deleteitemPOST(
-        @RequestParam (name = "itemno", required = false) long[] no
-        // @RequestParam (name = "btn", required = false) String btn
-    ){
+        @RequestParam( name = "itemno", required = false) long[] no ){
         try {
             //확인용
             if(no.length != 0){
@@ -124,41 +116,13 @@ public class mjItemController {
             
             int ret = itemService.deleteItemBatch(no);
             log.info("삭제된 갯수 => {}", ret);
-            
-            // iRepository.deleteAllByRegNo(no);
-            
             // 물품번호를 가져와서 물품삭제
-            // int ret = iRepository.deleteByNo(chk);
-            // log.info("ret =>{}", ret);
             return "redirect:/seller/item/management.do";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/seller/login.do";
         }
     }
-
-/* ===========================이미지 등록/수정============================================== */
-
-    // @GetMapping(value = "/item/updateimage.do")
-    // public String updateimageGET(){
-    //     try {
-    //         return "/mj/seller/updateimage";
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return "redirect:/seller/home.do";
-    //     }
-    // }
-    // // @PostMapping(value = "/item/updateimage.do")
-    // // public String updateimagePOST(@ModelAttribute ItemImage obj){
-    // //     try {
-    // //         // return "redirect:/seller/item/updateimage.do?no=" + obj.getItemNo().getNo().longValue();
-    // //     } catch (Exception e) {
-    // //         e.printStackTrace();
-    // //         return "redirect:/seller/home.do";
-    // //     }
-    // // }
-
-    
 
 /* ===========================물품관리============================================== */
 
@@ -170,10 +134,8 @@ public class mjItemController {
         @RequestParam(name = "lcate", required = false) BigDecimal Lcode,
         @RequestParam(name = "mcate", required = false) BigDecimal Mcode,
         @RequestParam(name = "scate", required = false) BigDecimal Scode,
-        @AuthenticationPrincipal User user
-         ){
+        @AuthenticationPrincipal User user ){
         try {
-            // log.info("user => {}", user.getUsername());
 
             SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);
             log.info("seller => {}", seller.toString());
@@ -194,12 +156,8 @@ public class mjItemController {
             log.info("cate => {}", cate);
             model.addAttribute("cate", cate);
 
-            // List<Item> list = new ArrayList<>();
-            // list = iRepository.findAllByRegNoOrderByNoDesc("1248600538");
             List<ItemCategoryView> list = new ArrayList<>();
             list = itemService.findAllByRegNoOrderByNoDesc(seller.getNo());
-            // if( Lcode == BigDecimal.valueOf(000) ){ // cate가 없으면?
-            // }
 
             // 전체 물품리스트
             if(Lcode == null && Mcode == null & Scode == null){
@@ -282,20 +240,5 @@ public class mjItemController {
             return "redirect:/seller/login.do";
         }
     }
-    
-
-    // @PostMapping(value = "/item/insert.do")
-    // public String insertPOST(@ModelAttribute Item obj ){
-    //     try {
-
-    //         log.info("obj => {}", obj.toString());
-    //         iRepository.save(obj);
-    //         return "redirect:/seller/item/insert.do";
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return "redirect:/seller/home.do";
-    //     }
-    // }
-
     
 }

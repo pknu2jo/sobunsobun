@@ -41,9 +41,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MjItemImageController {
     
-    // final ItemRepository iRepository;
-    // final ItemImageRepository imageRepository;
-    // final mjItemImageMapper imageMapper;
     final JkSellerRepository sellerRepository;
     final MjItemImageService imageService;
     final MjItemService itemService;
@@ -152,8 +149,6 @@ public class MjItemImageController {
     @PostMapping(value = "/deleteimage.do")
     public String deleteImagePOST(@ModelAttribute ItemImage image, @RequestParam(name = "item.no")BigDecimal itemno, @RequestParam(name = "imageno") long[] imageno){
         try {
-            // ItemImage itemimage = new ItemImage();
-            // imageRepository.deleteAllByNo(imageno);
             int ret = imageService.deleteImageBatch(imageno);
             log.info("ret=>{}", ret);
             return "redirect:/seller/itemimage/selectlist.do?no=" + itemno.longValue();
@@ -181,15 +176,12 @@ public class MjItemImageController {
             log.info("item => {}", item.toString());
             
             // 대표이미지
-            // String a = "%상세%";
-
             ItemImage image = imageService.findByItemNo_noAndFilenameNotLikeOrderByNoAsc(BigDecimal.valueOf(no), "%상세%");
             item.setImageUrl( request.getContextPath() + "/seller/itemimage/image?no=" + 0);
             if(image != null){
                 item.setImageUrl( request.getContextPath() + "/seller/itemimage/image?no=" + image.getNo().longValue() );
                 log.info("image {}", image.toString());
             }
-            // model.addAttribute("image", image.getFilename());
             model.addAttribute("item", item);
             
             // 전체이미지
@@ -211,7 +203,6 @@ public class MjItemImageController {
             }
             model.addAttribute("imageList", imageList);
             
-            // ItemImage image = imageRepository.
             log.info("itemno => {}", no);
 
             return "/mj/seller/itemimage/selectlist";
