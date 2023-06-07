@@ -239,8 +239,8 @@
 
                                                 <div th:each="obj : ${reviewList}" class="review_inquire">
                                                     <span th:text="|리뷰 번호 : ${obj.no}|"></span>&nbsp;&nbsp;
-                                                    <span th:text="|작성자 : ${obj.purchaseOrderEntity.customerEntity.id}|"></span>
-                                                    <span th:text="*{#strings.substring(obj.purchaseOrderEntity.customerEntity.id, 0, 2)} + '***'"></span>
+                                                    <!-- <span th:text="|작성자 : ${obj.purchaseOrderEntity.customerEntity.id}|"></span> -->
+                                                    <span th:text="'작성자 : ' + *{#strings.substring(obj.purchaseOrderEntity.customerEntity.id, 0, 2)} + '***'"></span>
                                                     <div>
                                                         <span th:if="${obj.imgUrl1 != null}">
                                                             <img class="reviewImg" th:src="${obj.imgUrl1}">
