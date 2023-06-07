@@ -35,7 +35,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class MyOrderListController {
 
-    final grgrpurchaseviewRepository grRepository;
     final GrPurchaseItemService gpiService;
 
     // 이미지 전송용
@@ -54,7 +53,7 @@ public class MyOrderListController {
 
             // a= firstdate, b= secondate;
             int a = 0, sum = 0;
-            
+
             Grcalender gc = new Grcalender();
             gc.setFirstdate(firstdate);
             gc.setSeconddate(seconddate);

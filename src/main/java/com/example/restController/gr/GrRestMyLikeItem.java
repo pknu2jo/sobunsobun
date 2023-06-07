@@ -13,6 +13,7 @@ import com.example.entity.CustomerEntity;
 import com.example.entity.Item;
 import com.example.entity.JjimEntity;
 import com.example.repository.gr.grjjimRepository;
+import com.example.service.gr.GrPurchaseItemService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GrRestMyLikeItem {
 
     final grjjimRepository grRepository;
+    final GrPurchaseItemService gpService;
 
     @PostMapping(value = "/mylikeitem.json")
     public Map<String, Integer> mylikeitemPOST(@RequestBody Map<String, Object> map) {
@@ -34,12 +36,12 @@ public class GrRestMyLikeItem {
 
             JjimEntity jjimEntity = new JjimEntity();
 
-            int ret = grRepository.countByCustomerEntity_idAndItemEntity_no(map.get("id").toString(),
+            int ret = gpService.countByCustomerEntity_idAndItemEntity_no(map.get("id").toString(),
                     BigDecimal.valueOf(Long.parseLong(map.get("itemno").toString())));
             log.info("가람 => {}", ret);
 
             if (ret == 1) {
-                grRepository.deleteByCustomerEntity_idAndItemEntity_no(map.get("id").toString(),
+                gpService.deleteByCustomerEntity_idAndItemEntity_no(map.get("id").toString(),
                         BigDecimal.valueOf(Long.parseLong(map.get("itemno").toString())));
                 retMap.put("result", 1);
                 retMap.put("jjimstate", 1);

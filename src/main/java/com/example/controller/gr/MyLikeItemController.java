@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.entity.gr.grlikeitemview;
-import com.example.repository.gr.grjjimRepository;
 import com.example.repository.gr.grlikeitemviewRepository;
+import com.example.service.gr.GrPurchaseItemService;
 import com.example.service.se.SePurchaseItemService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class MyLikeItemController {
     ResourceLoader resourceLoader; // resources폴더의 파일을 읽기 위한 객체 생성
 
     final grlikeitemviewRepository grlRepository;
-    final grjjimRepository grjRepository;
+    final GrPurchaseItemService gpService;
 
     // 이미지 전송용
     @Value("${default.image}")

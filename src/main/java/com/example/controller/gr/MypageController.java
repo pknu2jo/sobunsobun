@@ -15,8 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.mapper.gr.GrCustomerMapper;
-import com.example.mapper.gr.GrPurchaseItemMapper;
+import com.example.service.gr.GrCustomerService;
+import com.example.service.gr.GrPurchaseItemService;
 import com.example.service.se.SePurchaseItemService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,8 +28,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MypageController {
 
-    final GrCustomerMapper cMapper;
-    final GrPurchaseItemMapper piMapper;
+    final GrCustomerService cService;
+    final GrPurchaseItemService pService;
+
     // 이미지 전송용
     @Autowired
     ResourceLoader resourceLoader; // resources 폴더의 파일을 읽기 위한 객체 생성
@@ -41,13 +42,13 @@ public class MypageController {
     public String mypageGET(@AuthenticationPrincipal User user, Model model) {
 
         // 마이페이지 첫 화면 기본정보
-        int ret = cMapper.countPurchase(user.getUsername());
+        int ret = cService.countPurchase(user.getUsername());
         log.info("rkfka user => {}", user.getUsername());
         model.addAttribute("ret", ret);
         model.addAttribute("user", user);
 
         // 마이페이지 공구가 많이 열린 물품 목록
-        List<Map<String, Object>> manyList = piMapper.selectManyPurchaseItem();
+        List<Map<String, Object>> manyList = pService.selectManyPurchaseItem();
 
         log.info("공구가 많이 열린 물품 => {}", manyList.toString());
 
