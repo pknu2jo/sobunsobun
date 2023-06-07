@@ -12,8 +12,6 @@
     <th:block th:replace="~{/km/customer/footer :: footerCSS}"></th:block>
 
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
-    <!-- <link th:href="@{/css/km/font-awesome.min.css}" rel="stylesheet" type="text/css"> -->
-    <!-- <link rel="stylesheet" type="text/css" th:href="@{/css/km/single_styles.css}"> -->
     <link rel="stylesheet" type="text/css" th:href="@{/css/km/single_responsive.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/km/selectitem.css}">
     <!-- font-awesome CDN -->
@@ -64,7 +62,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row" style="overflow-x:hidden;">
                     <!-- 물품 간단 사진 영역 ~ -->
                     <div class="col-lg-6">
                         <div class="single_product_image_background">
@@ -238,8 +236,6 @@
                                                     <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab=review, orderby=rating,page=1)}"
                                                         id="orderbyrating">평점순</a>
                                                 </div>
-                                                <!-- <div th:text="|리뷰 전체 리스트 확인 : ${reviewList}|"></div>
-                                                <div th:text="|페이지 총 개수 : ${pages}|"></div><hr> -->
 
                                                 <div th:each="obj : ${reviewList}" class="review_inquire">
                                                     <span th:text="|리뷰 번호 : ${obj.no}|"></span>&nbsp;&nbsp;
@@ -253,7 +249,6 @@
                                                             <img class="reviewImg" th:src="${obj.imgUrl2}">
                                                         </span>
                                                     </div>
-                                                    <!-- <span th:each="i : ${#numbers.sequence(1, obj.rating)}">&#x2b50;</span> -->
                                                     <span th:each="i : ${#numbers.sequence(1, obj.rating)}">
                                                         <i class="fas fa-star" style="color: rgb(238, 191, 130);"></i>
                                                     </span>
@@ -263,15 +258,8 @@
                                                 </div>
                                                 
                                             </div>
-                                            <!-- 페이지네이션 구현부분 -->
-                                            <!-- <div class="container" id="pagination-container">
-                                                <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=1)}">first</a>
-                                                <span th:each="num : ${#numbers.sequence(1, pages)}">
-                                                    <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=${num})}"
-                                                    th:text="${num}"></a>
-                                                </span>
-                                                <a th:href="@{/customer/item/selectone.do(itemno=${item.ITEMNO}, tab='review', orderby=${param.orderby}, page=${pages})}">last</a>
-                                            </div> -->
+                                            
+                                            <!-- 리뷰 페이지네이션 ~  -->
                                             <div class="container" id="pagination-container">
                                                 <ul class="pageul">
                                                     <li th:if="${currentPage > 1}">
@@ -300,6 +288,7 @@
                                                     </li>
                                                 </ul>
                                             </div>
+                                            <!-- ~ 리뷰 페이지네이션  -->
                                         </th:block>
                                     </div>
 
@@ -397,9 +386,6 @@
     <script th:src="@{/js/km/single_custom.js}"></script>
 
     <script th:inline="javascript" type="text/javascript">
-        
-        // const fillHeart = document.querySelector("#fillHeart");
-        // const blankHeart = document.querySelector("#blankHeart");
 
         var jjim1 = /*[[${jjim}]]*/"";
         if(jjim1 == 1) {

@@ -149,10 +149,6 @@ public class KmCustomerContorller {
                     log.info("왜 이게 안되냐고 => {}", reviewList.toString());
                 }
                 
-                int pageSize = 2; // 한페이지에 나오는 아이템갯수
-                // int start1 = (page -1) * pageSize;
-                // int end1 = page * pageSize;
-
                 int totalPages = (int) ((total-1) / PAGETOTAL) + 1;
                 int currentSet = (int) Math.ceil((double) page/5);
                 int startPage = (currentSet - 1) * 5 + 1;
