@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.dto.Customer;
 import com.example.mapper.gr.GrCustomerMapper;
 import com.example.service.gr.GrCustomerService;
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
