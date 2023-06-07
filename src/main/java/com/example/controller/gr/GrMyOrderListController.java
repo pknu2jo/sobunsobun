@@ -95,6 +95,9 @@ public class GrMyOrderListController {
                     } else if (Long.parseLong(list.get(i).getState().toPlainString()) == 0
                             && Long.parseLong(list.get(i).getCancel().toPlainString()) == 1) {
                         list.get(i).setStatechk("결제 취소");
+                    } else if (Long.parseLong(list.get(i).getState().toPlainString()) == 2
+                            && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
+                        list.get(i).setStatechk("수령 완료");
                     }
                 }
 
@@ -164,12 +167,10 @@ public class GrMyOrderListController {
                 log.info("rkfka cnt => {}", cnt);
 
                 for (int i = 0; i < list.size(); i++) {
-
                     log.info("skdhkfk => {}",
                             Long.parseLong(list.get(i).getState().toPlainString()));
                     log.info("skdhkfk1 => {}",
                             Long.parseLong(list.get(i).getCancel().toPlainString()));
-
                     list.get(i).setCommaprice(Long.parseLong(list.get(i).getTotalprice().toPlainString()));
                     if (Long.parseLong(list.get(i).getState().toPlainString()) == 0
                             && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
@@ -180,9 +181,12 @@ public class GrMyOrderListController {
                     } else if (Long.parseLong(list.get(i).getState().toPlainString()) == 0
                             && Long.parseLong(list.get(i).getCancel().toPlainString()) == 1) {
                         list.get(i).setStatechk("결제 취소");
+                    } else if (Long.parseLong(list.get(i).getState().toPlainString()) == 2
+                            && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
+                        list.get(i).setStatechk("수령 완료");
                     }
-
                 }
+
                 int totalPages = (int) ((cnt - 1) / pageSize) + 1;
                 int currentSet = (int) Math.ceil((double) page / 5);
                 int startPage = (currentSet - 1) * 5 + 1;
