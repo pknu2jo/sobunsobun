@@ -19,5 +19,5 @@ public interface TotaltableViewRepository extends JpaRepository<TotaltableView, 
 
     // 상위3개 구하기
     @Query("SELECT t FROM TotaltableView t WHERE t.no = :no ORDER BY t.count DESC, t.itemregdate ASC")
-    List<TotaltableView> findBest(@Param("no") String no, Pageable pageable);    
+    List<TotaltableView> findBest(@Param("no") String no, Pageable pageable);
 }
