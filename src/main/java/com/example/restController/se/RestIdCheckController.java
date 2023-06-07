@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.service.se.SeCustomerService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping(value = "/api")
-@Slf4j
 @RequiredArgsConstructor
 public class RestIdCheckController {
 
