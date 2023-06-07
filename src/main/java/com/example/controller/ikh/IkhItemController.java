@@ -1,6 +1,5 @@
 package com.example.controller.ikh;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +52,7 @@ public class IkhItemController {
             // 전체 남성 인원수 구하기
             long Male = tgvRepository.countByGenderAndNo("M", seller.getNo());                            
             
+            log.info("{}", Female);
             // html로 값 넘기기
             if(Female != 0 || Male != 0){
                 model.addAttribute("female", Female);

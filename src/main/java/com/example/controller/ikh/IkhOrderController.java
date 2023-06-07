@@ -23,14 +23,12 @@ import com.example.repository.ikh.ProceedOrderFinalViewRepository;
 import com.example.repository.jk.JkSellerRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
 @RequestMapping(value = "/seller")
 @RequiredArgsConstructor
-@Slf4j
 public class IkhOrderController {
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // 주문

@@ -1,7 +1,6 @@
 package com.example.restController.ikh;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +22,10 @@ import com.example.repository.ikh.ProceedOrderMemberViewRepository;
 import com.example.repository.jk.JkSellerRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping(value = "/api/seller")
 @RequiredArgsConstructor
-@Slf4j
 public class ikhRestController {
     final CompleteOrderMemberViewRepository comvRepository;
     final ProceedOrderMemberViewRepository promvRepository;
