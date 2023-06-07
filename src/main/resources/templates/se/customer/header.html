@@ -287,7 +287,7 @@
         .notibox {
             display: none;
             padding: 15px;
-            width: 300px;
+            width: 350px;
             max-height: 500px;
             overflow-y: scroll;
             top: 110px;
@@ -305,8 +305,13 @@
 
         .notiLine {
             margin: 10px 0 10px 0;
-            width: 250px;
+            width: 300px;
             border-bottom: 1px solid #dce2dd;
+        }
+
+        .notitext {
+            font-size: 13px;
+            color: #5b6856;
         }
 
 
@@ -554,6 +559,8 @@
                     str += `<div>${one.content}</div>`;
                     str += `<div class="notiLine"></div>`;
                 }
+
+                str += `<div class="notitext">알림은 최대 30일간 보관됩니다</div>`
 
                 const notibox = document.getElementById('notibox');
                 notibox.innerHTML = '';
