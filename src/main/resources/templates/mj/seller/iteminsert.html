@@ -37,7 +37,7 @@
 
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
-            <main>
+            <main style="margin-bottom: 200px;">
                 <div class="container-fluid px-4" style="margin-bottom: 150px;"> <!-- 옆쪽에 딱 붙음. -->
                     <div>
 
@@ -189,9 +189,6 @@
                     </div>
 
 
-
-
-
                 </div>
             </main>
             <!-- footer -->
@@ -205,11 +202,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
         crossorigin="anonymous"></script>
-    <!-- Chart.js용 CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="js/chart-area-demo.js"></script>
-    <script src="js/chart-bar-demo.js"></script>
-    <script src="js/chart-pie-demo.js"></script>
     <!-- Simple DataTable용 JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
     <!-- jQuery 추가 -->
@@ -246,7 +238,6 @@
     </script>
 
     <script th:inline="javascript">
-        // let isScodeSelected = false;
 
         function updateMcateSelect() {
             const code = document.getElementById("LcateSelect").value;
@@ -272,49 +263,8 @@
             
             const url = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
             window.location.href = url;
-            // if (scode !== "000" && scode !== null) {
-            //     hiddenName.style.display = "block";
-            //     hiddenPrice.style.display = "block";
-            //     hiddenQuantity.style.display = "block";
-            // } else {
-            //     hiddenName.style.display = "none";
-            //     hiddenPrice.style.display = "none";
-            //     hiddenQuantity.style.display = "none";
-            // }
-            // isScodeSelected = true;
             
         }
-
-        // var hd = document.getElementById('scode').value;
-        // if(!hd.equals("000") && hd != null ){
-        //     document.getElementById("hiddenName").style.display = "block";
-        //     document.getElementById("hiddenPrice").style.display = "block";
-        //     document.getElementById("hiddenQuantity").style.display = "block";
-        // }
-
-        // async function insertname() {
-        //     const code = document.getElementById("LcateSelect");
-        //     const ScateSelect = document.getElementById("ScateSelect");
-            
-        //     let url = /*[[@{/api/seller/scodechk.json}]]*/"";
-        //     console.log(url);
-        //     url += "?scode=" + ScateSelect.value;
-        //     const headers = { "Content-Type": "application/json" };
-        //     const { data } = await axios.get(url, { headers: headers });
-        //     console.log('반환되는결과',data);
-        //     if (data.result === 1) {
-        //         document.getElementById("hiddenName").style.display = "block";
-        //         document.getElementById("hiddenPrice").style.display = "block";
-        //         document.getElementById("hiddenQuantity").style.display = "block";
-
-        //     } else if (data.result === 0) {
-        //         alert('카테고리를 선택해주세요.');
-        //         code.focus();
-        //         return false;
-        //     }
-            
-
-        // }
 
         async function insertitem() {
 
@@ -328,24 +278,19 @@
             const quantity = document.getElementById("quantity");
             const regNo = document.getElementById("regNo");
 
-
-
             if (name.value.trim() === "") {
-                // alert("물품명을 입력해주세요.")
                 $('#insertname').modal('show');
                 name.focus();
 
                 return false;
             }
             if (price.value.trim() === "") {
-                // alert("가격을 입력해주세요.")
                 $('#insertprice').modal('show');
                 price.focus();
 
                 return false;
             }
             if (quantity.value.trim() === "") {
-                // alert("수량을 입력해주세요.")
                 $('#insertquantity').modal('show');
                 quantity.focus();
 
@@ -400,23 +345,6 @@
             }
         });
     </script>
-
-    <!-- <script>
-        document.getElementById("insertitem").addEventListener("click", clickFunction);
-
-        function clickFunction(){
-            if(!confirm('물품등록이 완료되었습니다. 이미지를 등록하시겠습니까?')){
-                    // 아니요(취소)
-                    window.location.href = `/SOBUN/seller/item/management.do`;
-                    
-                }
-                else{
-                    // 확인(이미지등록 페이지로 이동)
-                    alert('예.이미지등록');
-                    window.location.href = `/SOBUN/seller/item/updateimage.do`;
-                }
-        }
-    </script> -->
 
 </body>
 

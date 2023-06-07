@@ -18,11 +18,9 @@ import com.example.service.se.SeCategoryService;
 import com.example.service.se.SePurchaseItemService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping(value = "/customer/item")
-@Slf4j
 @RequiredArgsConstructor
 public class SePurchaseItemController {
 

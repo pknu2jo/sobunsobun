@@ -1,7 +1,5 @@
 package com.example.entity.km;
 
-import java.math.BigDecimal;
-
 public interface KmOrderNoProjection {
     
     // get+변수명()

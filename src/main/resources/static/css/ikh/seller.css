@@ -350,8 +350,16 @@ ul {
 
 .datatable-pagination li:last-child,
 .datatable-pagination li:last-child a {
-    border-top-right-radius: 0.5;
-    border-bottom-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+/* 페이지네이션부분 글자색깔 변경 */
+.datatable-pagination a {
+    color: var(--bs-pagination-color);
+}
+.datatable-pagination a {
+    --bs-pagination-color:#0f4a7b;
 }
 
 /* 에러페이지 */

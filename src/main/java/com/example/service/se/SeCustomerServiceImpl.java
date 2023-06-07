@@ -161,6 +161,18 @@ public class SeCustomerServiceImpl implements SeCustomerService {
             return null;
         }
     }
+
+    // ----------------------------------------------------------------------------------------------------------
+    // 한달 경과된 알림 지우기
+    @Override
+    public int deleteByRegdateBefore(Date regdate) {
+        try {
+            return notiRepository.deleteByRegdateBefore(regdate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
     
     
 

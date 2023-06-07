@@ -12,6 +12,8 @@ import com.example.dto.SeManyPurchaseItemView;
 import com.example.dto.SeSelectItemListView;
 import com.example.entity.ItemImage;
 import com.example.entity.JjimEntity;
+import com.example.entity.PurchaseStatusEntity;
+import com.example.entity.se.SeChkPurchaseDeadlineView;
 
 @Service
 public interface SePurchaseItemService {
@@ -54,5 +56,14 @@ public interface SePurchaseItemService {
 
     // 찜 delete
     public int deleteJjim(String id, BigDecimal no);
+
+    // 최초 개설된 공구인지 확인(알림용)
+    public long selectPurchaseOpenChk(long purchaseno);
+
+    // 마감일 지난 공구 확인(스케쥴러)
+    public List<SeChkPurchaseDeadlineView> findAllAfterDeadline();
+
+    // 마감 지난 공구 취소 insert(스케쥴러)
+    public List<PurchaseStatusEntity> saveAllPurchaseStatus(List<PurchaseStatusEntity> list);
 
 }

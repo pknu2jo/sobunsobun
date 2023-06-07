@@ -17,18 +17,18 @@ import com.example.entity.CustomerEntity;
 import com.example.entity.se.SeJjimProjection;
 import com.example.entity.se.SePurchaseStatusProjection;
 import com.example.service.se.SeCustomerService;
+import com.example.service.se.SePurchaseItemService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 
 @RestController
 @RequestMapping(value = "/api")
-@Slf4j
 @RequiredArgsConstructor
 public class SeRestSseNotificationController {
 
     final SeCustomerService cService;
+    final SePurchaseItemService piService;
 
     private static final Map<String, SseEmitter> clients = new HashMap<>();
 
@@ -54,43 +54,53 @@ public class SeRestSseNotificationController {
     @GetMapping(value="/sse/jjim/publish")
     public void jjimPublish( 
         @RequestParam(name = "message") String message,
-        @RequestParam(name = "itemno") BigDecimal itemno ) {
+        @RequestParam(name = "itemno") long itemno,
+        @RequestParam(name = "purchaseno") long purchaseno ) {
         try {
-            // log.info("찜알림 아이템번호 => {}", itemno);
-            
-            // 1) DB 에서 공구 열린 물품을 찜하고 있는 사람을 모두 찾아서 알림 테이블에 insert 실행하기
-            List<SeJjimProjection> list = cService.findByItemEntity_no(itemno);
-            
-            for(SeJjimProjection one : list) {
-                String dbId = one.getCustomerEntity().getId();
-                // log.info("찜한 회원 => {}", dbId);
+            // log.info("찜알림 => {}, {}", itemno, purchaseno);
 
-                // DB 알림테이블에 등록하기
-                CustomerEntity customer = new CustomerEntity();
-                customer.setId(dbId);
-                CNotificationEntity noti = new CNotificationEntity();
-                noti.setCustomerEntity(customer);
-                noti.setType("jjim");
-                noti.setContent(message);
-                noti.setUrl("/SOBUN/customer/item/selectone.do?itemno=" + itemno);
+            // purchasestatus 가 1개인지 확인(최초 개설인지 확인)
+            long cnt = piService.selectPurchaseOpenChk(purchaseno);
+            // log.info("확인!! => {}", cnt);
 
-                int ret = cService.saveCNotification(noti);
-                // log.info("찜공구알림 insert => {}", ret);
-                if(ret == 1){ // DB 에 insert 된 경우만 알림 보내기
-                    // 2) 1)에 해당하는 사람 중에 clients 에 저장된 사람한테 알림기능 보내기
-                    for(String id : clients.keySet()) {
-                        if(id.equals(dbId)){
-                            try {
-                                SseEmitter emitter = clients.get(id);
-                                emitter.send(message, MediaType.APPLICATION_JSON);
-                            } catch (Exception e) {
-                                clients.remove(id);
+            if(cnt == 1) {
+
+                // 1) DB 에서 공구 열린 물품을 찜하고 있는 사람을 모두 찾아서 알림 테이블에 insert 실행하기
+                List<SeJjimProjection> list = cService.findByItemEntity_no(BigDecimal.valueOf(itemno));
+                
+                for(SeJjimProjection one : list) {
+                    String dbId = one.getCustomerEntity().getId();
+                    // log.info("찜한 회원 => {}", dbId);
+
+                    // DB 알림테이블에 등록하기
+                    CustomerEntity customer = new CustomerEntity();
+                    customer.setId(dbId);
+                    CNotificationEntity noti = new CNotificationEntity();
+                    noti.setCustomerEntity(customer);
+                    noti.setType("jjim");
+                    noti.setContent(message);
+                    noti.setUrl("/SOBUN/customer/item/selectone.do?itemno=" + itemno);
+
+                    int ret = cService.saveCNotification(noti);
+                    // log.info("찜공구알림 insert => {}", ret);
+                    if(ret == 1){ // DB 에 insert 된 경우만 알림 보내기
+                        // 2) 1)에 해당하는 사람 중에 clients 에 저장된 사람한테 알림기능 보내기
+                        for(String id : clients.keySet()) {
+                            if(id.equals(dbId)){
+                                try {
+                                    SseEmitter emitter = clients.get(id);
+                                    emitter.send(message, MediaType.APPLICATION_JSON);
+                                } catch (Exception e) {
+                                    clients.remove(id);
+                                }
                             }
                         }
                     }
+
                 }
 
             }
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,19 +122,19 @@ public class SeRestSseNotificationController {
             if(!list.isEmpty()) { // 공구가 마감이 됐다면(상태가 1이라면)
                 for (SePurchaseStatusProjection one : list) {
                     String dbId = one.getCustomerEntity().getId();
-                    log.info("공구마감 알림을 보낼 아이디 => {}", dbId);
+                    // log.info("공구마감 알림을 보낼 아이디 => {}", dbId);
                     // DB 에 알림 isnert
                     CustomerEntity customer = new CustomerEntity();
                     customer.setId(dbId);
 
                     CNotificationEntity noti = new CNotificationEntity();
                     noti.setCustomerEntity(customer);
-                    noti.setType("complete");
+                    noti.setType("purchaseComplete");
                     noti.setContent(message);
                     noti.setUrl("/SOBUN/customer/item/myorderlist.do?page=1");
 
                     int ret = cService.saveCNotification(noti);
-                    log.info("공구마감알림 insert => {}", ret);
+                    // log.info("공구마감알림 insert => {}", ret);
                     if(ret == 1){ // DB 에 insert 된 경우만 알림 보내기
                         // 2) 1)에 해당하는 사람 중에 clients 에 저장된 사람한테 알림기능 보내기
                         for(String id : clients.keySet()) {

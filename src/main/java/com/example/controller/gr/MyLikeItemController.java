@@ -1,9 +1,6 @@
 package com.example.controller.gr;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,10 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.entity.JjimEntity;
 import com.example.entity.gr.grlikeitemview;
-import com.example.mapper.gr.GrCustomerMapper;
-import com.example.mapper.gr.GrPurchaseItemMapper;
 import com.example.repository.gr.grjjimRepository;
 import com.example.repository.gr.grlikeitemviewRepository;
 import com.example.service.se.SePurchaseItemService;

@@ -41,8 +41,6 @@ public class MjItemServiceImpl implements MjItemService {
         }
     }
 
-
-
     /** 물품 등록 */
     @Override
     public Item saveItem(Item obj) {
@@ -53,16 +51,6 @@ public class MjItemServiceImpl implements MjItemService {
             return null;
         }
     }
-    // /** 물품 일괄수정 */
-    // @Override
-    // public List<Item> findByNo(BigDecimal no) {
-    //     try {
-    //         return iRepository.findByNo(no);
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         return null;
-    //     }
-    // }
 
     /** 각 대분류코드에 해당하는 중분류 리스트 */
     @Override
@@ -85,12 +73,6 @@ public class MjItemServiceImpl implements MjItemService {
             return null;
         }
     }
-    // @Override
-    // public List<Scategory> findByMcategoryCode_codeAndMcategoryCode_LcategoryCode_code(BigDecimal mcode,
-    //         BigDecimal lcode) {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'findByMcategoryCode_codeAndMcategoryCode_LcategoryCode_code'");
-    // }
 
     /** 업체 사업자번호에 해당하는 전체 물품조회, 내림차순 정렬 */
     @Override

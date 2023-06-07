@@ -8,21 +8,22 @@
 </head>
 <body>
 
-    <button onclick="sendMessage2()">send</button>
+    <button onclick="sendMessage1()">send</button>
     
     <script>
 
-        // 찜물품 공구열림
+        // 찜물품 공구열림 => 공구 개설한 사람이 결제를 완료했을 때
         const sendMessage1 = () => {
             var itemno = 13;
-            var message = '찜';
-            fetch(`/SOBUN/api/sse/jjim/publish?message=${message}&itemno=${itemno}`) // 메시지 보내기
+            var message = `${itemno}번 물품에 대한 공구가 개설되었습니다`; // 물품이름 있으면 ${itemname} 으로 변경부탁드림다
+            var purchaseno = 1052;
+            fetch(`/SOBUN/api/sse/jjim/publish?message=${message}&itemno=${itemno}&purchaseno=${purchaseno}`) // 메시지 보내기
         }
 
-        // 공구마감
+        // 공구마감 => 마지막 참여자가 결제 완료 했을 때
         const sendMessage2 = () => {
-            var purchaseno = 1058;
-            var message = '공구마감';
+            var purchaseno = 1052;
+            var message = `${purchaseno}번 공구가 마감되었습니다`;
             fetch(`/SOBUN/api/sse/completepurchase/publish?message=${message}&purchaseno=${purchaseno}`) // 메시지 보내기
         }
 

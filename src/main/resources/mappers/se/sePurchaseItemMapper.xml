@@ -52,4 +52,8 @@
         SELECT COUNT(*) purchasechk FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY PURCHASENO ORDER BY REGDATE DESC) rown FROM PURCHASESTATUS p WHERE itemno = #{itemno}) WHERE rown = 1 AND state = 0
     </select>
 
+    <select id="selectPurchaseOpenChk" parameterType="long" resultType="long">
+        SELECT count(*) cnt FROM PURCHASESTATUS p WHERE PURCHASENO = #{purchaseno}
+    </select>
+
 </mapper>

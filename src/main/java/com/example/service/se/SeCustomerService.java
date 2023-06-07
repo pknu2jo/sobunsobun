@@ -52,4 +52,8 @@ public interface SeCustomerService {
     // 고객의 최근 한달 알림 가져오기
     public List<CNotificationEntity> findByCustomerEntity_idAndRegdateAfter(String id, Date regdate);
     
+    // ----------------------------------------------------------------------------------------------------------
+    // 한달 경과된 알림 지우기
+    public int deleteByRegdateBefore(Date regdate);
+
 }

@@ -203,11 +203,6 @@
         integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
         crossorigin="anonymous"></script>
 
-    <!-- Chart.js용 CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="js/chart-area-demo.js"></script>
-    <script src="js/chart-bar-demo.js"></script>
-    <script src="js/chart-pie-demo.js"></script>
     <!-- Simple DataTable용 JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 
@@ -297,7 +292,6 @@
                     // alert("수정할 물품을 선택해주세요.");
                     return;
                 }
-                // form2.action = /*[[@{/seller/item/updateitem.do}]]*/'';
 
                 let url = /*[[@{/api/seller/updateitems.json}]]*/"";
                 url += "?itemno=" + itemno;
@@ -328,10 +322,7 @@
                     // alert("삭제할 물품을 선택해주세요.");
                     return;
                 }
-                // else{
-                //     form2.action = /*[[@{/seller/item/deleteitem.do}]]*/'';
 
-                // }
 
                 let url = /*[[@{/api/seller/deleteitems.json}]]*/"";
                 url += "?itemno=" + itemno;
@@ -356,37 +347,7 @@
             form2.submit();
         }
     </script>
-    <!-- <script th:inline="javascript" type="text/javascript">
-        const btn   = document.getElementById('btn');
-        const form2 = document.getElementById('form2');
-        
-        function formAction1(code){
-            if(code === 1){
-                btn.value='일괄수정';
-                
-                console.log(btn.value);
-                form2.action = /*[[@{/seller/item/updateitem.do}]]*/'';
-            }
-            else if(code === 2){
-                
-                btn.value='일괄삭제';
-                console.log(btn.value);
-                form2.action = /*[[@{/seller/item/deleteitem.do}]]*/'';
-            }
-            
-            form2.submit();
-        }
-    </script> -->
 
-    <!-- <script  th:inline="javascript" type="text/javascript">
-        const itemimage = document.getElementById('itemimage');
-        const itemno = document.getElementById('itemno');
-        function itemimage() {
-            console.log(itemno);
-            window.location.href = `/SOBUN/seller/itemimage/selectlist.do?no=${itemno}`;
-
-        }
-    </script> -->
 </body>
 
 </html>

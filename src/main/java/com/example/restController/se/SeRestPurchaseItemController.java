@@ -19,11 +19,9 @@ import com.example.entity.JjimEntity;
 import com.example.service.se.SePurchaseItemService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping(value = "/api")
-@Slf4j
 @RequiredArgsConstructor
 public class SeRestPurchaseItemController {
 
