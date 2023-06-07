@@ -65,12 +65,6 @@ public class KmCustomerContorller {
 
         try {
 
-            // review 영역의 pagination 처리
-            // if(page == 0) {
-            //     System.out.println("안되네....어쩌지");
-            //     return "redirect:/customer/item/selectone.do?itemno=" + no + "&tab=review&page=1";
-            // }
-
             long itemno = Long.valueOf(no.toPlainString());
 
             // log.info("user 정보 보기 => {}", user);
@@ -160,11 +154,7 @@ public class KmCustomerContorller {
                 model.addAttribute("startPage", startPage);
                 model.addAttribute("endPage", endPage);
                 model.addAttribute("currentPage", page);
-
             }
-    
-
-            
 
             model.addAttribute("purchaseList", purchaseList);
             model.addAttribute("item", item);
@@ -190,7 +180,7 @@ public class KmCustomerContorller {
         try {
             // log.info("post view 확인1 => {}", obj.toString());
             // 공구 참여 버튼 -> kmPurchaseView(no=0, purchaseNo=1007, participant=0,
-            //                                  deadline=null, remainingPerson=0, itemNo=0, itemName=null,
+            //                                  deadline=null, remainingPerson=0, itemNo=11, itemName=null,
             //                                  itemPrice=0, storageNo=0, storageName=null, pricePerOne=0, imageUrl=null)
             // => purchaseNo만 넘어옴
 
