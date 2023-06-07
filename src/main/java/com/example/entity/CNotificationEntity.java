@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -14,6 +15,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -42,6 +45,7 @@ public class CNotificationEntity {
     private Date regdate;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "memid", referencedColumnName = "id")
     private CustomerEntity customerEntity;
 

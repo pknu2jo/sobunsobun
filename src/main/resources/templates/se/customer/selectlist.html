@@ -132,6 +132,11 @@
             border-radius: 20px;
         }
 
+        .pagination a.active {
+            border: 1px solid #6D9275;
+            border-radius: 20px;
+        }
+
         /* 소분류 목록 카테고리 */
         .cateList {
             /* margin-bottom: 100px; */
@@ -159,6 +164,21 @@
         .searchCnt div {
             font-size: 20px;
             border-bottom: 1px solid #204710;
+        }
+
+        /* 찜 버튼 */
+        .heartBtn {
+            position: absolute;
+            top: 315px;
+            right: 25px;
+            display: none;
+        }
+
+        .heartBtnFill {
+            position: absolute;
+            top: 315px;
+            right: 25px;
+            display: none;
         }
 
     </style>
@@ -191,10 +211,17 @@
                                 <div name="purchaseChk" class="purchaseChk">
                                     <label>공구열림</label>
                                 </div>
-                                <img th:src="@{/customer/seimage(itemno=${searchOne.itemno})}" th:onload="chkPurchase([[${idx.index}]], [[${searchOne.itemno}]])"><br>
+                                <img th:src="@{/customer/seimage(itemno=${searchOne.itemno})}" th:onload="chkPurchase([[${idx.index}]], [[${searchOne.itemno}]]), chkJjim([[${idx.index}]], [[${searchOne.itemno}]])"><br>
                                 <label th:text="${searchOne.name}"></label><br>
                                 <label th:text="${#numbers.formatInteger(searchOne.price, 3, 'COMMA') + '원'}"></label>
                             </a>
+                            <!-- 찜버튼 -->
+                            <th:block th:if="${user != null}">
+                                <button type="button" th:onclick="jjimAction([[${idx.index}]], [[${searchOne.itemno}]])" style="border: 0; background-color: transparent;">
+                                    <svg name="heartBtn" class="heartBtn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="30" height="30" style="fill: #f2aab6;"><path d="m8 14.25.345.666a.75.75 0 0 1-.69 0l-.008-.004-.018-.01a7.152 7.152 0 0 1-.31-.17 22.055 22.055 0 0 1-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.066 22.066 0 0 1-3.744 2.584l-.018.01-.006.003h-.002ZM4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.58 20.58 0 0 0 8 13.393a20.58 20.58 0 0 0 3.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.749.749 0 0 1-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5Z"></path></svg>
+                                    <svg name="heartBtnFill" class="heartBtnFill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="30" height="30" style="fill: #f2aab6;"><path d="M7.655 14.916v-.001h-.002l-.006-.003-.018-.01a22.066 22.066 0 0 1-3.744-2.584C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.044 5.231-3.886 6.818a22.094 22.094 0 0 1-3.433 2.414 7.152 7.152 0 0 1-.31.17l-.018.01-.008.004a.75.75 0 0 1-.69 0Z"></path></svg>
+                                </button>
+                            </th:block>
                         </div>
                     </th:block>
                 </div>
@@ -237,10 +264,17 @@
                                 <div name="purchaseChk" class="purchaseChk">
                                     <label>공구열림</label>
                                 </div>
-                                <img th:src="@{/customer/seimage(itemno=${scodeOne.itemno})}" th:onload="chkPurchase([[${idx.index}]], [[${scodeOne.itemno}]])"><br>
+                                <img th:src="@{/customer/seimage(itemno=${scodeOne.itemno})}" th:onload="chkPurchase([[${idx.index}]], [[${scodeOne.itemno}]]), chkJjim([[${idx.index}]], [[${scodeOne.itemno}]])"><br>
                                 <label th:text="${scodeOne.name}"></label><br>
                                 <label th:text="${#numbers.formatInteger(scodeOne.price, 3, 'COMMA') + '원'}"></label>
                             </a>
+                            <!-- 찜버튼 -->
+                            <th:block th:if="${user != null}">
+                                <button type="button" th:onclick="jjimAction([[${idx.index}]], [[${scodeOne.itemno}]])" style="border: 0; background-color: transparent;">
+                                    <svg name="heartBtn" class="heartBtn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="30" height="30" style="fill: #f2aab6;"><path d="m8 14.25.345.666a.75.75 0 0 1-.69 0l-.008-.004-.018-.01a7.152 7.152 0 0 1-.31-.17 22.055 22.055 0 0 1-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.066 22.066 0 0 1-3.744 2.584l-.018.01-.006.003h-.002ZM4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.58 20.58 0 0 0 8 13.393a20.58 20.58 0 0 0 3.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.749.749 0 0 1-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5Z"></path></svg>
+                                    <svg name="heartBtnFill" class="heartBtnFill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="30" height="30" style="fill: #f2aab6;"><path d="M7.655 14.916v-.001h-.002l-.006-.003-.018-.01a22.066 22.066 0 0 1-3.744-2.584C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.044 5.231-3.886 6.818a22.094 22.094 0 0 1-3.433 2.414 7.152 7.152 0 0 1-.31.17l-.018.01-.008.004a.75.75 0 0 1-.69 0Z"></path></svg>
+                                </button>
+                            </th:block>
                         </div>
                     </th:block>
                 </div>
@@ -275,10 +309,17 @@
                                 <div name="purchaseChk" class="purchaseChk">
                                     <label>공구열림</label>
                                 </div>
-                                <img th:src="@{/customer/seimage(itemno=${totalOne.itemno})}" th:onload="chkPurchase([[${idx.index}]], [[${totalOne.itemno}]])"><br>
+                                <img th:src="@{/customer/seimage(itemno=${totalOne.itemno})}" th:onload="chkPurchase([[${idx.index}]], [[${totalOne.itemno}]]), chkJjim([[${idx.index}]], [[${totalOne.itemno}]])"><br>
                                 <label th:text="${totalOne.name}"></label><br>
                                 <label th:text="${#numbers.formatInteger(totalOne.price, 3, 'COMMA') + '원'}"></label>
                             </a>
+                            <!-- 찜버튼 -->
+                            <th:block th:if="${user != null}">
+                                <button type="button" th:onclick="jjimAction([[${idx.index}]], [[${totalOne.itemno}]])" style="border: 0; background-color: transparent;">
+                                    <svg name="heartBtn" class="heartBtn" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="30" height="30" style="fill: #f2aab6;"><path d="m8 14.25.345.666a.75.75 0 0 1-.69 0l-.008-.004-.018-.01a7.152 7.152 0 0 1-.31-.17 22.055 22.055 0 0 1-3.434-2.414C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.045 5.231-3.885 6.818a22.066 22.066 0 0 1-3.744 2.584l-.018.01-.006.003h-.002ZM4.25 2.5c-1.336 0-2.75 1.164-2.75 3 0 2.15 1.58 4.144 3.365 5.682A20.58 20.58 0 0 0 8 13.393a20.58 20.58 0 0 0 3.135-2.211C12.92 9.644 14.5 7.65 14.5 5.5c0-1.836-1.414-3-2.75-3-1.373 0-2.609.986-3.029 2.456a.749.749 0 0 1-1.442 0C6.859 3.486 5.623 2.5 4.25 2.5Z"></path></svg>
+                                    <svg name="heartBtnFill" class="heartBtnFill" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="30" height="30" style="fill: #f2aab6;"><path d="M7.655 14.916v-.001h-.002l-.006-.003-.018-.01a22.066 22.066 0 0 1-3.744-2.584C2.045 10.731 0 8.35 0 5.5 0 2.836 2.086 1 4.25 1 5.797 1 7.153 1.802 8 3.02 8.847 1.802 10.203 1 11.75 1 13.914 1 16 2.836 16 5.5c0 2.85-2.044 5.231-3.886 6.818a22.094 22.094 0 0 1-3.433 2.414 7.152 7.152 0 0 1-.31.17l-.018.01-.008.004a.75.75 0 0 1-.69 0Z"></path></svg>
+                                </button>
+                            </th:block>
                         </div>
                     </th:block>
                 </div>
@@ -303,7 +344,8 @@
 
                 <!-- 페이지 번호를 반복문을 돌려서 세팅 -->
                 <th:block th:each="num : ${#numbers.sequence(startPage, endPage)}">
-                    <a th:href="@{/customer/item/selectlist.do(orderby=${param.orderby}, search=${param.search}, scode=${param.scode}, page=${num})}" th:text="${num}"></a>
+                    <!-- th:data-value="${num}" -->
+                    <a th:id="'chkcurrentPage' + ${num}" th:href="@{/customer/item/selectlist.do(orderby=${param.orderby}, search=${param.search}, scode=${param.scode}, page=${num})}" th:text="${num}"></a>
                 </th:block>
 
                 <!-- 현재 페이지가 총 페이지 수보다 작을 때 > >> 버튼 생성 -->
@@ -332,6 +374,14 @@
 
     <!-- script-->
     <script th:inline="javascript" type="text/javascript">
+
+        // 페이지네이션 - 현재페이지 활성화
+        const currentPage = [[${currentPage}]];
+        const activePage = document.getElementById('chkcurrentPage' + currentPage);
+        activePage.classList.add('active');
+
+
+        // 공구열림 확인
         const chkPurchase = async (idx, itemno) => {
             // console.log(document.getElementsByName('testchk')[idx]);
 
@@ -340,13 +390,71 @@
             const { data } = await axios.get(url, {headers});
             // console.log(data.chk);
 
-            if( data.chk != 0){
+            if( data.chk != 0 ){
                 // document.getElementsByName('itemCover1')[idx].innerHTML = `공구열림`;
                 document.getElementsByName('purchaseChk')[idx].style.display = 'block';
             }
             
         }
 
+        // 찜 확인
+        const chkJjim = async (idx, itemno) => {
+            const user = [[${user}]];
+
+            if(user != null){
+                const url = [[@{/api/sejjimchk.json}]] + `?itemno=${itemno}`;
+                const headers = {"Content-Type" : "application/json"};
+                const { data } = await axios.get(url, {headers});
+                // console.log(data.chk);
+
+                if( data.chk == 0 ){
+                    document.getElementsByName('heartBtn')[idx].style.display = 'block';
+                }
+                else if( data.chk == 1 ) {
+                    document.getElementsByName('heartBtnFill')[idx].style.display = 'block';
+                }
+            }
+
+        }
+
+        // 찜버튼 클릭
+        const jjimAction = async (idx, itemno) => {
+            
+            if (document.getElementsByName('heartBtnFill')[idx].style.display === 'block') {
+                // alert('찜하트');
+                const url = [[@{/api/sejjimchange.json}]];
+                const body = {itemno:itemno, menu:1};
+                const headers = {"Content-Type" : "application/json"};
+                const { data } = await axios.post(url, body, { headers:headers });
+
+                // console.log(data.ret);
+
+                if(data.ret === 1) {
+                    document.getElementsByName('heartBtnFill')[idx].style.display = 'none';
+                    document.getElementsByName('heartBtn')[idx].style.display = 'block';
+                }
+
+
+            }
+            else if (document.getElementsByName('heartBtn')[idx].style.display === 'block') {
+                // alert('빈하트');
+                const url = [[@{/api/sejjimchange.json}]];
+                const body = {itemno:itemno, menu:2};
+                const headers = {"Content-Type" : "application/json"};
+                const { data } = await axios.post(url, body, { headers:headers });
+
+                // console.log(data.ret);
+
+                if(data.ret === 1) {
+                    document.getElementsByName('heartBtn')[idx].style.display = 'none';
+                    document.getElementsByName('heartBtnFill')[idx].style.display = 'block';
+                }
+
+            }
+
+        }
+
+        // 아이템커버
         const mouseOverAction = (idx) => {
             const itemCover1 = document.getElementsByName('itemCover1')[idx];
             itemCover1.style.visibility = 'visible';

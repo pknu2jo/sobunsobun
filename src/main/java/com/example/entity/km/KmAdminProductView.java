@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.springframework.data.annotation.Immutable;
@@ -25,6 +24,9 @@ public class KmAdminProductView {
 
     @Column(name = "participant")
     private BigDecimal participant;
+
+    @Column(name ="headcount")
+    private BigDecimal headcount;
 
     @Column(name = "receivestate")
     private BigDecimal receivestate;

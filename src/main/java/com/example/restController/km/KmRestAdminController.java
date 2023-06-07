@@ -99,27 +99,41 @@ public class KmRestAdminController {
         try {
 
             // 1. product.html에서 storageno, receiverstate 받아오기
-            // log.info("purchaselistbystorage.json => {}", searchoption);
-            // log.info("purchaselistbystorage.json => {}", searchvalue);
+            log.info("purchaselistbystorage.json => {}", searchoption);
+            log.info("purchaselistbystorage.json => {}", searchvalue);
 
-            // // 2. searchoption=?, searchvalue=? => 데이터 가져오기 (kmadminproductview에서)
-            // if(searchoption.equals("memid")) {
-            //     List<KmAdminProductView> purchaseList = test.findByPurchaseno(BigDecimal.valueOf(Long.parseLong(searchvalue)));
+            retMap.put("purchase", null); 
+            retMap.put("purchaseList", null); 
 
-            // } else if(searchoption.equals("purchaseno")) {
+            // 2. searchoption=?, searchvalue=? => 데이터 가져오기 (kmadminproductview에서)
+            if(searchoption.equals("memid")) {
+                List<KmAdminProductView> purchaseList = adminService.findPurchaseListByMemid(searchvalue);
 
-            // }
+                if(purchaseList.size() > 0) {
+                    retMap.put("purchaseList", purchaseList); 
+                    log.info("retMap check => {}", retMap.get("purchaseList"));
+                }
 
-            // log.info("search PurchaseList => {}", purchaseList.toString());
-
-            // 3. purchaseno=?와 state=1인 PURCHASESTATUS의 memid들 가져오기
-            // if(purchaseList.size() > 0) {
-            //     retMap.put("purchaseList", purchaseList); 
-            //     log.info("retMap check => {}", retMap.get("purchaseList"));
+            } else if(searchoption.equals("purchaseno")) {
+                KmAdminProductSimpleView purchase = adminService.findOnePurchaseSimpleView(BigDecimal.valueOf(Long.parseLong(searchvalue)));
+            
+                if(purchase != null) {
+                    List<KmAdminPurchaseStatus> objList = adminService.findMemidAndStateByPurchaseno(purchase.getPurchaseno());
+                    List<KmAdminPurchaseStatusDTO> customerList = new ArrayList<>();
+    
+                    for(KmAdminPurchaseStatus obj1 : objList) {
+                        KmAdminPurchaseStatusDTO purchasestatusDTO = new KmAdminPurchaseStatusDTO();
+                        purchasestatusDTO.setMemid(obj1.getMemid());
+                        purchasestatusDTO.setState(obj1.getState());
+    
+                        customerList.add(purchasestatusDTO);
+                    }
+                    purchase.setCustomerList(customerList);
+                    retMap.put("purchase", purchase);
+                    log.info("retMap check => {}", retMap.get("purchase")); 
+                }
                 
-            // } else {
-            //     retMap.put("purchaseList", null); 
-            // }
+            }
 
             retMap.put("result", 1);
         } catch (Exception e) {
@@ -144,10 +158,10 @@ public class KmRestAdminController {
                 // 2. purchase의 headcount를 +1로 해줌(UPDATE purchase SET HEADCOUNT = HEADCOUNT + 1 WHERE NO=1091)
                     // purchase를 불러온다.
                     PurchaseEntity purchase =  adminService.findOnePurchase(purchaseStatus.getPurchaseEntity().getNo());
-                    // HEADCOUNT + 1 해준다. 
+                    // HEADCOUNT + 1 해준다. ( save 는 자동으로 됨)
                     purchase.setHeadCount(purchase.getHeadCount().add(BigDecimal.valueOf(1)));
                     log.info("purchase 확인하기 => {}", purchase.toString());
-                    // save 해준다.
+                    
                     // int ret = adminService.updatePurchaseHeadcount(purchase);
             
                 // 3. headcount == participant가 되면 receivestate=1로 바꿔주기 
@@ -155,6 +169,8 @@ public class KmRestAdminController {
                 if(purchase.getHeadCount().compareTo(purchase.getParticipant()) == 0) {
                     purchase.setReceiveState(BigDecimal.valueOf(1));
                 }
+
+                retMap.put("result", 1);
             }
         } catch (Exception e) {
             e.printStackTrace();
