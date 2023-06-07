@@ -390,30 +390,4 @@ public class KmCustomerContorller {
             return "redirect:/customer/home.do";
         }
     }
-
-   
-    @GetMapping(value = "/kmtest.do")
-    public String testGET(Model model) {
-        log.info("푸터 인클루드 테스트");
-
-        // int person = cMapper.countRemainingPerson(1004);
-        // log.info("person => {}", person);
-        // model.addAttribute("person", person);
-
-        // long no = 5;
-        // List<Map<String, Object>> purchaseList =
-        // customerService.selectPurchaseList(no);
-
-        // for(Map<String, Object> obj : purchaseList) {
-        // // log.info("maplist => {}", obj.get("PURCHASENO"));
-        // obj.put("REMAININGPERSON", customerService.countRemainingPerson((BigDecimal)
-        // obj.get("PURCHASENO")));
-        // // obj.setRemaingPerson(customerService.countRemainingPerson(obj.getNo()));
-        // }
-        // log.info("purchaseList => {}", purchaseList);
-
-        // model.addAttribute("list", purchaseList);
-        return "/km/customer/sample";
-    }
-
 }

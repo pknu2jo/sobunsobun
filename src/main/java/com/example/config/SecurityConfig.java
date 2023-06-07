@@ -94,7 +94,7 @@ public class SecurityConfig {
                                                 "/customer/kakaojoin.do",
                                                 "/customer/kakaojoinaction.do", "/customer/item/selectlist.do",
                                                 "/customer/notitest.do",
-                                                "/customer/kmtest.do", "/customer/image", "/customer/item/selectone.do",
+                                                "/customer/image", "/customer/item/selectone.do",
                                                 "/customer/kmreviewimage")
                                 .permitAll()
                                 .antMatchers("/seller/join.do", "/seller/item/insert.do", "/seller/login.do",
@@ -103,7 +103,7 @@ public class SecurityConfig {
                                                 "/seller/pwinfocheck.do", "/seller/item/management.do",
                                                 "/seller/unregister.do")
                                 .permitAll()
-                                .antMatchers("/admin/join.do", "/admin/login.do", "/admin/product.do").permitAll()
+                                .antMatchers("/admin/join.do", "/admin/login.do").permitAll()
 
                                 .antMatchers("/admin", "/admin/*").hasAuthority("ROLE_ADMIN") // 주소가 9090/ROOT/admin ~~
                                                                                               // 모든것
