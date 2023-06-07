@@ -16,8 +16,8 @@ import com.example.entity.CNotificationEntity;
 import com.example.entity.CustomerEntity;
 import com.example.entity.se.SeJjimProjection;
 import com.example.entity.se.SePurchaseStatusProjection;
-import com.example.mapper.se.SePurchaseItemMapper;
 import com.example.service.se.SeCustomerService;
+import com.example.service.se.SePurchaseItemService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -27,9 +27,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SeRestSseNotificationController {
 
-    final SePurchaseItemMapper testMapper;
-
     final SeCustomerService cService;
+    final SePurchaseItemService piService;
 
     private static final Map<String, SseEmitter> clients = new HashMap<>();
 
@@ -61,7 +60,7 @@ public class SeRestSseNotificationController {
             // log.info("찜알림 => {}, {}", itemno, purchaseno);
 
             // purchasestatus 가 1개인지 확인(최초 개설인지 확인)
-            long cnt = testMapper.selectPurchaseOpenChk(purchaseno);
+            long cnt = piService.selectPurchaseOpenChk(purchaseno);
             // log.info("확인!! => {}", cnt);
 
             if(cnt == 1) {

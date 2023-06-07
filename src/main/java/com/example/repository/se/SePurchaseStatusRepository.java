@@ -14,5 +14,4 @@ public interface SePurchaseStatusRepository extends JpaRepository<PurchaseStatus
     
     List<SePurchaseStatusProjection> findByPurchaseEntity_NoAndState(BigDecimal purchaseno, BigDecimal state);
 
-
 }

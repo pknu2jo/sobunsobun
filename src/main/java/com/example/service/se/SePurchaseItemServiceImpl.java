@@ -13,11 +13,15 @@ import com.example.dto.SeSelectItemListView;
 import com.example.entity.CustomerAddressEntity;
 import com.example.entity.ItemImage;
 import com.example.entity.JjimEntity;
+import com.example.entity.PurchaseStatusEntity;
+import com.example.entity.se.SeChkPurchaseDeadlineView;
 import com.example.mapper.se.SePurchaseItemMapper;
+import com.example.repository.se.SeChkPurchaseDeadlineViewRepository;
 import com.example.repository.se.SeCustomerAddressRepository;
 import com.example.repository.se.SeCustomerRepository;
 import com.example.repository.se.SeItemImageRepository;
 import com.example.repository.se.SeJjimRepository;
+import com.example.repository.se.SePurchaseStatusRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +34,9 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
     final SeCustomerRepository cRepository;
     final SeCustomerAddressRepository caRepository;
     final SeJjimRepository jjimRepository;
+    final SeChkPurchaseDeadlineViewRepository chkPurchaseDeadlineViewRepository;
+    final SePurchaseStatusRepository purchaseStatusRepository;
+
     
     // --------------------------------------------------------------------------------------------
     // 공구가 많이 열린 물품 n개
@@ -202,9 +209,42 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
         }
     }
 
+    
+    // --------------------------------------------------------------------------------------------------------
+    // 최초 개설된 공구인지 확인(알림용)
+    @Override
+    public long selectPurchaseOpenChk(long purchaseno) {
+        try {
+            return piMapper.selectPurchaseOpenChk(purchaseno);
+        } catch (Exception e) {
+             e.printStackTrace();
+             return -1;
+        }
+    }
 
 
+    // 마감일 지난 공구 확인(스케쥴러)
+    @Override
+    public List<SeChkPurchaseDeadlineView> findAllAfterDeadline() {
+        try {
+            return chkPurchaseDeadlineViewRepository.findAll();
+        } catch (Exception e) {
+             e.printStackTrace();
+             return null;
+        }
+    }
 
+    // 마감 지난 공구 취소 insert(스케쥴러)
+    @Override
+    public List<PurchaseStatusEntity> saveAllPurchaseStatus(List<PurchaseStatusEntity> list) {
+        try {
+            return purchaseStatusRepository.saveAll(list);
+        } catch (Exception e) {
+             e.printStackTrace();
+             return null;
+        }
+    }
 
+    
     
 }
