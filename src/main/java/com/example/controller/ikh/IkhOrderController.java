@@ -97,7 +97,7 @@ public class IkhOrderController {
             return "/ikh/seller/order/search";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/home.do";
+            return "/jk/seller/login";
         }
     }
     /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */

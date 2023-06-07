@@ -135,7 +135,7 @@
                                         <div class="col-2" style="display: inline-block;">
                                             배송상태
                                         </div>                                        
-                                        <input class="form-check-input" type="radio" th:each="obj : ${statuslist}" th:field="${dvs.status}" name="status" th:text="${obj.status} + '&nbsp;&nbsp;&nbsp;&nbsp;'" th:value="${obj.no}"/>                                        
+                                        <input class="form-check-input" type="radio" th:each="obj : ${statuslist}" th:field="${dvs.status}" name="status" th:text="'&nbsp;' +  ${obj.status} + '&nbsp;&nbsp;&nbsp;&nbsp;'" th:value="${obj.no}"/>                                        
                                         
                                     </div>
                                 </div>
@@ -249,7 +249,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <form th:action="@{/seller/delivery/search.do}" method="post">
+                    <form th:action="@{/seller/delivery/search.do}" id="form2" method="post">
                         <input type="hidden" name="btndv" value="" id="btndv"/>
                         <input type="hidden" name="dvstatus" value="" id="dvstatus"/>
                         <input type="submit" value="상태변경" class="btn btn-outline-dark" onclick="dvvalue()" />
@@ -309,7 +309,7 @@
         var bt2 = document.getElementById('btn-2').className;
         var bt3 = document.getElementById('btn-3').className;
         var btndv = document.getElementById('btndv').value;
-        var equals = 'btn btn-outline-primary active';        
+        var equals = 'btn btn-outline-dark active';
         
         if(bt0 == equals) {
             console.log("0번 " + btndv);
@@ -331,14 +331,15 @@
             document.getElementById('dvstatus').setAttribute('value', 3);
             console.log(document.getElementById('dvstatus').value);
         }
+
+        // document.getElementById('form2').submit();
     }
 
     // 배송상태설정 변경
     function dvclick(index, enid) {
         var dv = document.getElementById('dvact' + index).value;        
         console.log("상태 : " + dv); 
-        console.log("enid : " + enid);
-        console.log(typeof enid);
+        console.log("enid : " + enid);        
 
         // 상태에 맞는 토글 설정
         if(dv == 0){

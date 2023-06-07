@@ -465,7 +465,7 @@ public class IkhDeliveryController {
             return "/ikh/seller/delivery/search";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/seller/home.do";
+            return "/jk/seller/login";
         }
     }
     
@@ -486,12 +486,12 @@ public class IkhDeliveryController {
                 return "redirect:/seller/delivery/search.do";
             }
             else{
-                return "redirect:/seller/home.do";
+                return "/jk/seller/login";
             }
             // return "redirect:/seller/delivery/search.do";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/seller/home.do";
+            return "/jk/seller/login";
         }
     }
     /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */

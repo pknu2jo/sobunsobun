@@ -54,8 +54,7 @@ public class MyOrderListController {
 
             // a= firstdate, b= secondate;
             int a = 0, sum = 0;
-
-            // List<grpurchaseview> list = new ArrayList<>();
+            
             Grcalender gc = new Grcalender();
             gc.setFirstdate(firstdate);
             gc.setSeconddate(seconddate);

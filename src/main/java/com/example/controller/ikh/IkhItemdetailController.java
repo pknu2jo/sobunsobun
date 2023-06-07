@@ -90,7 +90,7 @@ public class IkhItemdetailController {
             return "/ikh/seller/item/searchdetail";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/home.do";
+            return "/jk/seller/login";
         }       
     }
     /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
