@@ -63,14 +63,14 @@
                                 <tbody>
                                     <tr th:each="obj : ${list}" >
                                         
-                                        <td><input class="form-control readonly" type="text" name="no[]" th:value="${obj.no.longValue()}" onclick="readonly()" readonly/></td>
+                                        <td style="width: 90px;"><input class="form-control readonly" type="text" name="no[]" th:value="${obj.no.longValue()}" onclick="readonly()" style="text-align:center ;" readonly /></td>
                                         <td><input class="form-control" type="text" name="name[]" th:value="${obj.name}" /></td>
                                         <td><input class="form-control" type="text" name="price[]" th:value="${obj.price.longValue()}" /></td>
                                         <td><input class="form-control" type="text" name="quantity[]" th:value="${obj.quantity.longValue()}" /></td>
                                         <td><input class="form-control readonly" type="text" name="scategoryCode[]" th:value="${obj.scategoryCode.name}" onclick="readonly()" readonly/></td>
                                         <td><input class="form-control readonly" type="text" name="mcategoryCode[]" th:value="${obj.scategoryCode.mcategoryCode.name}" onclick="readonly()" readonly/></td>
                                         <td><input class="form-control readonly" type="text" name="lcategoryCode[]" th:value="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}" onclick="readonly()" readonly/></td>
-                                        <td><input class="form-control readonly" type="text" th:value="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일')}" onclick="readonly()" readonly /></td>
+                                        <td><input class="form-control readonly" type="text" th:value="${#dates.format(obj.regdate, 'yy-MM-dd E요일')}" onclick="readonly()" style="text-align:center ;" readonly /></td>
                                         <input type="hidden" th:value="${obj.regNo}">
                                         <input type="hidden" th:value="${obj.scategoryCode.code}">
                                     </tr>
@@ -223,13 +223,14 @@
         function updateItemAction() {
             const form1 = document.getElementById("form1");
             form1.submit();
+            // window.location.href = `/SOBUN/seller/item/management.do`;
             // alert('물품수정이 완료되었습니다.');
-            $('#update').modal('show');
-            document.getElementById('tomanagement').addEventListener("click", clickFunction);
-            function clickFunction() {
-                window.location.href = `/SOBUN/seller/itemimage/management.do`;
-            }
         }
+        // $('#update').modal('show');
+        // document.getElementById('tomanagement').addEventListener("click", clickFunction);
+        // function clickFunction() {
+        //     window.location.href = `/SOBUN/seller/item/management.do`;
+        // }
 
         
     </script>

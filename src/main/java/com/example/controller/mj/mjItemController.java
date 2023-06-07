@@ -24,6 +24,7 @@ import com.example.entity.Scategory;
 import com.example.entity.SellerEntity;
 import com.example.entity.mj.ItemCategoryView;
 import com.example.repository.jk.JkSellerRepository;
+import com.example.service.jk.JkSellerService;
 import com.example.service.mj.MjItemService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,8 @@ import lombok.extern.slf4j.Slf4j;
 public class mjItemController {
 
     final JkSellerRepository sellerRepository;
+    final JkSellerService sSellerService;
+    
     
     final HttpSession httpSession; //세션객체
     final MjItemService itemService;
@@ -212,7 +215,8 @@ public class mjItemController {
         @RequestParam(name = "mcate", defaultValue = "000", required = false) BigDecimal Mcode,
         @RequestParam(name = "scate", defaultValue = "000", required = false) BigDecimal Scode ) {
         try {
-            SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);
+            SellerEntity seller = sSellerService.findByNo(user.getUsername());
+            // SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);
             log.info("seller => {}", seller.toString());
             log.info("sellerid => {}", seller.getNo());
             model.addAttribute("companyName", seller.getName().toString());
