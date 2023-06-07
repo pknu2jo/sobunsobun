@@ -106,6 +106,7 @@ public class GrMyOrderListController {
                 int startPage = (currentSet - 1) * 5 + 1;
                 int endPage = Math.min(startPage + 4, totalPages);
 
+                model.addAttribute("user", user);
                 model.addAttribute("list", list);
                 model.addAttribute("pages", totalPages);
                 model.addAttribute("gc", gc);
@@ -192,6 +193,7 @@ public class GrMyOrderListController {
                 int startPage = (currentSet - 1) * 5 + 1;
                 int endPage = Math.min(startPage + 4, totalPages);
 
+                model.addAttribute("user", user);
                 model.addAttribute("list", list);
                 model.addAttribute("pages", totalPages);
                 model.addAttribute("firstdate", firstdate);
