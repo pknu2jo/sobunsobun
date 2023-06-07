@@ -37,26 +37,15 @@
 
         <!-- 전체화면 > 우측 메인화면 영역 -->
         <div id="layoutContent">
-            <main>
+            <main style="margin-bottom: 400px;">
                 <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->
                     <div class="container mt-5">
+                        <div>
+                            <h3 style="float: left;">물품수정</h3>
+                            <a th:href="@{/seller/item/management.do}"><button class="btn btn-dark" style="float: right; margin-top: 30px;" >물품리스트</button></a>
+                        </div>
 
-                        <h3>물품수정</h3>
-                        <a th:href="@{/seller/item/management.do}"><button class="btn btn-dark">물품리스트</button></a>
                         <form th:action="@{/seller/item/updateitemaction.do}" method="post" id="form1">
-                            <div class="row">
-                                <!-- <div class="col-auto" style="background-color: lime;">
-                                    <p>물품번호</p>                                
-                                </div>
-                                <div class="col-auto">
-                                    <p>물품명</p>
-                                </div>
-    
-                                <div class="col-4" style="background-color: black;">
-                                    <p>col-4</p>
-                                </div> -->
-                            </div>
-    
                             <table class="table caption-top" >
                                 <caption>물품명, 가격, 수량 수정가능</caption>
                                 <thead>
@@ -82,27 +71,12 @@
                                         <td><input class="form-control readonly" type="text" name="mcategoryCode[]" th:value="${obj.scategoryCode.mcategoryCode.name}" onclick="readonly()" readonly/></td>
                                         <td><input class="form-control readonly" type="text" name="lcategoryCode[]" th:value="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}" onclick="readonly()" readonly/></td>
                                         <td><input class="form-control readonly" type="text" th:value="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일')}" onclick="readonly()" readonly /></td>
-                                        
-                            <!-- ====================== -->
-                                        <!-- <td th:text="${obj.no.longValue()}" id="itemno">물품번호</td>
-                                        <td th:text="${obj.name}"></td>
-                                        <td th:text="${obj.price.longValue()}"></td>
-                                        <td th:text="${obj.quantity.longValue()}"></td>
-                                        <td th:text="${obj.scategoryCode.name}"></td>
-                                        <td th:text="${obj.scategoryCode.mcategoryCode.name}"></td>
-                                        <td th:text="${obj.scategoryCode.mcategoryCode.lcategoryCode.name}">
-                                        </td>
-                                        <td
-                                            th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분 ss초')}" readonly>
-                                        </td> -->
-    
-                                        <!-- <td><input type="hidden" th:value="${obj.regNo}"></td>
-                                        <td><input type="hidden" th:value="${obj.scategoryCode.code}"></td> -->
                                         <input type="hidden" th:value="${obj.regNo}">
                                         <input type="hidden" th:value="${obj.scategoryCode.code}">
                                     </tr>
                                 </tbody>
                             </table>
+
                             <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#updateOkmodal" id="updateitem">수정</button>
                         </form>
                     </div>
@@ -137,7 +111,7 @@
                                 물품수정이 완료되었습니다.
                             </div>
                             <div class="modal-footer">
-                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal" >확인</button>
+                            <button type="button" class="btn btn-dark" data-bs-dismiss="modal" id="tomanagement">확인</button>
                             </div>
                         </div>
                         </div>
@@ -256,22 +230,16 @@
             form1.submit();
             // alert('물품수정이 완료되었습니다.');
             $('#update').modal('show');
+            document.getElementById('tomanagement').addEventListener("click", clickFunction);
+            function clickFunction() {
+                window.location.href = `/SOBUN/seller/itemimage/management.do`;
+            }
         }
 
         
     </script>
 
-    <script>
-        // document.getElementById("updateitem").addEventListener("click", clickFunction);
 
-        // function clickFunction(){
-        //     $('#updateOkmodal').modal('show');
-            
-        //     // if(!confirm('물품수정이 완료되었습니다.')){
-        //     //         window.location.href = `/SOBUN/seller/item/management.do`;
-        //     //     }
-        // }
-    </script>
 
 
 

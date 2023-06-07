@@ -28,10 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.entity.Item;
 import com.example.entity.ItemImage;
 import com.example.entity.SellerEntity;
-import com.example.mapper.mj.mjItemImageMapper;
 import com.example.repository.jk.JkSellerRepository;
-import com.example.repository.mj.ItemImageRepository;
-import com.example.repository.mj.ItemRepository;
 import com.example.service.mj.MjItemImageService;
 import com.example.service.mj.MjItemService;
 

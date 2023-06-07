@@ -119,9 +119,9 @@ ul {
     transition: opacity 0.3s ease-in;
 } */
 
-.sb-sidenav-toggled #sidebarToggle {
-    /* transform: rotate(-180deg); /* 메뉴가 들어갈때 아이콘이 180도 회전 */
-}
+/* .sb-sidenav-toggled #sidebarToggle {
+    transform: rotate(-180deg); /* 메뉴가 들어갈때 아이콘이 180도 회전 
+} */
 
 /* #layoutLeftSide {
     position: fixed;

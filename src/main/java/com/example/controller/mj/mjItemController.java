@@ -1,14 +1,11 @@
 package com.example.controller.mj;
 
-import java.lang.ProcessBuilder.Redirect;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.hibernate.type.BigDecimalType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -18,23 +15,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndViewDefiningException;
 
 import com.example.dto.Category;
 import com.example.entity.Item;
-import com.example.entity.ItemImage;
 import com.example.entity.Lcategory;
 import com.example.entity.Mcategory;
 import com.example.entity.Scategory;
 import com.example.entity.SellerEntity;
 import com.example.entity.mj.ItemCategoryView;
-import com.example.mapper.mj.mjItemMapper;
 import com.example.repository.jk.JkSellerRepository;
-import com.example.repository.mj.ItemCategoryViewRepository;
-import com.example.repository.mj.ItemRepository;
-import com.example.repository.mj.LcateRepository;
-import com.example.repository.mj.McateRepository;
-import com.example.repository.mj.ScateRepository;
 import com.example.service.mj.MjItemService;
 
 import lombok.RequiredArgsConstructor;
