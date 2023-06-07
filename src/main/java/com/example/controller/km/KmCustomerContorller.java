@@ -149,10 +149,6 @@ public class KmCustomerContorller {
                     log.info("왜 이게 안되냐고 => {}", reviewList.toString());
                 }
                 
-                int pageSize = 2; // 한페이지에 나오는 아이템갯수
-                // int start1 = (page -1) * pageSize;
-                // int end1 = page * pageSize;
-
                 int totalPages = (int) ((total-1) / PAGETOTAL) + 1;
                 int currentSet = (int) Math.ceil((double) page/5);
                 int startPage = (currentSet - 1) * 5 + 1;
@@ -383,7 +379,7 @@ public class KmCustomerContorller {
             // 세션에서 가져오기
             KmOrderSuccess obj = (KmOrderSuccess) httpSession.getAttribute("kmOrderSuccess");
 
-            // log.info("세션에서 가져오기 => {}", obj.toString());
+            log.info("ordersuccess 세션에서 가져오기 => {}", obj.toString());
             // KmOrderSuccess(itemname=수건 10개, orderno=km060269, totalprice=30,699원, 
                 // storagename=부산강서구점, orderdate=2023.06.02, purchaseno=1073)
             model.addAttribute("user", user);
@@ -394,30 +390,4 @@ public class KmCustomerContorller {
             return "redirect:/customer/home.do";
         }
     }
-
-   
-    @GetMapping(value = "/kmtest.do")
-    public String testGET(Model model) {
-        log.info("푸터 인클루드 테스트");
-
-        // int person = cMapper.countRemainingPerson(1004);
-        // log.info("person => {}", person);
-        // model.addAttribute("person", person);
-
-        // long no = 5;
-        // List<Map<String, Object>> purchaseList =
-        // customerService.selectPurchaseList(no);
-
-        // for(Map<String, Object> obj : purchaseList) {
-        // // log.info("maplist => {}", obj.get("PURCHASENO"));
-        // obj.put("REMAININGPERSON", customerService.countRemainingPerson((BigDecimal)
-        // obj.get("PURCHASENO")));
-        // // obj.setRemaingPerson(customerService.countRemainingPerson(obj.getNo()));
-        // }
-        // log.info("purchaseList => {}", purchaseList);
-
-        // model.addAttribute("list", purchaseList);
-        return "/km/customer/sample";
-    }
-
 }

@@ -126,6 +126,7 @@
             margin-top: 80px;
             margin-bottom: 190px;
             position: relative;
+            height: 570px;
         }
 
         .swiper-slide {
@@ -141,20 +142,12 @@
             display: block;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .swiper-slide {
             width: 60%;
         }
-
-        /* .swiper-slide:nth-child(2n) {
-            width: 40%;
-        }
-
-        .swiper-slide:nth-child(3n) {
-            width: 20%;
-        } */
 
         .swiper-pagination-bullet-active {
             background-color: #6D9275;
@@ -197,9 +190,12 @@
         <div class="container-fluid">
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
-            <div class="swiper-slide"><img th:src="@{/images/se/homeBanner1.png}"></div>
-            <div class="swiper-slide"><img th:src="@{/images/se/homeBanner2.png}"></div>
-            <div class="swiper-slide"><img th:src="@{/images/se/homeBanner3.png}"></div>
+            <div class="swiper-slide"><img th:src="@{/images/se/homeMainBanner1.png}"></div>
+            <div class="swiper-slide"><img th:src="@{/images/se/homeMainBanner2.png}"></div>
+            <div class="swiper-slide"><img th:src="@{/images/se/homeMainBanner3.png}"></div>
+            <div class="swiper-slide"><img th:src="@{/images/se/homeMainBanner4.png}"></div>
+            <div class="swiper-slide"><img th:src="@{/images/se/homeMainBanner5.png}"></div>
+            <div class="swiper-slide"><img th:src="@{/images/se/homeMainBanner6.png}"></div>
             </div>
             <div class="swiper-pagination"></div>
         </div>
@@ -219,6 +215,7 @@
                             <img th:src="@{/images/se/homeBanner.jpg}" style="width: 800px; height: 450px;">
                         </div>
                         <div class="col mb-auto">
+                            <!-- <a th:href="@{/customer/item/selectone.do(itemno=${deadOne.itemno})}"><img th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="width: 450px; height: 450px; object-fit: scale-down; background-color: #f8f7f5;"></a> -->
                             <a th:href="@{/customer/item/selectone.do(itemno=${deadOne.itemno})}"><img th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="width: 450px; height: 450px;"></a>
                             <div class="dday1 shadow-sm" th:text="|D - ${deadOne.dday}|"></div>
                         </div>
@@ -332,7 +329,7 @@
         // 배너 슬라이드 ----------------------------------------------------------------------------------
         var swiper = new Swiper(".mySwiper", {
             autoplay: {
-                delay: 5000,
+                delay: 3000,
                 disableOnInteraction: false,
             },
             slidesPerView: "auto",

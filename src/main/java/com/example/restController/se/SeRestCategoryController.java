@@ -12,12 +12,10 @@ import com.example.dto.CategoryAll;
 import com.example.service.se.SeCategoryService;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping(value = "/api/category")
 @AllArgsConstructor
-@Slf4j
 public class SeRestCategoryController {
     
     final SeCategoryService cService;

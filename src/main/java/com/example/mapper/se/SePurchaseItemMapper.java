@@ -43,4 +43,8 @@ public interface SePurchaseItemMapper {
     // 물품이 현재 공구 중인지 확인
     public long selectPurchaseChk(long itemno);
 
+    // --------------------------------------------------------------------------------------------------------
+    // 최초 개설된 공구인지 확인(알림용)
+    public long selectPurchaseOpenChk(long purchaseno);
+
 }

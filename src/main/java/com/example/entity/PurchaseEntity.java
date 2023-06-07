@@ -17,12 +17,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.example.dto.KmAdminPurchaseStatusDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;

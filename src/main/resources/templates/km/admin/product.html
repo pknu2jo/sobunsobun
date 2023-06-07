@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <!-- Simple DataTable용 CSS CDN -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css"> -->
     <!--최신버전-->
     <!-- font-awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -34,6 +32,52 @@
             content: "\2713";
             color: #fff;
             }
+
+        /* select 태그 스타일 */
+        select {
+            padding: 8px 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+            font-size: 14px;
+            width: 150px;
+            height: 40px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-position: right center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 24px;
+            background-position: right 12px center;
+            filter: grayscale(50%);
+        }
+        
+        select:focus, #searchInput:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px #007bff;
+        }
+        
+        select option:checked {
+            background-color: #007bff;
+            color: #fff;
+        }
+        
+        select option:hover {
+            background-color: #f2f2f2;
+        }
+
+        option {
+            font-size: 16px;
+        }
+
+        #searchInput {
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+       
     </style>
 
     <script th:src="@{/js/bootstrap.min.js}"></script>
@@ -58,47 +102,57 @@
             <!-- <div th:text="${storageList}"></div> -->
 
             <!-- -------------------------------------------------------------------------------------------------------------- -->
-            <!-- 지점 선택 ~  -->
-            <select id="selectStorage" name="storageNo" onchange="selectStorage()">
-                <option  selected>---[필수 선택]---</option>
-                <option value="0">전체</option>
-                <option th:each="tmp:${storageList}" th:value="${tmp.no}" th:text="${tmp.name}"></option>
-            </select>
-            <!-- ~ 지점 선택-->
-
-            <!-- 지점 선택시 생성될 버튼들 ~  -->
-            <div id="receive_btn">
-                <!-- 위의 select 태그 선택 시 생성됨
-                    <button>수령 미완료</button>
-                    <button>수령 완료</button> 
-                -->
+            
+            <div id="select_section" style="float: left;">
+                <!-- 지점 선택 ~  -->
+                <select id="selectStorage" name="storageNo" onchange="selectStorage()" th:style="'background-image: url(' + @{/images/km/downarrow.png} + ');'"
+                        class="mt-3">
+                    <option selected>지점 선택</option>
+                    <option value="0">전체</option>
+                    <option th:each="tmp:${storageList}" th:value="${tmp.no}" th:text="${tmp.name}"></option>
+                </select>
+                <!-- ~ 지점 선택-->
+    
+                <!-- 지점 선택시 생성될 버튼들 ~ -->
+                <div id="receive_btn" style="display: inline-block;">
+                    <!-- 위의 select 태그 선택 시 생성됨
+                        <button>수령 미완료</button>
+                        <button>수령 완료</button> 
+                    -->
+                </div>
+                <!-- ~ 지점 선택시 생성될 버튼들  -->
             </div>
-            <!-- ~ 지점 선택시 생성될 버튼들  -->
             
             
             <!-- -------------------------------------------------------------------------------------------------------------- -->
 
             <!-- 검색 기능 ~  -->
-            <select id="searchOption" onclick="removeReceiveBtn()">
-                <option value="purchaseno">번호</option>
-                <option value="memid">아이디</option>
-            </select>
-            <input type="text" id="searchInput" placeholder="검색" onclick="removeReceiveBtn()">
-            <button onclick="searchData()">검색</button>
+            <div id="seach_section" style="float: right;" class="mt-3">
+                <select id="searchOption" onclick="removeReceiveBtn()" th:style="'background-image: url(' + @{/images/km/downarrow.png} + ');'">
+                    <option  selected>선택</option>
+                    <option value="purchaseno">번호</option>
+                    <option value="memid">아이디</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="검색" onclick="removeReceiveBtn()">
+                <button onclick="searchData()" class="btn btn-primary">검색</button>
+            </div>
             <!-- ~ 검색 기능  -->
+
+            <br>
+            <br>
+            <br>
 
             <!-- -------------------------------------------------------------------------------------------------------------- -->
 
             <!-- 테이블 영역 ~ -->
-            <div class="px-4">
-                <h1 class="mt-4">고객 상품 수령 관리</h1>
+            <div class="mt-3">
 
                 <div class="row">
                     <div class="col">
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                <span>테이블 예제</span>
+                                <span>고객 상품 수령 관리</span>
 
                             </div>
                             <div class="card-body">
@@ -128,9 +182,6 @@
     <!-- jQuery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
-    <!-- Simple DataTable용 JS CDN -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script> -->
-
     <script th:inline="javascript" type="text/javascript">
 
         const dataTable = document.querySelector('#datatablesSimple');
@@ -150,8 +201,8 @@
             console.log("value => ", selectVal);
 
             document.querySelector('#receive_btn').innerHTML =
-                `<button onclick="selectPurchase(0)">수령 미완료</button>` +
-                `<button onclick="selectPurchase(1)" >수령 완료</button>`;
+                `<button onclick="selectPurchase(0)" class="btn btn-primary mx-1">수령 미완료</button>` +
+                `<button onclick="selectPurchase(1)" class="btn btn-primary mx-1">수령 완료</button>`;
         }
 
         // select 태그의 값에 해당하는 공구 리스트 가져오기
