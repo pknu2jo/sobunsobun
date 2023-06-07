@@ -379,7 +379,7 @@ public class KmCustomerContorller {
             // 세션에서 가져오기
             KmOrderSuccess obj = (KmOrderSuccess) httpSession.getAttribute("kmOrderSuccess");
 
-            // log.info("세션에서 가져오기 => {}", obj.toString());
+            log.info("ordersuccess 세션에서 가져오기 => {}", obj.toString());
             // KmOrderSuccess(itemname=수건 10개, orderno=km060269, totalprice=30,699원, 
                 // storagename=부산강서구점, orderdate=2023.06.02, purchaseno=1073)
             model.addAttribute("user", user);

@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.entity.PurchaseStatusEntity;
-import com.example.entity.km.KmPurchaseStatusIdProjection;
 
 @Repository
 public interface KmPurchaseStatusRepository extends JpaRepository<PurchaseStatusEntity, BigDecimal>{
@@ -25,9 +24,6 @@ public interface KmPurchaseStatusRepository extends JpaRepository<PurchaseStatus
                                     @Param("itemno") long itemno,
                                     @Param("memid") String memid
                                 );
-
-    // purchaseno=?와 state=1인 PURCHASESTATUS의 memid들 가져오기 
-    List<KmPurchaseStatusIdProjection> findByPurchaseEntity_noAndStateOrderByCustomerEntity_idAsc(BigDecimal storageno, BigDecimal state);
 
 
     // 네이티브는 프로젝션 못씀...

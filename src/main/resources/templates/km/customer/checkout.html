@@ -233,8 +233,6 @@
         const storageNo = /*[[${obj.storageNo}]]*/"";
         const itemNo = /*[[${obj.itemNo}]]*/"";
 
-
-
         // 이메일 뒤쪽 부분
         var selectEmail = document.querySelector("#selectEmail");
         const selectEmailLength = selectEmail.options.length;
@@ -419,6 +417,11 @@
                         input7.name = "purchaseno";
                         input7.value = data.purchaseno;
 
+                        const input8 = document.createElement("input");
+                        input8.type = "hidden";
+                        input8.name = "itemno";
+                        input8.value = itemNo;
+
                         form1.appendChild(input1);
                         form1.appendChild(input2);
                         form1.appendChild(input3);
@@ -426,6 +429,7 @@
                         form1.appendChild(input5);
                         form1.appendChild(input6);
                         form1.appendChild(input7);
+                        form1.appendChild(input8);
 
                         document.body.appendChild(form1);
 

@@ -23,5 +23,6 @@ public class KmOrderSuccess implements Serializable {
     private String storagename;
     private String orderdate;
     private long purchaseno;
+    private long itemno;
 
 }
