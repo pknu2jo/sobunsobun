@@ -1,7 +1,5 @@
 package com.example.controller.gr;
 
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
-
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,15 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dto.Customer;
-import com.example.dto.CustomerAddress;
 import com.example.mapper.gr.GrCustomerMapper;
 import com.example.service.gr.GrCustomerService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@Slf4j
 @RequestMapping(value = "/customer")
 @RequiredArgsConstructor
 public class MyAccountDropController {
