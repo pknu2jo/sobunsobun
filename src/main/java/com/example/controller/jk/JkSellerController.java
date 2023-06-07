@@ -26,7 +26,6 @@ import com.example.entity.Item;
 import com.example.entity.ItemImage;
 import com.example.entity.SellerEntity;
 import com.example.entity.ikh.BestSellView;
-import com.example.entity.ikh.TopthreeView;
 import com.example.entity.ikh.TotaltableView;
 import com.example.repository.ikh.BestSellViewRepository;
 import com.example.repository.ikh.TopthreeViewRepository;
