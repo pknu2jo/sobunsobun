@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping(value = "/customer")
 @RequiredArgsConstructor
-public class MypageController {
+public class GrMypageController {
 
     final GrCustomerService cService;
     final GrPurchaseItemService pService;

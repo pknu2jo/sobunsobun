@@ -96,33 +96,4 @@ public class GrPurchaseItemImpl implements GrPurchaseItemService {
         }
     }
 
-    // 찜목록 삭제
-    @Override
-    public void deleteByCustomerEntity_idAndItemEntity_no(String memid, BigDecimal itemno) {
-        try {
-            gjRepository.deleteByCustomerEntity_idAndItemEntity_no(memid, itemno);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    // 아이템번호, 아이디 해당하는 상품 찾기
-    @Override
-    public JjimEntity findByCustomerEntity_idAndItemEntity_no(String memid, BigDecimal itemno) {
-        try {
-            return gjRepository.findByCustomerEntity_idAndItemEntity_no(memid, itemno);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    // 아이디와 아이템번호가 같을 경우 카운트
-    // 있으면 1, 없으면 0
-    @Override
-    public int countByCustomerEntity_idAndItemEntity_no(String memid, BigDecimal itemno) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'countByCustomerEntity_idAndItemEntity_no'");
-    }
-
 }

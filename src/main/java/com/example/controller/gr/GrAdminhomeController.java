@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.repository.gr.grcustomerRepository;
+import com.example.service.gr.GrAdminService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,16 +16,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping(value = "/admin")
 @RequiredArgsConstructor
-public class AdminhomeController {
+public class GrAdminhomeController {
 
-    final grcustomerRepository gcRepository;
+    final GrAdminService aService;
 
     @GetMapping(value = "/home.do")
     public String homeGET(@AuthenticationPrincipal User user, Model model) {
 
         log.info("home user check => {}", user.toString());
 
-        int countjoin = gcRepository.countTodayCustomers();
+        int countjoin = aService.countTodayCustomers();
         String formattedRet;
         if (countjoin < 10) {
             formattedRet = "0" + countjoin;
@@ -33,7 +33,7 @@ public class AdminhomeController {
             formattedRet = String.valueOf(countjoin);
         }
 
-        int countdrop = gcRepository.countByQuitchk();
+        int countdrop = aService.countByQuitchk();
         String formattedRet1;
         if (countdrop < 10) {
             formattedRet1 = "0" + countdrop;
@@ -41,7 +41,7 @@ public class AdminhomeController {
             formattedRet1 = String.valueOf(countdrop);
         }
 
-        int countpurchase = gcRepository.coutByPurchase();
+        int countpurchase = aService.countByPurchase();
         String formattedRet2;
         if (countpurchase < 10) {
             formattedRet2 = "0" + countjoin;
