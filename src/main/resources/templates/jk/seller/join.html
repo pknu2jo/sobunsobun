@@ -31,7 +31,7 @@
                             for="id" id="lbl_check" class="form-label">사업자번호 ( "-"는 생략 )</label>
                     </div>
                     <div class="form-floating mb-2">
-                        <input type="password" id="pw" name="pw" class="form-control" required /> <label for="pw"
+                        <input type="password" id="pw" name="pw" class="form-control" onkeydown="capsLockCheck(event)" required /> <label for="pw"
                             id="lbl_pw" class="form-label">암호</label>
                     </div>
                     <div class="form-floating mb-2">
@@ -402,6 +402,18 @@
             }
         }
 
+
+        function capsLockCheck(e) { // CapsLock 유효성 검사
+			let pwLabel = document.getElementById("lbl_pw");
+
+			if (e.getModifierState("CapsLock")) { // CapsLock이 켜져 있는 상태라면
+				pwLabel.innerText = "Caps Lock이 켜져 있습니다.";
+				pwLabel.style.color = 'red';
+			} else { // 그외의 모든 상황
+				pwLabel.innerText = "암호";
+				pwLabel.style.color = 'black';
+			}
+		}
 
     </script>
 

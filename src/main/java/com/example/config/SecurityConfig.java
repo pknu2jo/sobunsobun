@@ -103,7 +103,7 @@ public class SecurityConfig {
                                                 "/seller/pwinfocheck.do", "/seller/item/management.do",
                                                 "/seller/unregister.do")
                                 .permitAll()
-                                .antMatchers("/admin/join.do", "/admin/login.do").permitAll()
+                                .antMatchers("/admin/join.do", "/admin/login.do", "/admin/product.do").permitAll()
 
                                 .antMatchers("/admin", "/admin/*").hasAuthority("ROLE_ADMIN") // 주소가 9090/ROOT/admin ~~
                                                                                               // 모든것

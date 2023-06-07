@@ -147,7 +147,7 @@ public class MjItemImageController {
             return "redirect:/seller/itemimage/selectlist.do?no=" + itemno;
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/seller/home.do";
+            return "redirect:/seller/login.do";
         }
     }   
 
@@ -162,7 +162,7 @@ public class MjItemImageController {
             return "redirect:/seller/itemimage/selectlist.do?no=" + itemno.longValue();
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/seller/home.do";
+            return "redirect:/seller/login.do";
         }
     }
 
@@ -220,7 +220,7 @@ public class MjItemImageController {
             return "/mj/seller/itemimage/selectlist";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/seller/home.do";
+            return "redirect:/seller/login.do";
         }
 
     }

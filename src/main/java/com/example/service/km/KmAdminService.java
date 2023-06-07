@@ -6,8 +6,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.entity.PurchaseEntity;
+import com.example.entity.PurchaseStatusEntity;
 import com.example.entity.StorageEntity;
-import com.example.entity.km.KmPurchaseStatusIdProjection;
+import com.example.entity.km.KmAdminProductSimpleView;
+import com.example.entity.km.KmAdminProductView;
+import com.example.repository.km.KmPurchaseStatusRepository.KmAdminPurchaseStatus;
 
 @Service
 public interface KmAdminService {
@@ -16,15 +19,34 @@ public interface KmAdminService {
 
     // Controller => product.do GET ------------------------------------------
     
-    // 모든 보관소 정보 가져오기
-    public List<StorageEntity> findAllStorage();
+        // 모든 보관소 정보 가져오기
+        public List<StorageEntity> findAllStorage();
 
     // RestController => purchaselistbystorage.json ------------------------------------------
     
-    // storageno=?와 deliveryno=3(배달 완료)인 공구 리스트 가져오기
-    public List<PurchaseEntity> findPurchaseByStoragenoAndDelieveryNo(BigDecimal storageno);
+        // 모든 지점 선택 시, 수령 상태에 따른 공구 주문 가져오기
+        public List<KmAdminProductSimpleView> findPurchaseByReceivestate(BigDecimal receivestate);
 
-    // purchaseno=?와 state=1인 PURCHASESTATUS의 memid들 가져오기 
-    public List<KmPurchaseStatusIdProjection> findIdByPurchaseNoAndState(BigDecimal purchaseno);
+        // 지점(storageno)별, 수령 상태에 따른 공구 주문 가져오기
+        public List<KmAdminProductSimpleView> findPurchaseByStoragenoAndReceivestate(BigDecimal storageno, BigDecimal receivestate);
 
-}
+        // purchaseno=?와 state=1인 PURCHASESTATUS의 memid들 가져오기 
+        public List<KmAdminPurchaseStatus> findMemidAndStateByPurchaseno(BigDecimal purchaseno);
+
+    // RestController => purchaselistbysearch.json ------------------------------------------
+        // 2-1. deliveryno=3(배달 완료), 공구 번호 별, 공구 주문 1개 가져오기
+        public KmAdminProductSimpleView findOnePurchaseSimpleView(BigDecimal purchaseno);
+
+        // 2-2. deliveryno=3(배달 완료), memid = searchvalue인 PURCHASE 리스트 가져오기
+        public List<KmAdminProductView> findPurchaseListByMemid(String memid); 
+
+    // RestController => insertstatus2.json ------------------------------------------
+        // state=2로 insert 해주기
+        public int insertPurchaseStatus(PurchaseStatusEntity purchaseStatus);
+
+        // 공구 번호로 공구 한개 가져오기
+        public PurchaseEntity findOnePurchase(BigDecimal purchaseno);
+
+        // 공구 업데이트 해주기 (headcount += 1)
+        public int updatePurchaseHeadcount(PurchaseEntity purchase);
+    }

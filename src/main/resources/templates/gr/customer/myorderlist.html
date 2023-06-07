@@ -315,6 +315,7 @@
             height: 125px;
             margin-left: 160px;
         }
+        
 
         table tbody tr td .title{
             font-size: 18px;
@@ -322,6 +323,8 @@
             float: left;
             padding-top: 27px;
             color: #333;
+            width: 300px;
+            text-align: left;
         }
 
         table tbody tr td .details{
@@ -498,9 +501,9 @@
                                 </a>
                                 <a th:href="@{/customer/item/selectone.do?(itemno=${obj.itemno})}">
                                     <div class="text">
-                                        <div class="title" th:text="${obj.name}"></div><br/>
+                                        <div class="title" th:text="${obj.name}"></div>
                                         <div class="details">
-                                            <div class="detail" th:text="|옵션 : ${obj.storename}, |"></div>
+                                            <div class="detail" th:text="|옵션 : ${obj.sname}, |"></div>
                                             <div class="detail" th:text="|${obj.participant}인 공구|"></div>
                                         </div>
                                     </div>

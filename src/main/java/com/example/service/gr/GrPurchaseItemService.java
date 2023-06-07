@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.example.dto.GrDate;
-import com.example.entity.gr.grpurchaseview;
+import com.example.entity.gr.grgrpurchaseview;
 
 @Service
 public interface GrPurchaseItemService {
@@ -18,15 +18,15 @@ public interface GrPurchaseItemService {
     public long countMyOrderList(String id);
 
     // 페이지네이션
-    public List<grpurchaseview> selectMyOrderListPage(Map<String, Object> map);
+    public List<grgrpurchaseview> selectMyOrderListPage(Map<String, Object> map);
 
     // 기한내 구매목록 개수 불러오기
     public long countMyOrderListDate(GrDate grDate);
 
     // 기한내 구매목록 불러오기
-    public List<grpurchaseview> MyOrderList(GrDate grDate);
+    public List<grgrpurchaseview> MyOrderList(GrDate grDate);
 
     // 기한내 구매목록 불러오기 + 페이지네이션
-    public List<grpurchaseview> searchMyOrderList(GrDate grdate);
+    public List<grgrpurchaseview> searchMyOrderList(GrDate grdate);
 
 }

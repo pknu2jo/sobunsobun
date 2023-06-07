@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class SecurityCustomerSeviceImpl implements UserDetailsService {
-    
+
     final String format = "SecurityServiceImpl => {}";
     final SecurityMapper mapper;
 
@@ -30,21 +30,21 @@ public class SecurityCustomerSeviceImpl implements UserDetailsService {
 
         log.info(format, username);
 
-        Customer c = mapper.selectCustomerOne( username );
+        Customer c = mapper.selectCustomerOne(username);
 
-        if(c != null) {
-            if(c.getPw() != null) {
+        if (c != null) {
+            if (c.getPw() != null) {
                 System.out.println("id : " + c.getId() + ", pw : " + c.getPw());
 
                 Collection<GrantedAuthority> role = AuthorityUtils.createAuthorityList("CUSTOMER");
                 return new CustomerUser(c.getId(), c.getPw(), role, c.getNickname());
-                // return User.builder().username(c.getId()).password(c.getPw()).roles("CUSTOMER").build();
+                // return
+                // User.builder().username(c.getId()).password(c.getPw()).roles("CUSTOMER").build();
             }
         }
 
         return User.builder()
-                    .username("_").password("_").roles("_").build();
+                .username("_").password("_").roles("_").build();
     }
-
 
 }

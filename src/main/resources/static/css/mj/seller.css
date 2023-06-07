@@ -467,3 +467,11 @@ main h3 {
 /* #file-upload-button {
     background-color: #0f4a7b;
 } */
+
+/* input up down 버튼 삭제 */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

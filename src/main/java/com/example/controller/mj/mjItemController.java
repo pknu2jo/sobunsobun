@@ -80,7 +80,7 @@ public class mjItemController {
             return "redirect:/seller/item/updateitem.do";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/seller/home.do";
+            return "redirect:/seller/login.do";
         }
     }
 
@@ -101,7 +101,7 @@ public class mjItemController {
             return "/mj/seller/updateitem";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/seller/home.do";
+            return "redirect:/seller/login.do";
         }
     }
 
@@ -112,7 +112,7 @@ public class mjItemController {
             return "redirect:/seller/item/updateitem.do";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/seller/home.do";
+            return "redirect:/seller/login.do";
         }
     }
 
@@ -144,7 +144,7 @@ public class mjItemController {
             return "redirect:/seller/item/management.do";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/seller/home.do";
+            return "redirect:/seller/login.do";
         }
     }
 
@@ -252,7 +252,7 @@ public class mjItemController {
             model.addAttribute("list", list);
             return "/mj/seller/management";
         } catch (Exception e) {
-            return "redirect:/seller/home.do";
+            return "redirect:/seller/login.do";
         }
     }
 
@@ -290,7 +290,7 @@ public class mjItemController {
             return "/mj/seller/iteminsert";
         } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/seller/home.do";
+            return "redirect:/seller/login.do";
         }
     }
     

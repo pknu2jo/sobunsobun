@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.dto.GrDate;
 import com.example.dto.ItemImage;
-import com.example.entity.gr.grpurchaseview;
+import com.example.entity.gr.grgrpurchaseview;
 import com.example.mapper.gr.GrPurchaseItemMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ public class GrPurchaseItemImpl implements GrPurchaseItemService {
 
     // 페이지네이션
     @Override
-    public List<grpurchaseview> selectMyOrderListPage(Map<String, Object> map) {
+    public List<grgrpurchaseview> selectMyOrderListPage(Map<String, Object> map) {
         try {
             return piMapper.selectMyOrderListPage(map);
         } catch (Exception e) {
@@ -61,7 +61,7 @@ public class GrPurchaseItemImpl implements GrPurchaseItemService {
     }
 
     @Override
-    public List<grpurchaseview> MyOrderList(GrDate grDate) {
+    public List<grgrpurchaseview> MyOrderList(GrDate grDate) {
         try {
             return piMapper.MyOrderList(grDate);
         } catch (Exception e) {
@@ -71,7 +71,7 @@ public class GrPurchaseItemImpl implements GrPurchaseItemService {
     }
 
     @Override
-    public List<grpurchaseview> searchMyOrderList(GrDate grdate) {
+    public List<grgrpurchaseview> searchMyOrderList(GrDate grdate) {
         try {
             return piMapper.searchMyOrderList(grdate);
         } catch (Exception e) {

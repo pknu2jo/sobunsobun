@@ -10,32 +10,32 @@
 
     <!-- 전체 개수 가져오기 (페이지네이션용)-->
     <select id="countMyOrderList" parameterType="string" resultType="long">
-        SELECT COUNT(*) cnt FROM GRPURCHASEVIEW WHERE memId = #{id}
+        SELECT COUNT(*) cnt FROM GRGRPURCHASEVIEW WHERE memId = #{id}
     </select>
 
     <!-- 페이지네이션 -->
-    <select id="selectMyOrderListPage" parameterType="map" resultType="com.example.entity.gr.grpurchaseview">
+    <select id="selectMyOrderListPage" parameterType="map" resultType="com.example.entity.gr.grgrpurchaseview">
         SELECT gv.* FROM (
-        SELECT gv.*, ROW_NUMBER() OVER (ORDER BY regdate desc) rown FROM GRPURCHASEVIEW gv WHERE gv.memid=#{memId}
+        SELECT gv.*, ROW_NUMBER() OVER (ORDER BY regdate desc) rown FROM GRGRPURCHASEVIEW gv WHERE gv.memid=#{memId}
         ) gv WHERE rown  <![CDATA[ >= ]]> #{start}  AND rown  <![CDATA[ <= ]]> #{end} ORDER BY regdate desc
     </select>
 
     <!-- 기한내 구매목록 개수 가져오기 (페이지네이션용)-->
     <select id="countMyOrderListDate" parameterType="com.example.dto.GrDate" resultType="long">
-        SELECT COUNT(*) cnt FROM GRPURCHASEVIEW WHERE (REGDATE BETWEEN #{firstdate} AND #{seconddate}) AND memId =#{memId};
+        SELECT COUNT(*) cnt FROM GRGRPURCHASEVIEW WHERE (REGDATE BETWEEN #{firstdate} AND #{seconddate}) AND memId =#{memId};
     </select>
 
     <!-- 기한내 구매목록 불러오기 -->
-    <select id="MyOrderList" parameterType="com.example.dto.GrDate" resultType="com.example.entity.gr.grpurchaseview">
+    <select id="MyOrderList" parameterType="com.example.dto.GrDate" resultType="com.example.entity.gr.grgrpurchaseview">
         
-        SELECT gv.* FROM GRPURCHASEVIEW gv WHERE (regdate BETWEEN #{firstdate} AND #{seconddate}) AND memId = #{memId} ORDER BY regdate desc
+        SELECT gv.* FROM GRGRPURCHASEVIEW gv WHERE (regdate BETWEEN #{firstdate} AND #{seconddate}) AND memId = #{memId} ORDER BY regdate desc
         
     </select>
 
     <!-- 기한내 구매목록 불러오기 + 페이지네이션-->
-    <select id="searchMyOrderList" parameterType="com.example.dto.GrDate" resultType="com.example.entity.gr.grpurchaseview">
+    <select id="searchMyOrderList" parameterType="com.example.dto.GrDate" resultType="com.example.entity.gr.grgrpurchaseview">
         SELECT gv.* FROM (
-        SELECT gv.*, ROW_NUMBER() OVER (ORDER BY regdate desc) rown FROM GRPURCHASEVIEW gv WHERE (regdate BETWEEN #{firstdate} AND #{seconddate}) AND memId = #{memId}
+        SELECT gv.*, ROW_NUMBER() OVER (ORDER BY regdate desc) rown FROM GRGRPURCHASEVIEW gv WHERE (regdate BETWEEN #{firstdate} AND #{seconddate}) AND memId = #{memId}
         ) gv WHERE rown <![CDATA[ >= ]]> #{start}  AND rown  <![CDATA[ <= ]]> #{end} ORDER BY regdate desc
     </select>
 
