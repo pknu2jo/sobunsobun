@@ -302,14 +302,13 @@
         IMP.init("imp07130721"); // 예: imp00000000a
 
         var today = new Date();
-        var year = today.getFullYear();
         var month = (today.getMonth() + 1).toString().padStart(2, '0');
         var day = today.getDate().toString().padStart(2, '0');
         var hours = today.getHours(); // 시
         var minutes = today.getMinutes();  // 분
         var seconds = today.getSeconds();  // 초
         var milliseconds = today.getMilliseconds();
-        var makeMerchantUid = year+month+day+hours+minutes+seconds+milliseconds;
+        var makeMerchantUid = month+day+hours+minutes+seconds+milliseconds;
 
         totalPrice = Math.floor(parseInt(/*[[${obj.pricePerOne}]]*/"") + parseFloat(2000 / /*[[${obj.participant}]]*/""));
 

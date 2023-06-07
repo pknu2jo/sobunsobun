@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -211,12 +212,12 @@ public class KmCustomerContorller {
     // ---------------------------------------------------------------------------------
 
     @GetMapping(value = "/item/order.do")
-    public String orderGET(Model model, HttpServletRequest request, @AuthenticationPrincipal CustomerUser user) {
+    public String orderGET(Model model, HttpServletRequest request, @AuthenticationPrincipal User user) {
         try {
             // 세션에서 가져오기
             kmPurchaseView obj = (kmPurchaseView) httpSession.getAttribute("kmPurchaseView");
 
-            // log.info("user information 확인 => {}", user.toString());
+            log.info("user information 확인 => {}", user.toString());
 
             if (obj.getPurchaseNo() != 0) {
                 // 공구 참여
@@ -260,7 +261,7 @@ public class KmCustomerContorller {
 
 
             // user의 id로 정보 꺼내오기 (id, name, phone, email)
-            Customer customer = customerService.selectOneCustomer(user.getId());
+            Customer customer = customerService.selectOneCustomer(user.getUsername());
             // log.info("user 정보 확인 => {}", user.toString());
             // log.info("customer 확인 => {}", customer.toString());
             
