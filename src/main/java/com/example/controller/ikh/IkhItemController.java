@@ -53,6 +53,7 @@ public class IkhItemController {
             long Male = tgvRepository.countByGenderAndNo("M", seller.getNo());                            
             
             log.info("{}", Female);
+            log.info("{}", Male);
             // html로 값 넘기기
             if(Female != 0 || Male != 0){
                 model.addAttribute("female", Female);
@@ -60,7 +61,7 @@ public class IkhItemController {
             }
             /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 각 행정구를 배열에 저장
-            String[] locations = {"중구","서구","동구","영도구","진구","동래구","남구","북구","해운대구","사하구","금정구","강서구","연제구","수영구","사상구"};
+            String[] locations = {" 중구 "," 서구 "," 동구 "," 영도구 "," 진구 "," 동래구 "," 남구 "," 북구 "," 해운대구 "," 사하구 "," 금정구 "," 강서구 "," 연제구 "," 수영구 "," 사상구 "};
             // 행정구가 들어간 문자배열과 같은 길이의 정수형 배열 선언
             long[] array = new long[locations.length];
             // max값과 각 구들의 개수 구하기
@@ -75,7 +76,10 @@ public class IkhItemController {
                 }
             }
             
-            if(max != 0 && total != 0){                
+            if(max != 0 && total != 0){
+                log.info("max {}", max);
+                log.info("total {}", total);
+                log.info("array {}", array);
                 model.addAttribute("max", max); // 가장 높은 값
                 model.addAttribute("total", total); // 전체인원수
                 model.addAttribute("array", array); // 배열
