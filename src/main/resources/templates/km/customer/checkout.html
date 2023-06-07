@@ -13,12 +13,6 @@
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- <link rel="stylesheet" th:href="@{/css/km/noneed_order/elegant-icons.css}" type="text/css">
-     <link rel="stylesheet" th:href="@{/css/km/noneed_order/magnific-popup.css}" type="text/css">
-     <link rel="stylesheet" th:href="@{/css/km/noneed_order/jquery-ui.min.css}" type="text/css">
-     <link rel="stylesheet" th:href="@{/css/km/noneed_order/owl.carousel.min.css}" type="text/css">
-     <link rel="stylesheet" th:href="@{/css/km/noneed_order/slicknav.min.css}" type="text/css"> -->
-
     <link rel="stylesheet" th:href="@{/css/km/checkoutstyle.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/km/checkouttable.css}" type="text/css">
 
@@ -214,19 +208,6 @@
     <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
 
 
-
-
-    <!-- 
-        <script th:src="@{/js/km/noneed_order/jquery.magnific-popup.min.js}"></script> 
-        <script th:src="@{/js/km/noneed_order/jquery-ui.min.js}"></script> 
-        <script th:src="@{/js/km/noneed_order/mixitup.min.js}"></script> 
-        <script th:src="@{/js/km/noneed_order/jquery.countdown.min.js}"></script> 
-        <script th:src="@{/js/km/noneed_order/jquery.slicknav.js}"></script> 
-        <script th:src="@{/js/km/noneed_order/owl.carousel.min.js}"></script> 
-        <script th:src="@{/js/km/noneed_order/jquery.nicescroll.min.js}"></script> 
-        <script th:src="@{/js/km/noneed_order/main.js}"></script> 
-    -->
-
     <!-- jQuery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <!-- 아임포트 라이브러리 -->
@@ -251,8 +232,6 @@
         const participant = /*[[${obj.participant}]]*/"";
         const storageNo = /*[[${obj.storageNo}]]*/"";
         const itemNo = /*[[${obj.itemNo}]]*/"";
-
-
 
         // 이메일 뒤쪽 부분
         var selectEmail = document.querySelector("#selectEmail");
@@ -322,17 +301,17 @@
         const IMP = window.IMP; // 생략 가능
         IMP.init("imp07130721"); // 예: imp00000000a
 
-        var today = new Date();   
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = (today.getMonth() + 1).toString().padStart(2, '0');
+        var day = today.getDate().toString().padStart(2, '0');
         var hours = today.getHours(); // 시
         var minutes = today.getMinutes();  // 분
         var seconds = today.getSeconds();  // 초
         var milliseconds = today.getMilliseconds();
-        var makeMerchantUid = hours +  minutes + seconds + milliseconds;
+        var makeMerchantUid = year+month+day+hours+minutes+seconds+milliseconds;
 
         totalPrice = Math.floor(parseInt(/*[[${obj.pricePerOne}]]*/"") + parseFloat(2000 / /*[[${obj.participant}]]*/""));
-        // console.log(totalPrice);
-        // console.log("---------");
-        // console.log(id + makeMerchantUid);
 
         if( address3 == null) {
             if(address2 == null) {
@@ -349,230 +328,211 @@
         }
 
         // 찐 결제 기능 들어있는 함수
-        // function requestPay() {
+        function requestPay() {
 
-        //     IMP.request_pay({
-        //         pg: "html5_inicis",
-        //         pay_method: "card",
-        //         merchant_uid: customer_id + makeMerchantUid, // 주문번호 (고유해야함)나중에 IMP 자리에 고객 아이디 집어넣기
-        //         name: /*[[${obj.itemName}]]*/"",
-        //         // amount: totalPrice,                         // 숫자 타입
-        //         amount: 100,    
-        //         buyer_email: email1.value + "@" + email2.value, // 세션에 저장된 아이디로 컨트롤러에서 customer 가져오기
-        //         buyer_name: buyer_name.value, 
-        //         buyer_tel: phone1.value + "-" + phone2.value + "-" + phone3.value,
-        //         buyer_addr: address,
-        //         buyer_postcode: /*[[${storage.postcode}]]*/""
-        //     }, async function (rsp) { // callback
-        //         //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
-        //         if(rsp.success) {
-        //             console.log(rsp);
-        //             // 담기는 값 확인
-        //                 // apply_num : "00442238"
-        //                 // bank_name :  null
-        //                 // buyer_addr : "부산시 남구 신선로 365"
-        //                 // buyer_email : "ming9396@naver.com"
-        //                 // buyer_name : "이경민"
-        //                 // buyer_postcode : "48905"
-        //                 // buyer_tel : "010-4665-4069"
-        //                 // card_name : "현대카드"
-        //                 // card_number : "489016*********2"
-        //                 // card_quota : 0
-        //                 // currency : "KRW"
-        //                 // custom_data : null
-        //                 // imp_uid : "imp_667092871400"
-        //                 // merchant_uid : "IMP194"
-        //                 // name : "액체형 세제 2.8L 6개"
-        //                 // paid_amount : 100
-        //                 // paid_at : 1684826114
-        //                 // pay_method : "card"
-        //                 // pg_provider : "html5_inicis"
-        //                 // pg_tid : "StdpayCARDINIpayTest20230523161514230573"
-        //                 // pg_type : "payment"
-        //                 // receipt_url : "https://iniweb.inicis.com/DefaultWebApp/mall/cr/cm/mCmReceipt_head.jsp?noTid=StdpayCARDINIpayTest20230523161514230573&noMethod=1"
-        //                 // status : "paid"
+            IMP.request_pay({
+                pg: "html5_inicis",
+                pay_method: "card",
+                merchant_uid: customer_id + makeMerchantUid, //popper 주문번호 (고유해야함)나중에 IMP 자리에 고객 아이디 집어넣기
+                name: /*[[${obj.itemName}]]*/"",
+                // amount: totalPrice,                         // 숫자 타입
+                amount: 100,    
+                buyer_email: email1.value + "@" + email2.value, // 세션에 저장된 아이디로 컨트롤러에서 customer 가져오기
+                buyer_name: buyer_name.value, 
+                buyer_tel: phone1.value + "-" + phone2.value + "-" + phone3.value,
+                buyer_addr: address,
+                buyer_postcode: /*[[${storage.postcode}]]*/""
+            }, async function (rsp) { // callback
+                //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+                if(rsp.success) {
+                    console.log(rsp);
 
-
-        //             // Rest로 보내보자~~~
-        //             // rest Post로 해서 처리해 (공구 추가하기 || 공구 현황 추가하기)
-        //             // 처리해서 1이면 
-        //             // 여기서 다시 어쩌고 페이지로 반환해 실패하면 ㄷ~ 해
-        //             // 주문번호..?글킨해
-        //             const url = /*[[@{/api/customer/order.json}]]*/"";
-        //             const headers = {"Content-Type":"application/json"};
-        //             const body = { participant : participant, storageNo:storageNo, 
-        //                             itemNo:itemNo, totalPrice:totalPrice,
-        //                             purchaseNo:purchaseNo, no: customer_id + makeMerchantUid,  
-        //                             };
-        //             const { data } = await axios.post(url, body, {headers:headers});
-        //             console.log("반환되는 결과", data);
+                    // Rest로 보내보자~~~
+                    // rest Post로 해서 처리해 (공구 추가하기 || 공구 현황 추가하기)
+                    // 처리해서 1이면 
+                    // 여기서 다시 어쩌고 페이지로 반환해 실패하면 ㄷ~ 해
+                    // 주문번호..?글킨해
+                    const url = /*[[@{/api/customer/order.json}]]*/"";
+                    const headers = {"Content-Type":"application/json"};
+                    const body = { participant : participant, storageNo:storageNo, 
+                                    itemNo:itemNo, totalPrice:totalPrice,
+                                    purchaseNo:purchaseNo, no: customer_id + makeMerchantUid,  
+                                    };
+                    const { data } = await axios.post(url, body, {headers:headers});
+                    console.log("반환되는 결과", data);
 
                     
-        //             if ( data.result == 200) {
-        //                 // 성공하면 결제 성공 페이지 띄워
+                    if ( data.result == 200) {
+                        // 성공하면 결제 성공 페이지 띄워
 
-        //                 const currentDate = new Date();
-        //                 const year = currentDate.getFullYear();
-        //                 const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-        //                 const day = currentDate.getDate().toString().padStart(2, '0');
-        //                 const StringDate = `${year}.${month}.${day}`;
+                        const currentDate = new Date();
+                        const year = currentDate.getFullYear();
+                        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+                        const day = currentDate.getDate().toString().padStart(2, '0');
+                        const StringDate = `${year}.${month}.${day}`;
 
-        //                 console.log("물품명 " + rsp.name);
-        //                 console.log("주문번호 " + customer_id + makeMerchantUid);
-        //                 console.log("결제금액 " + totalPrice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '원');
-        //                 console.log("수령장소 : " + /*[[${storage.name}]]*/"");
-        //                 console.log("주문일시 : " + StringDate);
+                        console.log("물품명 " + rsp.name);
+                        console.log("주문번호 " + customer_id + makeMerchantUid);
+                        console.log("결제금액 " + totalPrice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '원');
+                        console.log("수령장소 : " + /*[[${storage.name}]]*/"");
+                        console.log("주문일시 : " + StringDate);
 
-        //                 const form1 = document.createElement("form");
-        //                 form1.action = /*[[@{/customer/ordersuccess1.do}]]*/"";
-        //                 form1.style.display = "none";
-        //                 form1.method = "post";
+                        const form1 = document.createElement("form");
+                        form1.action = /*[[@{/customer/ordersuccess1.do}]]*/"";
+                        form1.style.display = "none";
+                        form1.method = "post";
 
-        //                 const input1 = document.createElement("input");
-        //                 input1.type = "hidden";
-        //                 input1.name = "_csrf";
-        //                 input1.value = /*[[${_csrf.token}]]*/"";
+                        const input1 = document.createElement("input");
+                        input1.type = "hidden";
+                        input1.name = "_csrf";
+                        input1.value = /*[[${_csrf.token}]]*/"";
 
-        //                 const input2 = document.createElement("input");
-        //                 input2.type = "hidden";
-        //                 input2.name = "itemname";
-        //                 input2.value = rsp.name;
+                        const input2 = document.createElement("input");
+                        input2.type = "hidden";
+                        input2.name = "itemname";
+                        input2.value = rsp.name;
 
-        //                 const input3 = document.createElement("input");
-        //                 input3.type = "hidden";
-        //                 input3.name = "orderno";
-        //                 input3.value = customer_id + makeMerchantUid;
+                        const input3 = document.createElement("input");
+                        input3.type = "hidden";
+                        input3.name = "orderno";
+                        input3.value = customer_id + makeMerchantUid;
 
-        //                 const input4 = document.createElement("input");
-        //                 input4.type = "hidden";
-        //                 input4.name = "totalprice";
-        //                 input4.value = totalPrice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",") +'원';
+                        const input4 = document.createElement("input");
+                        input4.type = "hidden";
+                        input4.name = "totalprice";
+                        input4.value = totalPrice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",") +'원';
 
-        //                 const input5 = document.createElement("input");
-        //                 input5.type = "hidden";
-        //                 input5.name = "storagename";
-        //                 input5.value = /*[[${storage.name}]]*/"";
+                        const input5 = document.createElement("input");
+                        input5.type = "hidden";
+                        input5.name = "storagename";
+                        input5.value = /*[[${storage.name}]]*/"";
 
-        //                 const input6 = document.createElement("input");
-        //                 input6.type = "hidden";
-        //                 input6.name = "orderdate";
-        //                 input6.value = StringDate;
+                        const input6 = document.createElement("input");
+                        input6.type = "hidden";
+                        input6.name = "orderdate";
+                        input6.value = StringDate;
 
-        //                 const input7 = document.createElement("input");
-        //                 input7.type = "hidden";
-        //                 input7.name = "purchaseno";
-        //                 input7.value = data.purchaseno;
+                        const input7 = document.createElement("input");
+                        input7.type = "hidden";
+                        input7.name = "purchaseno";
+                        input7.value = data.purchaseno;
 
-        //                 form1.appendChild(input1);
-        //                 form1.appendChild(input2);
-        //                 form1.appendChild(input3);
-        //                 form1.appendChild(input4);
-        //                 form1.appendChild(input5);
-        //                 form1.appendChild(input6);
-        //                 form1.appendChild(input7);
+                        const input8 = document.createElement("input");
+                        input8.type = "hidden";
+                        input8.name = "itemno";
+                        input8.value = itemNo;
 
-        //                 document.body.appendChild(form1);
+                        form1.appendChild(input1);
+                        form1.appendChild(input2);
+                        form1.appendChild(input3);
+                        form1.appendChild(input4);
+                        form1.appendChild(input5);
+                        form1.appendChild(input6);
+                        form1.appendChild(input7);
+                        form1.appendChild(input8);
 
-        //                 form1.submit();
+                        document.body.appendChild(form1);
 
-        //                 // location.replace(/*[[@{/customer/ordersuccess.do}]]*/"");
-        //             } else {
-        //                 // 실패하면 에러 페이지 띄워
-        //                 location.replace(/*[[@{/error}]]*/"");
-        //             }
-        //         } else {
-        //             console.log(rsp);
-        //         }
-        //     });
-        // }
+                        form1.submit();
+
+                        // location.replace(/*[[@{/customer/ordersuccess.do}]]*/"");
+                    } else {
+                        // 실패하면 에러 페이지 띄워
+                        location.replace(/*[[@{/error}]]*/"");
+                    }
+                } else {
+                    console.log(rsp);
+                }
+            });
+        }
 
 
 
 
         // 결제 기능 뺀 결제 함수
-        async function requestPay() {
-            const url = /*[[@{/api/customer/order.json}]]*/"";
-                const headers = {"Content-Type":"application/json"};
-                const body = { participant : participant, storageNo:storageNo, 
-                                itemNo:itemNo, totalPrice:totalPrice,
-                                purchaseNo:purchaseNo, no: customer_id + makeMerchantUid,  
-                                };
-                const { data } = await axios.post(url, body, {headers:headers});
-                console.log("반환되는 결과", data);
+        // async function requestPay() {
+        //     const url = /*[[@{/api/customer/order.json}]]*/"";
+        //         const headers = {"Content-Type":"application/json"};
+        //         const body = { participant : participant, storageNo:storageNo, 
+        //                         itemNo:itemNo, totalPrice:totalPrice,
+        //                         purchaseNo:purchaseNo, no: customer_id + makeMerchantUid,  
+        //                         };
+        //         const { data } = await axios.post(url, body, {headers:headers});
+        //         console.log("반환되는 결과", data);
 
                 
-                if ( data.result == 200) {
-                    // 성공하면 결제 성공 페이지 띄워
+        //         if ( data.result == 200) {
+        //             // 성공하면 결제 성공 페이지 띄워
 
-                    const currentDate = new Date();
-                    const year = currentDate.getFullYear();
-                    const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-                    const day = currentDate.getDate().toString().padStart(2, '0');
-                    const StringDate = `${year}.${month}.${day}`;
+        //             const currentDate = new Date();
+        //             const year = currentDate.getFullYear();
+        //             const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+        //             const day = currentDate.getDate().toString().padStart(2, '0');
+        //             const StringDate = `${year}.${month}.${day}`;
 
-                    console.log("물품명 " + /*[[${obj.itemName}]]*/"");
-                    console.log("주문번호 " + customer_id + makeMerchantUid);
-                    console.log("결제금액 " + totalPrice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '원');
-                    console.log("수령장소 : " + /*[[${storage.name}]]*/"");
-                    console.log("주문일시 : " + StringDate);
+        //             console.log("물품명 " + /*[[${obj.itemName}]]*/"");
+        //             console.log("주문번호 " + customer_id + makeMerchantUid);
+        //             console.log("결제금액 " + totalPrice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + '원');
+        //             console.log("수령장소 : " + /*[[${storage.name}]]*/"");
+        //             console.log("주문일시 : " + StringDate);
 
-                    const form1 = document.createElement("form");
-                    form1.action = /*[[@{/customer/ordersuccess1.do}]]*/"";
-                    form1.style.display = "none";
-                    form1.method = "post";
+        //             const form1 = document.createElement("form");
+        //             form1.action = /*[[@{/customer/ordersuccess1.do}]]*/"";
+        //             form1.style.display = "none";
+        //             form1.method = "post";
 
-                    const input1 = document.createElement("input");
-                    input1.type = "hidden";
-                    input1.name = "_csrf";
-                    input1.value = /*[[${_csrf.token}]]*/"";
+        //             const input1 = document.createElement("input");
+        //             input1.type = "hidden";
+        //             input1.name = "_csrf";
+        //             input1.value = /*[[${_csrf.token}]]*/"";
 
-                    const input2 = document.createElement("input");
-                    input2.type = "hidden";
-                    input2.name = "itemname";
-                    input2.value = /*[[${obj.itemName}]]*/"";
+        //             const input2 = document.createElement("input");
+        //             input2.type = "hidden";
+        //             input2.name = "itemname";
+        //             input2.value = /*[[${obj.itemName}]]*/"";
 
-                    const input3 = document.createElement("input");
-                    input3.type = "hidden";
-                    input3.name = "orderno";
-                    input3.value = customer_id + makeMerchantUid;
+        //             const input3 = document.createElement("input");
+        //             input3.type = "hidden";
+        //             input3.name = "orderno";
+        //             input3.value = customer_id + makeMerchantUid;
 
-                    const input4 = document.createElement("input");
-                    input4.type = "hidden";
-                    input4.name = "totalprice";
-                    input4.value = totalPrice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",") +'원';
+        //             const input4 = document.createElement("input");
+        //             input4.type = "hidden";
+        //             input4.name = "totalprice";
+        //             input4.value = totalPrice.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",") +'원';
 
-                    const input5 = document.createElement("input");
-                    input5.type = "hidden";
-                    input5.name = "storagename";
-                    input5.value = /*[[${storage.name}]]*/"";
+        //             const input5 = document.createElement("input");
+        //             input5.type = "hidden";
+        //             input5.name = "storagename";
+        //             input5.value = /*[[${storage.name}]]*/"";
 
-                    const input6 = document.createElement("input");
-                    input6.type = "hidden";
-                    input6.name = "orderdate";
-                    input6.value = StringDate;
+        //             const input6 = document.createElement("input");
+        //             input6.type = "hidden";
+        //             input6.name = "orderdate";
+        //             input6.value = StringDate;
 
-                    const input7 = document.createElement("input");
-                    input7.type = "hidden";
-                    input7.name = "purchaseno";
-                    input7.value = data.purchaseno;
+        //             const input7 = document.createElement("input");
+        //             input7.type = "hidden";
+        //             input7.name = "purchaseno";
+        //             input7.value = data.purchaseno;
 
-                    form1.appendChild(input1);
-                    form1.appendChild(input2);
-                    form1.appendChild(input3);
-                    form1.appendChild(input4);
-                    form1.appendChild(input5);
-                    form1.appendChild(input6);
-                    form1.appendChild(input7);
+        //             form1.appendChild(input1);
+        //             form1.appendChild(input2);
+        //             form1.appendChild(input3);
+        //             form1.appendChild(input4);
+        //             form1.appendChild(input5);
+        //             form1.appendChild(input6);
+        //             form1.appendChild(input7);
 
-                    document.body.appendChild(form1);
+        //             document.body.appendChild(form1);
 
-                    form1.submit();
+        //             form1.submit();
 
-                } else {
-                    location.replace(/*[[@{/error}]]*/"");
-                }
+        //         } else {
+        //             location.replace(/*[[@{/error}]]*/"");
+        //         }
         
-        }
+        // }
     </script>
 </body>
 

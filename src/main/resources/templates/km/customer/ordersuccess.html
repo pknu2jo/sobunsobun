@@ -76,6 +76,30 @@
     <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
 
     <!-- script-->
+    <script>
+
+        const itemno = /*[[${ordersuccess.itemno}]]*/"";
+        const itemname = /*[[${ordersuccess.itemname}]]*/"";
+        const purchaseno = /*[[${ordersuccess.purchaseno}]]*/"";
+
+        // 찜물품 공구열림 => 공구 개설한 사람이 결제를 완료했을 때
+        const sendMessage1 = () => {
+
+            var message = `${itemname}번 물품에 대한 공구가 개설되었습니다`; // 물품이름 있으면 ${itemname} 으로 변경부탁드림다
+            var purchaseno = purchaseno;
+            fetch(`/SOBUN/api/sse/jjim/publish?message=${message}&itemno=${itemno}&purchaseno=${purchaseno}`) // 메시지 보내기
+        }
+
+        // 공구마감 => 마지막 참여자가 결제 완료 했을 때
+        const sendMessage2 = () => {
+            var message = `${purchaseno}번 공구가 마감되었습니다`;
+            fetch(`/SOBUN/api/sse/completepurchase/publish?message=${message}&purchaseno=${purchaseno}`) // 메시지 보내기
+        }
+
+        sendMessage1();
+        sendMessage2();
+
+    </script>
 
 </body>
 

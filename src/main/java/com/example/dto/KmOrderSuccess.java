@@ -1,7 +1,6 @@
 package com.example.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,5 +23,6 @@ public class KmOrderSuccess implements Serializable {
     private String storagename;
     private String orderdate;
     private long purchaseno;
+    private long itemno;
 
 }
