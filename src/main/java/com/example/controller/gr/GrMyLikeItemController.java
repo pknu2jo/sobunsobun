@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value = "/customer")
 @RequiredArgsConstructor
 
-public class MyLikeItemController {
+public class GrMyLikeItemController {
 
     @Autowired
     ResourceLoader resourceLoader; // resources폴더의 파일을 읽기 위한 객체 생성

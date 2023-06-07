@@ -7,16 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.repository.gr.gradminRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping(value = "/admin")
 @RequiredArgsConstructor
-public class AdminLoginController {
-
-    final gradminRepository aRepository;
+public class GrAdminLoginController {
 
     @GetMapping(value = "/login.do")
     public String homeGET(@AuthenticationPrincipal User user, Model model) {

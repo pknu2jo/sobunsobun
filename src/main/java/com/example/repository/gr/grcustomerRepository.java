@@ -22,6 +22,6 @@ public interface grcustomerRepository extends JpaRepository<CustomerEntity, Stri
     int countByQuitchk();
 
     @Query(value = "SELECT COUNT(*) FROM PURCHASESTATUS WHERE DATE_TRUNC('day', regdate) = CURRENT_DATE AND STATE=1 AND CANCEL=0", nativeQuery = true)
-    int coutByPurchase();
+    int countByPurchase();
 
 }

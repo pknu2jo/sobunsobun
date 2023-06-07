@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dto.Customer;
-import com.example.mapper.gr.GrCustomerMapper;
 import com.example.service.gr.GrCustomerService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,16 +18,15 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping(value = "/customer")
 @RequiredArgsConstructor
-public class MyAccountDropController {
+public class GrMyAccountDropController {
 
-    final GrCustomerMapper cMapper;
     final GrCustomerService cService;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
     @GetMapping(value = "/myaccountdropchk.do")
     public String myinfochkGET(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", user);
-        Customer c = cMapper.searchkakao(user.getUsername());
+        Customer c = cService.searchkakao(user.getUsername());
         if (c != null) {
             return "redirect:/customer/myaccountdrop.do";
         } else {
@@ -44,7 +42,6 @@ public class MyAccountDropController {
         model.addAttribute("user", user);
         try {
 
-            // Customer c = cMapper.selectCustomerOne1(user.getUsername());
             Customer c = cService.selectCustomerOne1(user.getUsername());
 
             if (bcpe.matches(customer.getPw(), c.getPw())) {
@@ -61,32 +58,10 @@ public class MyAccountDropController {
     @GetMapping(value = "/myaccountdrop.do")
     public String myaccountdropGET(@AuthenticationPrincipal User user,
             Model model) {
-        // int ret = cMapper.countPurchase(user.getUsername());
         int ret = cService.countPurchase(user.getUsername());
         model.addAttribute("ret", ret);
         model.addAttribute("user", user);
         return "/gr/customer/myaccountdrop";
     }
-
-    // rest사용했기때문에 주석처리함
-    // @PostMapping(value = "/myaccountdrop.do")
-    // public String myaccountdropPOST(@AuthenticationPrincipal User user,
-    // @ModelAttribute Customer customer) {
-    // try {
-    // log.info("krkrkr=>{}", user.toString());
-    // customer.setId(user.getUsername());
-    // CustomerAddress ca = cMapper.selectOneCustomerAddress(user.getUsername());
-    // log.info("krkrkrkr => {}", ca.toString());
-
-    // // cMapper.myaccountdrop(customer);
-    // cMapper.deletemyaddress(ca);
-    // log.info("rkfka update => {}", customer.toString());
-    // return "redirect:/customer/home.do";
-
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // return "redirect:/customer/myaccountdrop.do";
-    // }
-    // }
 
 }

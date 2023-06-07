@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.dto.GrDate;
 import com.example.dto.Grcalender;
 import com.example.entity.gr.grgrpurchaseview;
-import com.example.repository.gr.grgrpurchaseviewRepository;
 import com.example.service.gr.GrPurchaseItemService;
 import com.example.service.se.SePurchaseItemService;
 
@@ -33,9 +32,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 @RequestMapping(value = "/customer")
 @RequiredArgsConstructor
-public class MyOrderListController {
+public class GrMyOrderListController {
 
-    final grgrpurchaseviewRepository grRepository;
     final GrPurchaseItemService gpiService;
 
     // 이미지 전송용
@@ -54,7 +52,7 @@ public class MyOrderListController {
 
             // a= firstdate, b= secondate;
             int a = 0, sum = 0;
-            
+
             Grcalender gc = new Grcalender();
             gc.setFirstdate(firstdate);
             gc.setSeconddate(seconddate);

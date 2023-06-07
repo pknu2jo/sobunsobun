@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.dto.Customer;
 import com.example.dto.CustomerAddress;
-import com.example.mapper.gr.GrCustomerMapper;
 import com.example.service.gr.GrCustomerService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,16 +21,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping(value = "/customer")
 @RequiredArgsConstructor
-public class MyAddressController {
+public class GrMyAddressController {
 
-    final GrCustomerMapper cMapper;
     final GrCustomerService cService;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
     @GetMapping(value = "/myaddresschk.do")
     public String myinfochkGET(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", user);
-        // Customer c = cMapper.searchkakao(user.getUsername());
         Customer c = cService.searchkakao(user.getUsername());
 
         // log.info("dkdldle => {}", c.toString());
@@ -50,7 +47,6 @@ public class MyAddressController {
         model.addAttribute("user", user);
         try {
 
-            // Customer c = cMapper.selectCustomerOne1(user.getUsername());
             Customer c = cService.selectCustomerOne1(user.getUsername());
 
             if (bcpe.matches(customer.getPw(), c.getPw())) {
@@ -68,7 +64,6 @@ public class MyAddressController {
     public String myaddressGET(@AuthenticationPrincipal User user, Model model) {
         try {
             model.addAttribute("user", user);
-            // CustomerAddress c = cMapper.selectOneCustomerAddress(user.getUsername());
             CustomerAddress c = cService.selectOneCustomerAddress(user.getUsername());
             log.info("rkfka=>{}", c.toString());
 
@@ -85,7 +80,6 @@ public class MyAddressController {
     @PostMapping(value = "/myaddress.do")
     public String myaddressPOST(@AuthenticationPrincipal User user, @ModelAttribute CustomerAddress customeraddress) {
 
-        // CustomerAddress c = cMapper.selectOneCustomerAddress(user.getUsername());
         CustomerAddress c = cService.selectOneCustomerAddress(user.getUsername());
 
         c.setPostcode(customeraddress.getPostcode());
@@ -96,7 +90,7 @@ public class MyAddressController {
         c.setLongitude(customeraddress.getLongitude());
         c.setMemId(user.getUsername());
 
-        int ret = cMapper.updateaddress(c);
+        int ret = cService.updateaddress(c);
 
         log.info("rkfka update=>{}", ret);
 
