@@ -4,6 +4,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -22,7 +24,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 								"com.example.scheduler"}) // 컨트롤러, 서비스, 시큐리티 위치 설정
 @EntityScan(basePackages = {"com.example.entity"}) // 엔티티 위치		
 @EnableJpaRepositories(basePackages = {"com.example.repository"}) // 저장소 위치
-public class SobunsobunApplication {
+public class SobunsobunApplication extends SpringBootServletInitializer {
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder appllication) {
+		return appllication.sources(SobunsobunApplication.class);
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(SobunsobunApplication.class, args);

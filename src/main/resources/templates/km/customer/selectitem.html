@@ -20,9 +20,9 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-        input {
+        /* input {
             display: none;
-        }
+        } */
     </style>
 
     <script th:src="@{/js/bootstrap.min.js}"></script>
@@ -505,7 +505,7 @@
                 tbody.innerHTML +=
                     `<tr>` +
                     `<td scope="row">${tmp.purchaseNo}</td>` +
-                    `<input type="text" name="purchaseNo" value="${tmp.purchaseNo}">` +
+                    `<input type="text" name="purchaseNo" value="${tmp.purchaseNo}" style="display:none;">` +
                     `<td scope="row">${tmp.participant}</td>` +
                     `<td>${tmp.remainingPerson}</td>` +
                     `<td>${tmp.storageName}</td>` +
