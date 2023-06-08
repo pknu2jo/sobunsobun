@@ -9,8 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.entity.CustomerEntity;
-import com.example.repository.gr.grcustomerRepository;
+import com.example.entity.SellerEntity;
+import com.example.service.gr.GrAdminCompanyService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,21 +19,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping(value = "/admin")
 @RequiredArgsConstructor
-public class AdminCustomerController {
+public class GrAdminCompanyController {
 
-    final grcustomerRepository gcRepository;
+    final GrAdminCompanyService acService;
 
-    @GetMapping(value = "/customer.do")
-    public String customerGET(@AuthenticationPrincipal User user, Model model) {
-
+    @GetMapping(value = "/company.do")
+    public String companyGET(@AuthenticationPrincipal User user, Model model) {
         try {
 
-            List<CustomerEntity> list = gcRepository.findAll();
-            log.info("고객 리스트 => {}", list.toString());
+            List<SellerEntity> list = acService.findAll();
+
             model.addAttribute("user", user);
             model.addAttribute("list", list);
 
-            return "/gr/admin/customer";
+            log.info("가가가가=>{}", user.getUsername().toString());
+
+            log.info("가람 => {}", list.toString());
+
+            return "/gr/admin/company";
         } catch (Exception e) {
             e.printStackTrace();
             return "/gr/admin/home";

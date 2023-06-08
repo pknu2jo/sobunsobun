@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.Customer;
-import com.example.mapper.gr.GrCustomerMapper;
 import com.example.service.gr.GrCustomerService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,16 +21,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping(value = "/customer")
 @RequiredArgsConstructor
-public class MyInfoController {
+public class GrMyInfoController {
 
-    final GrCustomerMapper cMapper;
     final GrCustomerService cService;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
     @GetMapping(value = "/myinfochk.do")
     public String myinfochkGET(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", user);
-        // Customer c = cMapper.searchkakao(user.getUsername());
         Customer c = cService.searchkakao(user.getUsername());
 
         // log.info("dkdldle => {}", c.toString());
@@ -49,7 +46,6 @@ public class MyInfoController {
         model.addAttribute("user", user);
         try {
 
-            // Customer c = cMapper.selectCustomerOne1(user.getUsername());
             Customer c = cService.selectCustomerOne1(user.getUsername());
 
             if (bcpe.matches(customer.getPw(), c.getPw())) {
@@ -68,7 +64,6 @@ public class MyInfoController {
 
         model.addAttribute("user", user);
 
-        // Customer c = cMapper.selectCustomerOne1(user.getUsername());
         Customer c = cService.selectCustomerOne1(user.getUsername());
         log.info("rkfka => {}", c);
 
@@ -90,7 +85,6 @@ public class MyInfoController {
             @RequestParam(name = "email1") String email1,
             @RequestParam(name = "email2") String email2) {
 
-        // Customer c = cMapper.selectCustomerOne1(user.getUsername());
         Customer c = cService.selectCustomerOne1(user.getUsername());
 
         c.setName(customer.getName());
@@ -99,7 +93,6 @@ public class MyInfoController {
         String result = email1.concat("@").concat(email2);
         c.setEmail(result);
 
-        // int ret = cMapper.updateinfo(c);
         int ret = cService.updateinfo(c);
 
         log.info("rkfka result=>{}", result);
@@ -118,12 +111,10 @@ public class MyInfoController {
 
         System.out.println("123456789 " + bcpe.encode(customer.getPw()));
 
-        // Customer c = cMapper.selectCustomerOne1(user.getUsername());
         Customer c = cService.selectCustomerOne1(user.getUsername());
 
         c.setId(user.getUsername());
         c.setNewPw(bcpe.encode(customer.getPw()));
-        // cMapper.updatepw(c);
         cService.updatepw(c);
         log.info("rkfka 비번변경 => {}", customer.toString());
 

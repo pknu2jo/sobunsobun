@@ -29,4 +29,7 @@ public interface GrPurchaseItemService {
     // 기한내 구매목록 불러오기 + 페이지네이션
     public List<grgrpurchaseview> searchMyOrderList(GrDate grdate);
 
+    // 내가 주문한 상품 목록
+    public List<grgrpurchaseview> findByMemid(String id);
+
 }
