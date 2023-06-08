@@ -96,19 +96,19 @@ public class SeRestCustomerController {
             // 등록된 회원이 블랙리스트일 때 ret = 2
             // 정상 로그인 ret = 3 => 바로 홈화면 연결
             if(obj == null) {
-                log.info("카카오로그인 => {null}");
+                // log.info("카카오로그인 => {null}");
                 retMap.put("ret", 0);
             }
             else if(obj.getQuitchk() == BigDecimal.valueOf(1L)) {
-                log.info("카카오로그인 => {탈퇴회원}");
+                // log.info("카카오로그인 => {탈퇴회원}");
                 retMap.put("ret", 1);
             }
             else if(obj.getBlockchk() == BigDecimal.valueOf(1L)) {
-                log.info("카카오로그인 => {블랙리스트회원}");
+                // log.info("카카오로그인 => {블랙리스트회원}");
                 retMap.put("ret", 2);
             }
             else {
-                log.info("카카오로그인 => {정상회원}");
+                // log.info("카카오로그인 => {정상회원}");
 
                 // 시큐리티 로그인 ---------------------------------------------------------------------------------
                 // 세션에 저장할 객체 생성 (UsernamePasswordAuthenticationToken(저장할 객체, null, 권한))
@@ -117,7 +117,7 @@ public class SeRestCustomerController {
                 obj.setPw(""); // pw => null 이라 오류나서 추가
                 User user = new CustomerUser( obj.getId(), obj.getPw(), role, obj.getNickname() ); // import org.springframework.security.core.userdetails.User;
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, role);
-                log.info("카카오로그인 user => {}", user.toString());
+                // log.info("카카오로그인 user => {}", user.toString());
 
                 // 수동으로 세션에 저장(로그인)
                 SecurityContext context = SecurityContextHolder.createEmptyContext();
