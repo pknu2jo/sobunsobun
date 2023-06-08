@@ -170,8 +170,8 @@
         
         <div class="container text-center">
             <form th:action="@{/customer/findid.do}" method="post" id="findidform">
-                <input class="findIdInput" type="text" name="name" placeholder="이름"><br>
-                <input class="findIdInput" type="email" name="email" placeholder="이메일"><br>
+                <input class="findIdInput" type="text" name="name" placeholder="이름" value="테스트"><br>
+                <input class="findIdInput" type="email" name="email" placeholder="이메일" value="test@naver.com"><br>
                 <button class="findIdInput findIdBtn" type="button" onclick="findIdAction()">아이디찾기</button>
             </form>
             <div class="d-flex justify-content-center">
