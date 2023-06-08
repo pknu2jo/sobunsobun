@@ -145,7 +145,7 @@
                                         <div class="col-2" style="display: inline-block;">
                                             기간
                                         </div>                                        
-                                        <input type="date" id="fd" th:min="${sdate}" th:field="${dvs.firstdate}" name="firstdate" th:onchange="firstdatechange()"/>
+                                        <input type="date" id="fd" th:min="${sdate}" th:max="${today}" th:field="${dvs.firstdate}" name="firstdate" th:onchange="firstdatechange()"/>
                                             &nbsp;~&nbsp;
                                         <input type="date" id="sd" min="" th:max="${today}" th:field="${dvs.seconddate}" name="seconddate" th:onchange="seconddatechange()"/>                                   
                                     </div>
@@ -199,10 +199,10 @@
                                                 </tfoot>
                                                 <tbody>
                                                     <tr th:each="obj, iterStat  : ${list}">
-                                                        <td th:text="${obj.itemcode}"></td>
+                                                        <td th:text="${obj.itemcode.longValue()}"></td>
                                                         <td th:text="${obj.itemname}"></td>
                                                         <td th:text="${obj.address}"></td>
-                                                        <td th:text="${obj.purchaseno}"></td>                                                                                                           
+                                                        <td th:text="${obj.purchaseno.longValue()}"></td>                                                                                                           
                                                         <td th:if="${obj.delivery == 0}" th:text="배송전"></td>
                                                         <td th:if="${obj.delivery == 1}" th:text="배송준비중"></td>
                                                         <td th:if="${obj.delivery == 2}" th:text="배송중"></td>

@@ -99,7 +99,7 @@
                                                         <td th:text="${obj.itemname}"></td>
                                                         <td th:text="${obj.address}"></td>
                                                         <td th:text="${obj.memid}"></td>
-                                                        <td th:text="${obj.count} + ' / ' + ${obj.participant}"></td>
+                                                        <td th:text="${obj.count.longValue()} + ' / ' + ${obj.participant.longValue()}"></td>
                                                         <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>
                                                         <td>
                                                             <form th:action="@{/seller/order/search.do}" method="get">
