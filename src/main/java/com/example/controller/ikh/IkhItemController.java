@@ -14,11 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.entity.SellerEntity;
 import com.example.entity.ikh.SalesViewProjection;
 import com.example.entity.ikh.TotaltableView;
-import com.example.repository.ikh.SalesViewRepository;
-import com.example.repository.ikh.TotalgenderViewRepository;
-import com.example.repository.ikh.TotallocationViewRepository;
-import com.example.repository.ikh.TotaltableViewRepository;
-import com.example.repository.jk.JkSellerRepository;
+import com.example.service.ikh.IkhItemService;
+import com.example.service.jk.JkSellerService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,30 +27,25 @@ import lombok.extern.slf4j.Slf4j;
 public class IkhItemController {
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     // 통계
-    final TotalgenderViewRepository tgvRepository;
-    final TotallocationViewRepository tlvRepository;
-    final TotaltableViewRepository tvRepository;
-    final SalesViewRepository svRepository;
-    final JkSellerRepository sellerRepository;
+    final IkhItemService itemService;
+    final JkSellerService sellerRepository;
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
     /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
     // 전체 통계
     @GetMapping(value = "/item/search.do")
     public String searchGET(Model model, @AuthenticationPrincipal User user){
         try {
-            SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);            
+            SellerEntity seller = sellerRepository.findByNo(user.getUsername());
             model.addAttribute("companyName", seller.getName().toString());
             model.addAttribute("user", user);
 
             /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 성비
             // 전체 여성 인원수 구하기
-            long Female = tgvRepository.countByGenderAndNo("F", seller.getNo());
+            long Female = itemService.countByGenderAndNo("F", seller.getNo());
             // 전체 남성 인원수 구하기
-            long Male = tgvRepository.countByGenderAndNo("M", seller.getNo());                            
-            
-            log.info("{}", Female);
-            log.info("{}", Male);
+            long Male = itemService.countByGenderAndNo("M", seller.getNo());                            
+                        
             // html로 값 넘기기
             if(Female != 0 || Male != 0){
                 model.addAttribute("female", Female);
@@ -69,7 +61,7 @@ public class IkhItemController {
             long total = 0;
             // 행정구별 판매수 구하기
             for(int i = 0 ;i < array.length ;i++){
-                array[i] = tlvRepository.countByNoAndLocationContaining(seller.getNo(), locations[i]);
+                array[i] = itemService.countByNoAndLocationContaining(seller.getNo(), locations[i]);
                 total += array[i];
                 if(array[i] > max){
                     max = array[i];
@@ -90,7 +82,7 @@ public class IkhItemController {
             // 전체 매출
             // 월 매출            
             List<SalesViewProjection> mlist = new ArrayList<>();
-            mlist = svRepository.findMonthlySales(seller.getNo());
+            mlist = itemService.findMonthlySales(seller.getNo());
             // long all = 0;
             // all = svRepository.sumByItemprice(seller.getNo());
             // if(all != 0){
@@ -103,7 +95,7 @@ public class IkhItemController {
             /* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
             // 물품 테이블 넘기기                       
             // 상세정보로 가기 위한 리스트 추출
-            List<TotaltableView> tlist = tvRepository.findByNo(seller.getNo());
+            List<TotaltableView> tlist = itemService.findByNo(seller.getNo());
             if(tlist != null){
                 model.addAttribute("tlist", tlist);
             }            

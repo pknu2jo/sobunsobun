@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.entity.SellerEntity;
 import com.example.entity.ikh.SalesViewProjection;
 import com.example.entity.ikh.StagenderView;
-import com.example.repository.ikh.SalesViewRepository;
-import com.example.repository.ikh.StagenderViewRepository;
-import com.example.repository.ikh.StalocationViewRepository;
-import com.example.repository.jk.JkSellerRepository;
+import com.example.service.ikh.IkhItemService;
+import com.example.service.jk.JkSellerService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,27 +25,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class IkhItemdetailController {
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-    // 통계    
-    final StagenderViewRepository sgvRepository;
-    final StalocationViewRepository slvRepository;
-    final SalesViewRepository svRepository;
-    final JkSellerRepository sellerRepository;
+    // 통계
+    final IkhItemService itemService;    
+    final JkSellerService sellerRepository;
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ    
     // 물품 하나에 대한 통계
     @GetMapping(value="/item/searchdetail.do")
     public String searchdetailGET(@RequestParam(name = "itemno") long itemno, Model model,
                     @AuthenticationPrincipal User user) {
         try {
-            SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);
+            SellerEntity seller = sellerRepository.findByNo(user.getUsername());
             model.addAttribute("companyName", seller.getName().toString());
             model.addAttribute("user", user);
 
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
             // 물품이름 받아오기
-            StagenderView name = sgvRepository.findByItemcode(BigDecimal.valueOf(itemno));
+            StagenderView name = itemService.findByItemcode(BigDecimal.valueOf(itemno));
             // 한 물품에 대한 성비구하기
-            long female =  sgvRepository.countByGenderAndItemcodeAndNo("F", BigDecimal.valueOf(itemno), seller.getNo());
-            long male =  sgvRepository.countByGenderAndItemcodeAndNo("M", BigDecimal.valueOf(itemno), seller.getNo());
+            long female =  itemService.countByGenderAndItemcodeAndNo("F", BigDecimal.valueOf(itemno), seller.getNo());
+            long male =  itemService.countByGenderAndItemcodeAndNo("M", BigDecimal.valueOf(itemno), seller.getNo());
 
             model.addAttribute("itemname", name.getItemname());
             model.addAttribute("female", female);
@@ -64,7 +60,7 @@ public class IkhItemdetailController {
             long total = 0;
             // 행정구별 판매수 구하기
             for(int i = 0 ;i < array.length ;i++){
-                array[i] = slvRepository.countByNoAndItemcodeAndLocationContaining(seller.getNo(), BigDecimal.valueOf(itemno), locations[i]);
+                array[i] = itemService.countByNoAndItemcodeAndLocationContaining(seller.getNo(), BigDecimal.valueOf(itemno), locations[i]);
                 total += array[i];
                 if(array[i] > max){
                     max = array[i];
@@ -77,9 +73,9 @@ public class IkhItemdetailController {
             /*ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
             // 한 물품에 대한 매출 구하기
             // 전체 매출
-            long all = svRepository.sumByItempriceAndItemno(seller.getNo(), BigDecimal.valueOf(itemno));
+            long all = itemService.sumByItempriceAndItemno(seller.getNo(), BigDecimal.valueOf(itemno));
             // 월 매출
-            List<SalesViewProjection> mlist = svRepository.findMonthlySalesAndItemno(seller.getNo(), BigDecimal.valueOf(itemno));
+            List<SalesViewProjection> mlist = itemService.findMonthlySalesAndItemno(seller.getNo(), BigDecimal.valueOf(itemno));
 
             model.addAttribute("all", all); // 전체매출
             model.addAttribute("mlist", mlist); // 월 매출
