@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entity.SellerEntity;
-import com.example.repository.gr.grcompanyRepository;
 import com.example.service.gr.GrAdminCompanyService;
 
 import lombok.RequiredArgsConstructor;
