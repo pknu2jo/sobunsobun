@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.Customer;
-import com.example.dto.CustomerUser;
 import com.example.dto.KmOrderSuccess;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
@@ -57,18 +57,12 @@ public class KmCustomerContorller {
                                 @RequestParam(name="tab", defaultValue = "detail") String tab,
                                 @RequestParam(name="orderby", defaultValue = "", required = false) String orderby,
                                 @RequestParam(name="page", defaultValue = "0", required = false) int page,
-                                @AuthenticationPrincipal CustomerUser user,
+                                @AuthenticationPrincipal User user,
                                 HttpServletRequest request,
                                 Model model ) {
         // log.info("물품 상세 조회 GET 진입");
 
         try {
-
-            // review 영역의 pagination 처리
-            // if(page == 0) {
-            //     System.out.println("안되네....어쩌지");
-            //     return "redirect:/customer/item/selectone.do?itemno=" + no + "&tab=review&page=1";
-            // }
 
             long itemno = Long.valueOf(no.toPlainString());
 
@@ -159,11 +153,7 @@ public class KmCustomerContorller {
                 model.addAttribute("startPage", startPage);
                 model.addAttribute("endPage", endPage);
                 model.addAttribute("currentPage", page);
-
             }
-    
-
-            
 
             model.addAttribute("purchaseList", purchaseList);
             model.addAttribute("item", item);
@@ -189,7 +179,7 @@ public class KmCustomerContorller {
         try {
             // log.info("post view 확인1 => {}", obj.toString());
             // 공구 참여 버튼 -> kmPurchaseView(no=0, purchaseNo=1007, participant=0,
-            //                                  deadline=null, remainingPerson=0, itemNo=0, itemName=null,
+            //                                  deadline=null, remainingPerson=0, itemNo=11, itemName=null,
             //                                  itemPrice=0, storageNo=0, storageName=null, pricePerOne=0, imageUrl=null)
             // => purchaseNo만 넘어옴
 
@@ -211,12 +201,12 @@ public class KmCustomerContorller {
     // ---------------------------------------------------------------------------------
 
     @GetMapping(value = "/item/order.do")
-    public String orderGET(Model model, HttpServletRequest request, @AuthenticationPrincipal CustomerUser user) {
+    public String orderGET(Model model, HttpServletRequest request, @AuthenticationPrincipal User user) {
         try {
             // 세션에서 가져오기
             kmPurchaseView obj = (kmPurchaseView) httpSession.getAttribute("kmPurchaseView");
 
-            // log.info("user information 확인 => {}", user.toString());
+            log.info("user information 확인 => {}", user.toString());
 
             if (obj.getPurchaseNo() != 0) {
                 // 공구 참여
@@ -260,7 +250,7 @@ public class KmCustomerContorller {
 
 
             // user의 id로 정보 꺼내오기 (id, name, phone, email)
-            Customer customer = customerService.selectOneCustomer(user.getId());
+            Customer customer = customerService.selectOneCustomer(user.getUsername());
             // log.info("user 정보 확인 => {}", user.toString());
             // log.info("customer 확인 => {}", customer.toString());
             
@@ -373,7 +363,7 @@ public class KmCustomerContorller {
 
     @GetMapping(value = "/ordersuccess.do")
     public String orderSuccessGET(Model model,
-                    @AuthenticationPrincipal CustomerUser user,
+                    @AuthenticationPrincipal User user,
                     HttpServletRequest request) {
         try {
             // 세션에서 가져오기

@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.dto.GrDate;
 import com.example.dto.Grcalender;
 import com.example.entity.gr.grgrpurchaseview;
-import com.example.repository.gr.grgrpurchaseviewRepository;
 import com.example.service.gr.GrPurchaseItemService;
 import com.example.service.se.SePurchaseItemService;
 
@@ -33,9 +32,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 @RequestMapping(value = "/customer")
 @RequiredArgsConstructor
-public class MyOrderListController {
+public class GrMyOrderListController {
 
-    final grgrpurchaseviewRepository grRepository;
     final GrPurchaseItemService gpiService;
 
     // 이미지 전송용
@@ -54,7 +52,7 @@ public class MyOrderListController {
 
             // a= firstdate, b= secondate;
             int a = 0, sum = 0;
-            
+
             Grcalender gc = new Grcalender();
             gc.setFirstdate(firstdate);
             gc.setSeconddate(seconddate);
@@ -97,6 +95,9 @@ public class MyOrderListController {
                     } else if (Long.parseLong(list.get(i).getState().toPlainString()) == 0
                             && Long.parseLong(list.get(i).getCancel().toPlainString()) == 1) {
                         list.get(i).setStatechk("결제 취소");
+                    } else if (Long.parseLong(list.get(i).getState().toPlainString()) == 2
+                            && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
+                        list.get(i).setStatechk("수령 완료");
                     }
                 }
 
@@ -105,6 +106,7 @@ public class MyOrderListController {
                 int startPage = (currentSet - 1) * 5 + 1;
                 int endPage = Math.min(startPage + 4, totalPages);
 
+                model.addAttribute("user", user);
                 model.addAttribute("list", list);
                 model.addAttribute("pages", totalPages);
                 model.addAttribute("gc", gc);
@@ -166,12 +168,10 @@ public class MyOrderListController {
                 log.info("rkfka cnt => {}", cnt);
 
                 for (int i = 0; i < list.size(); i++) {
-
                     log.info("skdhkfk => {}",
                             Long.parseLong(list.get(i).getState().toPlainString()));
                     log.info("skdhkfk1 => {}",
                             Long.parseLong(list.get(i).getCancel().toPlainString()));
-
                     list.get(i).setCommaprice(Long.parseLong(list.get(i).getTotalprice().toPlainString()));
                     if (Long.parseLong(list.get(i).getState().toPlainString()) == 0
                             && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
@@ -182,14 +182,18 @@ public class MyOrderListController {
                     } else if (Long.parseLong(list.get(i).getState().toPlainString()) == 0
                             && Long.parseLong(list.get(i).getCancel().toPlainString()) == 1) {
                         list.get(i).setStatechk("결제 취소");
+                    } else if (Long.parseLong(list.get(i).getState().toPlainString()) == 2
+                            && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
+                        list.get(i).setStatechk("수령 완료");
                     }
-
                 }
+
                 int totalPages = (int) ((cnt - 1) / pageSize) + 1;
                 int currentSet = (int) Math.ceil((double) page / 5);
                 int startPage = (currentSet - 1) * 5 + 1;
                 int endPage = Math.min(startPage + 4, totalPages);
 
+                model.addAttribute("user", user);
                 model.addAttribute("list", list);
                 model.addAttribute("pages", totalPages);
                 model.addAttribute("firstdate", firstdate);

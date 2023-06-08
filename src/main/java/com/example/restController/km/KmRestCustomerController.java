@@ -308,35 +308,5 @@ public class KmRestCustomerController {
         return retMap;
     }
 
-    // // 리뷰 전체 목록 조회하기
-    // @GetMapping(value="findreview.json")
-    // public Map<String, Object> findReviewGET(@RequestParam(name = "itemno") BigDecimal itemno) {
-    //     Map<String, Object> retMap = new HashMap<>();
-
-    //     try {
-    //         List<ReviewEntity> obj = customerService.findByItemEntity_noOrderByNoDesc(itemno);
-            
-    //         // obj를 바로 map에 담아서 보내려고 하니까 그 안에 있는 Entity(item, order, image)때문에 오류 생김
-    //         List<ReviewEntity> reviews = new ArrayList<>();
-
-            
-    //         for(ReviewEntity ret : obj) {
-    //             ReviewEntity review = new ReviewEntity();
-    //             review.setNo(ret.getNo());
-    //             review.setComment(ret.getComment());
-    //             review.setRating(ret.getRating());
-    //             review.setRegdate(ret.getRegdate());
-    //             // review.setImageList(ret.getImageList());
-    //             reviews.add(review);
-    //         }
-            
-    //         log.info("rest reviews 확인하기 => {}", reviews.toString());
-
-    //         retMap.put("reviews", reviews);
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         retMap.put("result", -1);
-    //     } 
-    //     return retMap;
-    // }
+    
 }

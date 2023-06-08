@@ -35,4 +35,6 @@ public interface GrCustomerService {
     // 카카오톡 로그인 아이디 찾기
     public Customer searchkakao(String id);
 
+    // -----------------------------------------------------------------
+
 }

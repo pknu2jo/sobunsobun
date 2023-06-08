@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entity.SellerEntity;
-import com.example.repository.gr.grcompanyRepository;
+import com.example.service.gr.GrAdminCompanyService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class GrRestCompanyBlockchkController {
 
-    final grcompanyRepository gcRepository;
+    // final grcompanyRepository gcRepository;
+    final GrAdminCompanyService gcService;
 
     @PostMapping(value = "/company.json")
     public Map<String, Integer> companyPOST(
@@ -37,7 +38,7 @@ public class GrRestCompanyBlockchkController {
             log.info("가람1 => {}", ret1);
             log.info("가람2 => {}", ret2);
 
-            SellerEntity sEntity = gcRepository.findByNo(ret1);
+            SellerEntity sEntity = gcService.findByNo(ret1);
             log.info("가람가람=>{}", sEntity);
 
             Long chk = Long.parseLong(map.get("blockChk").toString());
@@ -45,13 +46,13 @@ public class GrRestCompanyBlockchkController {
 
             if (chk == 0) {
                 sEntity.setBlockChk(BigDecimal.valueOf(1));
-                gcRepository.save(sEntity);
+                gcService.save1(sEntity);
                 retMap.put("result", 1);
                 retMap.put("chkstate", 0);
                 log.info("아아아앙=>{}", sEntity.toString());
             } else {
                 sEntity.setBlockChk(BigDecimal.valueOf(0));
-                gcRepository.save(sEntity);
+                gcService.save1(sEntity);
                 retMap.put("result", 0);
                 retMap.put("chkstate", 1);
                 log.info("아아아아아아아=>{}", sEntity.toString());

@@ -13,7 +13,7 @@ public interface grcustomerRepository extends JpaRepository<CustomerEntity, Stri
 
     List<CustomerEntity> findAll();
 
-    // CustomerEntity findById();
+    // CustomerEntity findById(String id);
 
     @Query(value = "SELECT COUNT(*) FROM Customer WHERE DATE_TRUNC('day', regdate) = CURRENT_DATE", nativeQuery = true)
     int countTodayCustomers();
@@ -22,6 +22,6 @@ public interface grcustomerRepository extends JpaRepository<CustomerEntity, Stri
     int countByQuitchk();
 
     @Query(value = "SELECT COUNT(*) FROM PURCHASESTATUS WHERE DATE_TRUNC('day', regdate) = CURRENT_DATE AND STATE=1 AND CANCEL=0", nativeQuery = true)
-    int coutByPurchase();
+    int countByPurchase();
 
 }

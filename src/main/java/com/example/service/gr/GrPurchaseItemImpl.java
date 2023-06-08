@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.example.dto.GrDate;
 import com.example.entity.gr.grgrpurchaseview;
 import com.example.mapper.gr.GrPurchaseItemMapper;
+import com.example.repository.gr.grgrpurchaseviewRepository;
+import com.example.repository.gr.grjjimRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 public class GrPurchaseItemImpl implements GrPurchaseItemService {
 
     final GrPurchaseItemMapper piMapper;
+    final grgrpurchaseviewRepository grpRepository;
+    final grjjimRepository gjRepository;
 
     @Override
     public List<Map<String, Object>> selectManyPurchaseItem() {
@@ -73,6 +77,17 @@ public class GrPurchaseItemImpl implements GrPurchaseItemService {
     public List<grgrpurchaseview> searchMyOrderList(GrDate grdate) {
         try {
             return piMapper.searchMyOrderList(grdate);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // 내가 주문한 상품 목록
+    @Override
+    public List<grgrpurchaseview> findByMemid(String id) {
+        try {
+            return grpRepository.findByMemid(id);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

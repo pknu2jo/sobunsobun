@@ -27,10 +27,8 @@ import com.example.entity.ItemImage;
 import com.example.entity.SellerEntity;
 import com.example.entity.ikh.BestSellView;
 import com.example.entity.ikh.TotaltableView;
-import com.example.repository.ikh.BestSellViewRepository;
-import com.example.repository.ikh.TopthreeViewRepository;
-import com.example.repository.ikh.TotaltableViewRepository;
 import com.example.repository.jk.JkSellerRepository;
+import com.example.service.ikh.IkhItemService;
 import com.example.service.jk.JkSellerService;
 import com.example.service.mj.MjItemImageService;
 import com.example.service.mj.MjItemService;
@@ -48,10 +46,8 @@ public class JkSellerController {
     final HttpSession httpSession;
     final JkSellerService sSellerService; // Mybatis 방식 Service (Mapper)
     final JkSellerRepository sRepository; // Jpa 방식 Repository
-    final MjItemService itemService;
-    final BestSellViewRepository bsvRepository;
-    final TopthreeViewRepository ttvRepository;
-    final TotaltableViewRepository totalRepository;
+    final MjItemService itemService;    
+    final IkhItemService itemsService;
     BCryptPasswordEncoder bcpe = new BCryptPasswordEncoder();
 
     final MjItemImageService imageService;
@@ -70,7 +66,7 @@ public class JkSellerController {
             model.addAttribute("countItem", ret);
 
             // 지금까지 가장 많이 팔린 상품은 파트
-            BestSellView best = bsvRepository.findByNo(seller.getNo());
+            BestSellView best = itemsService.findByNobest(seller.getNo());
             if(best != null ) {
                 log.info("확인해봅시다 => {}", best.toString());
                 model.addAttribute("itemName", best.getItemname()); // 상품명
@@ -87,7 +83,7 @@ public class JkSellerController {
 
             // 가장 많이 팔린 상품들이에요! 파트
             Pageable pageable = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "count").and(Sort.by(Sort.Direction.ASC, "itemregdate")));
-            List<TotaltableView> list = totalRepository.findBest(seller.getNo(), pageable);
+            List<TotaltableView> list = itemsService.findBest(seller.getNo(), pageable);
             // log.info("best3 {}", bestlist);
             // List<TopthreeView> list = ttvRepository.findByNo(seller.getNo());
             if(list != null){

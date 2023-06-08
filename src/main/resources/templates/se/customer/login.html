@@ -221,6 +221,28 @@
                             email = response.kakao_account.email;
                             nickname = response.kakao_account.profile.nickname;
                             gender = response.kakao_account.gender;
+
+                            if(!email || !gender) {
+                                alert('이메일과 성별 정보 제공에 동의해주세요');
+
+                                // 카카오톡 로그아웃
+                                if (Kakao.Auth.getAccessToken()) {
+                                    
+                                    Kakao.API.request({
+                                        url: '/v1/user/unlink',
+                                        success: function (response) {
+                                            console.log(response)
+                                        },
+                                        fail: function (error) {
+                                            console.log(error)
+                                        },
+                                    });
+                                
+                                    Kakao.Auth.setAccessToken(null);
+                                }
+                                return false;
+                            }
+
                             if(gender == 'female'){
                                 gender = 'F';
                             }
@@ -247,7 +269,7 @@
                                 return false;
                             }
                             else if(data.ret === 3){ // 정상회원 => 홈으로
-                                location.href="http://127.0.0.1:5959/SOBUN/customer/home.do";
+                                location.href="/SOBUN/customer/home.do";
                             }
 
 

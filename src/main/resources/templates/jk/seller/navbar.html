@@ -1,5 +1,5 @@
 <th:block th:fragment="navbarHTML">
-    <div id="layoutLeftSide">
+    <div id="layoutLeftSide" style="cursor: auto;">
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
             <div class="sb-sidenav-menu">
                 <div class="nav">
@@ -14,9 +14,9 @@
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
                         data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" herf="#" onclick="pwCheck1()">내 정보 수정하기</a>
-                            <a class="nav-link" herf="#" onclick="pwCheck2()">비밀번호 변경하기</a>
-                            <a class="nav-link" herf="#" onclick="pwCheck3()">탈퇴하기</a>
+                            <a class="nav-link" href="#!" onclick="pwCheck1()" >내 정보 수정하기</a>
+                            <a class="nav-link" href="#!" onclick="pwCheck2()" >비밀번호 변경하기</a>
+                            <a class="nav-link" href="#!" onclick="pwCheck3()" >탈퇴하기</a>
                         </nav>
                     </div>
 
@@ -71,6 +71,7 @@
             const { data } = await axios.get(url, { headers: headers });
             console.log('반환되는 결과', data);
 
+            document.getElementById("hz").style.pointerEvents =
             window.location.href = /*[[@{/seller/pwinfocheck.do?redirect=updateinfo.do}]]*/ + "";
         }
 

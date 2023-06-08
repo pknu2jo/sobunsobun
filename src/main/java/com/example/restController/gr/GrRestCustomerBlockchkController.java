@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.entity.CustomerEntity;
 import com.example.repository.gr.grcustomerRepository;
+import com.example.service.gr.GrAdminService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class GrRestCustomerBlockchkController {
 
     final grcustomerRepository gcRepository;
+    final GrAdminService gService;
 
     @PostMapping(value = "/customer.json")
     public Map<String, Integer> customerPOST(
@@ -46,12 +48,12 @@ public class GrRestCustomerBlockchkController {
 
             if (chk == 0) {
                 cEntity.setBlockchk(BigDecimal.valueOf(1));
-                gcRepository.save(cEntity);
+                gService.save1(cEntity);
                 retMap.put("result", 1);
                 retMap.put("chkstate", 0);
             } else {
                 cEntity.setBlockchk(BigDecimal.valueOf(0));
-                gcRepository.save(cEntity);
+                gService.save1(cEntity);
                 retMap.put("result", 0);
                 retMap.put("chkstate", 1);
             }

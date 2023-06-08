@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.example.dto.Customer;
 import com.example.dto.CustomerAddress;
 import com.example.mapper.gr.GrCustomerMapper;
+import com.example.repository.gr.grjjimRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 public class GrCustomerServiceImpl implements GrCustomerService {
 
     final GrCustomerMapper cMapper;
+    final grjjimRepository jRepository;
 
     // 아이디를 이용해서 고객 정보 받아오기
     @Override
