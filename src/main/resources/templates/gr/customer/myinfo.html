@@ -528,14 +528,16 @@
                                     <p>
                                         <div class="pw1" >
                                             <label>새 비밀번호</label>
-                                            <input type="password" id="pw" name="pw">
+                                            <!-- <input type="password" id="pw" name="pw" th:onclick="kakaoid([[${user.username}]])"> -->
+                                            <input type="password" id="pw" name="pw" >
                                             <label id="pwcheck" name="pwcheck" class="pwcheck"></label>
                                         </div>
                                     </p>
                                     <p>
                                         <div class="pw2">
                                             <label>새 비밀번호 확인</label>
-                                            <input type="password" id="pwConfirm" name="pwConfirm" onkeyup="isSame()">
+                                            <!-- <input type="password" id="pwConfirm" name="pwConfirm" onkeyup="isSame()" th:onclick="kakaoid([[${user.username}]])"> -->
+                                            <input type="password" id="pwConfirm" name="pwConfirm" onkeyup="isSame()" >
                                             <button class="btn-password" id="button1" type="button" name="button1" onclick="formAction1(1)" >변경</button>
                                             <!-- <button class="btn-password" type="button" name="button"  >변경</button> -->
                                         </div>
@@ -596,7 +598,7 @@
 
         const id = /*[[${user.username}]]*/"";
         console.log(id);
-        const pwConfirm = document.Selector("#pwConfirm");
+        const pwConfirm = document.querySelector("#pwConfirm");
         const pw = document.querySelector("#pw");
         const pwcheck = document.querySelector("#pwcheck");
         const button1 = document.querySelector('#button1');
@@ -669,6 +671,8 @@
             }
 
         }
+
+      
 
  
 

@@ -64,6 +64,8 @@ public class GrMyInfoController {
 
         model.addAttribute("user", user);
 
+        Customer kakao = cService.searchkakao(user.getUsername());
+
         Customer c = cService.selectCustomerOne1(user.getUsername());
         log.info("rkfka => {}", c);
 
@@ -72,6 +74,7 @@ public class GrMyInfoController {
             String email = obj[i];
             log.info("rkfka=>{}", email);
         }
+        model.addAttribute("kakao", kakao);
         model.addAttribute("c", c);
         model.addAttribute("id", obj[0]);
         model.addAttribute("email", obj[1]);
@@ -98,7 +101,7 @@ public class GrMyInfoController {
         log.info("rkfka result=>{}", result);
         log.info("rkfka update=>{}", ret);
 
-        return "redirect:/customer/myinfo.do";
+        return "redirect:/customer/mypage.do";
     }
 
     @PostMapping(value = "/updatepw.do")
