@@ -1,13 +1,11 @@
 package com.example.service.gr;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.example.dto.GrDate;
-import com.example.entity.JjimEntity;
 import com.example.entity.gr.grgrpurchaseview;
 import com.example.mapper.gr.GrPurchaseItemMapper;
 import com.example.repository.gr.grgrpurchaseviewRepository;

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.entity.CustomerEntity;
-import com.example.repository.gr.grcustomerRepository;
 import com.example.service.gr.GrAdminService;
 
 import lombok.RequiredArgsConstructor;

@@ -35,4 +35,14 @@ public class GrAdminCompanyImpl implements GrAdminCompanyService {
         }
     }
 
+    @Override
+    public SellerEntity save1(SellerEntity obj) {
+        try {
+            return gcRepository.save(obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
