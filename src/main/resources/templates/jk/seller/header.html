@@ -30,13 +30,13 @@
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="profile">
-                    <li><a class="dropdown-item" onclick="pwCheck1()"><i class="fas fa-cog"></i> 내 정보
+                    <li><a class="dropdown-item" href="#!" onclick="pwCheck1()" style="cursor: pointer"><i class="fas fa-cog"></i> 내 정보
                             설정</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
                     <form id="logout_Form" th:action="@{/logout.do}" method="post">
-                        <li><a class="dropdown-item" th:onclick="logoutAction()"><i class="fas fa-sign-out"></i>
+                        <li><a class="dropdown-item" th:onclick="logoutAction()" href="#!" style="cursor: pointer"><i class="fas fa-sign-out"></i>
                                 로그아웃</a></li>
                     </form>
                 </ul>
