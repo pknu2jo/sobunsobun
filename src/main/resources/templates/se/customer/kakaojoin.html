@@ -236,6 +236,8 @@
             const phone = document.querySelector("input[name='phone']");
             const latitude = document.querySelector("input[name='latitude']");
             const longitude = document.querySelector("input[name='longitude']");
+            
+            var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
             if( name.value.length  <= 0 ){
                 alert("이름를 입력하세요");
                 name.focus();
@@ -243,6 +245,11 @@
             }
             if( phone.value.length  <= 0 ){
                 alert("연락처를 입력하세요");
+                phone.focus();
+                return false;
+            }
+            if(!regPhone.test(phone.value)){
+                alert("잘못된 연락처 양식입니다");
                 phone.focus();
                 return false;
             }
