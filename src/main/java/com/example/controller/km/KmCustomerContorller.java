@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.Customer;
-import com.example.dto.CustomerUser;
 import com.example.dto.KmOrderSuccess;
 import com.example.dto.Storage;
 import com.example.dto.kmPurchaseView;
@@ -58,7 +57,7 @@ public class KmCustomerContorller {
                                 @RequestParam(name="tab", defaultValue = "detail") String tab,
                                 @RequestParam(name="orderby", defaultValue = "", required = false) String orderby,
                                 @RequestParam(name="page", defaultValue = "0", required = false) int page,
-                                @AuthenticationPrincipal CustomerUser user,
+                                @AuthenticationPrincipal User user,
                                 HttpServletRequest request,
                                 Model model ) {
         // log.info("물품 상세 조회 GET 진입");
@@ -364,7 +363,7 @@ public class KmCustomerContorller {
 
     @GetMapping(value = "/ordersuccess.do")
     public String orderSuccessGET(Model model,
-                    @AuthenticationPrincipal CustomerUser user,
+                    @AuthenticationPrincipal User user,
                     HttpServletRequest request) {
         try {
             // 세션에서 가져오기
