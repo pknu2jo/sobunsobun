@@ -17,6 +17,10 @@ public interface GrAdminService {
 
     public int countByPurchase();
 
+    public CustomerEntity save1(CustomerEntity obj);
+
+    // public CustomerEntity findById(String id);
+
     // ------------------------------------------------------
 
 }

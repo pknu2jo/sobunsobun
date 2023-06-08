@@ -55,6 +55,26 @@ public class GrAdminImpl implements GrAdminService {
         }
     }
 
+    @Override
+    public CustomerEntity save1(CustomerEntity obj) {
+        try {
+            return gcRepository.save(obj);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // @Override
+    // public CustomerEntity findById(String id) {
+    // try {
+    // return gcRepository.findById(id);
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // return null;
+    // }
+    // }
+
     // --------------------------------------------------------------------------------
 
 }

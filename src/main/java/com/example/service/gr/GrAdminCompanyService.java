@@ -13,4 +13,6 @@ public interface GrAdminCompanyService {
 
     public SellerEntity findByNo(String no);
 
+    public SellerEntity save1(SellerEntity obj);
+
 }
