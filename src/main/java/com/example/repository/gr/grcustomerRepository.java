@@ -13,7 +13,7 @@ public interface grcustomerRepository extends JpaRepository<CustomerEntity, Stri
 
     List<CustomerEntity> findAll();
 
-    // CustomerEntity findById();
+    // CustomerEntity findById(String id);
 
     @Query(value = "SELECT COUNT(*) FROM Customer WHERE DATE_TRUNC('day', regdate) = CURRENT_DATE", nativeQuery = true)
     int countTodayCustomers();
