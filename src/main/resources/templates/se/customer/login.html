@@ -174,8 +174,8 @@
             
         <div class="container text-center">
             <form class="position-relative" th:action="@{/customer/loginaction.do}" method="post" id="loginFrom">
-                <input class="loginInput" type="text" name="id" placeholder="아이디" autofocus><br>
-                <input class="loginInput" type="password" name="pw" placeholder="암호"><br>
+                <input class="loginInput" type="text" name="id" placeholder="아이디" value="km1" autofocus><br>
+                <input class="loginInput" type="password" name="pw" placeholder="암호" value="1"><br>
                 <input class="loginInput loginBtn" type="button" value="로그인" onclick="loginAction()">
                 <a class="position-absolute kakaoLoginBtn" id="kakao-login-btn" href="javascript:loginWithKakao()"><img th:src="@{/images/se/kakao_login_button.png}" alt="" style="width: 30px;"></a>                    </div>
             </form>
