@@ -54,8 +54,9 @@ public class RestSellerController {
         log.info("Login Chk => {}", seller.toString()); // Body로 잘 받아왔는지 Check
         Map<String, Object> retMap = new HashMap<>();
         try {
-            if (checkLogin(seller.getNo(), seller.getPw()) == true) { // 로그인 성공시 (true) 
-                if (seller.getBlockChk() == BigDecimal.valueOf(1L)) { // 차단 유저일 시
+            if (checkLogin(seller.getNo(), seller.getPw()) == true) { // 로그인 성공시 (true)
+                SellerEntity sellerDB = sSellerService.findByNo(seller.getNo());
+                if (sellerDB.getBlockChk() == BigDecimal.valueOf(1L)) { // 차단 유저일 시
                     retMap.put("chk", 2); // chk값 2로 저장
                 } else {
                     retMap.put("chk", 1); // chk값 1로 저장
