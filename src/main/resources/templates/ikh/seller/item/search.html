@@ -53,7 +53,7 @@
                                     <div class="card-body">                                        
                                         <canvas id="myPieChart" width="100%" height="50"></canvas>
                                         <div class="d-flex justify-content-end">
-                                            전체 인원수 :&nbsp;<label th:text= "${total.longValue()}" aria-readonly="true"></label>
+                                            전체 인원수 :&nbsp;<label th:text= "${total}" aria-readonly="true"></label>
                                         </div>
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
                                     <div class="card-body">                                    
                                         <!-- 전체 매출 : <label th:text= "${all}"></label><br/> -->
                                         전체 매출 : <label id="max" text=""></label><br/>
-                                        구매자 수 : <label th:text= "${total.longValue()}"></label>
+                                        구매자 수 : <label th:text= "${total}"></label>
                                         <canvas id="myBarChart1" width="100%" height="50"></canvas>
                                     </div>
                                 </div>
