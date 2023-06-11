@@ -475,3 +475,7 @@ ul {
 #sidebarToggle {
     color: #052c65;
 }
+
+.nav-link:hover{
+    cursor: pointer;
+}
