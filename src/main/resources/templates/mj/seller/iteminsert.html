@@ -122,7 +122,7 @@
                                     <button type="submit" class="btn btn-dark" id="insertimage"
                                         onclick="insertimage()">네</button>
                                     <button type="submit" class="btn btn-outline-secondary" data-bs-dismiss="modal"
-                                        id="tomanagement">아니요. </button>
+                                        id="tomanagement">아니요 </button>
                                 </div>
                             </div>
                         </div>
@@ -320,12 +320,12 @@
                 function clickFunction() {
                     window.location.href = `/SOBUN/seller/itemimage/selectlist.do?no=` + data.itemno;
                 }
-
+                // 모달창에서 아니요 클릭시 물품관리(등록된 물품목록) 페이지로 이동
                 document.getElementById('tomanagement').addEventListener("click", clickFunction1);
                 function clickFunction1() {
                     window.location.href = `/SOBUN/seller/item/management.do`;
                 }
-
+                // 모달창에서 X 클릭시 물품등록 페이지로 이동(추가 물품등록 가능)
                 document.getElementById('tomanagement1').addEventListener("click", clickFunction2);
                 function clickFunction2() {
                     window.location.href = `/SOBUN/seller/item/insert.do`;
