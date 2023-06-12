@@ -14,9 +14,9 @@ public interface KmAdminProductSimpleViewRepository
     
     // 모든 지점 선택 시, 수령 상태에 따른 공구 주문 가져오기
     List<KmAdminProductSimpleView> findByReceivestateOrderByPurchasenoAsc(BigDecimal receivestate);
+    // List<KmAdminProductSimpleView> findByReceivestateOrderByPurchasenoAsc(BigDecimal receivestate, Pageable pageable);
 
     // 지점(storageno)별, 수령 상태에 따른 공구 주문 가져오기
     List<KmAdminProductSimpleView> findByStoragenoAndReceivestateOrderByPurchasenoAsc(BigDecimal storageno, BigDecimal receivestate);
  
-    
 }

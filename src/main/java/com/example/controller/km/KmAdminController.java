@@ -34,7 +34,7 @@ public class KmAdminController {
 
             List<StorageEntity> storageList =  adminService.findAllStorage();
 
-            log.info("storage List check => {}", storageList.toString());
+            // log.info("storage List check => {}", storageList.toString());
             model.addAttribute("storageList", storageList);
 
             return "/km/admin/product";
