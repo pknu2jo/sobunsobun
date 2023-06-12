@@ -24,7 +24,6 @@ import com.example.entity.PurchaseEntity;
 import com.example.entity.PurchaseStatusEntity;
 import com.example.entity.km.KmAdminProductSimpleView;
 import com.example.entity.km.KmAdminProductView;
-import com.example.repository.km.KmPurchaseStatusRepository;
 import com.example.repository.km.KmPurchaseStatusRepository.KmAdminPurchaseStatus;
 import com.example.service.km.KmAdminService;
 
@@ -38,7 +37,6 @@ import lombok.extern.slf4j.Slf4j;
 public class KmRestAdminController {
     
     final KmAdminService adminService;
-    final KmPurchaseStatusRepository test;
 
     // 지점별 공구 가져오기
     @GetMapping(value="/purchaselistbystorage.json")
@@ -62,7 +60,6 @@ public class KmRestAdminController {
             }
 
             if(purchaseList.size() > 0) {
-
                 
                 log.info("real obj check => {}", purchaseList.toString());
                 // KmPurchaseStatusProductProjection를 통해 각 공구 번호에 해당하는 아이디, state 불러오기
@@ -79,7 +76,6 @@ public class KmRestAdminController {
                         customerList.add(purchasestatusDTO);
                     }
                     obj.setCustomerList(customerList);
-
                 }
 
                 retMap.put("purchaseList", purchaseList); 
