@@ -67,7 +67,7 @@
                     <div class="col-lg-6">
                         <div class="single_product_image_background">
                             <th:block th:if="${imgList.size() > 0}">
-                                <img th:src="@{/customer/image(no=${imgList[0]})}" alt="">
+                                <img th:src="@{/customer/image(no=${imgList[0]})}" style="height: 500px;object-fit: contain;">
                             </th:block>
                             <th:block th:unless="${imgList.size() > 0}">
                                 <img th:src="@{/customer/image}" alt="">

@@ -111,32 +111,32 @@ public class KmRestAdminController {
             if(searchoption.equals("memid")) {
                 List<KmAdminProductView> purchaseList = adminService.findPurchaseListByMemid(searchvalue);
 
-                if(purchaseList.size() > 0) {
+                if( purchaseList.size() > 0 ) {
                     retMap.put("purchaseList", purchaseList); 
                     log.info("retMap check => {}", retMap.get("purchaseList"));
                 }
 
-            } else if(searchoption.equals("purchaseno")) {
+            } else if( searchoption.equals("purchaseno") ) {
                 KmAdminProductSimpleView purchase = adminService.findOnePurchaseSimpleView(BigDecimal.valueOf(Long.parseLong(searchvalue)));
             
                 if(purchase != null) {
                     List<KmAdminPurchaseStatus> objList = adminService.findMemidAndStateByPurchaseno(purchase.getPurchaseno());
                     List<KmAdminPurchaseStatusDTO> customerList = new ArrayList<>();
     
-                    for(KmAdminPurchaseStatus obj1 : objList) {
+                    for( KmAdminPurchaseStatus obj1 : objList ) {
+
                         KmAdminPurchaseStatusDTO purchasestatusDTO = new KmAdminPurchaseStatusDTO();
                         purchasestatusDTO.setMemid(obj1.getMemid());
                         purchasestatusDTO.setState(obj1.getState());
     
                         customerList.add(purchasestatusDTO);
                     }
+                    
                     purchase.setCustomerList(customerList);
                     retMap.put("purchase", purchase);
                     log.info("retMap check => {}", retMap.get("purchase")); 
                 }
-                
             }
-
             retMap.put("result", 1);
         } catch (Exception e) {
             e.printStackTrace();
