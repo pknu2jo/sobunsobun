@@ -40,6 +40,7 @@ public class MjRestItemController {
 
             log.info("item=>{}", item.toString());
             Item ret = itemService.saveItem(item);
+            log.info("itemscode=>{}", item.getScategoryCode());
             
             retMap.put("itemno", ret.getNo());
             retMap.put("result1", ret);
