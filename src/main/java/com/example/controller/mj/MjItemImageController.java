@@ -184,7 +184,7 @@ public class MjItemImageController {
             }
             model.addAttribute("item", item);
             
-            // 전체이미지
+            // 상세이미지
             // List<String> 타입으로 만들어서 view로 전달후 출력
             List<ItemImage> list = imageService.findByItemNo_noAndFilenameLikeOrderByNoAsc(BigDecimal.valueOf(no), "%상세%");
             if( !list.isEmpty() ){
