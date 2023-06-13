@@ -6,6 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +24,6 @@ import com.example.entity.PurchaseEntity;
 import com.example.entity.PurchaseStatusEntity;
 import com.example.entity.km.KmAdminProductSimpleView;
 import com.example.entity.km.KmAdminProductView;
-import com.example.repository.km.KmPurchaseStatusRepository;
 import com.example.repository.km.KmPurchaseStatusRepository.KmAdminPurchaseStatus;
 import com.example.service.km.KmAdminService;
 
@@ -32,7 +37,6 @@ import lombok.extern.slf4j.Slf4j;
 public class KmRestAdminController {
     
     final KmAdminService adminService;
-    final KmPurchaseStatusRepository test;
 
     // 지점별 공구 가져오기
     @GetMapping(value="/purchaselistbystorage.json")
@@ -56,7 +60,6 @@ public class KmRestAdminController {
             }
 
             if(purchaseList.size() > 0) {
-
                 
                 log.info("real obj check => {}", purchaseList.toString());
                 // KmPurchaseStatusProductProjection를 통해 각 공구 번호에 해당하는 아이디, state 불러오기
@@ -73,7 +76,6 @@ public class KmRestAdminController {
                         customerList.add(purchasestatusDTO);
                     }
                     obj.setCustomerList(customerList);
-
                 }
 
                 retMap.put("purchaseList", purchaseList); 
@@ -109,32 +111,32 @@ public class KmRestAdminController {
             if(searchoption.equals("memid")) {
                 List<KmAdminProductView> purchaseList = adminService.findPurchaseListByMemid(searchvalue);
 
-                if(purchaseList.size() > 0) {
+                if( purchaseList.size() > 0 ) {
                     retMap.put("purchaseList", purchaseList); 
                     log.info("retMap check => {}", retMap.get("purchaseList"));
                 }
 
-            } else if(searchoption.equals("purchaseno")) {
+            } else if( searchoption.equals("purchaseno") ) {
                 KmAdminProductSimpleView purchase = adminService.findOnePurchaseSimpleView(BigDecimal.valueOf(Long.parseLong(searchvalue)));
             
                 if(purchase != null) {
                     List<KmAdminPurchaseStatus> objList = adminService.findMemidAndStateByPurchaseno(purchase.getPurchaseno());
                     List<KmAdminPurchaseStatusDTO> customerList = new ArrayList<>();
     
-                    for(KmAdminPurchaseStatus obj1 : objList) {
+                    for( KmAdminPurchaseStatus obj1 : objList ) {
+
                         KmAdminPurchaseStatusDTO purchasestatusDTO = new KmAdminPurchaseStatusDTO();
                         purchasestatusDTO.setMemid(obj1.getMemid());
                         purchasestatusDTO.setState(obj1.getState());
     
                         customerList.add(purchasestatusDTO);
                     }
+                    
                     purchase.setCustomerList(customerList);
                     retMap.put("purchase", purchase);
                     log.info("retMap check => {}", retMap.get("purchase")); 
                 }
-                
             }
-
             retMap.put("result", 1);
         } catch (Exception e) {
             e.printStackTrace();
@@ -179,5 +181,5 @@ public class KmRestAdminController {
         return retMap;
     }
 
-   
+
 }

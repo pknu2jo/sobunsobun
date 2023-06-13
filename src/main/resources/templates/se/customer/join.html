@@ -198,10 +198,10 @@
                 <input class="joinInput" type="password" name="pw" placeholder="암호"><br>
                 <label class="position-absolute joinLabel" id="pwcheck"></label>
                 <input class="joinInput" type="password" name="pw2" placeholder="암호확인" onkeyup="PwCheck(this)"><br>
-                <input class="joinInput" type="text" name="name" placeholder="이름"><br>
-                <input class="joinInput" type="tel" name="phone" placeholder="연락처"><br>
-                <input class="joinInput" type="email" name="email" placeholder="이메일"><br>
-                <input class="joinInput" type="text" name="nickname" placeholder="닉네임"><br>
+                <input class="joinInput" type="text" name="name" placeholder="이름" value="이름"><br>
+                <input class="joinInput" type="tel" name="phone" placeholder="연락처" value="01011112222"><br>
+                <input class="joinInput" type="email" name="email" placeholder="이메일" value="email1@email.com"><br>
+                <input class="joinInput" type="text" name="nickname" placeholder="닉네임" value="닉네임"><br>
                 <input class="joinRadio" type="radio" name="gender" value="F" checked="checked">&nbsp;여성 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <input class="joinRadio mb-5" type="radio" name="gender" value="M" >&nbsp;남성<br>
 
@@ -296,26 +296,19 @@
             const longitude = document.querySelector("input[name='longitude']");
             // console.log(gender); // 비어있으면 null // .value => 오류
 
-            var regIdPw = /^[a-zA-Z0-9]{4,12}$/;
-            var regPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
-            var regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+            var regIdPw = /^[a-zA-Z0-9]*$/;
             if(id.value.length <= 0){
                 alert("아이디를 입력하세요");
                 id.focus();
                 return false;
             }
             if(!regIdPw.test(id.value)){
-                alert("아이디는 영문 대소문자와 숫자만 포함할 수 있습니다 (4~12글자)");
+                alert("아이디는 영문 대소문자와 숫자만 포함할 수 있습니다");
                 id.focus();
                 return false;
             }
             if( pw.value.length  <= 0 ){
                 alert("암호를 입력하세요");
-                pw.focus();
-                return false;
-            }
-            if(!regIdPw.test(pw.value)){
-                alert("암호는 영문 대소문자와 숫자만 포함할 수 있습니다 (4~12글자)");
                 pw.focus();
                 return false;
             }
@@ -334,18 +327,8 @@
                 phone.focus();
                 return false;
             }
-            if(!regPhone.test(phone.value)){
-                alert("잘못된 연락처 양식입니다");
-                phone.focus();
-                return false;
-            }
             if( email.value.length  <= 0 ){
                 alert("이메일을 입력하세요");
-                email.focus();
-                return false;
-            }
-            if(!regEmail.test(email.value)){
-                alert("잘못된 이메일 양식입니다");
                 email.focus();
                 return false;
             }

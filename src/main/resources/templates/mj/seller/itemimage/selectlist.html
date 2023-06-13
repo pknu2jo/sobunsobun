@@ -256,8 +256,8 @@
                 document.getElementById('form0').submit();
             }
             else if (data.result === 0) {
-                $('#uploadfilemodal').modal('show');
                 // alert("이미지를 선택해주세요.");
+                $('#uploadfilemodal').modal('show');
             }
         }
 
@@ -278,8 +278,8 @@
             }
             else if (data.result === 0) {
 
-                $('#uploadfilesmodal').modal('show');
                 // alert("이미지를 1개 이상 선택해주세요.");
+                $('#uploadfilesmodal').modal('show');
             }
         }
 
@@ -295,8 +295,8 @@
         async function deleteimages() {
             const imageno = getimageNo();
             if (imageno.length === 0) {
-                $('#modal').modal('show');
                 // alert("삭제할 이미지를 선택해주세요.");
+                $('#modal').modal('show');
                 return;
             }
 
@@ -309,13 +309,13 @@
                 if (data.result === 1) {
                     document.getElementById('form2').submit();
                 } else {
-                    $('#modal').modal('show');
                     // alert("삭제할 이미지를 선택해주세요.");
+                    $('#modal').modal('show');
                 }
             } catch (error) {
                 console.error(error);
-                $('#modal').modal('show');
                 // alert("삭제할 이미지를 선택해주세요.");
+                $('#modal').modal('show');
             }
         }
     </script>

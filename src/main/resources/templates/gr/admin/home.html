@@ -254,14 +254,16 @@
             <div class="linkimg">
                 <div class="image-container">
                     <div class="customerpage">
-                        <a th:href="@{/customer/home.do}">
+                        
+                        <a th:href="@{/admin/logoutAdmin.do}">
                           <div class="image-wrapper">
                             <img th:src="@{/images/gr/customer.jpg}">
                             <div class="overlay"></div>
                           </div>
                           <div class="caption">고객페이지로 이동 →</div>
                         </a>
-                      </div>
+                      
+                    </div>
                       <div class="sellerpage">
                         <a th:href="@{/seller/login.do}">
                           <div class="image-wrapper">
@@ -284,6 +286,19 @@
 
 
     <!-- script-->
+    <!-- <script th:inline="javascript" type="text/javascript">
+        async function logoutAdmin() {
+            // alert('확인');
+            const url = /*[[@{/api/admin/logoutadmin.json}]]*/"";
+            const headers = {"Content-Type":"application/json"};
+            const body = {};
+            const {data} = await axios.post(url, {headers:headers});
+            // console.log('blockchk값', body);
+            // console.log('반환되는 결과', data);
+
+        }
+
+    </script> -->
     
 </body>
 </html>

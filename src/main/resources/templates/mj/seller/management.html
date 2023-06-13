@@ -117,23 +117,10 @@
                                                     <th>이미지</th>
                                                 </tr>
                                             </thead>
-                                            <!-- <tfoot>
-                                                <tr>
-                                                    <th>선택</th>
-                                                    <th>물품번호</th>
-                                                    <th>물품명</th>
-                                                    <th>가격</th>
-                                                    <th>수량</th>
-                                                    <th>소분류</th>
-                                                    <th>중분류</th>
-                                                    <th>대분류</th>
-                                                    <th>등록일</th>
-                                                    <th>이미지</th>
-                                                </tr>
-                                            </tfoot> -->
+                                            
                                             <tbody>
                                                 <tr th:each="obj : ${list}" style="text-align: center;">
-                                                    <td><input type="checkbox" name="itemno" th:value="${obj.no.longValue()}"/></td>
+                                                    <td><input type="checkbox" name="itemno" th:value="${obj.no.longValue()}" onclick="handleCheckboxChange(this)"/></td>
                                                     <td th:text="${obj.no.longValue()}" name="no">물품번호</td>
                                                     <td th:text="${obj.name}"></td>
                                                     <td th:text="${obj.price.longValue()}"></td>
@@ -346,6 +333,32 @@
             
             form2.submit();
         }
+    </script>
+
+    <!-- <script>
+        const checkbox = document.getElementsByClassName('-pagination-list-item-link');
+        const name =  document.getElementsByName('itemno');
+        
+
+    </script> -->
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const table = new simpleDatatables.DataTable('#datatablesSimple');
+            
+            // 페이지네이션 버튼 클릭 이벤트 리스너 등록
+            const paginationButtons = document.querySelectorAll('.datatable-pagination-list-item');
+            for (let i = 0; i < paginationButtons.length; i++) {
+                const button = paginationButtons[i];
+                button.addEventListener('click', function() {
+                    // 체크박스 선택 해제
+                    const checkboxes = document.getElementsByName('itemno');
+                    for (let j = 0; j < checkboxes.length; j++) {
+                        checkboxes[j].checked = false;
+                    }
+                });
+            }
+        });
     </script>
 
 </body>

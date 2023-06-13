@@ -28,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.entity.Item;
 import com.example.entity.ItemImage;
 import com.example.entity.SellerEntity;
-import com.example.repository.jk.JkSellerRepository;
+import com.example.service.jk.JkSellerService;
 import com.example.service.mj.MjItemImageService;
 import com.example.service.mj.MjItemService;
 
@@ -41,9 +41,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class MjItemImageController {
     
-    final JkSellerRepository sellerRepository;
     final MjItemImageService imageService;
     final MjItemService itemService;
+    final JkSellerService sSellerService;
 
     final ResourceLoader resourceLoader; //resources폴더의 파일을 읽기 위한 객체 생성
     @Value("${default.image}") String DEFAULTIMAGE;
@@ -166,7 +166,7 @@ public class MjItemImageController {
                                 @RequestParam(name = "no")long no,
                                 @AuthenticationPrincipal User user){
         try {
-            SellerEntity seller = sellerRepository.findById(user.getUsername()).orElse(null);
+            SellerEntity seller = sSellerService.findByNo(user.getUsername());
             log.info("seller => {}", seller.toString());
             model.addAttribute("companyName", seller.getName().toString());
             model.addAttribute("user", user);
@@ -184,7 +184,7 @@ public class MjItemImageController {
             }
             model.addAttribute("item", item);
             
-            // 전체이미지
+            // 상세이미지
             // List<String> 타입으로 만들어서 view로 전달후 출력
             List<ItemImage> list = imageService.findByItemNo_noAndFilenameLikeOrderByNoAsc(BigDecimal.valueOf(no), "%상세%");
             if( !list.isEmpty() ){
