@@ -273,6 +273,7 @@
             const lcategory = document.getElementById("lcategory");
             const name = document.getElementById("name");
             const scode = document.getElementById("scode");
+            console.log(scode.value);
             console.log(name);
             const price = document.getElementById("price");
             const quantity = document.getElementById("quantity");
@@ -306,7 +307,7 @@
             const url = /*[[@{/api/seller/insertitem.json}]]*/"";
             console.log(url);
             const headers = { "Content-Type": "application/json" };
-            const body = { name: name.value, price: price.value, quantity: quantity.value, regNo: regNo.value, scategoryCode: { code: scategory.value } };
+            const body = { name: name.value, price: price.value, quantity: quantity.value, regNo: regNo.value, scategoryCode: { code: scode.value } };
             const { data } = await axios.post(url, body, { headers: headers });
 
             console.log(data.result1);
