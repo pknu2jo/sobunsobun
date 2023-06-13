@@ -1,5 +1,6 @@
 package com.example.restController.jk;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -37,7 +38,7 @@ public class RestSellerController {
         log.info("사업자번호 중복체크 => {}", no.toString());
         Map<String, Integer> retMap = new HashMap<>();
         try {
-            int ret = sSellerService.countByNo(no); // 입력된 사업자번호와 동일한 값이 있는지 
+            int ret = sSellerService.countByNo(no); // 입력된 사업자번호와 동일한 값이 있는지
             retMap.put("chk", ret); // 없다면 0, 있다면 1 출력
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,9 +55,14 @@ public class RestSellerController {
         Map<String, Object> retMap = new HashMap<>();
         try {
             if (checkLogin(seller.getNo(), seller.getPw()) == true) { // 로그인 성공시 (true)
-                retMap.put("chk", 1); // chk값 1로 저장
+                SellerEntity sellerDB = sSellerService.findByNo(seller.getNo());
+                if (sellerDB.getBlockChk() == BigDecimal.valueOf(1L)) { // 차단 유저일 시
+                    retMap.put("chk", 2); // chk값 2로 저장
+                } else {
+                    retMap.put("chk", 1); // chk값 1로 저장
+                }
             } else { // 로그인 실패 시 (false)
-                retMap.put("chk", 0); // chk값 0으로 저장 
+                retMap.put("chk", 0); // chk값 0으로 저장
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,14 +89,14 @@ public class RestSellerController {
         Map<String, Object> retMap = new HashMap<>();
         try {
             // 난수 생성시에 "-" 문자는 제외함.
-            String tempCode = UUID.randomUUID().toString().replace("-", ""); 
+            String tempCode = UUID.randomUUID().toString().replace("-", "");
             tempCode = tempCode.substring(0, 6); // 6자리의 인증코드 발급
             if (tempCode != "") { // 코드가 생성되면
-                tempCodeChk = tempCode; // 인증확인용 변수 tempCodeChk에 대입 
+                tempCodeChk = tempCode; // 인증확인용 변수 tempCodeChk에 대입
                                         // (다른메소드에서 사용할 예정)
                 mailController.sendChkMail(email, tempCode); // 메일 컨트롤러를 통해 메일 전송
-                retMap.put("chk", 1); // 성공시 1 
-            } else { 
+                retMap.put("chk", 1); // 성공시 1
+            } else {
                 retMap.put("chk", 0); // 실패시 0
             }
         } catch (Exception e) {
@@ -106,10 +112,10 @@ public class RestSellerController {
         log.info("Input Code is => {}", inputCode);
         Map<String, Integer> retMap = new HashMap<>();
         try {
-            // 큰 따옴표 " 표시를 없앰. 
+            // 큰 따옴표 " 표시를 없앰.
             // (tempCodeChk로 옮기는 과정에서 큰따옴표가 벗겨지는 현상 해결용)
-            String code = inputCode.replace("\"", ""); 
-            log.info("Answer Code is => {}", tempCodeChk); 
+            String code = inputCode.replace("\"", "");
+            log.info("Answer Code is => {}", tempCodeChk);
             if (tempCodeChk.equals(code.toString())) { // 인증코드 일치여부 확인
                 retMap.put("chk", 1); // 일치하면 1
             } else {
@@ -203,7 +209,7 @@ public class RestSellerController {
             SellerEntity ret = sSellerService.findByNo(id);
             if ((ret.getEmail()).equals(email)) { // DB의 메일정보와 입력된 메일주소가 일치하면
                 retMap.put("chk", 1); // chk값 1 (임시비밀번호 전송)
-            } else {                              // 불일치시
+            } else { // 불일치시
                 retMap.put("chk", 0); // chk값 0 (오류메세지 출력)
             }
         } catch (Exception e) {

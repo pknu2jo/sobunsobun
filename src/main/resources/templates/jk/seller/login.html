@@ -90,8 +90,14 @@
 				sellerPw.focus();
 				return false; // 함수종료, 전송하지 않음
 			}
-			if (data.chk != 1) {
+			if (data.chk == 0 || data.chk == -1) {
 				alert("아이디 혹은 비밀번호가 일치하지 않습니다.")
+				sellerPw.value = null;
+				sellerPw.focus();
+				return false; // 함수종료, 전송하지 않음
+			}
+			if (data.chk == 2) {
+				alert("사용 정지된 계정입니다. 관리자에게 문의하세요.")
 				sellerPw.value = null;
 				sellerPw.focus();
 				return false; // 함수종료, 전송하지 않음
