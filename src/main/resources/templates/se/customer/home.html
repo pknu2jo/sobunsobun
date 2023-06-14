@@ -20,24 +20,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 
     <style>
-        /* 반응형 제거 */
-        .container {
-            width: 1300px;
-        }
-        
-        .container-fluid {
-            width: 1910px;
-            /* 반응형 제거 */
-        }
 
         .homeMain {
-            max-width: 1300px;
+            /* max-width: 1300px; */
             margin-top: 100px;
         }
 
         .dday1 {
             position: relative;
             margin: 10px;
+            margin-right: 30px;
             padding: 0 10px 0 10px;
             top: -450px;
             left: -12px;
@@ -214,7 +206,7 @@
                             <!-- 기한이 얼마 안 남은 공구 -->
                             <img th:src="@{/images/se/homeBanner.jpg}" style="width: 800px; height: 450px;">
                         </div>
-                        <div class="col mb-auto">
+                        <div class="col mb-auto" style="overflow-x: hidden;">
                             <!-- <a th:href="@{/customer/item/selectone.do(itemno=${deadOne.itemno})}"><img th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="width: 450px; height: 450px; object-fit: scale-down; background-color: #f8f7f5;"></a> -->
                             <a th:href="@{/customer/item/selectone.do(itemno=${deadOne.itemno})}"><img th:src="@{/customer/seimage(itemno=${deadOne.itemno})}" style="width: 450px; height: 450px;"></a>
                             <div class="dday1 shadow-sm" th:text="|D - ${deadOne.dday}|"></div>
@@ -263,13 +255,13 @@
 
             <div class="container homeMain">
                 <th:block th:if="${idx.index == 0}" th:each=" aroundOne, idx : ${aroundList} ">
-                    <div class="row mb-3">
+                    <div class="row mb-3" style="height: 465px;">
                         <div class="col-auto">
                             <!-- 내 주위 실시간 공구 -->
                             <img th:src="@{/images/se/loginHomeBanner.jpg}" style="width: 800px; height: 450px;">
                         </div>
-                        <div class="col">
-                            <a th:href="@{/customer/item/selectone.do(itemno=${aroundOne.itemno})}"><img th:src="@{/customer/seimage(itemno=${aroundOne.itemno})}" style="height: 100%; overflow-y: hidden;"></a>
+                        <div class="col mb-auto" style="overflow-x: hidden;">
+                            <a th:href="@{/customer/item/selectone.do(itemno=${aroundOne.itemno})}"><img th:src="@{/customer/seimage(itemno=${aroundOne.itemno})}" style="width: 450px; height: 450px;"></a>
                             <div class="dday1 shadow-sm" th:text="${aroundOne.name}"></div>
                         </div>
                     </div>
