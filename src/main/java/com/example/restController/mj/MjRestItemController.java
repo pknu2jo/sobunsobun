@@ -55,19 +55,6 @@ public class MjRestItemController {
         }
         return retMap;
     }
-
-    // // 물품 등록
-    // @PostMapping(value = "/insertitem.json")
-    // public Map<String, Object> insertItemPOST(@RequestBody Item item, Model model){
-    //     Map<String, Object> retMap = new HashMap<>();
-    //     log.info("item=>{}", item.toString());
-    //     Item ret = iRepository.save(item);
-        
-    //     retMap.put("itemno", ret.getNo());
-    //     retMap.put("result", ret);
-    //     model.addAttribute("ret", ret);
-    //     return retMap;
-    // }
     
     // 물품등록시 소분류코드가 선택된 후 물품명 입력가능
     @GetMapping(value = "scodechk.json")

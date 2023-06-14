@@ -54,16 +54,14 @@
                         물품명: <label th:text="${item.name}"></label>
                     </div>
                     <hr>
-                    <!-- ============================================================================================================================ -->
-                    <!-- test -->
 
                     <div class="container">
                         <div class="row" style="display: flex;">
-                            <div class="col-4" style=" border-right:0.5px solid #C7C8C9; position: relative;">
+                            <div class="col-md-4" style=" border-right:0.5px solid #C7C8C9; position: relative;">
                                 <h5><strong>대표이미지</strong></h5>
 
                                 <div>
-                                    <img th:src="${item.imageUrl}" class="mainimage"
+                                    <img th:src="${item.imageUrl}" class="mainimage img-fluid"
                                     style="width: 400px; height: 500px;"> <br>
                                 </div>
                                 
