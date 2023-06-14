@@ -40,13 +40,11 @@
             <main style="margin-bottom: 200px;">
                 <div class="container-fluid px-4" style="margin-bottom: 150px;"> <!-- 옆쪽에 딱 붙음. -->
                     <div>
-
                         <h3 style="float: left; margin-top: 30px;">물품등록</h3>
                         <a th:href="@{/seller/item/management.do}"><button class="btn btn-dark"
                                 style="float: right; margin-top: 45px;">물품리스트</button></a>
                     </div>
                     <hr style="margin-top: 5px;">
-                    <!-- <form th:action="@{/seller/item/insert.do}" method="post"> -->
 
                     <div class="input-group mb-3">
                         <span class="input-group-text" id="basic-addon1">카테고리</span>
@@ -63,7 +61,6 @@
                             <option value="000">중분류</option>
                             <option th:each="obj1 : ${cate.Mlist}" th:value="${obj1.code.longValue()}"
                                 th:text="${obj1.name}" id="mcategory"></option>
-                            <!-- <option value="">-- Select Middle Category --</option> -->
                         </select>
                         <!-- 소분류 -->
                         <select class="form-select" aria-label="Default select example" name="scategoryCode"
@@ -71,7 +68,6 @@
                             <option value="000">소분류</option>
                             <option th:each="obj2 : ${cate.Slist}" th:value="${obj2.code.longValue()}"
                                 th:text="${obj2.name}" id="scategory"></option>
-                            <!-- <option value="">-- Select Small Category --</option> -->
                         </select><br>
                     </div>
                     <!-- 소분류코드 파라미터전달받기 hidden-->
@@ -100,10 +96,7 @@
                                 aria-label="Itemname" aria-describedby="basic-addon1" onkeypress="insertname()">
                         </div>
                     </div>
-                    <!-- ==================================== -->
-                    <!-- <input type="text" th:value="${ret.no}" id="itemno"> -->
                     <button type="button" class="btn btn-dark" id="insertbtn" onclick="insertitem()">등록</button>
-                    <!-- </form> -->
 
                     <!-- Modal -->
                     <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -238,13 +231,13 @@
     </script>
 
     <script th:inline="javascript">
-
+        // 대분류 클릭시 선택된 대분류에 해당하는 중분류 출력 
         function updateMcateSelect() {
             const code = document.getElementById("LcateSelect").value;
             console.log(code);
             window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}`;
         }
-
+        // 중분류 클릭시 선택된 중분류에 해당하는 소분류 출력 
         function updateScateSelect() {
             const code = document.getElementById("LcateSelect").value;
             const mcode = document.getElementById("McateSelect").value;
@@ -253,6 +246,7 @@
             window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}`;
         }
 
+        // 소분류 클릭시 대, 중, 소분류를 url로 받아와 저장.
         function updateUrl() {
             const code = document.getElementById("LcateSelect").value;
             const mcode = document.getElementById("McateSelect").value;
@@ -279,6 +273,7 @@
             const quantity = document.getElementById("quantity");
             const regNo = document.getElementById("regNo");
 
+            // 유효성 검사
             if (name.value.trim() === "") {
                 $('#insertname').modal('show');
                 name.focus();
@@ -313,7 +308,6 @@
             console.log(data.result1);
             console.log(data.result);
             console.log(data.itemno);
-            // if(data.result != null){}
             if (data.result == 1) {
                 $('#modal').modal('show');
                 // 모달창에서 네 클릭시 새로등록한 물품번호를 받아 /seller/itemimage/selectlist.do?no=159 로 이동
@@ -336,6 +330,7 @@
     </script>
 
     <script>
+        // 소분류카테고리 선택시 물품정보를 입력하는 칸 생성됨.
         window.addEventListener('DOMContentLoaded', (event) => {
             const urlParams = new URLSearchParams(window.location.search);
             const scate = urlParams.get('scate');

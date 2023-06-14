@@ -31,7 +31,9 @@ public class MjRestItemController {
     final JkSellerRepository sellerRepository;
 
     final MjItemService itemService;
-    
+
+/*======================================↓↓ 물품 rest ↓↓=========================================== */    
+
     // 물품 등록
     @PostMapping(value = "/insertitem.json")
     public Map<String, Object> insertItemPOST(@RequestBody Item item, Model model){
@@ -200,30 +202,5 @@ public class MjRestItemController {
         return retMap;  
         
     }
-
-    // @GetMapping(value="/insertitem.json")
-    // public Map<String, Object> insertitemGET(@RequestParam(name = "scategoryCode")long scode){
-    //     Map<String, Object> retMap = new HashMap<>();
-
-    //     try {
-    //         if( scode != null ){
-
-    //         }
-    //         else{
-
-    //         }
-            
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //         retMap.put("result", -1);
-    //         retMap.put("error", e.getMessage());
-    //     }
-    //     return retMap;  
-        
-    // }
-    
-
-
-    
 
 }

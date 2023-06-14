@@ -62,7 +62,6 @@
                                 </thead>
                                 <tbody>
                                     <tr th:each="obj : ${list}" >
-                                        
                                         <td style="width: 90px;"><input class="form-control readonly" type="text" name="no[]" th:value="${obj.no.longValue()}" onclick="readonly()" style="text-align:center ;" readonly /></td>
                                         <td><input class="form-control" type="text" name="name[]" th:value="${obj.name}" /></td>
                                         <td><input class="form-control" type="text" name="price[]" th:value="${obj.price.longValue()}" /></td>
@@ -178,7 +177,6 @@
             }
         });
 
-
         $(document).ready(function () {
             new simpleDatatables.DataTable("#datatablesSimple", {
                 searchable: true,
@@ -189,12 +187,13 @@
     </script>
 
     <script th:inline="javascript">
+        // 대분류 클릭시 선택된 대분류에 해당하는 중분류 출력 
         function updateMcateSelect() {
             const code = document.getElementById("LcateSelect").value;
             console.log(code);
             window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}`;
         }
-
+        // 중분류 클릭시 선택된 중분류에 해당하는 소분류 출력 
         function updateScateSelect() {
             const code = document.getElementById("LcateSelect").value;
             const mcode = document.getElementById("McateSelect").value;
@@ -202,7 +201,7 @@
             console.log(mcode);
             window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}`;
         }
-
+        // 소분류 클릭시 대, 중, 소분류를 url로 받아와 저장.
         function updateUrl() {
             const code = document.getElementById("LcateSelect").value;
             const mcode = document.getElementById("McateSelect").value;
@@ -213,24 +212,18 @@
             window.location.href = `/SOBUN/seller/item/management.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
         }
 
+        // 수정할 수 없는 항목 경고창 띄우기
         function readonly() {
             // alert('물품번호, 카테고리, 등록일은 수정할 수 없습니다.');
             $('#Xupdate').modal('show');
         }
-
-
         
+        // 물품 수정
         function updateItemAction() {
             const form1 = document.getElementById("form1");
             form1.submit();
-            // window.location.href = `/SOBUN/seller/item/management.do`;
-            // alert('물품수정이 완료되었습니다.');
         }
-        // $('#update').modal('show');
-        // document.getElementById('tomanagement').addEventListener("click", clickFunction);
-        // function clickFunction() {
-        //     window.location.href = `/SOBUN/seller/item/management.do`;
-        // }
+        
 
         
     </script>
