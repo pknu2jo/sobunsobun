@@ -18,8 +18,17 @@
     <select id="selectAroundPurchaseItem" parameterType="com.example.entity.CustomerAddressEntity" resultType="com.example.dto.SeAroundPurchaseView">
         SELECT * FROM 
         (SELECT *, ROW_NUMBER() OVER(ORDER BY distance ASC) ROWNNUM FROM 
+        (SELECT * FROM (
+        SELECT *,
+            6371000 * ACOS(
+                COS(RADIANS(latitude)) * COS(RADIANS(#{latitude})) * COS(RADIANS(longitude) - RADIANS(#{longitude})) + SIN(RADIANS(latitude)) * SIN(RADIANS(#{latitude}))
+            ) AS distance 
+        FROM SEAROUNDPURCHASEVIEW) WHERE distance <![CDATA[ <= ]]> 10000)) WHERE ROWNNUM <![CDATA[ <= ]]> 5 ORDER BY ROWNNUM ASC
+
+        <!-- SELECT * FROM 
+        (SELECT *, ROW_NUMBER() OVER(ORDER BY distance ASC) ROWNNUM FROM 
         (SELECT * FROM (SELECT *, 6371 * ACOS( COS(RADIANS(35.1310310271862)) * COS(RADIANS(#{latitude})) * COS(RADIANS(#{longitude}) - RADIANS(129.0771369881199)) + SIN(RADIANS(35.1310310271862)) * SIN(RADIANS(#{latitude}))) distance 
-        FROM SEAROUNDPURCHASEVIEW) WHERE distance <![CDATA[ <= ]]> 10)) WHERE ROWNNUM <![CDATA[ <= ]]> 5 ORDER BY ROWNNUM ASC
+        FROM SEAROUNDPURCHASEVIEW) WHERE distance <![CDATA[ <= ]]> 10)) WHERE ROWNNUM <![CDATA[ <= ]]> 5 ORDER BY ROWNNUM ASC -->
     </select>
 
     <select id="selectSearchItem" parameterType="com.example.dto.SeSelectItemListView" resultType="com.example.dto.SeSelectItemListView">

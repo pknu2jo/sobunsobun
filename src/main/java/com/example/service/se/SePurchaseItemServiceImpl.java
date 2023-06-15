@@ -94,6 +94,7 @@ public class SePurchaseItemServiceImpl implements SePurchaseItemService {
     public List<SeAroundPurchaseView> selectAroundPurchaseItem(String id) {
         try {
             CustomerAddressEntity obj = caRepository.findByCustomer_id(id).get(0);
+            System.out.println(obj.toString());
             return piMapper.selectAroundPurchaseItem(obj);
         } catch (Exception e) {
             e.printStackTrace();

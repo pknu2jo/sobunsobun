@@ -45,7 +45,7 @@ public class CustomerScheduler {
 
     }
 
-    // 마감일이 지난 공구의 상태를 cancel = 1 로 insert
+    // 마감일이 지난 공구의 상태를 state = -1, cancel = 1 로 insert
     @Scheduled(cron = "0 0 1 * * *") 
     public void chkDeadline() {
         List<SeChkPurchaseDeadlineView> list = purchaseItemService.findAllAfterDeadline();
@@ -55,7 +55,7 @@ public class CustomerScheduler {
         
         for(SeChkPurchaseDeadlineView obj : list) {
             PurchaseStatusEntity purchaseStatusEntity = new PurchaseStatusEntity();
-            purchaseStatusEntity.setState(BigDecimal.valueOf(0L));
+            purchaseStatusEntity.setState(BigDecimal.valueOf(-1L));
             purchaseStatusEntity.setCancel(BigDecimal.valueOf(1L));
 
             CustomerEntity customerEntity = new CustomerEntity();
@@ -80,6 +80,8 @@ public class CustomerScheduler {
         }
 
     }
+
+
 
 
 }

@@ -358,7 +358,7 @@ public class SeCustomerContorller {
                 selectNo = 10;
                 // 내 주위 실시간 공구 => 로그인 시에만 세팅
                 List<SeAroundPurchaseView> aroundList = piService.selectAroundPurchaseItem(user.getUsername());
-                // log.info("내 주위 실시간 공구 => {}", aroundList.toString());
+                log.info("내 주위 실시간 공구 => {}", aroundList.toString());
                 // for ( Map<String, Object> aroundMap : aroundList ) {
                 //     aroundMap .put("PRICE", ((BigDecimal) aroundMap.get("PRICE")).toPlainString());
                 // }
