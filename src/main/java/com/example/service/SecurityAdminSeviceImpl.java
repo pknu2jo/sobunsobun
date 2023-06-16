@@ -33,7 +33,7 @@ public class SecurityAdminSeviceImpl implements UserDetailsService {
             return User.builder()
                     .username(admin.getId())
                     .password(admin.getPw())
-                    .roles("ADMIN", "SELLER", "CUSTOMER")
+                    .roles("ADMIN")
                     .build();
         }
 
