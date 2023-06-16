@@ -98,6 +98,9 @@ public class GrMyOrderListController {
                     } else if (Long.parseLong(list.get(i).getState().toPlainString()) == 2
                             && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
                         list.get(i).setStatechk("수령 완료");
+                    } else if (Long.parseLong(list.get(i).getState().toPlainString()) == -1
+                            && Long.parseLong(list.get(i).getCancel().toPlainString()) == 1) {
+                        list.get(i).setStatechk("공구 취소");
                     }
                 }
 
@@ -185,6 +188,9 @@ public class GrMyOrderListController {
                     } else if (Long.parseLong(list.get(i).getState().toPlainString()) == 2
                             && Long.parseLong(list.get(i).getCancel().toPlainString()) == 0) {
                         list.get(i).setStatechk("수령 완료");
+                    } else if (Long.parseLong(list.get(i).getState().toPlainString()) == -1
+                            && Long.parseLong(list.get(i).getCancel().toPlainString()) == 1) {
+                        list.get(i).setStatechk("공구 취소");
                     }
                 }
 
