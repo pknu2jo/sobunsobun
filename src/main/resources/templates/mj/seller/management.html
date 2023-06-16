@@ -46,7 +46,6 @@
 
                         <form th:action="@{/seller/item/management.do}" method="get" th:object="${cate}" style="float: left;">
     
-    
                             대분류
                             <select class="form-select" aria-label="Default select example" id="LcateSelect"
                                 th:field="${cate.Lcode}" onchange="updateMcateSelect()">
@@ -72,15 +71,6 @@
                             </select>
                         </form>
                         
-                        <!------------------------------------------------------------------- -->
-    
-                        <!-- <form th:action="@{/seller/item/deleteitem.do}" method="post">
-                            
-                            <input type="hidden" name="btn" id="btn"/>
-                            <a th:href="@{/seller/item/insert.do}"><button class="btn btn-primary">물품등록</button></a>
-                            <button class="btn btn-primary" value="일괄수정" onclick="updateItemAction()">수정</button>
-                            <button class="btn btn-primary" value="일괄삭제" onclick="deleteItemAction()">삭제</button>
-                        </form> -->
                         <input type="hidden" name="btn" id="btn"/>
                         <div style="float: right;">
                             <a th:href="@{/seller/item/insert.do}" class="btn-find"><button class="btn btn-outline-dark btn-find">물품등록</button></a>
@@ -257,6 +247,7 @@
 
 
     <script th:inline="javascript" type="text/javascript">
+        // 물품 선택삭제를 위해 체크박스 선택한 물품번호들을 가져오는 함수
         function getNo () {
             const checkboxes = document.querySelectorAll('input[name="itemno"]:checked');
             const itemnoArray = Array.from(checkboxes).map(checkbox => checkbox.value);
@@ -334,15 +325,9 @@
             form2.submit();
         }
     </script>
-
-    <!-- <script>
-        const checkbox = document.getElementsByClassName('-pagination-list-item-link');
-        const name =  document.getElementsByName('itemno');
-        
-
-    </script> -->
-
+   
     <script type="text/javascript">
+        // 수정할 물품에 대해 체크박스를 선택하고 페이지네이션버튼 클릭시 모든 체크박스 선택 해제됨.
         document.addEventListener('DOMContentLoaded', function() {
             const table = new simpleDatatables.DataTable('#datatablesSimple');
             

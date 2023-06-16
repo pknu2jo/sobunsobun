@@ -48,6 +48,8 @@ public class MjItemImageController {
     final ResourceLoader resourceLoader; //resources폴더의 파일을 읽기 위한 객체 생성
     @Value("${default.image}") String DEFAULTIMAGE;
 
+
+    /* =============================이미지url 생성================================= */
     //127.0.0.1:5959/SOBUN/seller/itemimage/image?no=1
     @GetMapping(value = "/image")
     public ResponseEntity<byte[]> image(@RequestParam(name="no", defaultValue = "0") long no) throws IOException{
