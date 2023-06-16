@@ -659,10 +659,6 @@
                     alert("암호가 일치하지 않습니다");
                     pwConfirm.focus();
                     return false;
-                } else if( pw.value.length  <= 0 ){
-                    alert("암호를 입력하세요");
-                    pw.focus();
-                    return false;
                 }
                 else{
                     form.action = /*[[@{/customer/updatepw.do}]]*/'';

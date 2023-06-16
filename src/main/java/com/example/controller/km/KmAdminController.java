@@ -52,6 +52,7 @@ public class KmAdminController {
                 new SecurityContextLogoutHandler().logout(request, response, authenticationToken1);
             }
            
+
             return "redirect:/customer/home.do";
         } catch (Exception e) {
             e.printStackTrace();
