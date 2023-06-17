@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="author" content="PJK">
+    <meta name="description" content="소분소분 - 판매자를 위한 마이페이지">
+    <title>소분소분 - 판매자용 페이지</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <!-- 1. Bootstrap용 css CDN 추가 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <!-- 2. Bootstrap용 Icon CDN / font-awesome 아이콘용 CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 3. font awesome용 css CDN  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Simple DataTable CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <!-- CSS -->
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/ikh/seller.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
+    <link rel="icon" th:href="@{/images/jk/sobunseller.ico}">
+</head>
+
+<body class="sb-nav-fixed">
+    <!-- headers -->
+    <th:block th:replace="~{/jk/seller/header :: headerHTML}"></th:block>
+
+    <!-- 전체화면 영역 -->
+    <div id="layoutTotal">
+         <!-- navbar -->
+        <th:block th:replace="~{/jk/seller/navbar :: navbarHTML}"></th:block>
+
+        <!-- 전체화면 > 우측 메인화면 영역 -->
+        <div id="layoutContent">
+            <main>
+                <div style="padding-left: 15px; padding-top: 30px; padding-right: 15px;">
+                    <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->                                                                
+                        <h2 th:text="${companyName} + ' 님의 공구주문 현황입니다.'" style="padding-bottom : 15px;"></h2>
+                        <div>
+                            <div class="mb-4" style ="border: 2px solid rgb(229, 229, 229); background-color: rgb(241 246 252);
+                                display: flex; justify-content: center; align-items: center; margin-bottom: 1rem;">
+                                <div style="display: inline-block; text-align: center; margin: 10px;">                                    
+                                    <button type="button" id="btn-0" class="btn btn-outline-dark" th:onclick="toggleButton(0)">전체 [[${suma}]]건</button>
+                                                               
+                                    <button type="button" id="btn-1" class="btn btn-outline-dark" th:onclick="toggleButton(1)">공구진행중 [[${sum0}]]건</button>
+                                    
+                                    <button type="button" id="btn-2" class="btn btn-outline-dark" th:onclick="toggleButton(2)">공구완료 [[${sum1}]]건</button>
+                                    
+                                    <button type="button" id="btn-3" class="btn btn-outline-dark" th:onclick="toggleButton(3)">공구취소 [[${sum2}]]건</button>
+                                    
+                                </div>
+                            </div>
+                        </div>                       
+
+                        <div id="zero" style="display:block;">
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-table me-1"></i>
+                                            전체
+                                        </div>
+                                        <div class="card-body">
+                                            <table id="datatablesSimpleall">
+                                                <thead>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>                                                        
+                                                        <th>인원수</th>
+                                                        <th>일자</th>
+                                                        <th>참가인원</th>                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>                                                        
+                                                        <th>인원수</th>
+                                                        <th>일자</th>
+                                                        <th>참가인원</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr th:each="obj, iterStat : ${alllist}">                                                    
+                                                        <td th:text="${obj.pno.longValue()}"></td>
+                                                        <td th:text="${obj.itemcode.longValue()}"></td>
+                                                        <td th:text="${obj.itemname}"></td>
+                                                        <td th:text="${obj.address}"></td>
+                                                        <td th:text="${obj.memid}"></td>
+                                                        <td th:text="${obj.count.longValue()} + ' / ' + ${obj.participant.longValue()}"></td>
+                                                        <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>
+                                                        <td>
+                                                            <form th:action="@{/seller/order/search.do}" method="get">
+                                                                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" id="pnonumbers"
+                                                                name="pnonumber" th:onclick="dvclick([[${iterStat.index}]], [[${obj.pno}]])">
+                                                                    <!-- th:attr="id='dvact' + ${iterStat.index}" -->
+                                                                    보기
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>                                            
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="one" style="display:none;">
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-table me-1"></i>
+                                            공구진행중
+                                        </div>
+                                        <div class="card-body">
+                                            <table id="datatablesSimpleporfv">
+                                                <thead>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>                                                        
+                                                        <th>인원수</th>
+                                                        <th>일자</th>
+                                                        <th>참가인원</th>                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>                                                        
+                                                        <th>인원수</th>
+                                                        <th>일자</th>
+                                                        <th>참가인원</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr th:each="obj, iterStat : ${porfvlist}">                                                    
+                                                        <td th:text="${obj.pno.longValue()}"></td>
+                                                        <td th:text="${obj.itemcode.longValue()}"></td>
+                                                        <td th:text="${obj.itemname}"></td>
+                                                        <td th:text="${obj.address}"></td>
+                                                        <td th:text="${obj.memid}"></td>
+                                                        <td th:text="${obj.count} + ' / ' + ${obj.participant}"></td>
+                                                        <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>
+                                                        <td>
+                                                            <form th:action="@{/seller/order/search.do}" method="get">
+                                                                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" id="pnonumbers"
+                                                                name="pnonumber" th:onclick="dvclick([[${iterStat.index}]], [[${obj.pno}]])">
+                                                                    <!-- th:attr="id='dvact' + ${iterStat.index}" -->
+                                                                    보기
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>                                            
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="two" style="display:none;">
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-table me-1"></i>
+                                            공구완료
+                                        </div>
+                                        <div class="card-body">
+                                            <table id="datatablesSimplecov">
+                                                <thead>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>                                                        
+                                                        <th>인원수</th>
+                                                        <th>일자</th>
+                                                        <th>참가인원</th>                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>                                                        
+                                                        <th>인원수</th>
+                                                        <th>일자</th>
+                                                        <th>참가인원</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr th:each="obj, iterStat : ${covlist}">                                                    
+                                                        <td th:text="${obj.pno.longValue()}"></td>
+                                                        <td th:text="${obj.itemcode.longValue()}"></td>
+                                                        <td th:text="${obj.itemname}"></td>
+                                                        <td th:text="${obj.address}"></td>
+                                                        <td th:text="${obj.memid}"></td>
+                                                        <td th:text="${obj.count} + ' / ' + ${obj.participant}"></td>
+                                                        <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>
+                                                        <td>
+                                                            <form th:action="@{/seller/order/search.do}" method="get">
+                                                                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" id="pnonumbers"
+                                                                name="pnonumber" th:onclick="dvclick([[${iterStat.index}]], [[${obj.pno}]])">
+                                                                    <!-- th:attr="id='dvact' + ${iterStat.index}" -->
+                                                                    보기
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>                                            
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="three" style="display:none;">
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-table me-1"></i>
+                                            공구취소
+                                        </div>
+                                        <div class="card-body">
+                                            <table id="datatablesSimplecancel">
+                                                <thead>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>                                                        
+                                                        <th>인원수</th>
+                                                        <th>일자</th>
+                                                        <th>참가인원</th>                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>주문번호</th>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>배송주소</th>
+                                                        <th>대표주문자</th>                                                        
+                                                        <th>인원수</th>
+                                                        <th>일자</th>
+                                                        <th>참가인원</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr th:each="obj, iterStat : ${cancellist}">                                                    
+                                                        <td th:text="${obj.pno.longValue()}"></td>
+                                                        <td th:text="${obj.itemcode.longValue()}"></td>
+                                                        <td th:text="${obj.itemname}"></td>
+                                                        <td th:text="${obj.address}"></td>
+                                                        <td th:text="${obj.memid}"></td>
+                                                        <td th:text="${obj.count} + ' / ' + ${obj.participant}"></td>
+                                                        <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>
+                                                        <td>
+                                                            <form th:action="@{/seller/order/search.do}" method="get">
+                                                                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal" id="pnonumbers"
+                                                                name="pnonumber" th:onclick="dvclick([[${iterStat.index}]], [[${obj.pno}]])">
+                                                                    <!-- th:attr="id='dvact' + ${iterStat.index}" -->
+                                                                    보기
+                                                                </button>
+                                                            </form>
+                                                        </td>
+                                                    </tr>                                            
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+             <!-- footer -->
+             <th:block th:replace="~{/jk/seller/footer :: footerHTML}"></th:block>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">참가 인원</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table border="1" class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>닉네임</th>
+                            <th>공구참여시간</th>
+                        </tr>
+                    </thead>                    
+                    <tbody id="table">                        
+                    </tbody>
+                    <tbody id="table1">
+                    </tbody>
+                    <tbody id="table2">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">확인</button>                
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- 6. Bootstrap용 js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
+    <!-- axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+    <!-- Chart.js용 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>    
+    <!-- Simple DataTable용 JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+    <!-- jQuery 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <!-- font awesome용 스크립트 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+        integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <script th:inline="javascript" type="text/javascript">
+        const myModal = document.getElementById('myModal');
+        const myInput = document.getElementById('myInput');
+
+        async function dvclick(index, pno) {
+            // document.getElementById('pnonumberhidden').setAttribute('value', pno);
+            var value = document.getElementById('pnonumbers').value;
+            // console.log("index : " + index);
+            // console.log("pno : " + pno);
+            // console.log("value : " + value);                                    
+            
+            let url = /*[[@{/api/seller/delivery.json}]]*/"";
+            url += "?pnonumber=" + pno;
+            // console.log(url);
+            const headers = {"Content-Type":"application/json"};
+            // console.log(headers);
+            const { data } = await axios.get(url,{ headers:headers });
+            // console.log(data.table);          
+
+            const table = document.getElementById("table");
+            const table1 = document.getElementById("table1");
+            const table2 = document.getElementById("table2");
+            table.innerHTML = '';            
+
+            var options = {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                weekday: 'long',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            var arr = new Array(data.table.length);
+            var arr1 = new Array(data.table1.length);
+            var arr2 = new Array(data.table2.length);            
+
+            // 완료된 공구
+            for (let i=0; i<data.table.length; i++){
+                var regdate =  new Date(data.table[i].regdate);                    
+                var formattedDate = regdate.toLocaleString('ko-KR', options);
+
+                var year = formattedDate.substr(0, 4);
+                var month = formattedDate.substr(6, 2);
+                var day = formattedDate.substr(10, 2);
+                var weekday = formattedDate.substr(12, formattedDate.indexOf(' ') - 12);
+                var hour = formattedDate.substr(formattedDate.indexOf(' ') + 1, 2);
+                var minute = formattedDate.substr(formattedDate.indexOf(':') + 1, 2);
+                var result = year + '년 ' + month + '월 ' + day + '일 ' + weekday + ' ' + hour + '시 ' + minute + '분';
+                arr[i] = result;
+                table.innerHTML += `<tr>`
+                + '<td>' + data.table[i].memid + '</td>'
+                + '<td>' + data.table[i].nickname + '</td>'
+                + '<td>' + arr[i] + '</td>'
+                // + '<td>' + data.table[i].regdate + '</td>'
+                + `</tr>`
+                ;
+            }
+
+            // 진행중 공구            
+            for (let i=0; i<data.table1.length; i++){
+                var regdate =  new Date(data.table1[i].regdate);                    
+                var formattedDate = regdate.toLocaleString('ko-KR', options);
+
+                var year = formattedDate.substr(0, 4);
+                var month = formattedDate.substr(6, 2);
+                var day = formattedDate.substr(10, 2);
+                var weekday = formattedDate.substr(12, formattedDate.indexOf(' ') - 12);
+                var hour = formattedDate.substr(formattedDate.indexOf(' ') + 1, 2);
+                var minute = formattedDate.substr(formattedDate.indexOf(':') + 1, 2);
+                var result = year + '년 ' + month + '월 ' + day + '일 ' + weekday + ' ' + hour + '시 ' + minute + '분';
+                arr1[i] = result;
+                table.innerHTML += `<tr>`
+                + '<td>' + data.table1[i].memid + '</td>'
+                + '<td>' + data.table1[i].nickname + '</td>'
+                + '<td>' + arr1[i] + '</td>'
+                // + '<td>' + data.table1[i].regdate + '</td>'
+                + `</tr>`
+                ;
+            }              
+
+            // 취소된 공구
+            for (let i=0; i<data.table2.length; i++){
+                var regdate =  new Date(data.table2[i].regdate);                    
+                var formattedDate = regdate.toLocaleString('ko-KR', options);
+
+                var year = formattedDate.substr(0, 4);
+                var month = formattedDate.substr(6, 2);
+                var day = formattedDate.substr(10, 2);
+                var weekday = formattedDate.substr(12, formattedDate.indexOf(' ') - 12);
+                var hour = formattedDate.substr(formattedDate.indexOf(' ') + 1, 2);
+                var minute = formattedDate.substr(formattedDate.indexOf(':') + 1, 2);
+                var result = year + '년 ' + month + '월 ' + day + '일 ' + weekday + ' ' + hour + '시 ' + minute + '분';
+                arr2[i] = result;
+                table.innerHTML += `<tr>`
+                + '<td>' + data.table2[i].memid + '</td>'
+                + '<td>' + data.table2[i].nickname + '</td>'
+                + '<td>' + arr2[i] + '</td>'
+                // + '<td>' + data.table2[i].regdate + '</td>'
+                + `</tr>`
+                ;
+            }            
+        }
+
+        // 상태들중 하나만 선택되게
+        function toggleButton(selectedButton) {
+            var buttons = document.querySelectorAll('[data-bs-toggle="button"]');
+            buttons.forEach(function(button, index) {
+                if (index === selectedButton) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+        
+        // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+        function toggleButton(selectedButton) {            
+            if(selectedButton == 0){
+            document.getElementById('zero').style.display = 'block'
+            document.getElementById('one').style.display = 'none'
+            document.getElementById('two').style.display = 'none'
+            document.getElementById('three').style.display = 'none'
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');
+            console.log(selectedButton);
+            $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimpleall", {
+                searchable: true,
+                fixedHeight: true,
+            })
+                });
+            }
+            if(selectedButton == 1){
+            document.getElementById('zero').style.display = 'none'
+            document.getElementById('one').style.display = 'block'
+            document.getElementById('two').style.display = 'none'
+            document.getElementById('three').style.display = 'none'
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');
+            console.log(selectedButton);
+            $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimpleporfv", {
+                searchable: true,
+                fixedHeight: true,
+            })
+                });
+            }
+            if(selectedButton == 2){
+            document.getElementById('zero').style.display = 'none'
+            document.getElementById('one').style.display = 'none'
+            document.getElementById('two').style.display = 'block'
+            document.getElementById('three').style.display = 'none'
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');
+            console.log(selectedButton);
+            $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimplecov", {
+                searchable: true,
+                fixedHeight: true,
+            })
+                });
+            }
+            if(selectedButton == 3){
+            document.getElementById('zero').style.display = 'none'
+            document.getElementById('one').style.display = 'none'
+            document.getElementById('two').style.display = 'none'
+            document.getElementById('three').style.display = 'block'
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark active');
+            console.log(selectedButton);
+            $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimplecancel", {
+                searchable: true,
+                fixedHeight: true,
+            })
+                });
+            }
+        }
+
+        function one1(){                
+                document.getElementById('zero').style.display = 'none'
+                document.getElementById('one').style.display = 'block'
+                document.getElementById('two').style.display = 'none'
+                document.getElementById('three').style.display = 'none'
+                $(document).ready(function () {
+                new simpleDatatables.DataTable("#datatablesSimpleporfv", {
+                    searchable: true,
+                    fixedHeight: true,
+                })
+            });
+        } 
+
+        function two2(){                
+                document.getElementById('zero').style.display = 'none'
+                document.getElementById('one').style.display = 'none'
+                document.getElementById('two').style.display = 'block'
+                document.getElementById('three').style.display = 'none'
+                $(document).ready(function () {
+                new simpleDatatables.DataTable("#datatablesSimplecov", {
+                    searchable: true,
+                    fixedHeight: true,
+                })
+            });
+        } 
+        
+        function three3(){
+            document.getElementById('zero').style.display = 'none'
+            document.getElementById('one').style.display = 'none'
+            document.getElementById('two').style.display = 'none'
+            document.getElementById('three').style.display = 'block'
+            $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimplecancel", {
+                searchable: true,
+                fixedHeight: true,
+            })
+        });
+        }        
+
+        $(document).ready(function () {
+            const sidebarToggle = $('#sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.click(function () {
+                    console.log('buttonClick');
+                    event.preventDefault(); /* 아래쪽 요소로 이벤트가 전파되지 않도록 */
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
+            }
+        });
+        
+        $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimpleall", {
+                searchable: true,
+                fixedHeight: true,
+            })
+        });
+        
+    </script>
+</body>
+
+</html>

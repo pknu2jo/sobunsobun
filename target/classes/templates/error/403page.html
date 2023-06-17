@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>소분소분 - 에러발생</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+
+        /*------ 기본 스타일 ------*/
+
+
+        * {
+            font-family: 'NanumSquare', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        .logo-img {
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            margin-bottom: 20px;
+        }
+
+        .error-heading {
+            font-size: 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron bg-light">
+            <img th:src="@{/images/se/logo1.png}" class="img-fluid mx-auto d-block"
+                style="max-width: 450px;"><br /><br /><br />
+            <h1 class="display-4 error-heading">403 Forbidden Error</h1><br />
+            <p class="lead text-center">접근할 수 있는 권한이 없습니다.</p>
+            <hr class="my-4">
+            <button class="btn btn-outline-dark btn-lg mx-auto d-block" onclick="backUrl()">뒤로 가기</button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function backUrl() {
+            window.history.back();
+        }
+    </script>
+</body>
+
+</html>

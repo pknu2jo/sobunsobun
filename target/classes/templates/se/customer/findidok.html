@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>새로운 1인가구 공구문화 - 소분소분</title>
+    <link rel="icon" th:href="@{/images/se/sobun.ico}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- font-awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <th:block th:replace="~{/se/customer/header :: headerCSS}"></th:block>
+    <th:block th:replace="~{/km/customer/footer :: footerCSS}"></th:block>
+
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <!-- axios (https://cdnjs.com/libraries/axios) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        /* 언니짱 */
+        ul{
+            list-style: none;
+         }
+
+         /* 마이페이지 글자 */
+         .myPageHeader{
+            padding-top: 20px;
+            text-align: center;
+         }
+         
+         .myPageHeader .title{
+            text-decoration: none;
+            font-weight: lighter;
+            color: black;
+            font-size: 40px;
+            text-align: center;
+         }
+
+         .myPageHeader .semi-title{
+            text-decoration: none;
+            color: black;
+         }
+
+         .myPageHeader .semi-title li{
+            text-align: center;
+         }
+
+         #semi-titlebox{
+            width: 100%;
+            text-align: center;
+         }
+
+
+         /* 마이페이지 메뉴 */
+         #semi-titlebox{
+            list-style: none;
+         }
+
+         #submenu {
+            margin-bottom: 60px;
+         }
+
+         #submenu .submenu-header{
+            width: 100%;
+            min-width: 1240px;
+            height: 45px;
+            background-color: #e9eeea;
+            border-top: 1px solid #D0DFD3;
+            border-bottom: 1px solid #D0DFD3;
+         }
+
+         #submenu .submenu-header ul{
+            /* width: 622px; */
+            margin-left: 0;
+            padding-left: 0;
+         }
+
+         #submenu .submenu-header ul li:first-child{
+            width: 210px;
+         }
+
+         #submenu .submenu-header ul li{
+            list-style-type: none;
+            width: 206px;
+            text-align: center;
+            float: left;
+            position: relative;
+            line-height: 45px;
+            display: list-item;
+         }
+
+         #submenu .submenu-header ul li.active{
+            background-color: #6D9275;
+         }
+
+         #submenu .submenu-header ul li.active a{
+            color: #fff;
+         }
+
+         #submenu .submenu-header ul li a{
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            vertical-align: middle; 
+            font-weight: normal;
+        }
+        /* 언니짱 */
+
+        .findIdOkInput {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 0 10px 0 10px;
+            width: 400px;
+            height: 35px;
+            outline: none;
+        }
+
+        .findIdOkATag {
+            /* text-decoration: none; */
+            color: #6D9275;
+        }
+
+        .endline {
+            margin-top: 60px;
+            width: 1500px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- header -->
+    <th:block th:replace="~{/se/customer/header :: headerHTML}"></th:block>
+    
+    <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
+    <div style="padding-bottom: 400px;">
+
+        <div class="myPageHeader">
+            <a href="/SOBUN/customer/login.do" class="title">LOGIN</a><br/>
+
+            <ol id="semi-titlebox">
+                <li style="padding-top: 13px; padding-bottom: 20px;">
+                    <a th:href="@{/customer/login.do}" class="semi-title">로그인</a>
+                    &nbsp;&nbsp;>&nbsp;&nbsp;
+                    <a th:href="@{/customer/findid.do}" class="semi-title">아이디찾기</a>
+                    &nbsp;&nbsp;>&nbsp;&nbsp;
+                    <a th:href="@{/customer/findidok.do}" class="semi-title">결과</a>
+                    &nbsp;&nbsp;>&nbsp;&nbsp;
+                </li>
+            </ol>
+        </div>
+
+        <div id="submenu">
+            <div class="submenu-header d-flex justify-content-center">
+                <ul>
+                    <li>
+                        <a th:href="@{/customer/login.do}">로그인</a>
+                    </li>
+                    <li class="active">
+                        <a th:href="@{/customer/findid.do}">아이디찾기</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/customer/findpw.do}">비밀번호찾기</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/customer/join.do}">회원가입</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="container text-center">
+            <input type="text" class="findIdOkInput" th:value="|${name} 고객님의 아이디는 ${id} 입니다|" readonly></input><br>
+            <a class="findIdOkATag" th:href="@{/customer/login.do}">로그인하기</a>
+            <div class="d-flex justify-content-center">
+                <div class="endline"></div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- footer -->
+    <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
+
+
+
+    <!-- script-->
+    
+</body>
+</html>

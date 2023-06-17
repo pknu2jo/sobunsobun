@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <!-- 3. Font Awesome ICON용 CDN-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="../../../static/css/bootstrap.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+
+        <th:block th:fragment="footerCSS">
+        <style>
+
+            @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+            footer * {
+                margin: 0 auto;
+                /* font-family: 'nanumsquare','MinSans-Regular', sans-serif; */
+                font-family: 'NanumSquare';
+                font-size: 13px;
+                padding: 0;
+            }
+
+            footer{
+                width: 100%;
+                height: 58px;
+                border-top: 1px solid gray;
+                position: fixed;
+                bottom: 0;
+                background-color: #D9D9D9;
+            }
+
+            .footer_container{
+                text-align: center;
+                color: gray;
+                /* padding-top: 20px; */
+                /* display: inline-block; */
+            }
+
+            #backToTopBtn{
+                float: right;
+            }
+            body {
+                position: relative;
+                min-height: 100vh;
+            }
+
+            footer {
+                position: absolute !important;
+                bottom: 0 !important;
+                
+                max-width: 3000px;
+                padding-left: 0 !important;  
+                padding-right: 0 !important;
+                /* margin-top: 5000px; */
+            }
+
+
+        </style>
+    </th:block>
+</head>
+
+<body id='wrapper'>
+
+<th:block th:fragment="footerHTML">
+    <footer class="text-body-secondary">
+        <div class="footer_container text-center d-flex justify-content-center" >
+            <div class="d-flex justify-content-center">
+                <p class="text-center" style="margin-left: 60px;padding-top: 20px;">    
+                    새로운 1인 공구문화 &copy; 소분소분
+                </p>
+            </div>
+        </div>
+        <!-- <div class="button" style="margin-right: 20px;">
+            <button id="backToTopBtn" onclick="scrollToTop()">Top</button>
+        </div> -->
+    </footer>
+</th:block>
+
+    <script>
+        // window.onscroll = function() {
+        //     scrollFunction();
+        // };
+
+        // function scrollFunction() {
+        //     if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        //         document.getElementById("backToTopBtn").style.display = "block";
+        //     } else {
+        //         document.getElementById("backToTopBtn").style.display = "none";
+        //     }
+        // }
+
+        // function scrollToTop() {
+        //     document.body.scrollTop = 0;
+        //     document.documentElement.scrollTop = 0;
+        // }
+    </script>
+
+
+</body>
+
+</html>

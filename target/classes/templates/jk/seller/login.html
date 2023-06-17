@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset='utf-8'>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel="icon" th:href="@{/images/jk/sobunseller.ico}">
+	<title>소분소분 - 판매자 로그인</title>
+	<!-- bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<!-- Font Awesome Icon -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+		integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- CSS -->
+	<link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller_loginStyle.css}'>
+</head>
+
+<body>
+	<div>
+
+		<div class="text-center">
+			<img th:src="@{/images/jk/logo1.png}" class="img-fluid mx-auto d-block" style="max-width: 350px;">
+		</div>
+		<div class="text-center">
+			<h4 class="login-heading">판매자 전용 페이지</h4>
+		</div>
+		<form th:action="@{/seller/loginaction.do}" method="post" id="login_form">
+			<div class="row">
+				<div class="col-sm">
+					<hr />
+					<br>
+					<div class="form-floating mb-2">
+						<input type="number" id="id" name="no" class="form-control" value="1078198143"/>
+						<label for="id" class="form-label">사업자번호</label>
+					</div>
+					<div class="form-floating mb-2 ">
+						<input type="password" id="pw" name="pw" class="form-control" value="1q2w3e4r!" onkeydown="capsLockCheck(event)" />
+						<label id="pwLabel" for="pw" class="form-label">암호</label>
+					</div>
+					<br>
+
+					<hr />
+					<div class="container text-center d-grid gap-2" style="padding: 0;">
+						<!-- 여기서 type을 submit으로 잡고 유효성 검사를 하게되면 강제로 데이터가 넘어가기 때문에 button으로 지정해주어야 함! -->
+						<input type="button" value="로그인" class="btn btn-dark " onclick="loginAction()" />
+						<a th:href="@{/seller/join.do}" class="btn btn-outline-secondary">업체 회원가입</a>
+						<a th:href="@{/seller/findpw.do}" class="btn btn-outline-secondary">비밀번호를 잊으셨나요?</a>
+					</div>
+				</div>
+			</div>
+		</form>
+		<div class="text-center mt-4">
+			<h5 class="contact-heading">
+				<strong><i class="fas fa-phone-alt"></i> 판매자 콜센터</strong>
+			</h5>
+			<p class="contact-phone"><strong>1577 - 0000</strong></p>
+		</div>
+	</div>
+
+	<!-- sweetalert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<!-- jQuery 추가 -->
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+		integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+	<!-- axios -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+
+	<script th:inline="javascript">
+		async function loginAction() {
+			const sellerId = document.getElementById("id");
+			const sellerPw = document.getElementById("pw");
+
+			// @PostMapping 방식
+			const url = /*[[@{/api/sellerloginchk.json}]]*/"";
+			const body = { no: sellerId.value, pw: sellerPw.value };
+			const headers = { "Content-Type": "application/json" };
+			const { data } = await axios.post(url, body, { headers: headers });
+			console.log('반환되는 결과', data);
+
+			if (sellerId.value.length <= 0) {
+				alert("사업자번호를 입력해주세요.");
+				sellerId.focus();
+				return false; // 함수종료, 전송하지 않음
+			}
+			if (sellerPw.value.length <= 0) {
+				alert("비밀번호를 입력해주세요.");
+				sellerPw.focus();
+				return false; // 함수종료, 전송하지 않음
+			}
+			if (data.chk == 0 || data.chk == -1) {
+				alert("아이디 혹은 비밀번호가 일치하지 않습니다.")
+				sellerPw.value = null;
+				sellerPw.focus();
+				return false; // 함수종료, 전송하지 않음
+			}
+			if (data.chk == 2) {
+				alert("사용 정지된 계정입니다. 관리자에게 문의하세요.")
+				sellerPw.value = null;
+				sellerPw.focus();
+				return false; // 함수종료, 전송하지 않음
+			}
+			document.getElementById("login_form").submit();
+
+		}
+
+		function capsLockCheck(e) { // CapsLock 유효성 검사
+			let pwLabel = document.getElementById("pwLabel");
+
+			if (e.getModifierState("CapsLock")) { // CapsLock이 켜져 있는 상태라면
+				pwLabel.innerText = "Caps Lock이 켜져 있습니다.";
+				pwLabel.style.color = 'red';
+			} else { // 그외의 모든 상황
+				pwLabel.innerText = "암호";
+				pwLabel.style.color = 'black';
+			}
+		}
+
+	</script>
+</body>
+
+</html>

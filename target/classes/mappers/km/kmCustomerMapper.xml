@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.km.KmCustomerMapper">
+<!-- ====================================================================================== -->
+<!-- 물품 상세 조회 페이지 -->
+
+    <!-- 상품 정보 한개 가져오기 -->
+    <select id="selectOneItem" parameterType="long" resultType="map">
+        SELECT * FROM kmitemview k WHERE itemno=#{itemno}
+    </select>
+
+    <!-- 상품 번호에 해당하는 이미지 번호 가져오기 -->
+    <select id="selectItemImageNoList" parameterType="long" resultType="long">
+        SELECT no FROM ITEMIMAGE i WHERE ITEMNO = #{itemno}   
+    </select>
+
+    <!-- 상품에 대한 열린 공구 가져오기 -> 공구번호, 참여인원, 마감기한, 보관소 코드, 보관소이름 -->
+    <select id="selectPurchaseList" parameterType="long" resultType="KmPurchaseView">
+        SELECT * FROM (
+				SELECT * FROM (SELECT *, ROW_NUMBER() OVER 
+				(PARTITION BY PURCHASENO ORDER BY no desc) recent 
+									FROM KMPURCHASEVIEW p WHERE itemno = #{itemno}
+									ORDER BY PURCHASENO DESC 
+				  ) WHERE recent=1 AND state=0 AND deadline > CURRENT_TIMESTAMP()  ORDER BY deadline ASC
+		)
+    </select>
+
+    <!-- 상품에 대한 열린 공구 가져오기 -> 남은 인원 -->
+    <select id="countRemainingPerson" parameterType="long" resultType="int">
+       SELECT  participant-count(*) 
+        FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY memid ORDER BY no desc) recent 
+ 		FROM kmpurchaseview p WHERE purchaseno = #{purchaseNo}) 
+        WHERE recent=1 AND state=0 AND cancel=0
+    </select>
+
+    <!-- 모든 보관소 정보 가져오기 -->
+    <select id="selectStorageList" resultType="Storage">
+        SELECT * FROM storage ORDER BY NAME ASC
+    </select>
+
+<!-- ====================================================================================== -->
+<!-- 결제 페이지 => /customer/item/order.do -->
+
+    <!-- 공구 번호에 대한 공구 정보 가져오기 -->
+    <select id="selectOnePurchase" parameterType="long" resultType="kmPurchaseView">
+        SELECT * FROM (
+				SELECT * FROM (SELECT *, ROW_NUMBER() OVER 
+				(PARTITION BY PURCHASENO ORDER BY no desc) recent 
+									FROM KMPURCHASEVIEW p WHERE purchaseNo=#{purchaseNo}
+									ORDER BY PURCHASENO DESC 
+				) WHERE recent=1
+    )
+    </select>
+
+    <!-- 보관소 번호에 해당하는 보관소 정보 가져오기 -->
+    <select id="selectOneStorage" parameterType="long" resultType="Storage">
+        SELECT * FROM storage WHERE NO=#{no}
+    </select>
+
+    <!-- 고객 정보 가져오기 -->
+    <select id="selectOneCustomer" parameterType="string" resultType="Customer">
+        SELECT id, name, phone, email FROM CUSTOMER c WHERE id=#{id}
+    </select>
+
+<!-- ====================================================================================== -->
+<!-- 결제페이지 => /api/customer/order.json -->
+
+    <!-- SEQ_PURCHASE_NO.NEXTVAL 가져오기 -->
+        <!-- SELECT seq_purchase_no.nextval FROM dual 하려고 했는데 환경 설정에서 Mysql 모드로 바꾸니까 안되더라..  -->
+        <!-- 그래서 그냥 최신 번호+1 로 가져와주기  -->
+    <select id="selectSeqPurchaseNo" resultType="long">
+        SELECT MAX(no)+1 purchaseNo FROM purchase
+    </select>
+
+    <!-- purchase 데이터 추가 -->
+    <insert id="insertOnePurchase" parameterType="Purchase">
+        INSERT INTO PURCHASE (no, participant, storageNo) 
+        VALUES(#{no}, #{participant}, #{storageNo})
+    </insert>
+
+    <!-- purchaseOrder 데이터 추가 -->
+    <insert id="insertOnePurchaseOrder" parameterType="PurchaseOrder">
+        INSERT INTO PURCHASEORDER (no, memId, totalPrice, purchaseNo) 
+        VALUES(#{no}, #{memId}, #{totalPrice}, #{purchaseNo})
+    </insert>
+
+    <!-- purchaseStatus 데이터 추가 -->
+    <insert id="insertOnePurchaseStatus" parameterType="PurchaseStatus">
+        INSERT INTO PURCHASESTATUS (state, memId, itemNo, purchaseNo) 
+        VALUES(0, #{memId}, #{itemNo}, #{purchaseNo})
+    </insert>
+
+    <!-- 공구에 참여 중인 memId 가져오기-->
+    <select id="selectIdList" parameterType="long" resultType="string">
+        SELECT memId
+        FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY memid ORDER BY no desc) recent 
+ 		FROM kmpurchaseview p WHERE purchaseno = #{purchaseNo}) 
+        WHERE recent=1 AND state=0 AND cancel=0
+    </select>
+
+    <!-- 공구 인원 다 차면 purchaseStatus 일괄 추가 -->
+    <insert id="PurchaseStatusInsertBatch" parameterType="list">
+        INSERT INTO purchaseStatus(state, memId, purchaseNo, itemNo)
+        VALUES
+        <foreach collection='list' item='purchasestatus' separator=','>
+            (1, #{purchasestatus.memId}, #{purchasestatus.purchaseNo}, #{purchasestatus.itemNo}) 
+        </foreach>
+    </insert>
+
+    <!-- item 수량 -1 해주기 -->
+    <update id="updateItemQuantity" parameterType="long">
+        UPDATE item SET QUANTITY = QUANTITY-1 WHERE NO=#{itemNo}
+    </update>
+   
+<!-- ====================================================================================== -->
+<!-- 리뷰 등록 -->
+
+    <!-- 구매한 상품이 맞는지 확인하기 -->
+    <!-- <select id="selectCheckOrder" parameterType="" resultType="">
+        SELECT * FROM (
+        SELECT * FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY memid, purchaseNo ORDER BY NO desc) recent
+        FROM PURCHASESTATUS p WHERE itemno = 13 ORDER BY memid DESC)
+        ) WHERE recent=1 AND state=1 AND memid='km1'
+    </select> -->
+   
+</mapper>

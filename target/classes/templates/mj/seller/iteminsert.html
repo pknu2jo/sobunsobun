@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="author" content="PJK">
+    <meta name="description" content="소분소분 - 판매자를 위한 마이페이지">
+    <title>소분소분 - 판매자용 페이지</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <!-- 1. Bootstrap용 css CDN 추가 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <!-- 2. Bootstrap용 Icon CDN / font-awesome 아이콘용 CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 3. font awesome용 css CDN  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Simple DataTable CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <!-- CSS -->
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/mj/seller.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
+    <link rel="icon" th:href="@{/images/jk/sobunseller.ico}">
+</head>
+
+<body class="sb-nav-fixed">
+    <!-- header -->
+    <th:block th:replace="~{/jk/seller/header :: headerHTML}"></th:block>
+    <!-- 전체화면 영역 -->
+    <div id="layoutTotal">
+        <!-- 전체화면 > 좌측 메뉴 영역(사이드바) -->
+        <th:block th:replace="~{/jk/seller/navbar :: navbarHTML}"></th:block>
+
+        <!-- 전체화면 > 우측 메인화면 영역 -->
+        <div id="layoutContent">
+            <main style="margin-bottom: 200px;">
+                <div class="container-fluid px-4" style="margin-bottom: 150px;"> <!-- 옆쪽에 딱 붙음. -->
+                    <div>
+                        <h3 style="float: left; margin-top: 30px;">물품등록</h3>
+                        <a th:href="@{/seller/item/management.do}"><button class="btn btn-dark"
+                                style="float: right; margin-top: 45px;">물품리스트</button></a>
+                    </div>
+                    <hr style="margin-top: 5px;">
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" id="basic-addon1">카테고리</span>
+                        <!-- 대분류 -->
+                        <select class="form-select" aria-label="Default select example" id="LcateSelect"
+                            th:field="${cate.Lcode}" onchange="updateMcateSelect()">
+                            <option value="000">대분류</option>
+                            <option th:each="obj : ${cate.Llist}" th:value="${obj.code.longValue()}"
+                                th:text="${obj.name}" id="lcategory"></option>
+                        </select>
+                        <!-- 중분류 -->
+                        <select class="form-select" aria-label="Default select example" id="McateSelect"
+                            th:field="${cate.Mcode}" onchange="updateScateSelect()">
+                            <option value="000">중분류</option>
+                            <option th:each="obj1 : ${cate.Mlist}" th:value="${obj1.code.longValue()}"
+                                th:text="${obj1.name}" id="mcategory"></option>
+                        </select>
+                        <!-- 소분류 -->
+                        <select class="form-select" aria-label="Default select example" name="scategoryCode"
+                            id="ScateSelect" th:field="${cate.Scode}" onchange="updateUrl()">
+                            <option value="000">소분류</option>
+                            <option th:each="obj2 : ${cate.Slist}" th:value="${obj2.code.longValue()}"
+                                th:text="${obj2.name}" id="scategory"></option>
+                        </select><br>
+                    </div>
+                    <!-- 소분류코드 파라미터전달받기 hidden-->
+                    <input type="hidden" name="scategoryCode" id="scode" th:value=${param.scate} />
+
+                    <div class="input-group mb-3" id="inputContainer" style="display: none;">
+                    
+                        <div class="input-group mb-3" id="hiddenName" >
+                            <span class="input-group-text" id="basic-addon1">물품명</span>
+                            <input type="text" name="name" class="form-control" id="name" aria-label="Itemname"
+                                aria-describedby="basic-addon1" onclick="insertname()" >
+                        </div>
+                        <div class="input-group mb-3" id="hiddenPrice" >
+                            <span class="input-group-text" id="basic-addon1">가격</span>
+                            <input type="number" name="price" class="form-control" id="price" aria-label="Itemname"
+                                aria-describedby="basic-addon1" onclick="insertname()" >
+                        </div>
+                        <div class="input-group mb-3" id="hiddenQuantity" >
+                            <span class="input-group-text" id="basic-addon1">수량</span>
+                            <input type="number" name="quantity" class="form-control" id="quantity" aria-label="Itemname"
+                                aria-describedby="basic-addon1" onclick="insertname()" >
+                        </div>
+                        <div class="input-group mb-3" style="display: none;">
+                            <span class="input-group-text" id="basic-addon1">사업자번호</span>
+                            <input type="number" name="regNo" th:value="${sellerid}" class="form-control" id="regNo"
+                                aria-label="Itemname" aria-describedby="basic-addon1" onkeypress="insertname()">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-dark" id="insertbtn" onclick="insertitem()">등록</button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록완료</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                                        id="tomanagement1"></button>
+                                </div>
+                                <div class="modal-body">
+                                    물품이 등록되었습니다. 이미지를 등록하시겠습니까?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-dark" id="insertimage"
+                                        onclick="insertimage()">네</button>
+                                    <button type="submit" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                        id="tomanagement">아니요 </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="insertname" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    물품명을 입력해주세요.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" id="insertimage"
+                                        data-bs-dismiss="modal">확인</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="insertprice" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    가격을 입력해주세요.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" id="insertimage"
+                                        data-bs-dismiss="modal">확인</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="insertquantity" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">물품등록</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    수량을 입력해주세요.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" id="insertimage"
+                                        data-bs-dismiss="modal">확인</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </main>
+            <!-- footer -->
+            <th:block th:replace="~{/jk/seller/footer :: footerHTML}"></th:block>
+        </div>
+    </div>
+
+
+
+    <!-- 6. Bootstrap용 js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
+    <!-- Simple DataTable용 JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+    <!-- jQuery 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <!-- font awesome용 스크립트 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+        integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            const sidebarToggle = $('#sidebarToggle');
+            if (sidebarToggle) {
+                sidebarToggle.click(function () {
+                    console.log('buttonClick');
+                    event.preventDefault(); /* 아래쪽 요소로 이벤트가 전파되지 않도록 */
+                    document.body.classList.toggle('sb-sidenav-toggled');
+                    localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+                });
+            }
+        });
+
+
+        $(document).ready(function () {
+            new simpleDatatables.DataTable("#datatablesSimple", {
+                searchable: true,
+                fixedHeight: true,
+
+            })
+        });
+    </script>
+
+    <script th:inline="javascript">
+        // 대분류 클릭시 선택된 대분류에 해당하는 중분류 출력 
+        function updateMcateSelect() {
+            const code = document.getElementById("LcateSelect").value;
+            console.log(code);
+            window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}`;
+        }
+        // 중분류 클릭시 선택된 중분류에 해당하는 소분류 출력 
+        function updateScateSelect() {
+            const code = document.getElementById("LcateSelect").value;
+            const mcode = document.getElementById("McateSelect").value;
+            console.log(code);
+            console.log(mcode);
+            window.location.href = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}`;
+        }
+
+        // 소분류 클릭시 대, 중, 소분류를 url로 받아와 저장.
+        function updateUrl() {
+            const code = document.getElementById("LcateSelect").value;
+            const mcode = document.getElementById("McateSelect").value;
+            const scode = document.getElementById("ScateSelect").value;
+            console.log(code);
+            console.log(mcode);
+            console.log(scode);
+            
+            const url = `/SOBUN/seller/item/insert.do?lcate=${code}&mcate=${mcode}&scate=${scode}`;
+            window.location.href = url;
+            
+        }
+
+        async function insertitem() {
+
+            const scategory = document.getElementById("scategory");
+            const mcategory = document.getElementById("mcategory");
+            const lcategory = document.getElementById("lcategory");
+            const name = document.getElementById("name");
+            const scode = document.getElementById("scode");
+            console.log(scode.value);
+            console.log(name);
+            const price = document.getElementById("price");
+            const quantity = document.getElementById("quantity");
+            const regNo = document.getElementById("regNo");
+
+            // 유효성 검사
+            if (name.value.trim() === "") {
+                $('#insertname').modal('show');
+                name.focus();
+
+                return false;
+            }
+            if (price.value.trim() === "") {
+                $('#insertprice').modal('show');
+                price.focus();
+
+                return false;
+            }
+            if (quantity.value.trim() === "") {
+                $('#insertquantity').modal('show');
+                quantity.focus();
+
+                return false;
+            }
+            if (regNo.value.trim() === "") {
+                alert("사업자번호를 입력해주세요.")
+                regNo.focus();
+
+                return false;
+            }
+
+            const url = /*[[@{/api/seller/insertitem.json}]]*/"";
+            console.log(url);
+            const headers = { "Content-Type": "application/json" };
+            const body = { name: name.value, price: price.value, quantity: quantity.value, regNo: regNo.value, scategoryCode: { code: scode.value } };
+            const { data } = await axios.post(url, body, { headers: headers });
+
+            console.log(data.result1);
+            console.log(data.result);
+            console.log(data.itemno);
+            if (data.result == 1) {
+                $('#modal').modal('show');
+                // 모달창에서 네 클릭시 새로등록한 물품번호를 받아 /seller/itemimage/selectlist.do?no=159 로 이동
+                document.getElementById('insertimage').addEventListener("click", clickFunction);
+                function clickFunction() {
+                    window.location.href = `/SOBUN/seller/itemimage/selectlist.do?no=` + data.itemno;
+                }
+                // 모달창에서 아니요 클릭시 물품관리(등록된 물품목록) 페이지로 이동
+                document.getElementById('tomanagement').addEventListener("click", clickFunction1);
+                function clickFunction1() {
+                    window.location.href = `/SOBUN/seller/item/management.do`;
+                }
+                // 모달창에서 X 클릭시 물품등록 페이지로 이동(추가 물품등록 가능)
+                document.getElementById('tomanagement1').addEventListener("click", clickFunction2);
+                function clickFunction2() {
+                    window.location.href = `/SOBUN/seller/item/insert.do`;
+                }
+            }
+        }
+    </script>
+
+    <script>
+        // 소분류카테고리 선택시 물품정보를 입력하는 칸 생성됨.
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const scate = urlParams.get('scate');
+        
+            if (scate !== "000" && scate !== null) {
+                const inputContainer = document.getElementById("inputContainer");
+                inputContainer.style.display = "block";
+            }
+        });
+    </script>
+
+</body>
+
+</html>

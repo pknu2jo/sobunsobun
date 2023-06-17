@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>새로운 1인가구 공구문화 - 소분소분</title>
+    <link rel="icon" th:href="@{/images/se/sobun.ico}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <!-- font-awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <th:block th:replace="~{/se/customer/header :: headerCSS}"></th:block>
+    <th:block th:replace="~{/km/customer/footer :: footerCSS}"></th:block>
+
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <!-- axios (https://cdnjs.com/libraries/axios) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.5/axios.min.js" integrity="sha512-nnNHpffPSgINrsR8ZAIgFUIMexORL5tPwsfktOTxVYSv+AUAILuFYWES8IHl+hhIhpFGlKvWFiz9ZEusrPcSBQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <th:block th:gragment="mypageCSS">
+        <style>
+         @import url('https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css');
+         *{
+            font-family: 'NanumSquare';
+         }
+
+         ul{
+            list-style: none;
+         }
+
+         /* 마이페이지 글자 */
+         .myPageHeader{
+            text-align: center;
+         }
+         
+         .myPageHeader .title{
+            text-decoration: none;
+            font-weight: lighter;
+            color: black;
+            font-size: 40px;
+            text-align: center;
+         }
+
+         .myPageHeader .semi-title{
+            text-decoration: none;
+            color: black;
+         }
+
+         .myPageHeader .semi-title li{
+            text-align: center;
+         }
+
+         #semi-titlebox{
+            width: 100%;
+            text-align: center;
+         }
+
+
+         /* 마이페이지 메뉴 */
+         #semi-titlebox{
+            list-style: none;
+         }
+
+         #submenu {
+            margin-bottom: 60px;
+         }
+
+         #submenu .submenu-header{
+            width: 100%;
+            min-width: 1240px;
+            height: 45px;
+            background-color: #e9eeea;
+            border-top: 1px solid #D0DFD3;
+         }
+
+         #submenu .submenu-header ul{
+            width: 622px;
+            margin-left: 0;
+            padding-left: 0;
+         }
+
+         #submenu .submenu-header ul li:first-child{
+            width: 210px;
+         }
+
+         #submenu .submenu-header ul li{
+            list-style-type: none;
+            width: 206px;
+            text-align: center;
+            float: left;
+            position: relative;
+            line-height: 45px;
+            display: list-item;
+         }
+
+         #submenu .submenu-header ul li.active{
+            background-color: #6D9275;
+         }
+
+         #submenu .submenu-header ul li.active a{
+            color: #fff;
+         }
+
+         #submenu .submenu-header ul li a{
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+            vertical-align: middle; 
+            font-weight: normal;
+        }
+
+        /* 마이페이지 세부메뉴 */
+        #submenu .submenu-body{
+            width: 100%;
+            border-top: 1px solid #D0DFD3;
+        }
+        #submenu .submenu-body .inner{
+            width: 1240px;
+            margin: 0 auto;
+            padding: 9px 0;
+            display: table;
+        }
+
+        #submenu .submenu-body .inner ul{
+            display: table-cell;
+            position: relative;
+        }
+
+        #submenu .submenu-body .inner:before{
+            content: '';
+            width: 1px;
+            height: 100%;
+            background-color: #e5e5e5;
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #submenu .submenu-body .inner:after{
+            display: block;
+            clear: both;
+            content: '';
+        }
+
+        #submenu .submenu-body ul{
+            list-style-type: disc;
+            padding-inline-start: 40px;
+            width: 206px;
+            list-style-type: none;
+            text-align: center;
+            float: left;
+            position: relative;
+            margin-left: 0;
+            margin-bottom: 0;
+            padding-left: 0;
+        }
+
+        #submenu .submenu-body ul:first-child{
+            width: 210px;
+        }
+
+        #submenu .submenu-body ul li{
+            text-align: center;
+            line-height: 35px;
+            vertical-align: top;
+            list-style: none;
+            display: list-item;
+        }
+
+        #submenu .submenu-body ul li a{
+            text-decoration: none;
+            color: #4c4c4c;
+            font-size: 13px;
+            vertical-align: middle; 
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        #submenu .submenu-closer {
+            border-top: 1px solid #e5e5e5;
+            margin: 0px 0px;
+        }
+
+        /* 비밀번호 확인 창 */
+        .myinfochk{
+            width: 1240px;
+            margin: 0 auto;
+        }
+
+        .title{
+            height: 41px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        
+        .title h3{
+            color: #000;
+            font-size: 28px;
+            line-height: 36px;
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .myinfochk .passwordchk-box{
+            width: 1234px;
+            height: 200px;
+            border: 3px solid #EFEFEF;
+        }
+
+        .myinfochk .passwordchk-box .chk_guide{
+            margin: 48px 0 0 0;
+            font-size: 16px;
+        }
+
+        .myinfochk .passwordchk-box input[type="password"]{
+            height: 40px;
+            margin-right: 5px;
+            line-height: 38px;
+            padding-left: 20px;
+            background-color: #f2f2f2;
+            border: 1px solid #efefef;
+            font-size: 14px;
+            vertical-align: middle;
+            margin-top: 25px;
+        }
+
+        .myinfochk .passwordchk-box .btn{
+            min-width: 140px;
+            height: 40px;
+            font-size: 14px;
+            line-height: 38px;
+            background-color: #000;
+            color: #fff;
+            display: inline-block;
+            padding: 0 20px;
+            text-align: center;
+            border: 1px solid #333;
+            margin-top: 25px;
+            border-radius: 0;
+        }
+
+
+
+
+
+
+
+
+        
+
+
+         
+
+        </style>
+    </th:block>
+</head>
+
+<body>
+    <!-- header -->
+    <th:block th:replace="~{/se/customer/header :: headerHTML}"></th:block>
+    
+    <!-- 본문 영역 (padding-bottom은 건들면 안돼요ㅠㅠ footer랑 겹치는 문제 해결용임돵) -->
+    <div style="padding-bottom: 600px;">
+        <div class="myPageHeader" style="padding-top: 60px; ">
+            <a href="/SOBUN/customer/mypage.do" class="title">MY PAGE</a><br/>
+
+            <ol id="semi-titlebox">
+                <li style="padding-top: 13px; padding-bottom: 20px;">
+                    <a href="#" class="semi-title">HOME</a>
+                    &nbsp;&nbsp;>&nbsp;&nbsp;
+                    <a th:href="@{/customer/mypage.do}" class="semi-title">MY PAGE</a>
+                    &nbsp;&nbsp;>&nbsp;&nbsp;
+                    <a th:href="@{/customer/myinfochk.do}" class="semi-title">정보관리</a>
+                    &nbsp;&nbsp;>&nbsp;&nbsp;
+                    <a th:href="@{/customer/myaccountdropchk.do}" class="semi-title">회원 탈퇴</a>
+                    &nbsp;&nbsp;
+                </li>
+            </ol>
+        </div>
+
+        <div id="submenu">
+            <div class="submenu-header d-flex justify-content-center">
+                <ul>
+                    <li>
+                        <a th:href="@{/customer/mylikeitem.do}">MY ♡</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/customer/myorderlist.do}">주문관리</a>
+                    </li>
+                    <li class="active">
+                        <a th:href="@{/customer/myinfochk.do}">정보관리</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="submenu-body">
+                <div class="inner d-flex justify-content-center">
+                    <ul>
+                        <li>
+                            <a th:href="@{/customer/mylikeitem.do}">MY ♡ ITEM</a>
+                        </li>
+                    </ul>
+                    <ul>
+                        <!-- ::before -->
+                        <li>
+                            <a th:href="@{/customer/myorderlist.do}">주문/배송조회</a>
+                        </li>
+                    </ul>
+                    <ul>
+                        <!-- ::before -->
+                        <li>
+                            <a th:href="@{/customer/myinfochk.do}">회원정보 수정</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/customer/myaddresschk.do}">주소 관리</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/customer/myaccountdropchk.do}">회원 탈퇴</a>
+                        </li>
+                    </ul>
+                    <!-- ::after -->
+                </div>
+                <div class="submenu-closer">
+                </div>
+            </div>
+        </div>
+
+        <form th:action="@{/customer/myaccountdropchk.do}" method="post">
+            <div class="myinfochk">
+                <div class="title">
+                    <h3>비밀번호 확인</h3>
+                </div>
+            
+                <div class="passwordchk-box">
+                    <p class="chk_guide d-flex justify-content-center">회원님의 안전한 개인정보 보호를 위해 비밀번호를 다시 한번 확인합니다.</p>
+                    <div class="chkbox d-flex justify-content-center">
+                        <input type="password" placeholder="비밀번호를 입력해주세요." style="width: 420px;" id="pw" name="pw">
+                        <button class="btn" type="submit" title="확인">확인</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+        
+
+    </div>
+
+    <!-- footer -->
+    <th:block th:replace="~{/km/customer/footer :: footerHTML}"></th:block>
+
+
+
+    <!-- script-->
+    
+</body>
+</html>

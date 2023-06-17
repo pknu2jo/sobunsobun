@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="author" content="PJK">
+    <meta name="description" content="소분소분 - 판매자를 위한 마이페이지">
+    <title>소분소분 - 판매자용 페이지</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <!-- 1. Bootstrap용 css CDN 추가 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+        integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <!-- 2. Bootstrap용 Icon CDN / font-awesome 아이콘용 CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 3. font awesome용 css CDN  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Simple DataTable CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <!-- CSS -->
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/ikh/seller.css}'>
+    <link rel='stylesheet' type='text/css' media='screen' th:href='@{/css/jk/seller.css}'>
+    <link rel="icon" th:href="@{/images/jk/sobunseller.ico}">
+</head>
+
+<body class="sb-nav-fixed">
+    <!-- headers -->
+    <th:block th:replace="~{/jk/seller/header :: headerHTML}"></th:block>
+    
+    <!-- 전체화면 영역 -->
+    <div id="layoutTotal">
+        <!-- navbar -->
+        <th:block th:replace="~{/jk/seller/navbar :: navbarHTML}"></th:block>
+
+        <!-- 전체화면 > 우측 메인화면 영역 -->
+        <div id="layoutContent">
+            <main>
+                <div style="padding-left: 15px; padding-top: 30px; padding-right: 15px;">
+                    <div class="container-fluid px-4"> <!-- 옆쪽에 딱 붙음. -->                                        
+                        <h2 th:text="${companyName} + ' 님의 배송현황입니다.'" style="padding-bottom : 15px;"></h2>
+                        <div>
+                            <div class="row" style ="border: 2px solid rgb(229, 229, 229); margin-bottom: 15px; text-align: center; background-color: rgb(241 246 252);">
+                                <div class="col-1">                                        
+                                </div>
+                                    <div class="col-10" style="display: inline-block; padding-top: 3px; padding-bottom: 5px;">
+                                        <div class="col-2" style="display: inline-block;">
+                                            <div style="display: inline;" class="wrapper">
+                                                <img th:src="@{/images/ikh/all.png}" style="width: 50px; height: 50px;"/>
+                                                <div class="text-wrapper" style="display:inline-block; position: relative; top : 10px;">
+                                                    <div>전체현황</div>
+                                                    <div class="accent">
+                                                        <span th:text="${total}"></span>
+                                                        건
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-2" style="display: inline-block;">
+                                            <div style="display:inline;" class="wrapper">
+                                                <img th:src="@{/images/ikh/befored.png}" style="width: 50px; height: 50px;"/>
+                                                <div class="text-wrapper" style="display:inline-block; position: relative; top : 10px;">
+                                                    <div>배송전</div>
+                                                    <div class="accent">
+                                                        <span th:text="${one}"></span>                                                    
+                                                        건
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-2" style="display: inline-block;">
+                                            <div style="display:inline;" class="wrapper">
+                                                <img th:src="@{/images/ikh/prepare.png}" style="width: 50px; height: 50px;"/>
+                                                <div class="text-wrapper" style="display:inline-block; position: relative; top : 10px;">
+                                                    <div>배송준비중</div>
+                                                    <div class="accent">
+                                                        <span th:text="${two}"></span>
+                                                        건
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-2" style="display: inline-block;">
+                                            <div style="display:inline;" class="wrapper">
+                                                <img th:src="@{/images/ikh/delivery.png}" style="width: 50px; height: 50px;"/>
+                                                <div class="text-wrapper" style="display:inline-block; position: relative; top : 10px;">
+                                                    <div>배송중</div>
+                                                    <div class="accent">
+                                                        <span th:text="${three}"></span>
+                                                        건
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-2" style="display: inline-block;">
+                                            <div style="display:inline;" class="wrapper">
+                                                <img th:src="@{/images/ikh/completed.png}" style="width: 50px; height: 50px;"/>
+                                                <div class="text-wrapper" style="display:inline-block; position: relative; top : 10px;">
+                                                    <div>배송완료</div>
+                                                    <div class="accent">
+                                                        <span th:text="${four}"></span>
+                                                        건
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                <div class ="col-1">                                        
+                                </div>
+                            </div>
+
+                            <form th:action="@{/seller/delivery/search.do}" method="get" th:object="${dvs}">
+                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); background-color: rgb(241 246 252);">
+                                    <div style="display: inline-block; margin: 10px 5px 10px 5px;">
+                                        <div class="col-2" style="display: inline-block;">
+                                            검색어
+                                        </div>
+                                        <div style="display: inline-block;">
+                                            물품코드&nbsp;&nbsp;<input type="number" th:field="${dvs.itemcode}" name="itemcode" placeholder="물품코드 입력" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                            물품이름&nbsp;&nbsp;<input type="text" th:field="${dvs.itemname}" name="itemname" placeholder="물품이름 입력" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                            주소&nbsp;&nbsp;<input type="text" th:field="${dvs.address}" name="address" placeholder="주소 입력" />&nbsp;&nbsp;&nbsp;&nbsp;
+                                            공구주문번호&nbsp;&nbsp;<input type="number" th:field="${dvs.purchaseno}" name="purchaseno" placeholder="공구주문번호 입력" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(241 246 252); ">
+                                    <div style="display: inline-block; margin: 10px 5px 10px 5px;">
+                                        <div class="col-2" style="display: inline-block;">
+                                            배송상태
+                                        </div>                                        
+                                        <input class="form-check-input" type="radio" th:each="obj : ${statuslist}" th:field="${dvs.status}" name="status" th:text="'&nbsp;' +  ${obj.status} + '&nbsp;&nbsp;&nbsp;&nbsp;'" th:value="${obj.no}"/>                                        
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(241 246 252);">                                    
+                                    <div style="display: inline-block; margin: 10px 5px 10px 5px;">
+                                        <div class="col-2" style="display: inline-block;">
+                                            기간
+                                        </div>                                        
+                                        <input type="date" id="fd" th:min="${sdate}" th:max="${today}" th:field="${dvs.firstdate}" name="firstdate" th:onchange="firstdatechange()"/>
+                                            &nbsp;~&nbsp;
+                                        <input type="date" id="sd" min="" th:max="${today}" th:field="${dvs.seconddate}" name="seconddate" th:onchange="seconddatechange()"/>                                   
+                                    </div>
+                                </div>                                
+
+                                <div class="row" style ="border: 2px solid rgb(229, 229, 229); border-top-width: 0px; background-color: rgb(241 246 252);">
+                                    <div style="display: inline-block; text-align: center; margin: 5px 10px 5px 10px;" >
+                                        <a th:href="@{/seller/delivery/search.do}"><button type="button" class="btn btn-outline-dark">초기화</button></a>                                        
+                                        <button type="submit" class="btn btn-outline-dark">검색</button>
+                                    </div>
+                                </div>
+                            </form>                            
+                        </div>
+
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-table me-1"></i>
+                                            배송현황
+                                        </div>
+                                        <div class="card-body">
+                                            <table id="datatablesSimple">
+                                                <thead>
+                                                    <tr>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>주소</th>
+                                                        <th>공구주문번호</th>
+                                                        <th>배송상태</th>
+                                                        <th>대분류코드</th>
+                                                        <th>중분류코드</th>
+                                                        <th>소분류코드</th>                                                        
+                                                        <th>공구등록일자</th>
+                                                        <th>배송상태설정</th>
+                                                    </tr>
+                                                </thead>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>물품코드</th>
+                                                        <th>물품이름</th>
+                                                        <th>주소</th>
+                                                        <th>공구주문번호</th>
+                                                        <th>배송상태</th>
+                                                        <th>대분류코드</th>
+                                                        <th>중분류코드</th>
+                                                        <th>소분류코드</th>                                                        
+                                                        <th>공구등록일자</th>
+                                                        <th>배송상태설정</th>
+                                                    </tr>
+                                                </tfoot>
+                                                <tbody>
+                                                    <tr th:each="obj, iterStat  : ${list}">
+                                                        <td th:text="${obj.itemcode.longValue()}"></td>
+                                                        <td th:text="${obj.itemname}"></td>
+                                                        <td th:text="${obj.address}"></td>
+                                                        <td th:text="${obj.purchaseno.longValue()}"></td>                                                                                                           
+                                                        <td th:if="${obj.delivery == 0}" th:text="배송전"></td>
+                                                        <td th:if="${obj.delivery == 1}" th:text="배송준비중"></td>
+                                                        <td th:if="${obj.delivery == 2}" th:text="배송중"></td>
+                                                        <td th:if="${obj.delivery == 3}" th:text="배송완료"></td>
+                                                        <td th:text="${obj.lname}"></td>
+                                                        <td th:text="${obj.mname}"></td>
+                                                        <td th:text="${obj.sname}" my="aaa"></td>
+                                                        <td th:text="${#dates.format(obj.regdate, 'yyyy년 MM월 dd일 E요일 HH시 mm분')}"></td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                            th:value="${obj.delivery}" th:attr="id='dvact' + ${iterStat.index}" th:onclick="dvclick([[${iterStat.index}]], [[${obj.enid}]])">
+                                                                <!-- th:value="${obj.delivery}" th:attr="id='dvact' + ${iterStat.index}" th:onclick="'dvclick(' + ${iterStat.index} + ',' + ${obj.enid}+ ')'"> -->
+                                                                변경
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>                   
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </main>
+            <!-- footer -->
+            <th:block th:replace="~{/jk/seller/footer :: footerHTML}"></th:block>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">배송상태설정</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">                                                                            
+                    <div style="display: inline-block; text-align: center;" >
+                        <button type="button" id="btn-0" class="btn btn-outline-dark" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(0)">배송전</button>
+                        <button type="button" id="btn-1" class="btn btn-outline-dark" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(1)">배송준비중</button>
+                        <button type="button" id="btn-2" class="btn btn-outline-dark" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(2)">배송중</button>
+                        <button type="button" id="btn-3" class="btn btn-outline-dark" data-bs-toggle="button" autocomplete="off" onclick="toggleButton(3)">배송완료</button>              
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form th:action="@{/seller/delivery/search.do}" id="form2" method="post">
+                        <input type="hidden" name="btndv" value="" id="btndv"/>
+                        <input type="hidden" name="dvstatus" value="" id="dvstatus"/>
+                        <input type="submit" value="상태변경" class="btn btn-outline-dark" onclick="dvvalue()" />
+                    </form>
+                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal">취소</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Bootstrap용 js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+        crossorigin="anonymous"></script>
+    <!-- Chart.js용 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>    
+    <!-- Simple DataTable용 JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+    <!-- jQuery 추가 -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <!-- font awesome용 스크립트 CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+        integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- <script th:inline="javascript" type="text/javascript">
+
+        function first() {            
+            const code = document.getElementById("firstselect").value;            
+            window.location.href = `/SOBUN/seller/delivery/search.do?lcode=${code}`;            
+        }
+
+    </script> -->
+    
+    <script th:inline="javascript" type="text/javascript">
+    // 모달
+    const myModal = document.getElementById('myModal');
+    const myInput = document.getElementById('myInput');           
+    
+    // 상태들중 하나만 선택되게
+    function toggleButton(selectedButton) {
+        var buttons = document.querySelectorAll('[data-bs-toggle="button"]');
+        buttons.forEach(function(button, index) {
+            if (index === selectedButton) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        });
+    }
+
+    // 상태에 따라서 값 보내기
+    function dvvalue(){
+        var bt0 = document.getElementById('btn-0').className;
+        var bt1 = document.getElementById('btn-1').className;
+        var bt2 = document.getElementById('btn-2').className;
+        var bt3 = document.getElementById('btn-3').className;
+        var btndv = document.getElementById('btndv').value;
+        var equals = 'btn btn-outline-dark active';
+        
+        if(bt0 == equals) {
+            console.log("0번 " + btndv);
+            document.getElementById('dvstatus').setAttribute('value', 0);
+            console.log(document.getElementById('dvstatus').value);           
+        }
+        else if(bt1 == equals) {
+            console.log("1번 " + btndv);
+            document.getElementById('dvstatus').setAttribute('value', 1);
+            console.log(document.getElementById('dvstatus').value);
+        }
+        else if(bt2 == equals) {
+            console.log("2번 " + btndv);
+            document.getElementById('dvstatus').setAttribute('value', 2);
+            console.log(document.getElementById('dvstatus').value);
+        }
+        else if(bt3 == equals) {
+            console.log("3번 " + btndv);
+            document.getElementById('dvstatus').setAttribute('value', 3);
+            console.log(document.getElementById('dvstatus').value);
+        }
+
+        // document.getElementById('form2').submit();
+    }
+
+    // 배송상태설정 변경
+    function dvclick(index, enid) {
+        var dv = document.getElementById('dvact' + index).value;        
+        console.log("상태 : " + dv); 
+        console.log("enid : " + enid);        
+
+        // 상태에 맞는 토글 설정
+        if(dv == 0){
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btndv').setAttribute('value', enid);            
+            // name 추가해주기
+        }
+        else if(dv == 1){
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');            
+            document.getElementById('btndv').setAttribute('value', enid);            
+        }
+        else if(dv == 2){
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btndv').setAttribute('value', enid);            
+        }
+        else if(dv == 3){
+            document.getElementById('btn-0').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-1').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-2').setAttribute('class', 'btn btn-outline-dark');
+            document.getElementById('btn-3').setAttribute('class', 'btn btn-outline-dark active');
+            document.getElementById('btndv').setAttribute('value', enid);            
+        }
+    }    
+        
+    // <!-- 달력 -->    
+    function firstdatechange() {
+        var fd = document.getElementById("fd").value;
+        document.getElementById("sd").setAttribute( "min", fd );        
+        console.log(fd);
+    }
+
+    function seconddatechange() {            
+        var sd = document.getElementById("sd").value;            
+        console.log(sd);            
+    }
+
+    $(document).ready(function () {
+        const sidebarToggle = $('#sidebarToggle');
+        if (sidebarToggle) {
+            sidebarToggle.click(function () {
+                console.log('buttonClick');
+                event.preventDefault(); /* 아래쪽 요소로 이벤트가 전파되지 않도록 */
+                document.body.classList.toggle('sb-sidenav-toggled');
+                localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
+            });
+        }
+    });
+
+    $(document).ready(function () {
+        new simpleDatatables.DataTable("#datatablesSimple", {
+            searchable: true,
+            fixedHeight: true,
+        })
+    });
+    </script>
+</body>
+</html>
